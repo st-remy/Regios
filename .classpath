@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/#1060/bukkit-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/#1060/craftbukkit-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/iConomy.jar"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/Permissions.jar"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/SpoutAPI.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,5 +1,6 @@
 package couk.Adamki11s.Regios.Regions;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.bukkit.ChatColor;
@@ -9,14 +10,17 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.PlayerInventory;
 
-import couk.Adamki11s.Checks.Checks;
-import couk.Adamki11s.Checks.ChunkGrid;
-import couk.Adamki11s.Checks.PermChecks;
+import couk.Adamki11s.Regios.Checks.Checks;
+import couk.Adamki11s.Regios.Checks.ChunkGrid;
+import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Data.Saveable;
 import couk.Adamki11s.Regios.Data.WeatherSetting;
+import couk.Adamki11s.Regios.Permissions.PermissionsCacheManager;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Scheduler.LightningRunner;
+import couk.Adamki11s.Regios.Scheduler.LogRunner;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class Region extends PermChecks implements Checks {
@@ -34,23 +38,22 @@ public class Region extends PermChecks implements Checks {
 
 	public Location warp = null;
 
-	public String[] customSoundUrl, commandSet;
+	public String[] customSoundUrl, commandSet, temporaryNodesCacheAdd, permanentNodesCacheAdd, permanentNodesCacheRemove, subOwners;
 
 	public ArrayList<String> exceptions = new ArrayList<String>();
 	public ArrayList<String> nodes = new ArrayList<String>();
 	public ArrayList<Integer> items = new ArrayList<Integer>();
 
-	public String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", authenticationRequiredMessage = "",
-			authenticationSuccessMessage = "", password = "", name = "", owner = "", spoutEntryMessage = "", spoutExitMessage = "";
+	public String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", authenticationRequiredMessage = "", authenticationSuccessMessage = "", password = "", name = "", owner = "",
+			spoutEntryMessage = "", spoutExitMessage = "";
 
 	public Material spoutEntryMaterial = Material.GRASS, spoutExitMaterial = Material.DIRT;
 
 	public WeatherSetting weatherSetting = WeatherSetting.NONE;
 
-	public boolean _protection = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true, doorsLocked = false,
-			chestsLocked = false, preventInteraction = false, showPvpWarning = true, passwordEnabled = false, showWelcomeMessage = true, showLeaveMessage = true,
-			showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false, tntProtection = false, creeperProtection = false,
-			playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false;
+	public boolean _protection = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true, doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true,
+			passwordEnabled = false, showWelcomeMessage = true, showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false, tntProtection = false, creeperProtection = false,
+			playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false, blockForm = true;
 
 	public int LSPS = 0, healthRegen = 0;
 	public double velocityWarp = 0;
@@ -133,11 +136,19 @@ public class Region extends PermChecks implements Checks {
 		this.preventEntryMessage = colourFormat(preventEntryMessage);
 		this.preventExitMessage = colourFormat(preventExitMessage);
 
+		this.temporaryNodesCacheAdd = ConfigurationData.temporaryNodesCacheAdd;
+		
+		this.blockForm = ConfigurationData.blockForm;
+
 		if (this.LSPS > 0 && !LightningRunner.doesStikesContain(this)) {
 			LightningRunner.addRegion(this);
 		} else if (this.LSPS == 0 && LightningRunner.doesStikesContain(this)) {
 			LightningRunner.removeRegion(this);
 		}
+	}
+	
+	public File getLogFile(){
+		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Logs" + File.separator + this.name + ".log");
 	}
 
 	public String getName() {
@@ -181,7 +192,16 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public void sendLeaveMessage(Player p) {
-		if (!isLeaveMessageSent(p) && isSendable(p)) {
+		if (!isLeaveMessageSent(p)) {
+			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + " Player '" + p.getName() + "' left region.");
+			if(PermissionsCore.hasPermissions){
+				if(this.temporaryNodesCacheAdd.length > 0){
+					PermissionsCacheManager.unCacheNodes(p, this);
+				}
+				if(this.permanentNodesCacheRemove.length > 0){
+					PermissionsCacheManager.permRemoveNodes(p, this);
+				}
+			}
 			p.sendMessage(this.liveFormat(leaveMessage, p));
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
 				SpoutInterface.sendLeaveMessage(p, this);
@@ -197,7 +217,22 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public void sendWelcomeMessage(Player p) {
-		if (!isWelcomeMessageSent(p) && isSendable(p)) {
+		if (!isWelcomeMessageSent(p)) {
+			if(this.commandSet.length > 0){
+				for(String s : commandSet){
+					if(s.length() > 1){
+						p.performCommand(s.trim());
+					}
+				}
+			}
+			if(PermissionsCore.hasPermissions){
+				if (this.temporaryNodesCacheAdd.length > 0) {
+					PermissionsCacheManager.cacheNodes(p, this);
+				}
+				if (this.permanentNodesCacheAdd.length > 0) {
+					PermissionsCacheManager.permAddNodes(p, this);
+				}
+			}
 			p.sendMessage(this.liveFormat(welcomeMessage, p));
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
 				SpoutInterface.sendWelcomeMessage(p, this);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import couk.Adamki11s.Checks.ChunkGrid;
+import couk.Adamki11s.Regios.Checks.ChunkGrid;
 import couk.Adamki11s.Regios.Data.Saveable;
 
 public class GlobalRegionManager {

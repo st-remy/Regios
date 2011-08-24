@@ -68,6 +68,15 @@ public class LoaderCore {
 				.getBoolean("DefaultSettings.Inventory.WipeAndCacheOnExit", false), forceCommand = c.getBoolean("DefaultSettings.Command.ForceCommand", false);
 
 		String[] commandSet = c.getString("DefaultSettings.Command.CommandSet", "").trim().split(",");
+		
+		String[] tempAddCache = c.getString("Region.Permissions.TemporaryCache.AddNodes", "").trim().split(",");
+		
+		String[] permAddCache = c.getString("Region.Permissions.PermanentCache.AddNodes", "").trim().split(",");
+		
+		String[] permRemCache = c.getString("Region.Permissions.PermanentCache.RemoveNodes", "").trim().split(",");
+		
+		boolean form = c.getBoolean("DefaultSettings.Block.BlockForm.Enabled", true);
+				
 		// ___________________________________
 
 		c = new Configuration(updateconfig);
@@ -79,7 +88,7 @@ public class LoaderCore {
 
 		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa, bb,
 				ccc, dd, ee, tntProtection, fireProtection, creeperProtection, musicUrl, playmusic, permWipeOnEnter, permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit,
-				forceCommand, commandSet);
+				forceCommand, commandSet, tempAddCache, permAddCache, permRemCache, form);
 		// Initialises variables in configuration data.
 
 		c = new Configuration(generalconfig);
@@ -181,6 +190,16 @@ public class LoaderCore {
 						.getBoolean("Region.Command.ForceCommand", false);
 
 				String[] commandSet = c.getString("Region.Command.CommandSet", "").trim().split(",");
+				
+				String[] tempAddCache = c.getString("Region.Permissions.TemporaryCache.AddNodes", "").trim().split(",");
+				
+				String[] permAddCache = c.getString("Region.Permissions.PermanentCache.AddNodes", "").trim().split(",");
+				
+				String[] permRemCache = c.getString("Region.Permissions.PermanentCache.RemoveNodes", "").trim().split(",");
+				
+				String[] subOwners = c.getString("Regios.Essentials.SubOwners", "").trim().split(",");
+				
+				boolean form = c.getBoolean("Region.Block.BlockForm.Enabled", true);
 
 				Region r = new Region(owner, name, l1, l2, world, null);
 
@@ -248,7 +267,15 @@ public class LoaderCore {
 				r.forceCommand = forceCommand;
 
 				r.commandSet = commandSet;
-				r.items = items;
+				r.items = items;						
+				
+				r.temporaryNodesCacheAdd = tempAddCache;
+				r.permanentNodesCacheAdd = permAddCache;
+				r.permanentNodesCacheRemove = permRemCache;
+				
+				r.subOwners = subOwners;
+				
+				r.blockForm = form;
 
 				if (r.LSPS > 0 && !LightningRunner.doesStikesContain(r)) {
 					LightningRunner.addRegion(r);

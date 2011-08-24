@@ -62,6 +62,7 @@ public class Regios extends JavaPlugin {
 		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_IGNITE, blockListener, Priority.Highest, this);
+		pm.registerEvent(Type.BLOCK_FORM, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.EXPLOSION_PRIME, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_DAMAGE, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.CREATURE_SPAWN, entityListener, Priority.Highest, this);

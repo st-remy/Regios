@@ -1,23 +1,17 @@
 package couk.Adamki11s.Regios.SpoutInterface;
 
-import java.awt.Color;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
-
 import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.block.SpoutWeather;
 import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.player.SkyManager;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import org.getspout.spoutapi.sound.SoundManager;
-
-import couk.Adamki11s.Extras.Extras.Extras;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
 import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Regions.Region;

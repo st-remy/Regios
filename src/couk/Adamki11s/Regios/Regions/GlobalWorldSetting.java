@@ -16,7 +16,7 @@ public class GlobalWorldSetting {
 
 	public String world;
 
-	public boolean invert_protection = false, invert_pvp = false, overridingPvp = false, lightning_enabled = true, stormEnabled = true, creeperExplodes = true, fireEnabled = true;
+	public boolean invert_protection = false, invert_pvp = false, overridingPvp = false, lightning_enabled = true, stormEnabled = true, creeperExplodes = true, fireEnabled = true, blockForm_enabled = true;
 	
 	public ArrayList<CreatureType> creaturesWhoSpawn = new ArrayList<CreatureType>();
 
@@ -70,6 +70,7 @@ public class GlobalWorldSetting {
 				c.setProperty(world + ".Mobs.Spawning.Wolf", true);
 				c.setProperty(world + ".Mobs.Spawning.Zombie", true);
 				c.setProperty(world + ".Mobs.Creeper.DoesExplode", true);
+				c.setProperty(world + ".Block.BlockForm.Enabled", true);
 				c.save();
 			}
 		}
@@ -91,6 +92,7 @@ public class GlobalWorldSetting {
 			gws.lightning_enabled = c.getBoolean(world + ".Weather.LightningEnabled", true);
 			gws.creeperExplodes = c.getBoolean(world + ".Mobs.Creeper.DoesExplode", true);
 			gws.overridingPvp = c.getBoolean(world + ".PvP.OverrideServerPvP", true);
+			gws.blockForm_enabled = c.getBoolean(world + ".Block.BlockForm.Enabled", true);
 			if(c.getBoolean(world + ".Mobs.Spawning.Chicken", true)){ gws.addCreatureSpawn(CreatureType.CHICKEN); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Cow", true)){ gws.addCreatureSpawn(CreatureType.COW); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Creeper", true)){ gws.addCreatureSpawn(CreatureType.CREEPER); }

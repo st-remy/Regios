@@ -7,9 +7,9 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.weather.WeatherListener;
 import org.bukkit.event.world.WorldListener;
 
-import couk.Adamki11s.Checks.PermChecks;
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
+import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.SubRegionManager;

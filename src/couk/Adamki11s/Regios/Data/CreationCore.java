@@ -97,6 +97,10 @@ public class CreationCore {
 			c.setProperty("DefaultSettings.Messages.ShowPreventEntryMessage", true);
 			c.setProperty("DefaultSettings.Messages.ShowPreventExitMessage", true);
 			c.setProperty("DefaultSettings.Messages.ShowPvPWarning", true);
+			
+			c.setProperty("DefaultSettings.Permissions.TemporaryCache.AddNodes", "");
+			c.setProperty("DefaultSettings.Permissions.PermanentCache.AddNodes", "");
+			c.setProperty("DefaultSettings.Permissions.PermanentCache.RemoveNodes", "");
 
 			c.setProperty("DefaultSettings.Other.LSPS", 0);
 			c.setProperty("DefaultSettings.Other.HealthEnabled", true);
@@ -125,6 +129,9 @@ public class CreationCore {
 			c.setProperty("DefaultSettings.Spout.SpoutLeaveIconID", Material.DIRT.getId());
 			c.setProperty("DefaultSettings.Spout.Sound.PlayCustomMusic", false);
 			c.setProperty("DefaultSettings.Spout.Sound.CustomMusicURL", "");
+			
+			c.setProperty("DefaultSettings.Block.BlockForm.Enabled", true);
+			
 			c.save();
 		}
 		if (!flawless) {

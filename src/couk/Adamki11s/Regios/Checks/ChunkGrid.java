@@ -1,4 +1,4 @@
-package couk.Adamki11s.Checks;
+package couk.Adamki11s.Regios.Checks;
 
 import java.util.ArrayList;
 import java.util.HashMap;

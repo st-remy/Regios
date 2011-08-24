@@ -23,6 +23,7 @@ public class MainRunner {
 			public void run() {
 				HealthRegeneration.loopRegenerators();
 				LightningRunner.executeStrikes();
+				LogRunner.pollLogMessages();
 			}
 
 		}, 20L, 20L); //Run every second 

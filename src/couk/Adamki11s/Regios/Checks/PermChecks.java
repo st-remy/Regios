@@ -1,4 +1,4 @@
-package couk.Adamki11s.Checks;
+package couk.Adamki11s.Regios.Checks;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -18,6 +18,11 @@ public class PermChecks {
 		} else if(r.getOwner().equals(p.getName())){
 			return true;
 		} else {
+			for(String subOwner : r.subOwners){
+				if(subOwner.equals(p.getName())){
+					return true;
+				}
+			}
 			return false;
 		}
 	}

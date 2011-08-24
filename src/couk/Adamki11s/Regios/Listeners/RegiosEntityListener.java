@@ -6,6 +6,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Block;
+import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,9 +17,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
-import couk.Adamki11s.Checks.PermChecks;
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
+import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
@@ -35,7 +37,73 @@ public class RegiosEntityListener extends EntityListener {
 	private static final CreationCommands creationCommands = new CreationCommands();
 
 	public void onCreatureSpawn(CreatureSpawnEvent evt) {
-		World w = evt.getEntity().getWorld();
+		
+		Location l = evt.getEntity().getLocation();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+		
+		GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);
+		
+		Region r;
+		
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+		
+		for(Region region : GlobalRegionManager.getRegions()){
+			for(Chunk chunk : region.getChunkGrid().getChunks()){
+				if(chunk.getWorld() == w){
+					if(areChunksEqual(chunk, c)){
+						if(!regionSet.contains(region)){
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+		
+		if(regionSet.isEmpty()){
+			if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
+				evt.setCancelled(true);
+			}
+			return;
+		}
+		
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+		
+		for(Region reg : regionSet){
+			if(extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())){
+				currentRegionSet.add(reg);
+			}
+		}
+		
+		if(currentRegionSet.isEmpty()){ //If player is in chunk range but not inside region then cancel the check.
+			if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
+				evt.setCancelled(true);
+			}
+			return;
+		}
+		
+		if(currentRegionSet.size() > 1){
+			r = srm.getCurrentRegion(null, currentRegionSet);
+		} else {
+			r = currentRegionSet.get(0);
+		}
+		
+		if(!r.canMobsSpawn()){
+			CreatureType ce = evt.getCreatureType();
+			if(ce == CreatureType.CHICKEN || ce == CreatureType.COW || ce == CreatureType.PIG || ce == CreatureType.SHEEP || ce == CreatureType.SQUID){
+				evt.setCancelled(true);
+				return;
+			}
+		}
+		
+		if(!r.canMonstersSpawn()){
+			CreatureType ce = evt.getCreatureType();
+			if(ce != CreatureType.CHICKEN && ce != CreatureType.COW && ce != CreatureType.PIG && ce != CreatureType.SHEEP && ce != CreatureType.SQUID){
+				evt.setCancelled(true);
+				return;
+			}
+		}
+		
 		if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
 			evt.setCancelled(true);
 		}

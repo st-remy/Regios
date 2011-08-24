@@ -7,14 +7,14 @@ public class ConfigurationData {
 	public static String defaultWelcomeMessage, defaultLeaveMessage, defaultProtectionMessage, defaultPreventEntryMessage, defaultPreventExitMessage, password,
 			defaultAuthenticationMessage, defaultAuthenticationSuccessMessage, defaulSpoutEntryMessage, defaulSpoutExitMessage;
 
-	public static String[] defaultCustomMusicUrl, commandSet;
+	public static String[] defaultCustomMusicUrl, commandSet, temporaryNodesCacheAdd, permanentNodesCacheAdd, permanentNodesCacheRemove;
 
 	public static Material defaultSpoutWelcomeMaterial, defaultSpoutLeaveMaterial, defaultSelectionTool;
 
 	public static boolean regionProtected, regionPreventEntry, regionPreventExit, mobSpawns, monsterSpawns, healthEnabled, pvp, doorsLocked, chestsLocked, preventInteraction,
 			showPvpWarning, checkForUpdates, downloadUpdatesAuto, cacheOldVersions, forceReload, passwordEnabled, showWelcomeMessage, showLeaveMessage, showProtectionMessage,
 			showPreventEntryMessage, showPreventExitMessage, fireProtection, tntProtection, creeperProtection, playCustomMusic, permWipeOnEnter, permWipeOnExit,
-			wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand;
+			wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, blockForm;
 
 	public static int LSPS, healthRegen, velocityWarp;
 
@@ -24,7 +24,8 @@ public class ConfigurationData {
 			boolean o, boolean v, boolean passEnabled, int p, int q, int r, MODE s, MODE t, MODE u, MODE item, boolean w, boolean x, boolean y, boolean z, boolean exit,
 			String dam, String dasm, Material welcome, Material leave, boolean welcomeMsg, boolean leaveMsg, boolean protectMsg, boolean preventEntryMsg, boolean preventExitMsg,
 			boolean tntProt, boolean fireProt, boolean creeperProt, String[] music, boolean playmusic, boolean permWipeOnEnter1, boolean permWipeOnExit1,
-			boolean wipeAndCacheOnEnter1, boolean wipeAndCacheOnExit1, boolean forceCommand1, String[] commandSet1) {
+			boolean wipeAndCacheOnEnter1, boolean wipeAndCacheOnExit1, boolean forceCommand1, String[] commandSet1, String[] tempAddCache, String[] permAddCache,
+			String[] permRemoveCache, boolean form) {
 		defaultWelcomeMessage = a;
 		defaultLeaveMessage = b;
 		defaultProtectionMessage = c;
@@ -74,6 +75,10 @@ public class ConfigurationData {
 		wipeAndCacheOnExit = wipeAndCacheOnExit1;
 		forceCommand = forceCommand1;
 		commandSet = commandSet1;
+		temporaryNodesCacheAdd = tempAddCache;
+		permanentNodesCacheAdd = permAddCache;
+		permanentNodesCacheRemove = permRemoveCache;
+		blockForm = form;
 	}
 
 }

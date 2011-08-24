@@ -50,13 +50,17 @@ public class Saveable {
 		c.setProperty("Region.Modes.PreventEntryMode", r.preventEntryMode.toString());
 		c.setProperty("Region.Modes.PreventExitMode", r.preventExitMode.toString());
 		
-		c.setProperty("DefaultSettings.Inventory.PermWipeOnEnter", r.permWipeOnEnter);
-		c.setProperty("DefaultSettings.Inventory.PermWipeOnExit", r.permWipeOnExit);
-		c.setProperty("DefaultSettings.Inventory.WipeAndCacheOnEnter", r.wipeAndCacheOnEnter);
-		c.setProperty("DefaultSettings.Inventory.WipeAndCacheOnExit", r.wipeAndCacheOnExit);
+		c.setProperty("Region.Inventory.PermWipeOnEnter", r.permWipeOnEnter);
+		c.setProperty("Region.Inventory.PermWipeOnExit", r.permWipeOnExit);
+		c.setProperty("Region.Inventory.WipeAndCacheOnEnter", r.wipeAndCacheOnEnter);
+		c.setProperty("Region.Inventory.WipeAndCacheOnExit", r.wipeAndCacheOnExit);
 		
-		c.setProperty("DefaultSettings.Command.ForceCommand", r.forceCommand);
-		c.setProperty("DefaultSettings.Command.CommandSet", r.commandSet);
+		c.setProperty("Region.Command.ForceCommand", r.forceCommand);
+		c.setProperty("Region.Command.CommandSet", "");
+		
+		c.setProperty("Region.Permissions.TemporaryCache.AddNodes", "");
+		c.setProperty("Region.Permissions.PermanentCache.AddNodes", "");
+		c.setProperty("Region.Permissions.PermanentCache.RemoveNodes", "");
 		
 		c.setProperty("Region.General.Protected", Boolean.valueOf(r._protection));
 		c.setProperty("Region.General.PreventEntry", Boolean.valueOf(r.preventEntry));
@@ -76,6 +80,7 @@ public class Saveable {
 		c.setProperty("Region.Other.VelocityWarp", r.velocityWarp);
 		
 		c.setProperty("Region.Essentials.Owner", r.owner.toString());
+		c.setProperty("Regios.Essentials.SubOwners", "");
 		c.setProperty("Region.Essentials.Name", r.name.toString());
 		c.setProperty("Region.Essentials.World", r.world.toString());
 		c.setProperty("Region.Essentials.Points.Point1", convertLocation(rl1));
@@ -89,6 +94,8 @@ public class Saveable {
 		c.setProperty("Region.Spout.Sound.PlayCustomMusic", r.playCustomSoundUrl);
 		c.setProperty("Region.Spout.Sound.CustomMusicURL", r.customSoundUrl);
 		
+		c.setProperty("Region.Block.BlockForm.Enabled", r.blockForm);
+		
 		c.save();
 		
 		new File(region_root + File.separator + "Exceptions").mkdir();
@@ -97,6 +104,11 @@ public class Saveable {
 		new File(region_root + File.separator + "Items").mkdir();
 		new File(region_root + File.separator + "Backups").mkdir();
 		new File(region_root + File.separator + "Logs").mkdir();
+		try {
+			new File(region_root + File.separator + "Logs" + File.separator + r.getName() + ".log").createNewFile();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 		
 		try {
 			new File(region_root + File.separator + "Exceptions" + File.separator + "Players" + File.separator + r.getOwner() + ".excep").createNewFile();

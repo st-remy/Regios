@@ -16,12 +16,24 @@ public class PermissionsCore {
     public static void addUserPermission(Player p, String node){
     	if(hasPermissions){
     		permissionHandler.addUserPermission(p.getWorld().getName(), p.getName(), node);
+    		permissionHandler.save(p.getName());
+    		try {
+				permissionHandler.load();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
     	}
     }
     
     public static void removeUserPermission(Player p, String node){
     	if(hasPermissions){
     		permissionHandler.removeUserPermission(p.getWorld().getName(), p.getName(), node);
+    		permissionHandler.save(p.getName());
+    		try {
+				permissionHandler.load();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
     	}
     }
 

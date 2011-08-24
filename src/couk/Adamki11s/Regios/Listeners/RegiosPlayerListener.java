@@ -16,9 +16,9 @@ import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.material.Door;
 
-import couk.Adamki11s.Checks.PermChecks;
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
+import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -70,7 +70,7 @@ public class RegiosPlayerListener extends PlayerListener {
 			}
 		}	
 		
-		for(Region region : grm.getRegions()){
+		for(Region region : GlobalRegionManager.getRegions()){
 			for(Chunk chunk : region.getChunkGrid().getChunks()){
 				if(chunk.getWorld() == w){
 					if(areChunksEqual(chunk, c)){

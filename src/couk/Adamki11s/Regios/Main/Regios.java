@@ -64,6 +64,7 @@ public class Regios extends JavaPlugin {
 		
 		pm.registerEvent(Type.PLAYER_MOVE, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
+		pm.registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
@@ -88,9 +89,6 @@ public class Regios extends JavaPlugin {
 		setupPermissions();
 
 		getCommand("regios").setExecutor(new CommandCore());
-		
-		GlobalWorldSetting.writeWorldsToConfiguration();
-		GlobalWorldSetting.loadWorldsFromConfiguration();
 		
 		for(World w : Bukkit.getServer().getWorlds()){
 			 GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);

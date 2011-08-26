@@ -21,7 +21,7 @@ public class SpoutRegion {
 	public static HashMap<Player, ArrayList<UUID>> widgetBindings = new HashMap<Player, ArrayList<UUID>>();
 	public static HashMap<Player, String> lastSong = new HashMap<Player, String>();
 	public static HashMap<Player, SpoutWeather> oldWeather = new HashMap<Player, SpoutWeather>();
-	
+
 	private static ExtrasRegions extReg = new ExtrasRegions();
 
 	public static void sendWelcomeMessage(Player p, Region r) {
@@ -71,15 +71,17 @@ public class SpoutRegion {
 		}
 	}
 
-	public static void playToPlayerMusicFromUrl(Player p, Region r){
+	public static void playToPlayerMusicFromUrl(Player p, Region r) {
 		int length = r.getMusicUrls().length;
 		String shuffled = "";
-		if(lastSong.containsKey(p)){ shuffled = lastSong.get(p); }
-		if(length == 1){
+		if (lastSong.containsKey(p)) {
+			shuffled = lastSong.get(p);
+		}
+		if (length == 1) {
 			shuffled = r.getMusicUrls()[0];
 		} else {
-			if(lastSong.containsKey(p)){
-				while(lastSong.get(p).equalsIgnoreCase(shuffled)){
+			if (lastSong.containsKey(p)) {
+				while (lastSong.get(p).equalsIgnoreCase(shuffled)) {
 					int rnd = new Random().nextInt(length) + 0;
 					shuffled = r.getMusicUrls()[rnd];
 				}
@@ -89,11 +91,13 @@ public class SpoutRegion {
 		}
 		lastSong.put(p, shuffled);
 		SoundManager sm = SpoutManager.getSoundManager();
-		sm.playCustomMusic(Regios.regios, (SpoutPlayer)p, shuffled, true);
+		sm.playCustomMusic(Regios.regios, (SpoutPlayer) p, shuffled, true);
 	}
 
 	public static void stopMusicPlaying(Player p, Region r) {
-		current = r;
+		if (r != null) {
+			current = r;
+		}
 		currentPlayer = p;
 		cancelMusicTask();
 	}

@@ -1,11 +1,8 @@
 package couk.Adamki11s.Regios.Commands;
 
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Mutable.MutableMobs;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -23,7 +20,11 @@ public class MobCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			if(val){
+				p.sendMessage(ChatColor.GREEN + "[Regios] Mob spawns enabled for region " + ChatColor.BLUE + region);
+			} else {
+				p.sendMessage(ChatColor.GREEN + "[Regios] Mob spawns disabled for region " + ChatColor.BLUE + region);
+			}
 		}
 		mutable.editMobSpawn(r, val);
 	}
@@ -37,7 +38,11 @@ public class MobCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			if(val){
+				p.sendMessage(ChatColor.GREEN + "[Regios] Monster spawns enabled for region " + ChatColor.BLUE + region);
+			} else {
+				p.sendMessage(ChatColor.GREEN + "[Regios] Monster spawns disabled for region " + ChatColor.BLUE + region);
+			}
 		}
 		mutable.editMonsterSpawn(r, val);
 	}

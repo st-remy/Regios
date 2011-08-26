@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.material.Door;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
@@ -34,6 +35,10 @@ import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class RegiosPlayerListener extends PlayerListener {
 
+	private enum MSG {
+		PROTECTION, AUTHENTICATION, PREVENT_ENTRY, PREVENT_EXIT, ECONOMY;
+	}
+
 	private static final GlobalRegionManager grm = new GlobalRegionManager();
 	private static final ExtrasEvents extEvt = new ExtrasEvents();
 	private static final ExtrasRegions extReg = new ExtrasRegions();
@@ -42,9 +47,76 @@ public class RegiosPlayerListener extends PlayerListener {
 	private static final CreationCommands creationCommands = new CreationCommands();
 
 	public static HashMap<Player, Region> regionBinding = new HashMap<Player, Region>();
+	public static HashMap<Player, Region> currentRegion = new HashMap<Player, Region>();
 
 	private static HashMap<Player, Location> outsideRegionLocation = new HashMap<Player, Location>();
 	private static HashMap<Player, Location> insideRegionLocation = new HashMap<Player, Location>();
+
+	public HashMap<Player, Long> timeStampsProtection = new HashMap<Player, Long>();
+	public HashMap<Player, Long> timeStampsAuth = new HashMap<Player, Long>();
+	public HashMap<Player, Long> timeStampsPreventEntry = new HashMap<Player, Long>();
+	public HashMap<Player, Long> timeStampsPreventExit = new HashMap<Player, Long>();
+	public HashMap<Player, Long> timeStampsEconomy = new HashMap<Player, Long>();
+
+	private void setTimestamp(Player p, MSG msg) {
+		switch (msg) {
+		case PROTECTION:
+			timeStampsProtection.put(p, System.currentTimeMillis());
+			break;
+		case AUTHENTICATION:
+			timeStampsAuth.put(p, System.currentTimeMillis());
+			break;
+		case PREVENT_ENTRY:
+			timeStampsPreventEntry.put(p, System.currentTimeMillis());
+			break;
+		case PREVENT_EXIT:
+			timeStampsPreventExit.put(p, System.currentTimeMillis());
+			break;
+		case ECONOMY:
+			timeStampsEconomy.put(p, System.currentTimeMillis());
+			break;
+		}
+	}
+
+	private boolean isSendable(Player p, MSG msg) {
+		boolean outcome = false;
+		switch (msg) {
+		case PROTECTION:
+			outcome = (timeStampsProtection.containsKey(p) ? (System.currentTimeMillis() > timeStampsProtection.get(p) + 5000) : true);
+			break;
+		case AUTHENTICATION:
+			outcome = (timeStampsAuth.containsKey(p) ? (System.currentTimeMillis() > timeStampsAuth.get(p) + 5000) : true);
+			break;
+		case PREVENT_ENTRY:
+			outcome = (timeStampsPreventEntry.containsKey(p) ? (System.currentTimeMillis() > timeStampsPreventEntry.get(p) + 5000) : true);
+			break;
+		case PREVENT_EXIT:
+			outcome = (timeStampsPreventExit.containsKey(p) ? (System.currentTimeMillis() > timeStampsPreventExit.get(p) + 5000) : true);
+			break;
+		case ECONOMY:
+			outcome = (timeStampsEconomy.containsKey(p) ? (System.currentTimeMillis() > timeStampsEconomy.get(p) + 5000) : true);
+			break;
+		}
+		if (outcome) {
+			setTimestamp(p, msg);
+		}
+		return outcome;
+	}
+	
+	public void onPlayerQuit(PlayerQuitEvent evt){
+		Player p = evt.getPlayer();
+		if(HealthRegeneration.isRegenerator(p)){
+			HealthRegeneration.removeRegenerator(p);
+		}
+		if(SpoutInterface.doesPlayerHaveSpout(p)){
+			SpoutInterface.stopMusicPlaying(p, null);
+		}
+		for(Region r : GlobalRegionManager.getRegions()){
+			if(r.isAuthenticated(p)){
+				r.authentication.put(p, false);
+			}
+		}
+	}
 
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		SpoutInterface.spoutEnabled.put(evt.getPlayer(), false);
@@ -76,6 +148,17 @@ public class RegiosPlayerListener extends PlayerListener {
 			}
 		}
 
+		if (creationCommands.isModding(p)) {
+			Action act = evt.getAction();
+			if (act == Action.LEFT_CLICK_BLOCK) {
+				creationCommands.setFirstMod(p, evt.getClickedBlock().getLocation());
+				return;
+			} else if (act == Action.RIGHT_CLICK_BLOCK) {
+				creationCommands.setSecondMod(p, evt.getClickedBlock().getLocation());
+				return;
+			}
+		}
+
 		if (EconomyCore.isEconomySupportEnabled() && evt.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getTypeId() == 68)) {
 				Sign sign = (Sign) b.getState();
@@ -85,7 +168,9 @@ public class RegiosPlayerListener extends PlayerListener {
 						int price = region.salePrice;
 						if (EconomyCore.getEconomy() == Economy.ICONOMY) {
 							if (!EconomyCore.getiConomyManager().canAffordRegion(p, price)) {
-								p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+								if (isSendable(p, MSG.ECONOMY)) {
+									p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+								}
 								return;
 							} else {
 								EconomyCore.getiConomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
@@ -96,7 +181,9 @@ public class RegiosPlayerListener extends PlayerListener {
 							}
 						} else if (EconomyCore.getEconomy() == Economy.BOSECONOMY) {
 							if (!EconomyCore.getBoseEconomyManager().canAffordRegion(p.getName(), price)) {
-								p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+								if (isSendable(p, MSG.ECONOMY)) {
+									p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+								}
 								return;
 							} else {
 								EconomyCore.getBoseEconomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
@@ -153,7 +240,9 @@ public class RegiosPlayerListener extends PlayerListener {
 
 		if (r.isPreventingInteraction()) {
 			if (!r.canBuild(p, r)) {
-				p.sendMessage(ChatColor.RED + "[Regios] You cannot interact within this region!");
+				if (isSendable(p, MSG.PROTECTION)) {
+					p.sendMessage(ChatColor.RED + "[Regios] You cannot interact within this region!");
+				}
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to interact but did not have permissions."));
 				return;
 			}
@@ -162,7 +251,9 @@ public class RegiosPlayerListener extends PlayerListener {
 		if (b.getTypeId() == 71 || b.getTypeId() == 64) {
 			if (r.areDoorsLocked()) {
 				if (!r.canBuild(p, r)) {
-					p.sendMessage(ChatColor.RED + "[Regios] Doors are locked for this region!");
+					if (isSendable(p, MSG.PROTECTION)) {
+						p.sendMessage(ChatColor.RED + "[Regios] Doors are locked for this region!");
+					}
 					LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to open a locked door but did not have permissions."));
 					Door d = new Door(b.getType());
 					d.setOpen(false);
@@ -227,13 +318,16 @@ public class RegiosPlayerListener extends PlayerListener {
 				if (!binding.canEnter(p, binding)) {
 					if (!binding.isPasswordEnabled()) {
 						p.teleport(outsideRegionLocation.get(p));
-						binding.sendPreventEntryMessage(p);
+						if (isSendable(p, MSG.PREVENT_ENTRY)) {
+							binding.sendPreventEntryMessage(p);
+						}
 						return;
 					} else {
 						if (!binding.isAuthenticated(p)) {
-							binding.sendAuthenticationMessage(p);
+							if (isSendable(p, MSG.AUTHENTICATION)) {
+								binding.sendAuthenticationMessage(p);
+							}
 							p.teleport(outsideRegionLocation.get(p));
-							binding.sendPreventExitMessage(p);
 							return;
 						}
 					}
@@ -244,13 +338,16 @@ public class RegiosPlayerListener extends PlayerListener {
 				if (!binding.canExit(p, binding)) {
 					if (!binding.isPasswordEnabled()) {
 						p.teleport(insideRegionLocation.get(p));
-						binding.sendPreventExitMessage(p);
+						if (isSendable(p, MSG.PREVENT_EXIT)) {
+							binding.sendPreventExitMessage(p);
+						}
 						return;
 					} else {
 						if (!binding.isAuthenticated(p)) {
-							binding.sendAuthenticationMessage(p);
+							if (isSendable(p, MSG.AUTHENTICATION)) {
+								binding.sendAuthenticationMessage(p);
+							}
 							p.teleport(insideRegionLocation.get(p));
-							binding.sendPreventExitMessage(p);
 							return;
 						}
 					}
@@ -258,9 +355,6 @@ public class RegiosPlayerListener extends PlayerListener {
 			}
 
 			if (!extReg.isInsideCuboid(p, binding.getL1().toBukkitLocation(), binding.getL2().toBukkitLocation())) {
-				if (HealthRegeneration.isRegenerator(p)) {
-					HealthRegeneration.removeRegenerator(p);
-				}
 				binding.sendLeaveMessage(p);
 			}
 
@@ -304,7 +398,9 @@ public class RegiosPlayerListener extends PlayerListener {
 		if (r.isRegionFull(p)) {
 			p.teleport(outsideRegionLocation.get(p));
 			LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to enter region but it was full."));
-			p.sendMessage(ChatColor.RED + "[Regios] This region is full! Only " + r.playerCap + " players are allowed inside at a time.");
+			if (isSendable(p, MSG.PREVENT_ENTRY)) {
+				p.sendMessage(ChatColor.RED + "[Regios] This region is full! Only " + r.playerCap + " players are allowed inside at a time.");
+			}
 			return;
 		}
 
@@ -312,18 +408,14 @@ public class RegiosPlayerListener extends PlayerListener {
 			if (!r.canEnter(p)) {
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to enter but did not have permissions."));
 				p.teleport(outsideRegionLocation.get(p));
-				r.sendPreventEntryMessage(p);
+				if (isSendable(p, MSG.PREVENT_ENTRY)) {
+					r.sendPreventEntryMessage(p);
+				}
 				return;
 			}
 		}
 
 		r.sendWelcomeMessage(p);
-
-		if (!HealthRegeneration.isRegenerator(p)) {
-			if (r.healthRegen < 0 && !r.canBypass(p)) {
-				HealthRegeneration.addRegenerator(p, r.healthRegen);
-			}
-		}
 
 		// __________________________________
 		// ^^^^ Messages & Entry control ^^^^

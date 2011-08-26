@@ -10,8 +10,11 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.config.Configuration;
 
+import couk.Adamki11s.Regios.Checks.ChunkGrid;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
+import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
+import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Scheduler.LightningRunner;
 
@@ -27,7 +30,12 @@ public class LoaderCore {
 
 	public void setup() {
 		loadConfiguration();
-		loadRegions();
+		loadRegions(false);
+	}
+	
+	public void silentReload(){
+		GlobalRegionManager.purgeRegions();
+		loadRegions(true);
 	}
 
 	public void loadConfiguration() {
@@ -113,16 +121,23 @@ public class LoaderCore {
 			EconomyCore.economy = econ;
 			log.info(prefix + " Economy preset found : " + econ.toString().toUpperCase());
 		}
+		
+		GlobalWorldSetting.writeWorldsToConfiguration();
+		GlobalWorldSetting.loadWorldsFromConfiguration();
 
 		log.info(prefix + " Configuration files loaded successfully!");
 	}
 
-	public void loadRegions() {
+	public void loadRegions(boolean silent) {
 		File[] children = db_root.listFiles();
 		if (children.length > 0) {
-			log.info(prefix + " Loading [" + children.length + "] Regions.");
+			if(silent){
+				log.info(prefix + " Loading [" + children.length + "] Regions.");
+			}
 		} else {
-			log.info(prefix + " No Regions to load.");
+			if(silent){
+				log.info(prefix + " No Regions to load.");
+			}
 		}
 		for (File root : children) {
 			if (root.isDirectory()) {

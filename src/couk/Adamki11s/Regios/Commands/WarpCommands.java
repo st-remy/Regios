@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class WarpCommands extends CommandLink {
+public class WarpCommands{
 	
 	public void warpToRegion(String region, Player p){
 		Region reg = GlobalRegionManager.getRegion(region);

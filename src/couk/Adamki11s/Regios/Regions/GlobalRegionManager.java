@@ -30,6 +30,12 @@ public class GlobalRegionManager {
 		return false;
 	}
 	
+	public static void purgeRegions(){
+		regions.clear();
+		worldSettings.clear();
+		System.gc();
+	}
+	
 	public static Region getRegion(String name){
 		for(Region r : regions){
 			if(r.getName().equalsIgnoreCase(name)){

@@ -19,15 +19,19 @@ import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Data.Saveable;
 import couk.Adamki11s.Regios.Inventory.InventoryCacheManager;
+import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Permissions.PermissionsCacheManager;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
+import couk.Adamki11s.Regios.Scheduler.HealthRegeneration;
 import couk.Adamki11s.Regios.Scheduler.LightningRunner;
 import couk.Adamki11s.Regios.Scheduler.LogRunner;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class Region extends PermChecks implements Checks {
 
-	private final RegionLocation l1, l2;
+	private RegionLocation l1;
+
+	private RegionLocation l2;
 
 	public final Region region = this;
 
@@ -141,7 +145,6 @@ public class Region extends PermChecks implements Checks {
 		this.temporaryNodesCacheAdd = ConfigurationData.temporaryNodesCacheAdd;
 
 		this.blockForm = ConfigurationData.blockForm;
-
 		if (this.LSPS > 0 && !LightningRunner.doesStikesContain(this)) {
 			LightningRunner.addRegion(this);
 		} else if (this.LSPS == 0 && LightningRunner.doesStikesContain(this)) {
@@ -155,6 +158,10 @@ public class Region extends PermChecks implements Checks {
 	
 	public Configuration getConfigFile(){
 		return new Configuration(new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + this.name + ".rz"));
+	}
+	
+	public File getExceptionDirectory(){
+		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Exceptions");
 	}
 
 	public String getName() {
@@ -199,6 +206,15 @@ public class Region extends PermChecks implements Checks {
 
 	public void sendLeaveMessage(Player p) {
 		if (!isLeaveMessageSent(p)) {
+			if(RegiosPlayerListener.currentRegion.containsKey(p)){
+				RegiosPlayerListener.currentRegion.remove(p);
+			}
+			leaveMessageSent.put(p, true);
+			welcomeMessageSent.remove(p);
+			removePlayer(p);
+			if (HealthRegeneration.isRegenerator(p)) {
+				HealthRegeneration.removeRegenerator(p);
+			}
 			if(this.permWipeOnExit){
 				if(!this.canBypass(p)){
 					InventoryCacheManager.wipeInventory(p);
@@ -239,15 +255,22 @@ public class Region extends PermChecks implements Checks {
 					SpoutInterface.stopMusicPlaying(p, region);
 				}
 			}
-			leaveMessageSent.put(p, true);
-			welcomeMessageSent.remove(p);
-			playersInRegion.remove(p);
-			removePlayer(p);
 		}
 	}
 
 	public void sendWelcomeMessage(Player p) {
 		if (!isWelcomeMessageSent(p)) {
+			RegiosPlayerListener.currentRegion.put(p, this);
+			welcomeMessageSent.put(p, true);
+			leaveMessageSent.remove(p);
+			addPlayer(p);
+			if (!HealthRegeneration.isRegenerator(p)) {
+				if (this.healthRegen < 0 && !this.canBypass(p)) {
+					HealthRegeneration.addRegenerator(p, this.healthRegen);
+				} else if(this.healthRegen > 0){
+					HealthRegeneration.addRegenerator(p, this.healthRegen);
+				}
+			}
 			if(this.permWipeOnEnter){
 				if(!this.canBypass(p)){
 					InventoryCacheManager.wipeInventory(p);
@@ -296,9 +319,6 @@ public class Region extends PermChecks implements Checks {
 					SpoutInterface.playToPlayerMusicFromUrl(p, this);
 				}
 			}
-			welcomeMessageSent.put(p, true);
-			leaveMessageSent.remove(p);
-			addPlayer(p);
 		}
 	}
 
@@ -333,9 +353,21 @@ public class Region extends PermChecks implements Checks {
 	public void addException(String exception) {
 		this.exceptions.add(exception);
 	}
+	
+	public void removeException(String exception){
+		if(this.exceptions.contains(exception)){
+			this.exceptions.remove(exception);
+		}
+	}
 
 	public void addExceptionNode(String node) {
-		nodes.add(node);
+		this.nodes.add(node);
+	}
+	
+	public void removeExceptionNode(String node){
+		if(this.nodes.contains(node)){
+			this.nodes.remove(node);
+		}
 	}
 
 	public ArrayList<String> getExceptionNodes() {
@@ -383,6 +415,14 @@ public class Region extends PermChecks implements Checks {
 		} else {
 			return false;
 		}
+	}
+	
+	public void setL1(World w, double x, double y, double z){
+		this.l1 = new RegionLocation(w, x, y, z);
+	}
+	
+	public void setL2(World w, double x, double y, double z){
+		this.l2 = new RegionLocation(w, x, y, z);
 	}
 
 	@Override

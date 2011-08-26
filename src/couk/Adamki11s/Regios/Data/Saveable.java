@@ -67,7 +67,12 @@ public class Saveable {
 		c.setProperty("Region.General.DoorsLocked", Boolean.valueOf(r.doorsLocked));
 		c.setProperty("Region.General.ChestsLocked", Boolean.valueOf(r.chestsLocked));
 		c.setProperty("Region.General.Password.Enabled", Boolean.valueOf(r.passwordEnabled));
-		c.setProperty("Region.General.Password.Password", r.exCrypt.computeSHA2_384BitHash(r.password.toString()));
+		
+		if(r.password.length() > 3){
+			c.setProperty("Region.General.Password.Password", r.exCrypt.computeSHA2_384BitHash(r.password.toString()));
+		} else {
+			c.setProperty("Region.General.Password.Password", "");
+		}
 		
 		c.setProperty("Region.Other.MobSpawns", Boolean.valueOf(r.mobSpawns));
 		c.setProperty("Region.Other.MonsterSpawns", Boolean.valueOf(r.monsterSpawns));

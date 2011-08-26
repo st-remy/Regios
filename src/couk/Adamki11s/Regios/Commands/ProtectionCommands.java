@@ -12,42 +12,42 @@ public class ProtectionCommands {
 	
 	public void setProtected(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Protection enabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editProtect(r);
 	}
 	
 	public void setUnProtected(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Protectiondisabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editUnprotect(r);
 	}
 	
 	public void setPreventEntry(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Prevent entry enabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editPreventEntry(r);
 	}
 	
 	public void setAllowEntry(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Prevent entry disabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editAllowEntry(r);
 	}
 	
 	public void setPreventExit(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Prevent exit enabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editPreventExit(r);
 	}
 	
 	public void setAllowExit(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Prevent exit disabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editAllowExit(r);
 	}

@@ -13,9 +13,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
+import couk.Adamki11s.Regios.Economy.Economy;
+import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Listeners.RegiosBlockListener;
 import couk.Adamki11s.Regios.Listeners.RegiosEntityListener;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
+import couk.Adamki11s.Regios.Listeners.RegiosServerListener;
 import couk.Adamki11s.Regios.Listeners.RegiosWeatherListener;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
@@ -34,6 +37,7 @@ public class Regios extends JavaPlugin {
 	public final RegiosPlayerListener playerListener = new RegiosPlayerListener();
 	public final RegiosEntityListener entityListener = new RegiosEntityListener();
 	public final RegiosWeatherListener weatherListener = new RegiosWeatherListener();
+	public final RegiosServerListener serverListener = new RegiosServerListener();
 
 	public static Plugin regios;
 
@@ -55,7 +59,9 @@ public class Regios extends JavaPlugin {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		regios = this;
+		
 		pm.registerEvent(Type.PLAYER_MOVE, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Highest, this);
@@ -63,11 +69,19 @@ public class Regios extends JavaPlugin {
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_IGNITE, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_FORM, blockListener, Priority.Highest, this);
+		pm.registerEvent(Type.SIGN_CHANGE, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.EXPLOSION_PRIME, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_DAMAGE, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.CREATURE_SPAWN, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.LIGHTNING_STRIKE, weatherListener, Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_DEATH, entityListener, Priority.Highest, this);
+		
+		if(EconomyCore.economy == Economy.ICONOMY){
+			pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Monitor, this);
+	        pm.registerEvent(Type.PLUGIN_DISABLE, serverListener, Priority.Monitor, this);
+		} else if(EconomyCore.economy == Economy.BOSECONOMY){
+			EconomyCore.boseConomySetup();
+		}
 
 		SpoutInterface.setup(pm, log);
 

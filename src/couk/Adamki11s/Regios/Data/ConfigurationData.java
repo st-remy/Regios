@@ -16,7 +16,7 @@ public class ConfigurationData {
 			showPreventEntryMessage, showPreventExitMessage, fireProtection, tntProtection, creeperProtection, playCustomMusic, permWipeOnEnter, permWipeOnExit,
 			wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, blockForm;
 
-	public static int LSPS, healthRegen, velocityWarp;
+	public static int LSPS, healthRegen, velocityWarp, playerCap;
 
 	public static MODE protectionMode, preventEntryMode, preventExitMode, itemMode;
 
@@ -25,7 +25,7 @@ public class ConfigurationData {
 			String dam, String dasm, Material welcome, Material leave, boolean welcomeMsg, boolean leaveMsg, boolean protectMsg, boolean preventEntryMsg, boolean preventExitMsg,
 			boolean tntProt, boolean fireProt, boolean creeperProt, String[] music, boolean playmusic, boolean permWipeOnEnter1, boolean permWipeOnExit1,
 			boolean wipeAndCacheOnEnter1, boolean wipeAndCacheOnExit1, boolean forceCommand1, String[] commandSet1, String[] tempAddCache, String[] permAddCache,
-			String[] permRemoveCache, boolean form) {
+			String[] permRemoveCache, boolean form, int cap) {
 		defaultWelcomeMessage = a;
 		defaultLeaveMessage = b;
 		defaultProtectionMessage = c;
@@ -79,6 +79,7 @@ public class ConfigurationData {
 		permanentNodesCacheAdd = permAddCache;
 		permanentNodesCacheRemove = permRemoveCache;
 		blockForm = form;
+		playerCap = cap;
 	}
 
 }

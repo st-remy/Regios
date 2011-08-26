@@ -10,6 +10,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.config.Configuration;
 
+import couk.Adamki11s.Regios.Economy.Economy;
+import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Scheduler.LightningRunner;
 
@@ -85,10 +87,12 @@ public class LoaderCore {
 
 		boolean cfu = c.getBoolean("CheckForUpdates", true), dua = c.getBoolean("DownloadUpdatesAutomatically", true), cov = c.getBoolean("CacheOldVersions", true), fr = c
 				.getBoolean("ForceReload", true);
+		
+		int playerCap = c.getInt("DefaultSettings.General.PlayerCap.Cap", 0);
 
 		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa, bb,
 				ccc, dd, ee, tntProtection, fireProtection, creeperProtection, musicUrl, playmusic, permWipeOnEnter, permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit,
-				forceCommand, commandSet, tempAddCache, permAddCache, permRemCache, form);
+				forceCommand, commandSet, tempAddCache, permAddCache, permRemCache, form, playerCap);
 		// Initialises variables in configuration data.
 
 		c = new Configuration(generalconfig);
@@ -97,6 +101,18 @@ public class LoaderCore {
 
 		int id = c.getInt("Region.Tools.Setting.ID", Material.WOOD_AXE.getId());
 		ConfigurationData.defaultSelectionTool = Material.getMaterial(id);
+		
+		Economy econ = Economy.toEconomy(c.getString("Regios.Economy", "NONE"));
+		
+		if(econ == Economy.NONE){
+			EconomyCore.economySupport = false;
+			EconomyCore.economy = econ;
+			log.info(prefix + " No economy preset specified in config. Not using economy.");
+		} else if(econ == Economy.BOSECONOMY || econ == Economy.ICONOMY){
+			EconomyCore.economySupport = true;
+			EconomyCore.economy = econ;
+			log.info(prefix + " Economy preset found : " + econ.toString().toUpperCase());
+		}
 
 		log.info(prefix + " Configuration files loaded successfully!");
 	}
@@ -180,8 +196,6 @@ public class LoaderCore {
 				Material spoutWelcomeMaterial = Material.getMaterial(c.getInt("Region.Spout.Welcome.IconID", Material.GRASS.getId())), spoutLeaveMaterial = Material.getMaterial(c
 						.getInt("Region.Spout.Leave.IconID", Material.DIRT.getId()));
 
-				WeatherSetting weather = WeatherSetting.toWeatherSetting(c.getString("Region.Spout.Weather.Setting"));
-
 				String[] musicUrl = c.getString("Region.Spout.Sound.CustomMusicURL", "").trim().split(",");
 				boolean playmusic = c.getBoolean("Region.Spout.Sound.PlayCustomMusic", false);
 
@@ -197,9 +211,17 @@ public class LoaderCore {
 				
 				String[] permRemCache = c.getString("Region.Permissions.PermanentCache.RemoveNodes", "").trim().split(",");
 				
-				String[] subOwners = c.getString("Regios.Essentials.SubOwners", "").trim().split(",");
+				String[] subOwners = c.getString("Region.Essentials.SubOwners", "").trim().split(",");
+				
+				Location warp = toLocation(c.getString("Region.Teleportation.Warp.Location", ww + ",0,0,0"));
+				
+				int playerCap = c.getInt("Region.General.PlayerCap.Cap", 0);
 				
 				boolean form = c.getBoolean("Region.Block.BlockForm.Enabled", true);
+				
+				int price = c.getInt("Region.Economy.Price", 0);
+				
+				boolean forSale = c.getBoolean("Region.Economy.ForSale", false);
 
 				Region r = new Region(owner, name, l1, l2, world, null);
 
@@ -210,7 +232,6 @@ public class LoaderCore {
 					r.addExceptionNode(s);
 				}
 
-				r.weatherSetting = weather;
 				r.spoutExitMaterial = spoutLeaveMaterial;
 				r.spoutEntryMaterial = spoutWelcomeMaterial;
 				r.spoutEntryMessage = spoutWelcomeMessage;
@@ -275,7 +296,14 @@ public class LoaderCore {
 				
 				r.subOwners = subOwners;
 				
+				r.warp = warp;
+				
 				r.blockForm = form;
+				
+				r.playerCap = playerCap;
+				
+				r.salePrice = price;
+				r.forSale = forSale;
 
 				if (r.LSPS > 0 && !LightningRunner.doesStikesContain(r)) {
 					LightningRunner.addRegion(r);
@@ -288,9 +316,14 @@ public class LoaderCore {
 	}
 
 	public Location toLocation(String loc) {
+		Location l = null;
+		try{
 		String[] locations = loc.split(",");
-		Location l = new Location(Bukkit.getServer().getWorld(locations[0].trim()), Double.parseDouble(locations[1].trim()), Double.parseDouble(locations[2].trim()),
+		l = new Location(Bukkit.getServer().getWorld(locations[0].trim()), Double.parseDouble(locations[1].trim()), Double.parseDouble(locations[2].trim()),
 				Double.parseDouble(locations[3].trim()));
+		} catch (Exception ex){
+			ex.printStackTrace();
+		}
 		return l;
 	}
 

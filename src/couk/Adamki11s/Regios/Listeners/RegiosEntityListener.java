@@ -26,6 +26,7 @@ import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.SubRegionManager;
 import couk.Adamki11s.Regios.Scheduler.HealthRegeneration;
+import couk.Adamki11s.Regios.Scheduler.LogRunner;
 
 public class RegiosEntityListener extends EntityListener {
 
@@ -91,6 +92,7 @@ public class RegiosEntityListener extends EntityListener {
 		if(!r.canMobsSpawn()){
 			CreatureType ce = evt.getCreatureType();
 			if(ce == CreatureType.CHICKEN || ce == CreatureType.COW || ce == CreatureType.PIG || ce == CreatureType.SHEEP || ce == CreatureType.SQUID){
+				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Mob '" + ce.getName() + "' tried to spawn but was prevented."));
 				evt.setCancelled(true);
 				return;
 			}
@@ -99,6 +101,7 @@ public class RegiosEntityListener extends EntityListener {
 		if(!r.canMonstersSpawn()){
 			CreatureType ce = evt.getCreatureType();
 			if(ce != CreatureType.CHICKEN && ce != CreatureType.COW && ce != CreatureType.PIG && ce != CreatureType.SHEEP && ce != CreatureType.SQUID){
+				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Monster '" + ce.getName() + "' tried to spawn but was prevented."));
 				evt.setCancelled(true);
 				return;
 			}

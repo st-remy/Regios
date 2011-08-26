@@ -2,7 +2,7 @@ package couk.Adamki11s.Regios.Commands;
 
 import org.bukkit.entity.Player;
 
-public class DebugCommands {
+public class DebugCommands extends CommandLink{
 	
 	public void printChunk(Player p){
 		System.out.println(p.getWorld().getChunkAt(p.getLocation()));

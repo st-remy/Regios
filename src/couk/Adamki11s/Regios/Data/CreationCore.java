@@ -51,6 +51,7 @@ public class CreationCore {
 		log.info(prefix + " Checking configuration files.");
 		boolean flawless = true;
 		File updateconfig = new File(config_root + File.separator + "Updates.config"), defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(config_root + File.separator + "GeneralSettings.config");
+		
 		if (!updateconfig.exists()) {
 			log.info(prefix + " Creating update configuration.");
 			updateconfig.createNewFile();
@@ -65,6 +66,7 @@ public class CreationCore {
 			log.info(prefix + " Creating general configuration.");
 			generalconfig.createNewFile();
 			Configuration c = new Configuration(generalconfig);
+			c.setProperty("Regios.Economy", "NONE");
 			c.setProperty("Region.Tools.Setting.ID", Material.WOOD_AXE.getId());
 			c.save();
 		}
@@ -97,7 +99,7 @@ public class CreationCore {
 			c.setProperty("DefaultSettings.Messages.ShowPreventEntryMessage", true);
 			c.setProperty("DefaultSettings.Messages.ShowPreventExitMessage", true);
 			c.setProperty("DefaultSettings.Messages.ShowPvPWarning", true);
-			
+
 			c.setProperty("DefaultSettings.Permissions.TemporaryCache.AddNodes", "");
 			c.setProperty("DefaultSettings.Permissions.PermanentCache.AddNodes", "");
 			c.setProperty("DefaultSettings.Permissions.PermanentCache.RemoveNodes", "");
@@ -129,9 +131,11 @@ public class CreationCore {
 			c.setProperty("DefaultSettings.Spout.SpoutLeaveIconID", Material.DIRT.getId());
 			c.setProperty("DefaultSettings.Spout.Sound.PlayCustomMusic", false);
 			c.setProperty("DefaultSettings.Spout.Sound.CustomMusicURL", "");
-			
+
+			c.setProperty("DefaultSettings.General.PlayerCap.Cap", 0);
+
 			c.setProperty("DefaultSettings.Block.BlockForm.Enabled", true);
-			
+
 			c.save();
 		}
 		if (!flawless) {

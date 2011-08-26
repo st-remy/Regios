@@ -3,8 +3,6 @@ package couk.Adamki11s.Regios.Data;
 import java.io.File;
 import java.io.IOException;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Regions.Region;
@@ -69,7 +67,7 @@ public class Saveable {
 		c.setProperty("Region.General.DoorsLocked", Boolean.valueOf(r.doorsLocked));
 		c.setProperty("Region.General.ChestsLocked", Boolean.valueOf(r.chestsLocked));
 		c.setProperty("Region.General.Password.Enabled", Boolean.valueOf(r.passwordEnabled));
-		c.setProperty("Region.General.Password.Password", r.password.toString());
+		c.setProperty("Region.General.Password.Password", r.exCrypt.computeSHA2_384BitHash(r.password.toString()));
 		
 		c.setProperty("Region.Other.MobSpawns", Boolean.valueOf(r.mobSpawns));
 		c.setProperty("Region.Other.MonsterSpawns", Boolean.valueOf(r.monsterSpawns));
@@ -80,7 +78,7 @@ public class Saveable {
 		c.setProperty("Region.Other.VelocityWarp", r.velocityWarp);
 		
 		c.setProperty("Region.Essentials.Owner", r.owner.toString());
-		c.setProperty("Regios.Essentials.SubOwners", "");
+		c.setProperty("Region.Essentials.SubOwners", "");
 		c.setProperty("Region.Essentials.Name", r.name.toString());
 		c.setProperty("Region.Essentials.World", r.world.toString());
 		c.setProperty("Region.Essentials.Points.Point1", convertLocation(rl1));
@@ -90,11 +88,16 @@ public class Saveable {
 		c.setProperty("Region.Spout.Welcome.IconID", r.spoutEntryMaterial.getId());	
 		c.setProperty("Region.Spout.Leave.Message", r.spoutExitMessage);
 		c.setProperty("Region.Spout.Leave.IconID", r.spoutExitMaterial.getId());
-		c.setProperty("Region.Spout.Weather.Setting", "NONE");	
 		c.setProperty("Region.Spout.Sound.PlayCustomMusic", r.playCustomSoundUrl);
 		c.setProperty("Region.Spout.Sound.CustomMusicURL", r.customSoundUrl);
 		
+		c.setProperty("Region.Economy.ForSale", r.forSale);
+		c.setProperty("Region.Economy.Price", r.salePrice);
+		
+		c.setProperty("Region.Teleportation.Warp.Location", r.world + ",0,0,0");
+		
 		c.setProperty("Region.Block.BlockForm.Enabled", r.blockForm);
+		c.setProperty("Region.General.PlayerCap.Cap", r.playerCap);
 		
 		c.save();
 		

@@ -20,19 +20,9 @@ public class SpoutRegion {
 
 	public static HashMap<Player, ArrayList<UUID>> widgetBindings = new HashMap<Player, ArrayList<UUID>>();
 	public static HashMap<Player, String> lastSong = new HashMap<Player, String>();
+	public static HashMap<Player, SpoutWeather> oldWeather = new HashMap<Player, SpoutWeather>();
+	
 	private static ExtrasRegions extReg = new ExtrasRegions();
-
-	public static void setWeather(Player p, Biome biome, SpoutWeather weather) {
-		((SpoutPlayer) p).getInformation().setBiomeWeather(biome, weather);
-	}
-
-	public static void setSnowing(Player p) {
-		((SpoutPlayer) p).getInformation().setBiomeWeather(Biome.TUNDRA, SpoutWeather.SNOW);
-	}
-
-	public static void setRaining(Player p) {
-		((SpoutPlayer) p).getInformation().setBiomeWeather(Biome.RAINFOREST, SpoutWeather.RAIN);
-	}
 
 	public static void sendWelcomeMessage(Player p, Region r) {
 		SpoutPlayer sp = (SpoutPlayer) p;

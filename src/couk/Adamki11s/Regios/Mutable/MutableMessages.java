@@ -18,7 +18,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.WelcomeMessage", message);
-		r.welcomeMessage = message;
+		r.setWelcomeMessage(message);
 		c.save();
 	}
 	
@@ -31,7 +31,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.LeaveMessage", message);
-		r.leaveMessage = message;
+		r.setLeaveMessage(message);
 		c.save();
 	}
 	
@@ -44,7 +44,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.PreventEntryMessage", message);
-		r.preventEntryMessage = message;
+		r.setPreventEntryMessage(message);
 		c.save();
 	}
 	
@@ -57,7 +57,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.PreventExitMessage", message);
-		r.preventExitMessage = message;
+		r.setPreventExitMessage(message);
 		c.save();
 	}
 	
@@ -70,7 +70,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ProtectionMessage", message);
-		r.protectionMessage = message;
+		r.setProtectionMessage(message);
 		c.save();
 	}
 	
@@ -83,7 +83,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ShowWelcomeMessage", val);
-		r.showWelcomeMessage = val;
+		r.setShowWelcomeMessage(val);
 		c.save();
 	}
 	
@@ -96,7 +96,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ShowLeaveMessage", val);
-		r.showLeaveMessage = val;
+		r.setShowLeaveMessage(val);
 		c.save();
 	}
 	
@@ -109,7 +109,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ShowProtectionMessage", val);
-		r.showProtectionMessage = val;
+		r.setShowProtectionMessage(val);
 		c.save();
 	}
 	
@@ -122,7 +122,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ShowPreventEntryMessage", val);
-		r.showPreventEntryMessage = val;
+		r.setShowPreventEntryMessage(val);
 		c.save();
 	}
 	
@@ -135,7 +135,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ShowPreventExitMessage", val);
-		r.showPreventExitMessage = val;
+		r.setShowPreventExitMessage(val);
 		c.save();
 	}
 	
@@ -148,7 +148,7 @@ public class MutableMessages {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Messages.ShowPvpWarning", val);
-		r.showPvpWarning = val;
+		r.setShowPvpWarning(val);
 		c.save();
 	}
 

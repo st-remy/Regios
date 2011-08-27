@@ -18,7 +18,7 @@ public class PermChecks {
 		} else if(r.getOwner().equals(p.getName())){
 			return true;
 		} else {
-			for(String subOwner : r.subOwners){
+			for(String subOwner : r.getSubOwners()){
 				if(subOwner.equals(p.getName())){
 					return true;
 				}
@@ -34,20 +34,20 @@ public class PermChecks {
 	    if(canOverride(p, r)){
 			return true;
 		} else {
-			for(String excep : r.exceptions){
-				if(r.protectionMode == MODE.Whitelist){
+			for(String excep : r.getExceptionNodes()){
+				if(r.getProtectionMode() == MODE.Whitelist){
 					if(excep.equals(p.getName())){
 						return true;	
 					}
-				} else if(r.protectionMode == MODE.Blacklist){
+				} else if(r.getProtectionMode() == MODE.Blacklist){
 					if(excep.equals(p.getName())){
 						return false;	
 					}
 				}
 			}
-			if(r.protectionMode == MODE.Whitelist){
+			if(r.getProtectionMode() == MODE.Whitelist){
 				return false;
-			} else if(r.protectionMode == MODE.Blacklist){
+			} else if(r.getProtectionMode() == MODE.Blacklist){
 				return true;
 			}
 			return false;
@@ -57,10 +57,10 @@ public class PermChecks {
 	public boolean canItemBePlaced(Player p, Material m, Region r){
 		if(canBypass(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
-		if(r.itemMode == MODE.Whitelist){
-			return r.items.contains(m.getId());
-		} else if(r.itemMode == MODE.Blacklist){
-			return !r.items.contains(m.getId());
+		if(r.getItemMode() == MODE.Whitelist){
+			return r.getItems().contains(m.getId());
+		} else if(r.getItemMode() == MODE.Blacklist){
+			return !r.getItems().contains(m.getId());
 		}
 		return false;
 	}
@@ -68,20 +68,20 @@ public class PermChecks {
 	public boolean canBuild(Player p, Region r){
 		if(canBypass(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
-		for(String excep : r.exceptions){
-			if(r.protectionMode == MODE.Whitelist){
+		for(String excep : r.getExceptions()){
+			if(r.getProtectionMode() == MODE.Whitelist){
 				if(excep.equals(p.getName())){
 					return true;	
 				}
-			} else if(r.protectionMode == MODE.Blacklist){
+			} else if(r.getProtectionMode() == MODE.Blacklist){
 				if(excep.equals(p.getName())){
 					return false;	
 				}
 			}
 		}
-		if(r.protectionMode == MODE.Whitelist){
+		if(r.getProtectionMode() == MODE.Whitelist){
 			return false;
-		} else if(r.protectionMode == MODE.Blacklist){
+		} else if(r.getProtectionMode() == MODE.Blacklist){
 			return true;
 		}
 		return false;
@@ -90,20 +90,20 @@ public class PermChecks {
 	public boolean canEnter(Player p, Region r){
 		if(canBypass(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
-		for(String excep : r.exceptions){
-			if(r.preventEntryMode == MODE.Whitelist){
+		for(String excep : r.getExceptions()){
+			if(r.getPreventEntryMode() == MODE.Whitelist){
 				if(excep.equals(p.getName())){
 					return true;	
 				}
-			} else if(r.preventEntryMode == MODE.Blacklist){
+			} else if(r.getPreventEntryMode() == MODE.Blacklist){
 				if(excep.equals(p.getName())){
 					return false;	
 				}
 			}
 		}
-		if(r.preventEntryMode == MODE.Whitelist){
+		if(r.getPreventEntryMode() == MODE.Whitelist){
 			return false;
-		} else if(r.preventEntryMode == MODE.Blacklist){
+		} else if(r.getPreventEntryMode() == MODE.Blacklist){
 			return true;
 		}
 		return false;
@@ -112,20 +112,20 @@ public class PermChecks {
 	public boolean canExit(Player p, Region r){
 		if(canBypass(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
-		for(String excep : r.exceptions){
-			if(r.preventExitMode == MODE.Whitelist){
+		for(String excep : r.getExceptions()){
+			if(r.getPreventExitMode() == MODE.Whitelist){
 				if(excep.equals(p.getName())){
 					return true;	
 				}
-			} else if(r.preventExitMode == MODE.Blacklist){
+			} else if(r.getPreventExitMode() == MODE.Blacklist){
 				if(excep.equals(p.getName())){
 					return false;	
 				}
 			}
 		}
-		if(r.preventExitMode == MODE.Whitelist){
+		if(r.getPreventExitMode() == MODE.Whitelist){
 			return false;
-		} else if(r.preventExitMode == MODE.Blacklist){
+		} else if(r.getPreventExitMode() == MODE.Blacklist){
 			return true;
 		}
 		return false;

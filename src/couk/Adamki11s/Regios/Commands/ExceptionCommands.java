@@ -38,12 +38,55 @@ public class ExceptionCommands {
 		}
 	}
 
+	
+	public void addItemException(Region r, String region, String ex, Player p) {
+		int val = 0;
+		try{
+			val = Integer.parseInt(ex);
+		} catch (NumberFormatException nfe){
+			p.sendMessage(ChatColor.RED + "[Regios] The item must be an integer!");
+			return;
+		}
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			if (!mutable.checkItemException(r, val)) {
+				p.sendMessage(ChatColor.GREEN + "[Regios] Item Exception added : " + ChatColor.BLUE + ex);
+				mutable.addItemException(r, val);
+			} else {
+				p.sendMessage(ChatColor.RED + "[Regios] Item " + ChatColor.BLUE + ex + ChatColor.RED + " is already an exception!");
+			}
+		}
+	}
+
+	public void removeItemException(Region r, String region, String ex, Player p) {
+		int val = 0;
+		try{
+			val = Integer.parseInt(ex);
+		} catch (NumberFormatException nfe){
+			p.sendMessage(ChatColor.RED + "[Regios] The item must be an integer!");
+			return;
+		}
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			if (mutable.checkItemException(r, val)) {
+				p.sendMessage(ChatColor.GREEN + "[Regios] Item Exception removed : " + ChatColor.BLUE + ex);
+				mutable.removeItemException(r, val);
+			} else {
+				p.sendMessage(ChatColor.RED + "[Regios] Item " + ChatColor.BLUE + ex + ChatColor.RED + " is not an exception!");
+			}
+		}
+	}
+	
 	public void addNodeException(Region r, String region, String ex, Player p) {
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if (!mutable.checkPlayerException(r, ex)) {
+			if (!mutable.checkNodeException(r, ex)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Exception Node added : " + ChatColor.BLUE + ex);
 				mutable.addNodeException(r, ex);
 			} else {
@@ -57,7 +100,7 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if (mutable.checkPlayerException(r, ex)) {
+			if (mutable.checkNodeException(r, ex)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Exception Node added : " + ChatColor.BLUE + ex);
 				mutable.removeNodeException(r, ex);
 			} else {
@@ -76,15 +119,37 @@ public class ExceptionCommands {
 			return;
 		}
 	}
+	
+	public void eraseItemExceptions(Region r, String region, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			p.sendMessage(ChatColor.GREEN + "[Regios] All item exceptions removed for region : " + ChatColor.BLUE + region);
+			mutable.eraseAllItemExceptions(r);
+			return;
+		}
+	}
 
 	public void eraseNodeExceptions(Region r, String region, Player p) {
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			p.sendMessage(ChatColor.GREEN + "[Regios] All noe exceptions removed for region : " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] All node exceptions removed for region : " + ChatColor.BLUE + region);
 			mutable.eraseAllNodeExceptions(r);
 			return;
+		}
+	}
+	
+	public void listItemExceptions(Region r, String region, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			String regionSet = mutable.listItemExceptions(r);
+			p.sendMessage(ChatColor.GREEN + "Regios Item Exception List : " + ChatColor.BLUE + region);
+			p.sendMessage(regionSet);
 		}
 	}
 
@@ -108,6 +173,56 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.GREEN + "Regios Node Exception List : " + ChatColor.BLUE + region);
 			p.sendMessage(regionSet);
 		}
+	}
+	
+	public void addSubOwner(Region r, String region, String message, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			boolean nodeMatch = false;
+			for (String s : r.getSubOwners()) {
+				if (s.trim().equalsIgnoreCase(message.trim())) {
+					nodeMatch = true;
+				}
+			}
+			if(nodeMatch){
+				p.sendMessage(ChatColor.RED + "[Regios] The Sub Owner " + ChatColor.BLUE + message + ChatColor.RED + " already exists!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Sub Owner " + ChatColor.BLUE + message + ChatColor.GREEN + " added to region " + ChatColor.BLUE + region);
+		}
+		mutable.addSubOwner(r, message);
+	}
+
+	public void removeFromPermRemCache(Region r, String region, String message, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			boolean nodeMatch = false;
+			for (String s : r.getSubOwners()) {
+				if (s.trim().equalsIgnoreCase(message.trim())) {
+					nodeMatch = true;
+				}
+			}
+			if (!nodeMatch) {
+				p.sendMessage(ChatColor.RED + "[Regios] The Sub Owner " + ChatColor.BLUE + message + ChatColor.RED + " did not match any in the cache!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Sub Owner " + ChatColor.BLUE + message + ChatColor.GREEN + " removed from region cache " + ChatColor.BLUE + region);
+		}
+		mutable.removeSubOwner(r, message);
+	}
+
+	public void resetPermRemCache(Region r, String region, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Sub Owners reset for region " + ChatColor.BLUE + region);
+		}
+		mutable.resutSubOwners(r);
 	}
 
 }

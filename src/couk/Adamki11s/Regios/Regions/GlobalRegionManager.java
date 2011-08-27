@@ -23,7 +23,7 @@ public class GlobalRegionManager {
 	
 	public static boolean doesExist(String name){
 		for(Region r : regions){
-			if(r.name.equalsIgnoreCase(name)){
+			if(r.getName().equalsIgnoreCase(name)){
 				return true;
 			}
 		}

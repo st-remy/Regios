@@ -113,7 +113,7 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 		for(Region r : GlobalRegionManager.getRegions()){
 			if(r.isAuthenticated(p)){
-				r.authentication.put(p, false);
+				r.getAuthentication().put(p, false);
 			}
 		}
 	}
@@ -164,8 +164,8 @@ public class RegiosPlayerListener extends PlayerListener {
 				Sign sign = (Sign) b.getState();
 				if (sign.getLine(0).equalsIgnoreCase("[Regios]")) {
 					Region region = GlobalRegionManager.getRegion(sign.getLine(1));
-					if (region.forSale) {
-						int price = region.salePrice;
+					if (region.isForSale()) {
+						int price = region.getSalePrice();
 						if (EconomyCore.getEconomy() == Economy.ICONOMY) {
 							if (!EconomyCore.getiConomyManager().canAffordRegion(p, price)) {
 								if (isSendable(p, MSG.ECONOMY)) {
@@ -399,7 +399,7 @@ public class RegiosPlayerListener extends PlayerListener {
 			p.teleport(outsideRegionLocation.get(p));
 			LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to enter region but it was full."));
 			if (isSendable(p, MSG.PREVENT_ENTRY)) {
-				p.sendMessage(ChatColor.RED + "[Regios] This region is full! Only " + r.playerCap + " players are allowed inside at a time.");
+				p.sendMessage(ChatColor.RED + "[Regios] This region is full! Only " + r.getPlayerCap() + " players are allowed inside at a time.");
 			}
 			return;
 		}

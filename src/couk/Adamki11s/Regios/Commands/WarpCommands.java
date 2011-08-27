@@ -19,7 +19,7 @@ public class WarpCommands{
 	}
 	
 	private void warpTo(Player p, Region r){
-		if(r.warp.getBlockX() == 0 && r.warp.getBlockY() == 0 && r.warp.getBlockZ() == 0){
+		if(r.getWarp().getBlockX() == 0 && r.getWarp().getBlockY() == 0 && r.getWarp().getBlockZ() == 0){
 			p.sendMessage(ChatColor.RED + "[Regios] No warp has been set for region : " + ChatColor.BLUE + r.getName());
 			return;
 		} else {
@@ -27,7 +27,7 @@ public class WarpCommands{
 				p.sendMessage(ChatColor.RED + "[Regios] No are not permitted to warp to region : " + ChatColor.BLUE + r.getName());
 				return;
 			} else {
-				p.teleport(r.warp);
+				p.teleport(r.getWarp());
 				return;
 			}
 		}

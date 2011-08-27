@@ -62,7 +62,7 @@ public class RegiosBlockListener extends BlockListener {
 					evt.setCancelled(true);
 					return;
 				} else {
-					if(!r.forSale){
+					if(!r.isForSale()){
 						evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + lines[1] + ChatColor.RED + " is not for sale!");
 						evt.getBlock().setTypeId(0);
 						evt.setCancelled(true);
@@ -74,9 +74,9 @@ public class RegiosBlockListener extends BlockListener {
 					EconomyCore.getEconomySigns().addSign(r, evt.getBlock().getLocation());
 					evt.setLine(0, ChatColor.GREEN + "[Regios]");
 					evt.setLine(1, ChatColor.BLUE + r.getName());
-					evt.setLine(2, ChatColor.RED + "" + r.salePrice);
+					evt.setLine(2, ChatColor.RED + "" + r.getSalePrice());
 					evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Sale sign created for region : " + ChatColor.BLUE + r.getName());
-					evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Price : " + ChatColor.BLUE + r.salePrice);
+					evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Price : " + ChatColor.BLUE + r.getSalePrice());
 				}
 			}
 		}
@@ -84,6 +84,8 @@ public class RegiosBlockListener extends BlockListener {
 
 	public void onBlockIgnite(BlockIgniteEvent evt) {
 		World w = evt.getBlock().getWorld();
+		Chunk c = w.getChunkAt(evt.getBlock());
+		Location l = evt.getBlock().getLocation();
 		if (!GlobalRegionManager.getGlobalWorldSetting(w).fireEnabled) {
 			Block b = evt.getBlock();
 			extinguish(b.getRelative(1, 0, 0));
@@ -93,6 +95,59 @@ public class RegiosBlockListener extends BlockListener {
 			extinguish(b.getRelative(0, 0, 1));
 			extinguish(b.getRelative(0, 0, -1));
 			evt.setCancelled(true);
+		} else {
+			
+			Region r;
+
+			ArrayList<Region> regionSet = new ArrayList<Region>();
+
+			for (Region region : GlobalRegionManager.getRegions()) {
+				for (Chunk chunk : region.getChunkGrid().getChunks()) {
+					if (chunk.getWorld() == w) {
+						if (areChunksEqual(chunk, c)) {
+							if (!regionSet.contains(region)) {
+								regionSet.add(region);
+							}
+						}
+					}
+				}
+			}
+
+			if (regionSet.isEmpty()) {
+				return;
+			}
+
+			ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+			for (Region reg : regionSet) {
+				if (extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
+					currentRegionSet.add(reg);
+				}
+			}
+
+			if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+												// inside region then cancel the
+												// check.
+				return;
+			}
+
+			if (currentRegionSet.size() > 1) {
+				r = srm.getCurrentRegion(null, currentRegionSet);
+			} else {
+				r = currentRegionSet.get(0);
+			}
+			
+			if(r.isFireProtection()){
+				Block b = evt.getBlock();
+				extinguish(b.getRelative(1, 0, 0));
+				extinguish(b.getRelative(-1, 0, 0));
+				extinguish(b.getRelative(0, 1, 0));
+				extinguish(b.getRelative(0, -1, 0));
+				extinguish(b.getRelative(0, 0, 1));
+				extinguish(b.getRelative(0, 0, -1));
+				evt.setCancelled(true);
+				return;
+			}
 		}
 	}
 
@@ -150,7 +205,7 @@ public class RegiosBlockListener extends BlockListener {
 			r = currentRegionSet.get(0);
 		}
 
-		if (!r.blockForm) {
+		if (!r.isBlockForm()) {
 			evt.setCancelled(true);
 			return;
 		}
@@ -223,7 +278,7 @@ public class RegiosBlockListener extends BlockListener {
 			r = currentRegionSet.get(0);
 		}
 
-		if (r.items.isEmpty() && r.isProtected()) {
+		if (r.getItems().isEmpty() && r.isProtected()) {
 			if (r.canBuild(p, r)) {
 				return;
 			} else {
@@ -233,7 +288,7 @@ public class RegiosBlockListener extends BlockListener {
 			}
 		}
 
-		if (!r.items.isEmpty()) {
+		if (!r.getItems().isEmpty()) {
 			if (r.canItemBePlaced(p, b.getType(), r)) {
 				return;
 			} else {

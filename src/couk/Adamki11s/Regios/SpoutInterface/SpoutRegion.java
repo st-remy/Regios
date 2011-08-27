@@ -26,22 +26,22 @@ public class SpoutRegion {
 
 	public static void sendWelcomeMessage(Player p, Region r) {
 		SpoutPlayer sp = (SpoutPlayer) p;
-		String msg = r.colourFormat(r.liveFormat(r.spoutEntryMessage, p));
+		String msg = r.colourFormat(r.liveFormat(r.getSpoutWelcomeMessage(), p));
 		if (msg.length() > 26) {
 			msg = msg.substring(0, 23);
 			msg += "...";
 		}
-		sp.sendNotification(r.getName(), msg, r.spoutEntryMaterial);
+		sp.sendNotification(r.getName(), msg, r.getSpoutWelcomeMaterial());
 	}
 
 	public static void sendLeaveMessage(Player p, Region r) {
 		SpoutPlayer sp = (SpoutPlayer) p;
-		String msg = r.colourFormat(r.liveFormat(r.spoutExitMessage, p));
+		String msg = r.colourFormat(r.liveFormat(r.getSpoutLeaveMessage(), p));
 		if (msg.length() > 26) {
 			msg = msg.substring(0, 23);
 			msg += "...";
 		}
-		sp.sendNotification(r.getName(), msg, r.spoutExitMaterial);
+		sp.sendNotification(r.getName(), msg, r.getSpoutLeaveMaterial());
 	}
 
 	public static void attachLabel(String text, double x, double y, Player p) {

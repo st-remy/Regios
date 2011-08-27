@@ -20,7 +20,7 @@ public class MutableFun {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.LSPS", val);
-		r.LSPS = val;
+		r.setLSPS(val);
 		c.save();
 	}
 	
@@ -33,7 +33,7 @@ public class MutableFun {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.HealthRegen", val);
-		r.healthRegen = val;
+		r.setHealthRegen(val);
 		c.save();
 	}
 	
@@ -46,7 +46,7 @@ public class MutableFun {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.VelocityWarp", val);
-		r.velocityWarp = val;
+		r.setVelocityWarp(val);
 		c.save();
 	}
 	
@@ -59,7 +59,7 @@ public class MutableFun {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Teleportation.Warp.Location", val.getWorld() + "," + val.getBlockX() + "," + val.getBlockY() + "," + val.getBlockZ());
-		r.warp = val;
+		r.setWarp(val);
 		c.save();
 	}
 	
@@ -71,8 +71,8 @@ public class MutableFun {
 		for(Entry<String, Object> entry : all.entrySet()){
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.Teleportation.Warp.Location", r.world + ",0,0,0");
-		r.warp = new Location(Bukkit.getServer().getWorld(r.world), 0, 0, 0);
+		c.setProperty("Region.Teleportation.Warp.Location", r.getWorld() + ",0,0,0");
+		r.setWarp(new Location(Bukkit.getServer().getWorld(r.getWorld()), 0, 0, 0));
 		c.save();
 	}
 	
@@ -85,7 +85,7 @@ public class MutableFun {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.HealthEnabled", val);
-		r.healthEnabled = val;
+		r.setHealthEnabled(val);
 		c.save();
 	}
 	
@@ -98,7 +98,7 @@ public class MutableFun {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.PvP", val);
-		r.pvp = val;
+		r.setPvp(val);
 		c.save();
 	}
 

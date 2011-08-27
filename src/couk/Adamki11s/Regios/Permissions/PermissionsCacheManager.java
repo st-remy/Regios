@@ -13,7 +13,7 @@ public class PermissionsCacheManager {
 
 	public static void cacheNodes(Player p, Region r) {
 		ArrayList<String> nodeCache = new ArrayList<String>();
-		for (String node : r.temporaryNodesCacheAdd) {
+		for (String node : r.getTempCacheNodes()) {
 			nodeCache.add(node.trim());
 			PermissionsCore.addUserPermission(p, node.trim());
 		}
@@ -33,13 +33,13 @@ public class PermissionsCacheManager {
 	}
 
 	public static void permAddNodes(Player p, Region r) {
-		for (String node : r.permanentNodesCacheAdd) {
+		for (String node : r.getPermAddNodes()) {
 			PermissionsCore.addUserPermission(p, node.trim());
 		}
 	}
 
 	public static void permRemoveNodes(Player p, Region r) {
-		for (String node : r.permanentNodesCacheRemove) {
+		for (String node : r.getPermRemoveNodes()) {
 			if (PermissionsCore.permissionHandler.has(p, node.trim())) {
 				PermissionsCore.removeUserPermission(p, node.trim());
 			}

@@ -10,6 +10,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionLightningStrikeEvent;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.RegionLocation;
 
@@ -46,10 +48,10 @@ public class LightningRunner {
 	private static void fireStrike(Region r){
 		resetCounter(r);
 		RegionLocation rl1 = r.getL1(), rl2 = r.getL2();
-		strike(rl1.getX(), rl2.getX(), rl1.getZ(), rl2.getZ(), rl1.getY(), rl2.getY(), rl1.getWorld());
+		strike(rl1.getX(), rl2.getX(), rl1.getZ(), rl2.getZ(), rl1.getY(), rl2.getY(), rl1.getWorld(), r);
 	}
 	
-	private static void strike(double x1, double x2, double z1, double z2, double y1, double y2, World world){
+	private static void strike(double x1, double x2, double z1, double z2, double y1, double y2, World world, Region r){
 		double xdiff, zdiff, xStrike, yStrike, zStrike;
 		boolean x1bigger = false, z1bigger = false;
 		
@@ -75,6 +77,10 @@ public class LightningRunner {
 		Location STRIKE = new Location(world, xStrike, yStrike, zStrike, 0, 0);
 		
 		world.strikeLightning(STRIKE);
+		
+		RegionLightningStrikeEvent event = new RegionLightningStrikeEvent("RegionLightningStrikeEvent");
+		event.setProperties(new Location(world, xStrike, yStrike, zStrike, 0, 0), r);
+        Bukkit.getServer().getPluginManager().callEvent(event);
 		
 
 	}

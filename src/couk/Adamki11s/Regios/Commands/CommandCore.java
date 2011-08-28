@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Mutable.MutableInventory;
 import couk.Adamki11s.Regios.Mutable.Zippable;
+import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.RBF.RBF_Save;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 
@@ -45,19 +46,6 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 1 && args[0].equalsIgnoreCase("set")) {
 				creation.giveTool(p);
-			}
-			
-			if (args.length == 2 && args[0].equalsIgnoreCase("save")) {
-				new RBF_Save().saveRegion(GlobalRegionManager.getRegion(args[1]), args[1]);
-			}
-			
-			if (args.length == 2 && args[0].equalsIgnoreCase("load")) {
-				try {
-					new RBF_Save().loadRegion(GlobalRegionManager.getRegion(args[1]), args[1], p);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("create")) {
@@ -551,6 +539,18 @@ public class CommandCore implements CommandExecutor {
 			/*
 			 * Administration
 			 */
+			
+			if(args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))){
+				RBF_Core.rbf_save.saveRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+			}
+			
+			if(args.length == 3 && (args[0].equalsIgnoreCase("restore-region") || args[0].equalsIgnoreCase("load-region"))){
+				try {
+					RBF_Core.rbf_load.loadRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("backup-database")) {
 				try {

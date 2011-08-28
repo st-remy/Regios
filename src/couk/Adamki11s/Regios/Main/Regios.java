@@ -31,7 +31,7 @@ import couk.Adamki11s.Regios.SpoutInterface.SpoutInventoryListener;
 public class Regios extends JavaPlugin {
 
 	Logger log = Logger.getLogger("Minecraft.Regios");
-	String prefix = "[Regios]", version;
+	public static String prefix = "[Regios]", version;
 
 	public final RegiosBlockListener blockListener = new RegiosBlockListener();
 	public final RegiosPlayerListener playerListener = new RegiosPlayerListener();
@@ -53,6 +53,16 @@ public class Regios extends JavaPlugin {
 	public void onEnable() {
 		version = this.getDescription().getVersion();
 		PluginManager pm = this.getServer().getPluginManager();
+		
+		Plugin p = pm.getPlugin("Spout");
+		if(p == null){
+			log.info("[Regios] Spout was not found, Regios requires spout. Please download it!");
+			onDisable();
+			return;
+		} else {
+			SpoutInterface.global_spoutEnabled = true;
+			log.info("[Regios] Spout detected! Spout support enabled!");
+		}
 
 		try {
 			new CreationCore().setup();
@@ -83,8 +93,9 @@ public class Regios extends JavaPlugin {
 		} else if(EconomyCore.economy == Economy.BOSECONOMY){
 			EconomyCore.boseConomySetup();
 		}
+		
+		
 
-		SpoutInterface.setup(pm, log);
 
 		setupPermissions();
 

@@ -77,7 +77,7 @@ public class Region extends PermChecks implements Checks {
 
 	private ExtrasCryptography exCrypt = new ExtrasCryptography();
 
-	public Region(String owner, String name, Location l1, Location l2, World world, Player p) {
+	public Region(String owner, String name, Location l1, Location l2, World world, Player p, boolean save) {
 		this.owner = owner;
 		this.name = name;
 		this.l1 = new RegionLocation(l1.getWorld(), l1.getX(), l1.getY(), l1.getZ());
@@ -135,7 +135,7 @@ public class Region extends PermChecks implements Checks {
 		this.commandSet = ConfigurationData.commandSet;
 		chunkGrid = new ChunkGrid(l1, l2, this);
 		GlobalRegionManager.addRegion(this);
-		if (p != null) {
+		if (p == null && save) {
 			saveable.saveRegion(this, rl1, rl2);
 		}
 		this.welcomeMessage = colourFormat(welcomeMessage);

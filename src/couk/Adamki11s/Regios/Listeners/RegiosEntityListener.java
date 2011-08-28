@@ -189,9 +189,13 @@ public class RegiosEntityListener extends EntityListener {
 											// check.
 			return;
 		} else {
-			evt.setCancelled(true);
-			evt.setRadius(0);
-			return;
+			for(Region r : currentRegionSet){
+				if(r.is_protection()){
+					evt.setCancelled(true);
+					evt.setRadius(0);
+					return;
+				}
+			}	
 		}
 
 	}
@@ -262,13 +266,6 @@ public class RegiosEntityListener extends EntityListener {
 
 		if (!r.isPvpEnabled()) {
 			if (evt instanceof EntityDamageByEntityEvent) {
-				evt.setCancelled(true);
-				return;
-			}
-		}
-
-		if (!r.isPvpEnabled()) {
-			if (evt instanceof EntityDamageByEntityEvent) {
 				EntityDamageByEntityEvent edevt = (EntityDamageByEntityEvent) evt;
 				if (edevt.getDamager() instanceof Player && edevt.getEntity() instanceof Player) {
 					Player damager = (Player) edevt.getDamager();
@@ -278,8 +275,6 @@ public class RegiosEntityListener extends EntityListener {
 					return;
 				}
 			}
-		} else {
-			
 		}
 
 	}

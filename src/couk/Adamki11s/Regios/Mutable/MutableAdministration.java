@@ -1,9 +1,11 @@
 package couk.Adamki11s.Regios.Mutable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
 import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Data.LoaderCore;
@@ -38,6 +40,14 @@ public class MutableAdministration extends Saveable {
 	public void reloadAll(){
 		lc.silentReload();
 		lc.loadConfiguration();
+	}
+	
+	public String listRegions(){
+		StringBuilder sb = new StringBuilder();
+		for(File f : new File("plugins" + File.separator + "Regios" + File.separator + "Database").listFiles()){
+			sb.append(ChatColor.WHITE).append(f.getName().substring(0, f.getName().lastIndexOf("."))).append(ChatColor.BLUE).append(", ");
+		}
+		return sb.toString();
 	}
 	
 	public void inherit(Region tin, Region inf){

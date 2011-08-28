@@ -37,6 +37,32 @@ public class MutableProtectionMisc {
 		r.setChestsLocked(val);
 		c.save();
 	}
+	
+	public void editBlockForm(Region r, boolean val){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.Block.BlockForm.Enabled");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.Block.BlockForm.Enabled", val);
+		r.setBlockForm(val);
+		c.save();
+	}
+	
+	public void editPlayerCap(Region r, int val){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.General.PlayerCap.Cap");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.General.PlayerCap.Cap", val);
+		r.setPlayerCap(val);
+		c.save();
+	}
 
 	public void editDoorsLocked(Region r, boolean val){
 		Configuration c = r.getConfigFile();

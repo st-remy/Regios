@@ -11,6 +11,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.jnbt.ByteArrayTag;
 import couk.Adamki11s.jnbt.CompoundTag;
@@ -18,7 +19,7 @@ import couk.Adamki11s.jnbt.IntTag;
 import couk.Adamki11s.jnbt.NBTInputStream;
 import couk.Adamki11s.jnbt.Tag;
 
-public class RBF_Load {
+public class RBF_Load extends PermissionsCore {
 	
 	private Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
 		Tag tag = items.get(key);
@@ -27,6 +28,12 @@ public class RBF_Load {
 	
 	public void loadRegion(Region r, String backupname, Player p) throws IOException {
 
+
+		if(!super.canModifyMain(r, p)){
+			p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+			return;
+		}
+		
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
 			return;

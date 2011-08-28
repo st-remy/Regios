@@ -4,10 +4,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Mutable.MutableMisc;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class MiscCommands {
-	
+public class MiscCommands extends PermissionsCore {
+
 	MutableMisc mutable = new MutableMisc();
 
 	public void addToCommandSet(Region r, String region, String[] message, Player p) {
@@ -16,10 +17,14 @@ public class MiscCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if (!super.canModifyBasic(r, p)) {
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			StringBuilder build = new StringBuilder();
-			for(String m : message){
+			for (String m : message) {
 				build.append(m).append(" ");
-			}		
+			}
 			msg = build.toString();
 			boolean nodeMatch = false;
 			for (String s : r.getCommandSet()) {
@@ -27,7 +32,7 @@ public class MiscCommands {
 					nodeMatch = true;
 				}
 			}
-			if(nodeMatch){
+			if (nodeMatch) {
 				p.sendMessage(ChatColor.RED + "[Regios] The Command " + ChatColor.BLUE + message + ChatColor.RED + " already exists!");
 				return;
 			}
@@ -42,10 +47,14 @@ public class MiscCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			StringBuilder build = new StringBuilder();
-			for(String m : message){
+			for (String m : message) {
 				build.append(m).append(" ");
-			}		
+			}
 			msg = build.toString();
 			boolean nodeMatch = false;
 			for (String s : r.getCommandSet()) {
@@ -68,11 +77,15 @@ public class MiscCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Command Set reset for region " + ChatColor.BLUE + region);
 		}
 		mutable.editResetForceCommandSet(r);
 	}
-	
+
 	public void listCommandSet(Region r, String region, Player p) {
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
@@ -83,17 +96,24 @@ public class MiscCommands {
 			p.sendMessage(regionSet);
 		}
 	}
-	
-	public void setForceCommand(Region r, String region, String input, Player p){
+
+	public void setForceCommand(Region r, String region, String input, Player p) {
 		boolean val;
-		try{
+		try {
 			val = Boolean.parseBoolean(input);
-		} catch (Exception bfe){
+		} catch (Exception bfe) {
 			p.sendMessage(ChatColor.RED + "[Regios] The value for the 2nd paramteter must be boolean!");
 			return;
 		}
-		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
-			if(val){
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			if (val) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Force Commands enabled for region " + ChatColor.BLUE + region);
 			} else {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Force Commands disabled for region " + ChatColor.BLUE + region);
@@ -101,5 +121,5 @@ public class MiscCommands {
 		}
 		mutable.editSetForceCommand(r, val);
 	}
-	
+
 }

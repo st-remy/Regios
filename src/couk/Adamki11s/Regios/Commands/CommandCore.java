@@ -10,15 +10,19 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import couk.Adamki11s.Regios.Data.OldRegiosPatch;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
+import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Mutable.MutableInventory;
 import couk.Adamki11s.Regios.Mutable.Zippable;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.RBF.RBF_Save;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 
 public class CommandCore implements CommandExecutor {
 
+	final AdministrationCommands admin = new AdministrationCommands();
 	final AuthenticationCommands auth = new AuthenticationCommands();
 	final CreationCommands creation = new CreationCommands();
 	final DebugCommands debug = new DebugCommands();
@@ -45,23 +49,60 @@ public class CommandCore implements CommandExecutor {
 			Player p = (Player) sender;
 
 			if (args.length == 1 && args[0].equalsIgnoreCase("set")) {
-				creation.giveTool(p);
+				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
+					creation.giveTool(p);
+					return true;
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+					return true;
+				}
+			}
+
+			if (args.length == 1 && args[0].equalsIgnoreCase("patch")) {
+				if (p.isOp()) {
+					OldRegiosPatch.runPatch(p);
+					return true;
+				} else {
+					p.sendMessage(ChatColor.RED + "You must be an OP to do this!");
+					return true;
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("create")) {
-				creation.createRegion(p, args[1]);
+				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
+					if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("placeholder")) {
+						p.sendMessage(ChatColor.RED + "[Regios] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is a reserved word!");
+						return true;
+					}
+					creation.createRegion(p, args[1]);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+					return true;
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("cancel")) {
-				CreationCommands.clearAll(p);
+				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
+					CreationCommands.clearAll(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("auth")) {
-				auth.sendPassword(p, args[1], RegiosPlayerListener.regionBinding.get(p));
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.send-auth")) {
+					auth.sendPassword(p, args[1], RegiosPlayerListener.regionBinding.get(p));
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 2 && args[0].equalsIgnoreCase("warp")) {
-				warps.warpToRegion(args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.warpto")) {
+					warps.warpToRegion(args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -69,7 +110,11 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("info")) {
-				info.showInfo(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.data.info")) {
+					info.showInfo(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -81,47 +126,95 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-welcome")) {
-				msg.setWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-welcome")) {
+					msg.setWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-leave")) {
-				msg.setLeave(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-leave")) {
+					msg.setLeave(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-prevent-exit")) {
-				msg.setPreventExit(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-prevent-exit")) {
+					msg.setPreventExit(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-prevent-entry")) {
-				msg.setPreventEntry(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-prevent-entry")) {
+					msg.setPreventEntry(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-protection")) {
-				msg.setProtection(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-protection")) {
+					msg.setProtection(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("show-welcome")) {
-				msg.setShowWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-welcome")) {
+					msg.setShowWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("show-leave")) {
-				msg.setShowLeave(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-leave")) {
+					msg.setShowLeave(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("show-prevent-entry")) {
-				msg.setShowPreventEntry(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-prevent-entry")) {
+					msg.setShowPreventEntry(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("show-prevent-exit")) {
-				msg.setShowPreventExit(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-prevent-exit")) {
+					msg.setShowPreventExit(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("show-protection")) {
-				msg.setShowProtection(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-protection")) {
+					msg.setShowProtection(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("show-pvp")) {
-				msg.setShowPvpWarning(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.messages.set-pvp-toggle")) {
+					msg.setShowPvpWarning(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -133,11 +226,19 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("set-mob-spawns")) {
-				mobs.setMobSpawn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.mob-spawns")) {
+					mobs.setMobSpawn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("set-monster-spawns")) {
-				mobs.setMonsterSpawn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.monster-spawns")) {
+					mobs.setMonsterSpawn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -149,27 +250,51 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("protect")) {
-				protect.setProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("unprotect")) {
-				protect.setUnProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setUnProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("prevent-exit")) {
-				protect.setPreventExit(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.exit-control")) {
+					protect.setPreventExit(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("prevent-entry")) {
-				protect.setPreventEntry(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.entry-control")) {
+					protect.setPreventEntry(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("allow-exit")) {
-				protect.setAllowExit(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.exit-control")) {
+					protect.setAllowExit(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("allow-entry")) {
-				protect.setAllowEntry(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.entry-control")) {
+					protect.setAllowEntry(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -181,47 +306,91 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("modify") && !args[1].equalsIgnoreCase("confirm"))) {
-				mod.startModification(GlobalRegionManager.getRegion(args[1]), args[1], args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.modify")) {
+					mod.startModification(GlobalRegionManager.getRegion(args[1]), args[1], args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("modify") && args[1].equalsIgnoreCase("confirm"))) {
-				mod.setModifyPoints(CreationCommands.mod1.get(p), CreationCommands.mod2.get(p), p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.modify")) {
+					mod.setModifyPoints(CreationCommands.mod1.get(p), CreationCommands.mod2.get(p), p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("delete")) {
-				mod.setDelete(GlobalRegionManager.getRegion(args[1]), args[1], args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.data.delete")) {
+					mod.setDelete(GlobalRegionManager.getRegion(args[1]), args[1], args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("expand-down")) {
-				mod.setExpandDown(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {
+					mod.setExpandDown(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("expand-max")) {
-				mod.setExpandMax(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {
+					mod.setExpandMax(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("expand-up")) {
-				mod.setExpandUp(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {
+					mod.setExpandUp(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("expand-out")) {
-				mod.setExpandOut(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {
+					mod.setExpandOut(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("rename")) {
-				mod.setRename(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.data.rename")) {
+					mod.setRename(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("shrink-down")) {
-				mod.setShrinkDown(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.shrink")) {
+					mod.setShrinkDown(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("shrink-up")) {
-				mod.setShrinkUp(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.shrink")) {
+					mod.setShrinkUp(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("shrink-in")) {
-				mod.setShrinkIn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.shrink")) {
+					mod.setShrinkIn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -233,67 +402,131 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("addex") || args[0].equalsIgnoreCase("add-ex"))) {
-				excep.addPlayerException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.exceptions.players")) {
+					excep.addPlayerException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("remex") || args[0].equalsIgnoreCase("rem-ex"))) {
-				excep.removePlayerException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.exceptions.players")) {
+					excep.removePlayerException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("additemex") || args[0].equalsIgnoreCase("add-item-ex"))) {
-				excep.addItemException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.exceptions.items")) {
+					excep.addItemException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("remitemex") || args[0].equalsIgnoreCase("rem-item-ex"))) {
-				excep.removeItemException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.exceptions.items")) {
+					excep.removeItemException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("addnodeex") || args[0].equalsIgnoreCase("add-node-ex"))) {
-				excep.addNodeException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.nodes")) {
+					excep.addNodeException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("remnodeex") || args[0].equalsIgnoreCase("rem-node-ex"))) {
-				excep.removeNodeException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.nodes")) {
+					excep.removeNodeException(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("addsubex") || args[0].equalsIgnoreCase("add-sub-ex"))) {
-				excep.addSubOwner(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
+					excep.addSubOwner(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("remsubex") || args[0].equalsIgnoreCase("rem-sub-ex"))) {
-				excep.removeSubowner(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
+					excep.removeSubowner(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("erase-player-exceptions") || args[0].equalsIgnoreCase("erase-player-ex"))) {
-				excep.erasePlayerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
+					excep.erasePlayerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("erase-node-exceptions") || args[0].equalsIgnoreCase("erase-node-ex"))) {
-				excep.erasePlayerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.nodes")) {
+					excep.erasePlayerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("erase-item-exceptions") || args[0].equalsIgnoreCase("erase-item-ex"))) {
-				excep.eraseItemExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.items")) {
+					excep.eraseItemExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("erase-sub-exceptions") || args[0].equalsIgnoreCase("erase-item-ex"))) {
-				excep.eraseSubOwnerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
+					excep.eraseSubOwnerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("list-player-exceptions") || args[0].equalsIgnoreCase("list-player-ex"))) {
-				excep.listPlayerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
+					excep.listPlayerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("list-node-exceptions") || args[0].equalsIgnoreCase("list-node-ex"))) {
-				excep.listNodeExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.nodes")) {
+					excep.listNodeExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && ((args[0].equalsIgnoreCase("list-item-exceptions") || args[0].equalsIgnoreCase("list-item-ex")))) {
-				excep.listItemExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.items")) {
+					excep.listItemExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
-			if (args.length == 2 && ((args[0].equalsIgnoreCase("list-item-exceptions") || args[0].equalsIgnoreCase("list-item-ex")))) {
-				excep.listSubOwnerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+			if (args.length == 2 && ((args[0].equalsIgnoreCase("list-sub-exceptions") || args[0].equalsIgnoreCase("list-item-ex")))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
+					excep.listSubOwnerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -305,31 +538,59 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("lsps")) {
-				fun.setLSPS(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.lsps")) {
+					fun.setLSPS(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("pvp")) {
-				fun.setPvP(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.lsps")) {
+					fun.setPvP(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("healthregen") || args[0].equalsIgnoreCase("health-regen"))) {
-				fun.setHealthRegen(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.health-regen")) {
+					fun.setHealthRegen(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("health") || args[0].equalsIgnoreCase("health-enabled"))) {
-				fun.setHealthEnabled(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.health")) {
+					fun.setHealthEnabled(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("vel-warp") || args[0].equalsIgnoreCase("velocity-warp"))) {
-				fun.setVelocityWarp(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.vel-warp")) {
+					fun.setVelocityWarp(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 1 && args[0].equalsIgnoreCase("set-warp")) {
-				fun.setWarp(p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.set-warp")) {
+					fun.setWarp(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("reset-warp")) {
-				fun.resetWarp(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.reset-warp")) {
+					fun.resetWarp(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -341,27 +602,67 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("preventinteraction") || args[0].equalsIgnoreCase("prevent-interaction"))) {
-				misc.setInteraction(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.prevent-interaction")) {
+					misc.setInteraction(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("doorslocked") || args[0].equalsIgnoreCase("doors-locked"))) {
-				misc.setDoorsLocked(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.doors-locked")) {
+					misc.setDoorsLocked(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("chestslocked") || args[0].equalsIgnoreCase("chests-locked"))) {
-				misc.setChestsLocked(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.chests-locked")) {
+					misc.setChestsLocked(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("setpassword") || args[0].equalsIgnoreCase("set-password"))) {
-				misc.setPassword(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.set-password")) {
+					misc.setPassword(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("usepassword") || args[0].equalsIgnoreCase("use-password"))) {
-				misc.setPasswordEnabled(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.use-warp")) {
+					misc.setPasswordEnabled(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("fireprotection") || args[0].equalsIgnoreCase("fire-protection"))) {
-				misc.setFireProtection(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.fire-protection")) {
+					misc.setFireProtection(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 3 && (args[0].equalsIgnoreCase("playercap") || args[0].equalsIgnoreCase("player-cap"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.player-cap")) {
+					misc.setPlayerCap(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 3 && (args[0].equalsIgnoreCase("blockform") || args[0].equalsIgnoreCase("block-form"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.block-form")) {
+					misc.setBlockForm(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -373,19 +674,35 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("protection-mode") || args[0].equalsIgnoreCase("protectionmode"))) {
-				mode.setProtectionMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.mode.protection")) {
+					mode.setProtectionMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("prevent-entry-mode") || args[0].equalsIgnoreCase("prevententry"))) {
-				mode.setPreventEntryMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.mode.prevent-entry")) {
+					mode.setPreventEntryMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("prevent-exit-mode") || args[0].equalsIgnoreCase("preventexit"))) {
-				mode.setPreventExitMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.mode.prevent-exit")) {
+					mode.setPreventExitMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("item-mode") || args[0].equalsIgnoreCase("itemmode"))) {
-				mode.setItemControlMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.mode.items")) {
+					mode.setItemControlMode(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -397,19 +714,35 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-wipe-entry") || args[0].equalsIgnoreCase("perm-wipe-enter"))) {
-				invent.setPermWipeOnEntry(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.inventory.perm-wipe")) {
+					invent.setPermWipeOnEntry(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-wipe-exit") || args[0].equalsIgnoreCase("perm-wipe-leave"))) {
-				invent.setPermWipeOnExit(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.inventory.perm-wipe")) {
+					invent.setPermWipeOnExit(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("cache-wipe-entry") || args[0].equalsIgnoreCase("cache-wipe-enter"))) {
-				invent.setWipeAndCacheOnEntry(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.inventory.cache-wipe")) {
+					invent.setWipeAndCacheOnEntry(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("cache-wipe-exit") || args[0].equalsIgnoreCase("cache-wipe-leave"))) {
-				invent.setWipeAndCacheOnExit(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.inventory.cache-wipe")) {
+					invent.setWipeAndCacheOnExit(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -421,39 +754,107 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-cache-add"))) {
-				perms.addToTempCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.cache")) {
+					perms.addToTempCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-add-add"))) {
-				perms.addToPermAddCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-add")) {
+					perms.addToPermAddCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-rem-add"))) {
-				perms.addToPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-rem")) {
+					perms.addToPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-cache-rem"))) {
-				perms.removeFromTempCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.cache")) {
+					perms.removeFromTempCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-add-rem"))) {
-				perms.removeFromPermAddCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-add")) {
+					perms.removeFromPermAddCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("perm-rem-rem"))) {
-				perms.removeFromPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-rem")) {
+					perms.removeFromPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-cache-reset"))) {
-				perms.resetTempAddCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.cache")) {
+					perms.resetTempAddCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-add-reset"))) {
-				perms.resetPermAddCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-add")) {
+					perms.resetPermAddCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-rem-reset"))) {
-				perms.resetPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-rem")) {
+					perms.resetPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-rem-list"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-rem")) {
+					perms.listPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-add-list"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-add")) {
+					perms.listPermAdd(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-rem-list"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.perm-rem")) {
+					perms.listPermRemCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 2 && (args[0].equalsIgnoreCase("perm-cache-list"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.permissions.cache")) {
+					perms.listTempAddCache(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -465,43 +866,83 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-spout-welcome")) {
-				spout.setWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
+					spout.setWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-spout-leave")) {
-				spout.setLeave(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
+					spout.setLeave(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("spout-welcome-id")) {
-				spout.setWelcomeMaterial(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
+					spout.setWelcomeMaterial(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("spout-leave-id")) {
-				spout.setLeaveMaterial(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
+					spout.setLeaveMaterial(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("spout-texture-url")) {
-				spout.setTexturePackURL(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.texture")) {
+					spout.setTexturePackURL(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("use-texture-url")) {
-				spout.setUseTextures(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.texture")) {
+					spout.setUseTextures(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("use-music-url")) {
-				spout.setUseMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.music")) {
+					spout.setUseMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("add-music-url")) {
-				spout.setAddMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.music")) {
+					spout.setAddMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("rem-music-url")) {
-				spout.setRemoveMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.music")) {
+					spout.setRemoveMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("reset-music-url")) {
-				spout.setResetMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.music")) {
+					spout.setResetMusic(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -513,23 +954,43 @@ public class CommandCore implements CommandExecutor {
 			 */
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("add-cmd-set")) {
-				miscCmd.addToCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
+					miscCmd.addToCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("rem-cmd-set")) {
-				miscCmd.removeFromCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
+					miscCmd.removeFromCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("reset-cmd-set")) {
-				miscCmd.resetCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
+					miscCmd.resetCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("list-cmd-set")) {
-				miscCmd.listCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
+					miscCmd.listCommandSet(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("set-cmd-set")) {
-				miscCmd.setForceCommand(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
+					miscCmd.setForceCommand(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
 
 			/*
@@ -539,14 +1000,70 @@ public class CommandCore implements CommandExecutor {
 			/*
 			 * Administration
 			 */
-			
-			if(args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))){
-				RBF_Core.rbf_save.saveRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+
+			if (args.length == 2 && args[0].equalsIgnoreCase("reload")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.reload")) {
+					admin.reloadAll(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
 			}
-			
-			if(args.length == 3 && (args[0].equalsIgnoreCase("restore-region") || args[0].equalsIgnoreCase("load-region"))){
+
+			if (args.length == 2 && args[0].equalsIgnoreCase("reload-regions")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.reload")) {
+					admin.reloadRegions(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 2 && args[0].equalsIgnoreCase("reload-config")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.reload")) {
+					admin.reloadConfig(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 2 && args[0].equalsIgnoreCase("version")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.version")) {
+					p.sendMessage(ChatColor.GREEN + "[Regios] Running version : " + ChatColor.BLUE + Regios.version);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 3 && args[0].equalsIgnoreCase("set-owner")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.set-owner")) {
+					admin.setOwner(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 4 && args[0].equalsIgnoreCase("inherit")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.inherit")) {
+					admin.inherit(GlobalRegionManager.getRegion(args[2]), GlobalRegionManager.getRegion(args[3]), args[2], args[3], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.backup-region")) {
+					RBF_Core.rbf_save.saveRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 3 && (args[0].equalsIgnoreCase("restore-region") || args[0].equalsIgnoreCase("load-region"))) {
 				try {
-					RBF_Core.rbf_load.loadRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+					if (PermissionsCore.doesHaveNode(p, "regios.data.restore-region")) {
+						RBF_Core.rbf_load.loadRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+					} else {
+						PermissionsCore.sendInvalidPerms(p);
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -554,8 +1071,12 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("backup-database")) {
 				try {
-					Zippable.zipDir(new File("plugins" + File.separator + "Regios" + File.separator + "Database"), new File("plugins" + File.separator + "Regios"
-							+ File.separator + "Backups" + File.separator + args[1] + ".zip"), args[1], p);
+					if (PermissionsCore.doesHaveNode(p, "regios.data.backup-database")) {
+						Zippable.zipDir(new File("plugins" + File.separator + "Regios" + File.separator + "Database"), new File("plugins" + File.separator + "Regios"
+								+ File.separator + "Backups" + File.separator + args[1] + ".zip"), args[1], p);
+					} else {
+						PermissionsCore.sendInvalidPerms(p);
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

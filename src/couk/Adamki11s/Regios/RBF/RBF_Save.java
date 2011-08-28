@@ -13,6 +13,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.jnbt.ByteArrayTag;
 import couk.Adamki11s.jnbt.CompoundTag;
@@ -21,11 +23,16 @@ import couk.Adamki11s.jnbt.NBTInputStream;
 import couk.Adamki11s.jnbt.NBTOutputStream;
 import couk.Adamki11s.jnbt.Tag;
 
-public class RBF_Save {
+public class RBF_Save extends PermissionsCore{
 
 	public void saveRegion(Region r, String backupname, Player p) {
 		try {
 
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			
 			if (r == null) {
 				p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
 				return;

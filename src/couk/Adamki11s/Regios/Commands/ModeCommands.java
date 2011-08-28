@@ -5,15 +5,20 @@ import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Mutable.MutableModes;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class ModeCommands {
+public class ModeCommands extends PermissionsCore {
 	
 	MutableModes mutable = new MutableModes();
 	
 	public void setProtectionMode(Region r, String region, String input, Player p){
 		MODE m = MODE.toMode(input);
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(m == null){
 				p.sendMessage(ChatColor.RED + "[Regios] The mode must either be Blacklist or Whitelist");
 				return;
@@ -26,6 +31,10 @@ public class ModeCommands {
 	public void setPreventEntryMode(Region r, String region, String input, Player p){
 		MODE m = MODE.toMode(input);
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(m == null){
 				p.sendMessage(ChatColor.RED + "[Regios] The mode must either be Blacklist or Whitelist");
 				return;
@@ -38,6 +47,10 @@ public class ModeCommands {
 	public void setPreventExitMode(Region r, String region, String input, Player p){
 		MODE m = MODE.toMode(input);
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(m == null){
 				p.sendMessage(ChatColor.RED + "[Regios] The mode must either be Blacklist or Whitelist");
 				return;
@@ -50,6 +63,10 @@ public class ModeCommands {
 	public void setItemControlMode(Region r, String region, String input, Player p){
 		MODE m = MODE.toMode(input);
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(m == null){
 				p.sendMessage(ChatColor.RED + "[Regios] The mode must either be Blacklist or Whitelist");
 				return;

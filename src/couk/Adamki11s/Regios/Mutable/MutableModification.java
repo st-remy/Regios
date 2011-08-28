@@ -3,11 +3,15 @@ package couk.Adamki11s.Regios.Mutable;
 import java.io.File;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
+import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Data.LoaderCore;
+import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.RegionLocation;
 
@@ -115,7 +119,7 @@ public class MutableModification {
 		}
 		c.save();
 	}
-	
+
 	public void editShrinkUp(Region r, int value) {
 		Configuration c = r.getConfigFile();
 		c.load();
@@ -177,13 +181,13 @@ public class MutableModification {
 		r.setL1(l2.getWorld(), l2.getX(), l2.getY(), l2.getY());
 		c.save();
 	}
-	
-	public void editExpandOut(Region r, int expand){
+
+	public void editExpandOut(Region r, int expand) {
 		boolean l1Bigger = false;
-		if(r.getL1().getX() >= r.getL2().getX() && r.getL1().getZ() >= r.getL2().getZ()){
+		if (r.getL1().getX() >= r.getL2().getX() && r.getL1().getZ() >= r.getL2().getZ()) {
 			l1Bigger = true;
 		}
-		if(l1Bigger){
+		if (l1Bigger) {
 			r.getL1().add(expand, 0, expand);
 			r.getL2().subtract(expand, 0, expand);
 		} else {
@@ -202,13 +206,13 @@ public class MutableModification {
 		c.setProperty("Region.Essentials.Points.Point2", convertLocation(r.getL2().toBukkitLocation()));
 		c.save();
 	}
-	
-	public void editShrinkIn(Region r, int shrink){
+
+	public void editShrinkIn(Region r, int shrink) {
 		boolean l1Bigger = false;
-		if(r.getL1().getX() >= r.getL2().getX() && r.getL1().getZ() >= r.getL2().getZ()){
+		if (r.getL1().getX() >= r.getL2().getX() && r.getL1().getZ() >= r.getL2().getZ()) {
 			l1Bigger = true;
 		}
-		if(!l1Bigger){
+		if (!l1Bigger) {
 			r.getL1().add(shrink, 0, shrink);
 			r.getL2().subtract(shrink, 0, shrink);
 		} else {
@@ -228,7 +232,12 @@ public class MutableModification {
 		c.save();
 	}
 
-	public void editRename(Region r, String new_name) {
+	public void editRename(Region r, String new_name, Player p) {
+		
+		if(GlobalRegionManager.getRegion(new_name) != null){
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + new_name + ChatColor.RED + " already exists!");
+			return;
+		}
 		File f = new File(r.getLogFile().getParentFile() + r.getName() + ".rz");
 
 		Configuration c = r.getConfigFile();
@@ -244,10 +253,27 @@ public class MutableModification {
 		f.renameTo(new File(r.getLogFile().getParentFile() + new_name + ".rz"));
 	}
 
-	public void editDeleteRegion(Region r) {
+	public static void editDeleteRegion(Region r, boolean reload) {
 		File f = r.getLogFile().getParentFile().getParentFile();
-		f.delete();
-		new LoaderCore().loadRegions(true);
+		deleteDir(f);
+		if (reload) {
+			new LoaderCore().loadRegions(true);
+		}
+	}
+
+	public static boolean deleteDir(File dir) {
+		if (dir.isDirectory()) {
+			String[] children = dir.list();
+			for (int i = 0; i < children.length; i++) {
+				boolean success = deleteDir(new File(dir, children[i]));
+				if (!success) {
+					return false;
+				}
+			}
+		}
+
+		// The directory is now empty so delete it
+		return dir.delete();
 	}
 
 }

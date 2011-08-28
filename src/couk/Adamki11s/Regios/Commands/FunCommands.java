@@ -6,9 +6,10 @@ import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Mutable.MutableFun;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class FunCommands {
+public class FunCommands extends PermissionsCore {
 	
 	MutableFun mutable = new MutableFun();
 	
@@ -21,6 +22,10 @@ public class FunCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] LSPS for region " + ChatColor.BLUE + region + ChatColor.GREEN + " set to " + ChatColor.BLUE + val);
 			mutable.editLSPS(r, val);
 		}
@@ -35,6 +40,10 @@ public class FunCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Health Regen for region " + ChatColor.BLUE + region + ChatColor.GREEN + " set to " + ChatColor.BLUE + val);
 			mutable.editHealthRegen(r, val);
 		}
@@ -49,6 +58,10 @@ public class FunCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] PvP enabled for region " + ChatColor.BLUE + region);
 			} else {
@@ -67,6 +80,10 @@ public class FunCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Health enabled for region " + ChatColor.BLUE + region);
 			} else {
@@ -85,6 +102,10 @@ public class FunCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Velocity Warp for region " + ChatColor.BLUE + region + ChatColor.GREEN + " set to " + ChatColor.BLUE + val);
 			mutable.editVelocityWarp(r, val);
 		}
@@ -97,6 +118,10 @@ public class FunCommands {
 			r = RegiosPlayerListener.currentRegion.get(p);
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + r.getName() + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Warp for region " + ChatColor.BLUE + r.getName() + ChatColor.GREEN + " set to current location");
 			mutable.editWarpLocation(r, loc);
 		}
@@ -104,6 +129,10 @@ public class FunCommands {
 	
 	public void resetWarp(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Warp Location for region " + ChatColor.BLUE + region + ChatColor.GREEN + " reset.");
 			mutable.editRemoveWarpLocation(r);
 		}

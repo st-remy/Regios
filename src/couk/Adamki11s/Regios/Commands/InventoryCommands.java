@@ -3,10 +3,12 @@ package couk.Adamki11s.Regios.Commands;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Mutable.MutableInventory;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class InventoryCommands {
+public class InventoryCommands extends PermissionsCore{
 	
 	MutableInventory mutable = new MutableInventory();
 	
@@ -19,6 +21,10 @@ public class InventoryCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Perm wipe on exit enabled for region " + ChatColor.BLUE + region);
 			} else {
@@ -37,6 +43,10 @@ public class InventoryCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Perm wipe on entry enabled for region " + ChatColor.BLUE + region);
 			} else {
@@ -55,6 +65,10 @@ public class InventoryCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Wipe and cache on exit enabled for region " + ChatColor.BLUE + region);
 			} else {
@@ -73,6 +87,10 @@ public class InventoryCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Wipe and cache on entry enabled for region " + ChatColor.BLUE + region);
 			} else {

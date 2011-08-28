@@ -4,9 +4,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Mutable.MutableMessages;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class MessageCommands {
+public class MessageCommands extends PermissionsCore {
 	
 	MutableMessages mutable = new MutableMessages();
 	
@@ -16,6 +17,10 @@ public class MessageCommands {
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Welcome message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editWelcomeMessage(r, builder);
@@ -27,6 +32,10 @@ public class MessageCommands {
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Leave message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editLeaveMessage(r, builder);
@@ -38,6 +47,10 @@ public class MessageCommands {
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Prevent-entry message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editPreventEntryMessage(r, builder);
@@ -49,6 +62,10 @@ public class MessageCommands {
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Prevent-exit message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editPreventExitMessage(r, builder);
@@ -60,6 +77,10 @@ public class MessageCommands {
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editProtectionMessage(r, builder);
@@ -74,6 +95,10 @@ public class MessageCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editShowWelcomeMessage(r, val);
@@ -88,6 +113,10 @@ public class MessageCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editShowLeaveMessage(r, val);
@@ -102,6 +131,10 @@ public class MessageCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editShowPreventEntryMessage(r, val);
@@ -116,6 +149,10 @@ public class MessageCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editShowPreventExitMessage(r, val);
@@ -130,6 +167,10 @@ public class MessageCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editShowProtectionMessage(r, val);
@@ -144,6 +185,10 @@ public class MessageCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
 		}
 		mutable.editShowPvpWarningMessage(r, val);

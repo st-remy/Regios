@@ -140,5 +140,26 @@ public class MutablePermissions {
 		r.setPermanentNodesCacheRemove(("").split(","));
 		c.save();
 	}
+	
+	public String listTempAddCache(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		String s = c.getString("Region.Permissions.TemporaryCache.AddNodes", "");
+		return s;
+	}
+	
+	public String listPermAddCache(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		String s = c.getString("Region.Permissions.PermanentCache.AddNodes", "");
+		return s;
+	}
+	
+	public String listPermRemCache(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		String s = c.getString("Region.Permissions.PermanentCache.RemoveNodes", "");
+		return s;
+	}
 
 }

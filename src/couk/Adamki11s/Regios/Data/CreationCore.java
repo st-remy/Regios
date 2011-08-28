@@ -1,7 +1,10 @@
 package couk.Adamki11s.Regios.Data;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Logger;
 import org.bukkit.Material;
 import org.bukkit.util.config.Configuration;
@@ -9,7 +12,9 @@ import org.bukkit.util.config.Configuration;
 public class CreationCore {
 
 	private final File root = new File("plugins" + File.separator + "Regios"), db_root = new File(root + File.separator + "Database"), config_root = new File(root
-			+ File.separator + "Configuration"), backup_root = new File(root + File.separator + "Backups");
+			+ File.separator + "Configuration"), backup_root = new File(root + File.separator + "Backups"), version_root = new File(root + File.separator + "Versions"),
+			updates = new File("plugins" + File.separator + "Update"),
+			other = new File(root + File.separator + "Other");
 
 	private final Logger log = Logger.getLogger("Minecraft.Regios");
 	private final String prefix = "[Regios]";
@@ -20,10 +25,15 @@ public class CreationCore {
 		new LoaderCore().setup();
 	}
 
-	private void directories() {
+	private void directories() throws IOException {
 		log.info(prefix + " Checking directories.");
 		boolean flawless = true;
-
+		
+		if(!updates.exists()){
+			flawless = false;
+			updates.mkdir();
+			log.info(prefix + " Creating directory @_root/Update");
+		}
 		if (!root.exists()) {
 			flawless = false;
 			root.mkdir();
@@ -47,6 +57,39 @@ public class CreationCore {
 			backup_root.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Backups");
 		}
+		
+		if (!other.exists()) {
+			flawless = false;
+			other.mkdir();
+			log.info(prefix + " Creating directory @_root/plugins/Regios/Other");
+		}
+		
+		if (!(new File(other + File.separator + "Pending").exists())) {
+			flawless = false;
+			new File(other + File.separator + "Pending").mkdir();
+			log.info(prefix + " Creating directory @_root/plugins/Regios/Other/Pending");
+		}
+		
+		if (!version_root.exists()) {
+			flawless = false;
+			version_root.mkdir();
+			log.info(prefix + " Creating directory @_root/plugins/Regios/Versions");
+			File vtt = new File(version_root + File.separator + "Version Tracker");
+			File readme = new File(version_root + File.separator + "README.txt");
+			readme.createNewFile();
+			FileOutputStream fos = new FileOutputStream(readme);
+			PrintWriter pw = new PrintWriter(fos);
+			pw.println("Do not modify or delete any files within the Version Tracker folder!");
+			pw.println("They are used to check version changes and make any necessary updates to the database.");
+			pw.println("Editing these files could cause problems.");
+			pw.flush();
+			pw.close();
+			fos.flush();
+			fos.close();
+			if(!vtt.exists()){
+				vtt.mkdir();
+			}
+		}
 
 		if (!flawless) {
 			log.info(prefix + " Required directories created successfully!");
@@ -60,16 +103,6 @@ public class CreationCore {
 		File updateconfig = new File(config_root + File.separator + "Updates.config"), defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(
 				config_root + File.separator + "GeneralSettings.config");
 
-		if (!updateconfig.exists()) {
-			log.info(prefix + " Creating update configuration.");
-			updateconfig.createNewFile();
-			Configuration c = new Configuration(updateconfig);
-			c.setProperty("CheckForUpdates", true);
-			c.setProperty("DownloadUpdatesAutomatically", true);
-			c.setProperty("CacheOldVersions", true);
-			c.setProperty("ForceReload", true);
-			c.save();
-		}
 		if (!generalconfig.exists()) {
 			log.info(prefix + " Creating general configuration.");
 			generalconfig.createNewFile();

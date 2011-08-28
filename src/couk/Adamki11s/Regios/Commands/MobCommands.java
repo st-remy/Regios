@@ -5,9 +5,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Mutable.MutableMobs;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class MobCommands {
+public class MobCommands extends PermissionsCore {
 
 	MutableMobs mutable = new MutableMobs();
 	
@@ -20,6 +21,10 @@ public class MobCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Mob spawns enabled for region " + ChatColor.BLUE + region);
 			} else {
@@ -38,6 +43,10 @@ public class MobCommands {
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if(val){
 				p.sendMessage(ChatColor.GREEN + "[Regios] Monster spawns enabled for region " + ChatColor.BLUE + region);
 			} else {

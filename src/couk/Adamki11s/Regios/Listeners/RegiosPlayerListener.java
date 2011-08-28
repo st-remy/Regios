@@ -25,6 +25,7 @@ import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
+import couk.Adamki11s.Regios.Economy.EconomyPending;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.RegionLocation;
@@ -120,6 +121,9 @@ public class RegiosPlayerListener extends PlayerListener {
 
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		SpoutInterface.spoutEnabled.put(evt.getPlayer(), false);
+		if(EconomyPending.isPending(evt.getPlayer())){
+			EconomyPending.loadAndSendPending(evt.getPlayer());
+		}
 	}
 
 	public void onPlayerInteract(PlayerInteractEvent evt) {

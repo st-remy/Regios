@@ -20,16 +20,5 @@ public class SpoutInterface extends SpoutRegion {
 			return false;
 		}
 	}
-
-	public static void setup(PluginManager pm, Logger log){
-		Plugin p = pm.getPlugin("Spout");
-		if(p == null){
-			global_spoutEnabled = false;
-			log.info("[Regios] Spout was not found. Spout support disabled!");
-		} else {
-			global_spoutEnabled = true;
-			log.info("[Regios] Spout detected! Spout support enabled!");
-		}
-	}
 	
 }

@@ -4,9 +4,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Mutable.MutablePermissions;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class PermissionsCommands {
+public class PermissionsCommands extends PermissionsCore {
 
 	MutablePermissions mutable = new MutablePermissions();
 
@@ -15,6 +16,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getTempCacheNodes()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -35,6 +40,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getTempCacheNodes()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -56,6 +65,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Node cache reset for region " + ChatColor.BLUE + region);
 		}
 		mutable.editResetTempAddCache(r);
@@ -66,6 +79,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getPermAddNodes()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -86,6 +103,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getPermAddNodes()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -106,6 +127,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Node cache reset for region " + ChatColor.BLUE + region);
 		}
 		mutable.editResetPermAddCache(r);
@@ -116,6 +141,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getPermRemoveNodes()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -136,6 +165,10 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getPermRemoveNodes()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -156,9 +189,43 @@ public class PermissionsCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyBasic(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Node cache reset for region " + ChatColor.BLUE + region);
 		}
 		mutable.editResetPermRemoveCache(r);
+	}
+	
+	public void listTempAddCache(Region r, String region, Player p){
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Temp Node cache for region " + ChatColor.BLUE + region);
+			p.sendMessage(mutable.listTempAddCache(r));
+		}
+	}
+	
+	public void listPermAdd(Region r, String region, Player p){
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Perm Node adds for region " + ChatColor.BLUE + region);
+			p.sendMessage(mutable.listPermAddCache(r));
+		}
+	}
+	
+	public void listPermRemCache(Region r, String region, Player p){
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Perm Node removals for region " + ChatColor.BLUE + region);
+			p.sendMessage(mutable.listPermRemCache(r));
+		}
 	}
 
 }

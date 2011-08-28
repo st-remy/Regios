@@ -11,7 +11,9 @@ import java.util.zip.ZipOutputStream;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class Zippable {
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
+
+public class Zippable extends PermissionsCore {
 	
 	private static final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
 

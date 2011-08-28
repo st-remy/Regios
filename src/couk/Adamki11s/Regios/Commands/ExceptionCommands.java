@@ -4,9 +4,10 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Mutable.MutableExceptions;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class ExceptionCommands {
+public class ExceptionCommands extends PermissionsCore {
 
 	MutableExceptions mutable = new MutableExceptions();
 
@@ -15,6 +16,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if (!mutable.checkPlayerException(r, ex)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Exception added : " + ChatColor.BLUE + ex);
 				mutable.addPlayerException(r, ex);
@@ -29,6 +34,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if (mutable.checkPlayerException(r, ex)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Exception removed : " + ChatColor.BLUE + ex);
 				mutable.removePlayerException(r, ex);
@@ -51,6 +60,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if (!mutable.checkItemException(r, val)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Item Exception added : " + ChatColor.BLUE + ex);
 				mutable.addItemException(r, val);
@@ -72,6 +85,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if (mutable.checkItemException(r, val)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Item Exception removed : " + ChatColor.BLUE + ex);
 				mutable.removeItemException(r, val);
@@ -86,6 +103,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if (!mutable.checkNodeException(r, ex)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Exception Node added : " + ChatColor.BLUE + ex);
 				mutable.addNodeException(r, ex);
@@ -100,6 +121,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			if (mutable.checkNodeException(r, ex)) {
 				p.sendMessage(ChatColor.GREEN + "[Regios] Exception Node added : " + ChatColor.BLUE + ex);
 				mutable.removeNodeException(r, ex);
@@ -114,6 +139,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] All player exceptions removed for region : " + ChatColor.BLUE + region);
 			mutable.eraseAllPlayerExceptions(r);
 			return;
@@ -125,6 +154,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] All Sub Owners removed for region : " + ChatColor.BLUE + region);
 			mutable.resetSubOwners(r);
 			return;
@@ -136,6 +169,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] All item exceptions removed for region : " + ChatColor.BLUE + region);
 			mutable.eraseAllItemExceptions(r);
 			return;
@@ -147,6 +184,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] All node exceptions removed for region : " + ChatColor.BLUE + region);
 			mutable.eraseAllNodeExceptions(r);
 			return;
@@ -202,6 +243,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getSubOwners()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -222,6 +267,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getSubOwners()) {
 				if (s.trim().equalsIgnoreCase(ex.trim())) {
@@ -242,6 +291,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			boolean nodeMatch = false;
 			for (String s : r.getSubOwners()) {
 				if (s.trim().equalsIgnoreCase(message.trim())) {
@@ -262,6 +315,10 @@ public class ExceptionCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Sub Owners reset for region " + ChatColor.BLUE + region);
 		}
 		mutable.resetSubOwners(r);

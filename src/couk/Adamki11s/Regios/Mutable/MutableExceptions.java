@@ -182,7 +182,15 @@ public class MutableExceptions {
 		c.save();
 	}
 	
-	public void resutSubOwners(Region r){
+	public String listSubOwnersExceptions(Region r) {
+		StringBuilder sb = new StringBuilder();
+		for (String s : r.getSubOwners()) {
+			sb.append(ChatColor.WHITE + s).append(ChatColor.BLUE + ", ");
+		}
+		return sb.toString();
+	}
+	
+	public void resetSubOwners(Region r){
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();

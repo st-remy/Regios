@@ -8,7 +8,8 @@ import org.bukkit.util.config.Configuration;
 
 public class CreationCore {
 
-	private final File root = new File("plugins" + File.separator + "Regios"), db_root = new File(root + File.separator + "Database"), config_root = new File(root + File.separator + "Configuration");
+	private final File root = new File("plugins" + File.separator + "Regios"), db_root = new File(root + File.separator + "Database"), config_root = new File(root
+			+ File.separator + "Configuration"), backup_root = new File(root + File.separator + "Backups");
 
 	private final Logger log = Logger.getLogger("Minecraft.Regios");
 	private final String prefix = "[Regios]";
@@ -41,6 +42,12 @@ public class CreationCore {
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Configuration");
 		}
 
+		if (!backup_root.exists()) {
+			flawless = false;
+			backup_root.mkdir();
+			log.info(prefix + " Creating directory @_root/plugins/Regios/Backups");
+		}
+
 		if (!flawless) {
 			log.info(prefix + " Required directories created successfully!");
 		}
@@ -50,8 +57,9 @@ public class CreationCore {
 	private void configuration() throws IOException {
 		log.info(prefix + " Checking configuration files.");
 		boolean flawless = true;
-		File updateconfig = new File(config_root + File.separator + "Updates.config"), defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(config_root + File.separator + "GeneralSettings.config");
-		
+		File updateconfig = new File(config_root + File.separator + "Updates.config"), defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(
+				config_root + File.separator + "GeneralSettings.config");
+
 		if (!updateconfig.exists()) {
 			log.info(prefix + " Creating update configuration.");
 			updateconfig.createNewFile();

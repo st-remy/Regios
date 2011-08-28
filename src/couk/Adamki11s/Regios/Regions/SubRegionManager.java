@@ -55,8 +55,6 @@ public class SubRegionManager {
 		if(zVAL == 0)
 			zVAL = 1;
 		
-		System.out.println("Region " + r.getName() + " 3d : " + xVAL * yVAL * zVAL);
-		
 		return xVAL * yVAL * zVAL;
 	}
 	
@@ -79,8 +77,6 @@ public class SubRegionManager {
 			xVAL = 1;
 		if(zVAL == 0)
 			zVAL = 1;
-		
-		System.out.println("Region " + r.getName() + " 2d : " + xVAL * zVAL);
 		
 		return xVAL * zVAL;
 	}

@@ -1,79 +1,175 @@
 package couk.Adamki11s.Regios.RBF;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-
+import org.bukkit.entity.Player;
 import couk.Adamki11s.Regios.Regions.Region;
+import couk.Adamki11s.jnbt.ByteArrayTag;
+import couk.Adamki11s.jnbt.CompoundTag;
+import couk.Adamki11s.jnbt.IntTag;
+import couk.Adamki11s.jnbt.NBTInputStream;
+import couk.Adamki11s.jnbt.NBTOutputStream;
+import couk.Adamki11s.jnbt.Tag;
 
 public class RBF_Save {
-	
-	public void saveRegion(Region r){
-		Location l1 = r.getL1().toBukkitLocation(), l2 = r.getL2().toBukkitLocation();
-		World w = l1.getWorld();
-		
-		int smallx, bigx, smally, bigy, smallz, bigz;
-		
-		if(l1.getBlockX() > l2.getBlockX()){
-			smallx = l2.getBlockX();
-			bigx = l1.getBlockX();
-		} else {
-			smallx = l1.getBlockX();
-			bigx = l2.getBlockX();
-		}
-		
-		if(l1.getBlockY() > l2.getBlockY()){
-			smally = l2.getBlockY();
-			bigy = l1.getBlockY();
-		} else {
-			smally = l1.getBlockY();
-			bigy = l2.getBlockY();
-		}
-		
-		if(l1.getBlockZ() > l2.getBlockZ()){
-			smallz = l2.getBlockZ();
-			bigz = l1.getBlockZ();
-		} else {
-			smallz = l1.getBlockZ();
-			bigz = l2.getBlockZ();
-		}
-		
-		Location loc1 = new Location(w, smallx, smally, smallz),
-		loc2 = new Location(w, bigx, bigy, bigz);
-		
-		try {
-			writeToFile(w, loc1, loc2, r.getName());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+	private static Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
+		Tag tag = items.get(key);
+		return tag;
 	}
-	
-	private void writeToFile(World w, Location l1, Location l2, String name) throws IOException{
-		File backup = new File("plugins" + File.separator + "Regios" + File.separator +
-				"Database" + File.separator + name + File.separator + name + ".rbf");
-		BufferedWriter out = new BufferedWriter(new FileWriter(backup));
-		out.write(w.getName());
-		out.newLine();
-		for(int x = l1.getBlockX(); x <= l2.getBlockX(); x++){
-			for(int y = l1.getBlockY(); y <= l2.getBlockY(); y++){
-				for(int z = l1.getBlockZ(); z <= l2.getBlockZ(); z++){
-					Block b = w.getBlockAt(new Location(w, x, y, z));
-					String construct = x + "|" + y + "|" + z + "|" + b.getTypeId() + "|" + b.getData();
-					out.write(construct);
-					out.newLine();
+
+	public void loadRegion(Region r, String backupname, Player p) throws IOException {
+		
+		if(r == null){
+			p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
+			return;
+		}
+		
+		File f = new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + r.getName() + File.separator + "Backups" + File.separator
+				+ backupname + ".rbf");
+		
+		if (!f.exists()) {
+			p.sendMessage(ChatColor.RED + "[Regios] A backup with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " does not exist!");
+			return;
+		}
+		
+		p.sendMessage(ChatColor.GREEN + "[Regios] Restoring region...");
+		
+		World w = p.getWorld();
+
+		FileInputStream fis = new FileInputStream(f);
+		NBTInputStream nbt = new NBTInputStream(new GZIPInputStream(fis));
+
+		CompoundTag backuptag = (CompoundTag) nbt.readTag();
+		Map<String, Tag> tagCollection = backuptag.getValue();
+		
+		 if (!backuptag.getName().equals("Schematic")) {
+	           
+	     }
+
+		int StartX = (Integer) getChildTag(tagCollection, "StartX", IntTag.class).getValue();
+		int StartY = (Integer) getChildTag(tagCollection, "StartY", IntTag.class).getValue();
+		int StartZ = (Integer) getChildTag(tagCollection, "StartZ", IntTag.class).getValue();
+
+		int width = (Integer) getChildTag(tagCollection, "XSize", IntTag.class).getValue();
+		int height = (Integer) getChildTag(tagCollection, "YSize", IntTag.class).getValue();
+		int length = (Integer) getChildTag(tagCollection, "ZSize", IntTag.class).getValue();
+
+		byte[] blocks = (byte[]) getChildTag(tagCollection, "BlockID", ByteArrayTag.class).getValue();
+		byte[] blockData = (byte[]) getChildTag(tagCollection, "Data", ByteArrayTag.class).getValue();
+
+		int index = 0;
+
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				for (int z = 0; z < length; z++) {
+					Block b = w.getBlockAt(StartX + x, StartY + y, StartZ + z);
+					b.setTypeId((int) blocks[index]);
+					b.setData(blockData[index]);
+					index++;
 				}
 			}
 		}
-		out.flush();
-		out.close();
+
+		fis.close();
+		nbt.close();
+		
+		p.sendMessage(ChatColor.GREEN + "[Regios] Region restored successfully!");
+	}
+
+	public void saveRegion(Region r, String backupname, Player p) {
+		try {
+			
+			if(r == null){
+				p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
+				return;
+			}
+
+			File f = new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + r.getName() + File.separator + "Backups" + File.separator
+					+ backupname + ".rbf");
+			if (!f.exists()) {
+				f.createNewFile();
+			} else {
+				p.sendMessage(ChatColor.RED + "[Regios] A backup with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " already exists!");
+				return;
+			}
+
+			World w = r.getL1().getWorld();
+			Location max = new Location(w, Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2()
+					.getZ())), min = new Location(w, Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r
+					.getL2().getZ()));
+
+			int width = max.getBlockX() - min.getBlockX();
+			int height = max.getBlockY() - min.getBlockY();
+			int length = max.getBlockZ() - min.getBlockZ();
+
+			width += 1;
+			height += 1;
+			length += 1;
+
+			if (width > 65535) {
+				p.sendMessage(ChatColor.RED + "[Regios] The width is too large for a .rbf file!");
+				p.sendMessage(ChatColor.RED + "[Regios] Max width : 65535. Your size : " + ChatColor.BLUE + width);
+				return;
+			}
+			if (height > 65535) {
+				p.sendMessage(ChatColor.RED + "[Regios] The height is too large for a .rbf file!");
+				p.sendMessage(ChatColor.RED + "[Regios] Max height : 65535. Your size : " + ChatColor.BLUE + width);
+				return;
+			}
+			if (length > 65535) {
+				p.sendMessage(ChatColor.RED + "[Regios] The length is too large for a .rbf file!");
+				p.sendMessage(ChatColor.RED + "[Regios] Max length : 65535. Your size : " + ChatColor.BLUE + width);
+				return;
+			}
+
+			HashMap<String, Tag> backuptag = new HashMap<String, Tag>();
+
+			// Copy
+			byte[] blockID = new byte[width * height * length];
+			byte[] blockData = new byte[width * height * length];
+
+			int index = 0;
+
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					for (int z = 0; z < length; z++) {
+						blockID[index] = (byte) w.getBlockAt(min.getBlockX() + x, min.getBlockY() + y, min.getBlockZ() + z).getTypeId();
+						blockData[index] = (byte) w.getBlockAt(min.getBlockX() + x, min.getBlockY() + y, min.getBlockZ() + z).getData();
+						index++;
+					}
+				}
+			}
+
+			backuptag.put("BlockID", new ByteArrayTag("BlockID", blockID));
+			backuptag.put("Data", new ByteArrayTag("Data", blockData));
+			backuptag.put("StartX", new IntTag("StartX", min.getBlockX()));
+			backuptag.put("StartY", new IntTag("StartY", min.getBlockY()));
+			backuptag.put("StartZ", new IntTag("StartZ", min.getBlockZ()));
+			backuptag.put("XSize", new IntTag("XSize", width));
+			backuptag.put("YSize", new IntTag("YSize", height));
+			backuptag.put("ZSize", new IntTag("ZSize", length));
+
+			CompoundTag compoundTag = new CompoundTag("RBF", backuptag);
+
+			NBTOutputStream nbt = new NBTOutputStream(new FileOutputStream(f));
+			nbt.writeTag(compoundTag);
+			nbt.close();
+			p.sendMessage(ChatColor.GREEN + "[Regios] Region saved successfully!");
+		} catch (Exception ex) {
+			p.sendMessage(ChatColor.RED + "[Regios] Error saving region! Stack trace printed in console.");
+			ex.printStackTrace();
+		}
 	}
 
 }

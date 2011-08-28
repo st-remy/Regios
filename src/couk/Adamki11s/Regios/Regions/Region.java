@@ -55,13 +55,13 @@ public class Region extends PermChecks implements Checks {
 	private ArrayList<Integer> items = new ArrayList<Integer>();
 
 	private String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", authenticationRequiredMessage = "", authenticationSuccessMessage = "", password = "", name = "", owner = "",
-			spoutEntryMessage = "", spoutExitMessage = "";
+			spoutEntryMessage = "", spoutExitMessage = "", spoutTexturePack = "";
 
 	private Material spoutEntryMaterial = Material.GRASS, spoutExitMaterial = Material.DIRT;
 
 	private boolean _protection = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true, doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true,
 			passwordEnabled = false, showWelcomeMessage = true, showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false, playCustomSoundUrl = false, permWipeOnEnter = false,
-			permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false, blockForm = true, forSale = false;
+			permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false, blockForm = true, forSale = false, useSpoutTexturePack = false;
 
 	private int LSPS = 0, healthRegen = 0, playerCap = 0, salePrice = 0;
 	private double velocityWarp = 0;
@@ -145,7 +145,8 @@ public class Region extends PermChecks implements Checks {
 		this.preventExitMessage = colourFormat(preventExitMessage);
 
 		this.temporaryNodesCacheAdd = ConfigurationData.temporaryNodesCacheAdd;
-
+		this.spoutTexturePack = "";
+		this.useSpoutTexturePack = false;
 		this.blockForm = ConfigurationData.blockForm;
 		if (this.LSPS > 0 && !LightningRunner.doesStikesContain(this)) {
 			LightningRunner.addRegion(this);
@@ -183,8 +184,8 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public void removeItemException(int id) {
-		if (this.items.contains((Object)id)) {
-			this.items.remove((Object)id);
+		if (this.items.contains((Object) id)) {
+			this.items.remove((Object) id);
 		}
 	}
 
@@ -261,31 +262,41 @@ public class Region extends PermChecks implements Checks {
 					LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Permanent nodes wiped upon region exit for player '" + p.getName() + "'"));
 				}
 			}
-			p.sendMessage(this.liveFormat(leaveMessage, p));
+			if (this.showLeaveMessage) {
+				p.sendMessage(this.liveFormat(leaveMessage, p));
+			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
-				SpoutInterface.sendLeaveMessage(p, this);
+				if (this.showLeaveMessage) {
+					SpoutInterface.sendLeaveMessage(p, this);
+				}
 				if (this.playCustomSoundUrl) {
 					SpoutInterface.stopMusicPlaying(p, region);
+				}
+				if (this.useSpoutTexturePack){
+					SpoutInterface.resetTexturePack(p);
 				}
 			}
 		}
 	}
-	
-	private void registerExitEvent(Player p){
+
+	private void registerExitEvent(Player p) {
 		RegionExitEvent event = new RegionExitEvent("RegionExitEvent");
 		event.setProperties(p, this);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
-	
-	private void registerWelcomeEvent(Player p){
-		 RegionEnterEvent event = new RegionEnterEvent("RegionEnterEvent");
-		 event.setProperties(p, this);
-         Bukkit.getServer().getPluginManager().callEvent(event);
+
+	private void registerWelcomeEvent(Player p) {
+		RegionEnterEvent event = new RegionEnterEvent("RegionEnterEvent");
+		event.setProperties(p, this);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 
 	public void sendWelcomeMessage(Player p) {
 		if (!isWelcomeMessageSent(p)) {
 			this.registerWelcomeEvent(p);
+			if (this.useSpoutTexturePack && SpoutInterface.doesPlayerHaveSpout(p)) {
+				SpoutInterface.forceTexturePack(p, this);
+			}
 			RegiosPlayerListener.currentRegion.put(p, this);
 			welcomeMessageSent.put(p, true);
 			leaveMessageSent.remove(p);
@@ -338,9 +349,13 @@ public class Region extends PermChecks implements Checks {
 					LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Permanent nodes added upon region enter for player '" + p.getName() + "'"));
 				}
 			}
-			p.sendMessage(this.liveFormat(welcomeMessage, p));
+			if (this.showWelcomeMessage) {
+				p.sendMessage(this.liveFormat(welcomeMessage, p));
+			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
-				SpoutInterface.sendWelcomeMessage(p, this);
+				if (this.showWelcomeMessage) {
+					SpoutInterface.sendWelcomeMessage(p, this);
+				}
 				if (this.playCustomSoundUrl) {
 					SpoutInterface.playToPlayerMusicFromUrl(p, this);
 				}
@@ -494,38 +509,38 @@ public class Region extends PermChecks implements Checks {
 		return this.mobSpawns;
 	}
 
-	public String getWelcomeMessage(){
+	public String getWelcomeMessage() {
 		return this.welcomeMessage;
 	}
-	
-	public String getLeaveMessage(){
+
+	public String getLeaveMessage() {
 		return this.leaveMessage;
 	}
-	
-	public String getPreventEntryMessage(){
+
+	public String getPreventEntryMessage() {
 		return this.preventEntryMessage;
 	}
-	
-	public String getPreventExitMessage(){
+
+	public String getPreventExitMessage() {
 		return this.preventExitMessage;
 	}
-	
-	public Material getSpoutWelcomeMaterial(){
+
+	public Material getSpoutWelcomeMaterial() {
 		return this.spoutEntryMaterial;
 	}
-	
-	public Material getSpoutLeaveMaterial(){
+
+	public Material getSpoutLeaveMaterial() {
 		return this.spoutExitMaterial;
 	}
-	
-	public String getSpoutWelcomeMessage(){
+
+	public String getSpoutWelcomeMessage() {
 		return this.spoutEntryMessage;
 	}
-	
-	public String getSpoutLeaveMessage(){
+
+	public String getSpoutLeaveMessage() {
 		return this.spoutExitMessage;
 	}
-	
+
 	public boolean canMonstersSpawn() {
 		return this.monsterSpawns;
 	}
@@ -581,48 +596,48 @@ public class Region extends PermChecks implements Checks {
 	public String[] getMusicUrls() {
 		return this.customSoundUrl;
 	}
-	
-	public String[] getSubOwners(){
+
+	public String[] getSubOwners() {
 		return this.subOwners;
 	}
-	
-	public String[] getTempCacheNodes(){
+
+	public String[] getTempCacheNodes() {
 		return this.temporaryNodesCacheAdd;
 	}
-	
-	public String[] getPermAddNodes(){
+
+	public String[] getPermAddNodes() {
 		return this.permanentNodesCacheAdd;
 	}
-	
-	public String[] getPermRemoveNodes(){
+
+	public String[] getPermRemoveNodes() {
 		return this.permanentNodesCacheRemove;
 	}
-	
-	public ArrayList<String> getExceptions(){
+
+	public ArrayList<String> getExceptions() {
 		return this.exceptions;
 	}
-	
-	public ArrayList<Integer> getItems(){
+
+	public ArrayList<Integer> getItems() {
 		return this.items;
 	}
-	
-	public Location getWarp(){
+
+	public Location getWarp() {
 		return this.warp;
 	}
-	
-	public MODE getProtectionMode(){
+
+	public MODE getProtectionMode() {
 		return this.protectionMode;
 	}
-	
-	public MODE getPreventEntryMode(){
+
+	public MODE getPreventEntryMode() {
 		return this.preventEntryMode;
 	}
-	
-	public MODE getPreventExitMode(){
+
+	public MODE getPreventExitMode() {
 		return this.preventExitMode;
 	}
-	
-	public MODE getItemMode(){
+
+	public MODE getItemMode() {
 		return this.itemMode;
 	}
 
@@ -1220,6 +1235,22 @@ public class Region extends PermChecks implements Checks {
 
 	public void setPlayersInRegion(ArrayList<Player> playersInRegion) {
 		this.playersInRegion = playersInRegion;
+	}
+
+	public String getSpoutTexturePack() {
+		return spoutTexturePack;
+	}
+
+	public void setSpoutTexturePack(String spoutTexturePack) {
+		this.spoutTexturePack = spoutTexturePack;
+	}
+
+	public boolean isUseSpoutTexturePack() {
+		return useSpoutTexturePack;
+	}
+
+	public void setUseSpoutTexturePack(boolean useSpoutTexturePack) {
+		this.useSpoutTexturePack = useSpoutTexturePack;
 	}
 
 }

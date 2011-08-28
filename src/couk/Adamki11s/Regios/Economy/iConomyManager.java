@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Regions.Region;
 
-public class iConomyManager {
+public class iConomyManager extends Buying {
 	
 	@SuppressWarnings("static-access")
 	private double getBalance(Player p){
@@ -19,6 +19,7 @@ public class iConomyManager {
 	public void buyRegion(Region r, String buyer, String seller, int price){
 		EconomyCore.iconomy.getAccount(seller).getHoldings().add(price);
 		EconomyCore.iconomy.getAccount(buyer).getHoldings().subtract(price);
+		super.buy(seller, buyer, r, price);
 	}
 
 

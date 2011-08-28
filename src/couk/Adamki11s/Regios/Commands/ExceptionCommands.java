@@ -120,6 +120,17 @@ public class ExceptionCommands {
 		}
 	}
 	
+	public void eraseSubOwnerExceptions(Region r, String region, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			p.sendMessage(ChatColor.GREEN + "[Regios] All Sub Owners removed for region : " + ChatColor.BLUE + region);
+			mutable.resetSubOwners(r);
+			return;
+		}
+	}
+	
 	public void eraseItemExceptions(Region r, String region, Player p) {
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
@@ -164,6 +175,17 @@ public class ExceptionCommands {
 		}
 	}
 	
+	public void listSubOwnerExceptions(Region r, String region, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			String regionSet = mutable.listSubOwnersExceptions(r);
+			p.sendMessage(ChatColor.GREEN + "Regios Sub Owner Exception List : " + ChatColor.BLUE + region);
+			p.sendMessage(regionSet);
+		}
+	}
+	
 	public void listNodeExceptions(Region r, String region, Player p) {
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
@@ -194,6 +216,26 @@ public class ExceptionCommands {
 		}
 		mutable.addSubOwner(r, message);
 	}
+	
+	public void removeSubowner(Region r, String region, String ex, Player p) {
+		if (r == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
+			return;
+		} else {
+			boolean nodeMatch = false;
+			for (String s : r.getSubOwners()) {
+				if (s.trim().equalsIgnoreCase(ex.trim())) {
+					nodeMatch = true;
+				}
+			}
+			if(nodeMatch){
+				p.sendMessage(ChatColor.GREEN + "[Regios] Sub Owner removed : " + ChatColor.BLUE + ex);
+				mutable.removeSubOwner(r, ex);
+			} else {
+				p.sendMessage(ChatColor.RED + "[Regios] Sub Owner " + ChatColor.BLUE + ex + ChatColor.RED + " does not exist!");
+			}
+		}
+	}
 
 	public void removeFromPermRemCache(Region r, String region, String message, Player p) {
 		if (r == null) {
@@ -222,7 +264,7 @@ public class ExceptionCommands {
 		} else {
 			p.sendMessage(ChatColor.GREEN + "[Regios] Sub Owners reset for region " + ChatColor.BLUE + region);
 		}
-		mutable.resutSubOwners(r);
+		mutable.resetSubOwners(r);
 	}
 
 }

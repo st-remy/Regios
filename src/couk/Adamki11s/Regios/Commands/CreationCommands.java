@@ -60,6 +60,10 @@ public class CreationCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] A region with name : " + ChatColor.BLUE + name + ChatColor.RED + " already exists!");
 			return;
 		}
+		if(!point1.containsKey(p) || !point2.containsKey(p)){
+			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
+			return;
+		}
 		new Region(p.getName(), name, point1.get(p), point2.get(p), p.getWorld(), p);
 		p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + name + ChatColor.GREEN + " created successfully!");
 		clearPoints(p);

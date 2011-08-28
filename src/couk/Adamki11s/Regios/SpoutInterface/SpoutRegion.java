@@ -23,6 +23,16 @@ public class SpoutRegion {
 	public static HashMap<Player, SpoutWeather> oldWeather = new HashMap<Player, SpoutWeather>();
 
 	private static ExtrasRegions extReg = new ExtrasRegions();
+	
+	public static void forceTexturePack(Player p, Region r){
+		SpoutPlayer sp = (SpoutPlayer)p;
+		sp.setTexturePack(r.getSpoutTexturePack());
+	}
+	
+	public static void resetTexturePack(Player p){
+		SpoutPlayer sp = (SpoutPlayer)p;
+		sp.resetTexturePack();
+	}
 
 	public static void sendWelcomeMessage(Player p, Region r) {
 		SpoutPlayer sp = (SpoutPlayer) p;

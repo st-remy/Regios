@@ -87,8 +87,8 @@ public class LoaderCore {
 
 		int playerCap = c.getInt("DefaultSettings.General.PlayerCap.Cap", 0);
 
-		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa, bb, ccc, dd, ee, fireProtection, musicUrl,
-				playmusic, permWipeOnEnter, permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, commandSet, tempAddCache, permAddCache, permRemCache, form, playerCap);
+		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa, bb, ccc, dd, ee, fireProtection, musicUrl, playmusic, permWipeOnEnter,
+				permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, commandSet, tempAddCache, permAddCache, permRemCache, form, playerCap);
 		// Initialises variables in configuration data.
 
 		c = new Configuration(generalconfig);
@@ -148,7 +148,7 @@ public class LoaderCore {
 						try {
 							items.add(Integer.parseInt(f.getName().substring(0, f.getName().lastIndexOf("."))));
 						} catch (NumberFormatException nfe) {
-							log.severe(prefix + " Error parsing integer in item file!");
+							log.severe(prefix + " Error parsing integer in item file! File : " + f.getName());
 						}
 					}
 				}
@@ -180,7 +180,7 @@ public class LoaderCore {
 
 				String owner = c.getString("Region.Essentials.Owner"), name = c.getString("Region.Essentials.Name");
 
-				String ww = c.getString("Region.Essentials.World");
+				String ww = c.getString("Region.Essentials.World", "world");
 				World world = Bukkit.getServer().getWorld(ww);
 
 				String l11 = c.getString("Region.Essentials.Points.Point1"), l22 = c.getString("Region.Essentials.Points.Point2");
@@ -217,6 +217,13 @@ public class LoaderCore {
 
 				boolean forSale = c.getBoolean("Region.Economy.ForSale", false);
 
+				String textureUrl = c.getString("Region.Spout.Texture.TexturePackURL", "");
+
+				boolean useTexture = c.getBoolean("Region.Spout.Texture.UseTexture", false);
+
+				c.setProperty("Region.Spout.Texture.UseTexture", false);
+				c.setProperty("Region.Spout.Texture.TexturePackURL", "");
+
 				Region r = new Region(owner, name, l1, l2, world, null);
 
 				for (String s : exceptionsPlayers) {
@@ -225,6 +232,9 @@ public class LoaderCore {
 				for (String s : exceptionsNodes) {
 					r.addExceptionNode(s);
 				}
+				
+				r.setUseSpoutTexturePack(useTexture);
+				r.setSpoutTexturePack(textureUrl);
 
 				r.setSpoutExitMaterial(spoutLeaveMaterial);
 				r.setSpoutEntryMaterial(spoutWelcomeMaterial);

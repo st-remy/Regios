@@ -10,6 +10,7 @@ import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Data.LoaderCore;
 import couk.Adamki11s.Regios.Data.Saveable;
+import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 
 public class MutableAdministration extends Saveable {
@@ -34,10 +35,12 @@ public class MutableAdministration extends Saveable {
 	}
 
 	public void reloadConfig() {
+		GlobalRegionManager.purgeWorldSettings();
 		lc.loadConfiguration();
 	}
 
 	public void reloadAll() {
+		GlobalRegionManager.purgeWorldSettings();
 		lc.silentReload();
 		lc.loadConfiguration();
 	}

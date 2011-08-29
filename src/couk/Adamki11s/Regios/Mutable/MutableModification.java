@@ -21,132 +21,99 @@ public class MutableModification {
 		return l.getWorld().getName() + "," + l.getX() + "," + l.getY() + "," + l.getZ();
 	}
 
-	private Location getBiggerY(Location l1, Location l2) {
-		return l1.getBlockY() >= l2.getBlockY() ? l1 : l2;
-	}
-
-	private Location getSmallerY(Location l1, Location l2) {
-		return l1.getBlockY() <= l2.getBlockY() ? l1 : l2;
-	}
-
 	public void editExpandUp(Region r, int value) {
-		// need to check which point to modify
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		if(smaller.getBlockY() == bigger.getBlockY()){
+			smaller.add(0, value, 0);
+			bigger.add(0, value, 0);
+		} else {
+			bigger.add(0, value, 0);
+		}
 		Configuration c = r.getConfigFile();
 		c.load();
-		Location l = getBiggerY(r.getL1().toBukkitLocation(), r.getL2().toBukkitLocation());
-		boolean p1m = false;
-		if (r.getL1().equals(new RegionLocation(l.getWorld(), l.getX(), l.getY(), l.getZ()))) {
-			p1m = true;
-		} else {
-			p1m = false;
-		}
-		l.add(0, value, 0);
 		Map<String, Object> all = c.getAll();
-		if (p1m) {
-			all.remove("Region.Essentials.Points.Point1");
-		} else {
-			all.remove("Region.Essentials.Points.Point2");
-		}
+		all.remove("Region.Essentials.Points.Point1");
+		all.remove("Region.Essentials.Points.Point2");
 		for (Entry<String, Object> entry : all.entrySet()) {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		if (p1m) {
-			c.setProperty("Region.Essentials.Points.Point1", convertLocation(l));
-			r.setL1(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		} else {
-			c.setProperty("Region.Essentials.Points.Point2", convertLocation(l));
-			r.setL2(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		}
+		c.setProperty("Region.Essentials.Points.Point1", convertLocation(smaller));
+		c.setProperty("Region.Essentials.Points.Point2", convertLocation(bigger));
+		r.setL1(new RegionLocation(smaller.getWorld(), smaller.getBlockX(), smaller.getBlockY(), smaller.getBlockZ()));
+		r.setL2(new RegionLocation(bigger.getWorld(), bigger.getBlockX(), bigger.getBlockY(), bigger.getBlockZ()));
 		c.save();
 	}
 
 	public void editExpandDown(Region r, int value) {
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		if(smaller.getBlockY() == bigger.getBlockY()){
+			smaller.subtract(0, value, 0);
+			bigger.subtract(0, value, 0);
+		} else {
+			smaller.subtract(0, value, 0);
+		}
 		Configuration c = r.getConfigFile();
 		c.load();
-		Location l = getSmallerY(r.getL1().toBukkitLocation(), r.getL2().toBukkitLocation());
-		boolean p1m = false;
-		if (r.getL1().equals(new RegionLocation(l.getWorld(), l.getX(), l.getY(), l.getZ()))) {
-			p1m = true;
-		} else {
-			p1m = false;
-		}
-		l.subtract(0, value, 0);
 		Map<String, Object> all = c.getAll();
-		if (p1m) {
-			all.remove("Region.Essentials.Points.Point1");
-		} else {
-			all.remove("Region.Essentials.Points.Point2");
-		}
+		all.remove("Region.Essentials.Points.Point1");
+		all.remove("Region.Essentials.Points.Point2");
 		for (Entry<String, Object> entry : all.entrySet()) {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		if (p1m) {
-			c.setProperty("Region.Essentials.Points.Point1", convertLocation(l));
-			r.setL1(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		} else {
-			c.setProperty("Region.Essentials.Points.Point2", convertLocation(l));
-			r.setL2(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		}
+		c.setProperty("Region.Essentials.Points.Point1", convertLocation(smaller));
+		c.setProperty("Region.Essentials.Points.Point2", convertLocation(bigger));
+		r.setL1(new RegionLocation(smaller.getWorld(), smaller.getBlockX(), smaller.getBlockY(), smaller.getBlockZ()));
+		r.setL2(new RegionLocation(bigger.getWorld(), bigger.getBlockX(), bigger.getBlockY(), bigger.getBlockZ()));
 		c.save();
 	}
 
 	public void editShrinkDown(Region r, int value) {
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		if(smaller.getBlockY() == bigger.getBlockY()){
+			smaller.subtract(0, value, 0);
+			bigger.subtract(0, value, 0);
+		} else {
+			bigger.subtract(0, value, 0);
+		}
 		Configuration c = r.getConfigFile();
 		c.load();
-		Location l = getBiggerY(r.getL1().toBukkitLocation(), r.getL2().toBukkitLocation());
-		boolean p1m = false;
-		if (r.getL1().equals(new RegionLocation(l.getWorld(), l.getX(), l.getY(), l.getZ()))) {
-			p1m = true;
-		} else {
-			p1m = false;
-		}
-		l.subtract(0, value, 0);
 		Map<String, Object> all = c.getAll();
-		if (p1m) {
-			all.remove("Region.Essentials.Points.Point1");
-		} else {
-			all.remove("Region.Essentials.Points.Point2");
-		}
+		all.remove("Region.Essentials.Points.Point1");
+		all.remove("Region.Essentials.Points.Point2");
 		for (Entry<String, Object> entry : all.entrySet()) {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		if (p1m) {
-			c.setProperty("Region.Essentials.Points.Point1", convertLocation(l));
-			r.setL1(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		} else {
-			c.setProperty("Region.Essentials.Points.Point2", convertLocation(l));
-			r.setL2(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		}
+		c.setProperty("Region.Essentials.Points.Point1", convertLocation(smaller));
+		c.setProperty("Region.Essentials.Points.Point2", convertLocation(bigger));
+		r.setL1(new RegionLocation(smaller.getWorld(), smaller.getBlockX(), smaller.getBlockY(), smaller.getBlockZ()));
+		r.setL2(new RegionLocation(bigger.getWorld(), bigger.getBlockX(), bigger.getBlockY(), bigger.getBlockZ()));
 		c.save();
 	}
 
 	public void editShrinkUp(Region r, int value) {
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		if(smaller.getBlockY() == bigger.getBlockY()){
+			smaller.add(0, value, 0);
+			bigger.add(0, value, 0);
+		} else {
+			smaller.add(0, value, 0);
+		}
 		Configuration c = r.getConfigFile();
 		c.load();
-		Location l = getSmallerY(r.getL1().toBukkitLocation(), r.getL2().toBukkitLocation());
-		boolean p1m = false;
-		if (r.getL1().equals(new RegionLocation(l.getWorld(), l.getX(), l.getY(), l.getZ()))) {
-			p1m = true;
-		} else {
-			p1m = false;
-		}
-		l.add(0, value, 0);
 		Map<String, Object> all = c.getAll();
-		if (p1m) {
-			all.remove("Region.Essentials.Points.Point1");
-		} else {
-			all.remove("Region.Essentials.Points.Point2");
-		}
+		all.remove("Region.Essentials.Points.Point1");
+		all.remove("Region.Essentials.Points.Point2");
 		for (Entry<String, Object> entry : all.entrySet()) {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		if (p1m) {
-			c.setProperty("Region.Essentials.Points.Point1", convertLocation(l));
-			r.setL1(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		} else {
-			c.setProperty("Region.Essentials.Points.Point2", convertLocation(l));
-			r.setL2(l.getWorld(), l.getX(), l.getY(), l.getZ());
-		}
+		c.setProperty("Region.Essentials.Points.Point1", convertLocation(smaller));
+		c.setProperty("Region.Essentials.Points.Point2", convertLocation(bigger));
+		r.setL1(new RegionLocation(smaller.getWorld(), smaller.getBlockX(), smaller.getBlockY(), smaller.getBlockZ()));
+		r.setL2(new RegionLocation(bigger.getWorld(), bigger.getBlockX(), bigger.getBlockY(), bigger.getBlockZ()));
 		c.save();
 	}
 
@@ -183,17 +150,10 @@ public class MutableModification {
 	}
 
 	public void editExpandOut(Region r, int expand) {
-		boolean l1Bigger = false;
-		if (r.getL1().getX() >= r.getL2().getX() && r.getL1().getZ() >= r.getL2().getZ()) {
-			l1Bigger = true;
-		}
-		if (l1Bigger) {
-			r.getL1().add(expand, 0, expand);
-			r.getL2().subtract(expand, 0, expand);
-		} else {
-			r.getL1().subtract(expand, 0, expand);
-			r.getL2().add(expand, 0, expand);
-		}
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		smaller.subtract(expand, 0, expand);
+		bigger.add(expand, 0, expand);
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -202,23 +162,18 @@ public class MutableModification {
 		for (Entry<String, Object> entry : all.entrySet()) {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.Essentials.Points.Point1", convertLocation(r.getL1().toBukkitLocation()));
-		c.setProperty("Region.Essentials.Points.Point2", convertLocation(r.getL2().toBukkitLocation()));
+		c.setProperty("Region.Essentials.Points.Point1", convertLocation(smaller));
+		c.setProperty("Region.Essentials.Points.Point2", convertLocation(bigger));
+		r.setL1(new RegionLocation(smaller.getWorld(), smaller.getBlockX(), smaller.getBlockY(), smaller.getBlockZ()));
+		r.setL2(new RegionLocation(bigger.getWorld(), bigger.getBlockX(), bigger.getBlockY(), bigger.getBlockZ()));
 		c.save();
 	}
 
 	public void editShrinkIn(Region r, int shrink) {
-		boolean l1Bigger = false;
-		if (r.getL1().getX() >= r.getL2().getX() && r.getL1().getZ() >= r.getL2().getZ()) {
-			l1Bigger = true;
-		}
-		if (!l1Bigger) {
-			r.getL1().add(shrink, 0, shrink);
-			r.getL2().subtract(shrink, 0, shrink);
-		} else {
-			r.getL1().subtract(shrink, 0, shrink);
-			r.getL2().add(shrink, 0, shrink);
-		}
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		smaller.add(shrink, 0, shrink);
+		bigger.subtract(shrink, 0, shrink);
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -227,8 +182,10 @@ public class MutableModification {
 		for (Entry<String, Object> entry : all.entrySet()) {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.Essentials.Points.Point1", convertLocation(r.getL1().toBukkitLocation()));
-		c.setProperty("Region.Essentials.Points.Point2", convertLocation(r.getL2().toBukkitLocation()));
+		c.setProperty("Region.Essentials.Points.Point1", convertLocation(smaller));
+		c.setProperty("Region.Essentials.Points.Point2", convertLocation(bigger));
+		r.setL1(new RegionLocation(smaller.getWorld(), smaller.getBlockX(), smaller.getBlockY(), smaller.getBlockZ()));
+		r.setL2(new RegionLocation(bigger.getWorld(), bigger.getBlockX(), bigger.getBlockY(), bigger.getBlockZ()));
 		c.save();
 	}
 

@@ -4,8 +4,11 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
+import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Mutable.MutableModification;
 import couk.Adamki11s.Regios.Net.PingManager;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
@@ -29,7 +32,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -50,7 +53,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -64,7 +67,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -85,7 +88,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -106,7 +109,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -127,7 +130,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -148,7 +151,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -162,7 +165,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -181,7 +184,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
@@ -191,9 +194,12 @@ public class ModificationCommands extends PermissionsCore {
 	}
 
 	public void setModifyPoints(Location l1, Location l2, Player p) {
-		if(l1 == null || l2 == null){ p.sendMessage(ChatColor.RED + "[Regios] You have not set 2 points!"); return; }
+		if (l1 == null || l2 == null) {
+			p.sendMessage(ChatColor.RED + "[Regios] You have not set 2 points!");
+			return;
+		}
 		Region r = CreationCommands.modRegion.get(p);
-		if(!super.canModifyMain(r, p)){
+		if (!super.canModifyMain(r, p)) {
 			p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 			return;
 		}
@@ -202,11 +208,21 @@ public class ModificationCommands extends PermissionsCore {
 	}
 
 	public void startModification(Region r, String region, String input, Player p) {
+		if (!p.getInventory().contains(new ItemStack(ConfigurationData.defaultSelectionTool, 1))) {
+			ItemStack is = new ItemStack(ConfigurationData.defaultSelectionTool, 1);
+
+			p.getInventory().addItem(is);
+
+			if (p.getItemInHand() == new ItemStack(Material.AIR, 0)) {
+				p.setItemInHand(is);
+			}
+
+		}
 		if (r == null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!");
 			return;
 		} else {
-			if(!super.canModifyMain(r, p)){
+			if (!super.canModifyMain(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}

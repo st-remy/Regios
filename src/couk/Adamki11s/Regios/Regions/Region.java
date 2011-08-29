@@ -681,7 +681,6 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public boolean getAuthentication(String password, Player p) {
-		System.out.println(exCrypt.computeSHA2_384BitHash(password));
 		if (exCrypt.compareHashes(exCrypt.computeSHA2_384BitHash(password), this.password)) {
 			authentication.put(p, true);
 			return true;

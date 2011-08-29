@@ -27,8 +27,6 @@ public class RBF_Load extends PermissionsCore {
 	}
 	
 	public void loadRegion(Region r, String backupname, Player p) throws IOException {
-
-
 		if(!super.canModifyMain(r, p)){
 			p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 			return;
@@ -47,7 +45,7 @@ public class RBF_Load extends PermissionsCore {
 			return;
 		}
 
-		p.sendMessage(ChatColor.GREEN + "[Regios] Restoring region...");
+		p.sendMessage(ChatColor.GREEN + "[Regios] Restoring region from .rbf file...");
 
 		World w = p.getWorld();
 
@@ -88,7 +86,7 @@ public class RBF_Load extends PermissionsCore {
 		fis.close();
 		nbt.close();
 
-		p.sendMessage(ChatColor.GREEN + "[Regios] Region restored successfully!");
+		p.sendMessage(ChatColor.GREEN + "[Regios] Region restored successfully from .rbf file!");
 	}
 
 }

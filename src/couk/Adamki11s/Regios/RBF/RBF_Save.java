@@ -27,7 +27,7 @@ public class RBF_Save extends PermissionsCore{
 
 	public void saveRegion(Region r, String backupname, Player p) {
 		try {
-
+			p.sendMessage(ChatColor.GREEN + "[Regios] Creating .rbf backup file...");
 			if(!super.canModifyBasic(r, p)){
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
@@ -109,7 +109,7 @@ public class RBF_Save extends PermissionsCore{
 			NBTOutputStream nbt = new NBTOutputStream(new FileOutputStream(f));
 			nbt.writeTag(compoundTag);
 			nbt.close();
-			p.sendMessage(ChatColor.GREEN + "[Regios] Region saved successfully!");
+			p.sendMessage(ChatColor.GREEN + "[Regios] Region saved to .rbf file successfully!");
 		} catch (Exception ex) {
 			p.sendMessage(ChatColor.RED + "[Regios] Error saving region! Stack trace printed in console.");
 			ex.printStackTrace();

@@ -18,6 +18,7 @@ public class Zippable extends PermissionsCore {
 	private static final char[] ILLEGAL_CHARACTERS = { '/', '\n', '\r', '\t', '\0', '\f', '`', '?', '*', '\\', '<', '>', '|', '\"', ':' };
 
 	public static void zipDir(File dirObj, File zipFileName, String name, Player p) throws Exception {
+		p.sendMessage(ChatColor.GREEN + "[Regios] Creating .zip backup file...");
 		int index = 0;
 		for(char c : name.toCharArray()){
 			for(char il : ILLEGAL_CHARACTERS){
@@ -34,6 +35,7 @@ public class Zippable extends PermissionsCore {
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
 		addDir(dirObj, out);
 		out.close();
+		p.sendMessage(ChatColor.GREEN + "[Regios] .zip backup file created successfully!");
 	}
 
 	static void addDir(File dirObj, ZipOutputStream out) throws IOException {

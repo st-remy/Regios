@@ -90,11 +90,7 @@ public class CommandCore implements CommandExecutor {
 			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("auth")) {
-				if (PermissionsCore.doesHaveNode(p, "regios.protection.send-auth")) {
-					auth.sendPassword(p, args[1], RegiosPlayerListener.regionBinding.get(p));
-				} else {
-					PermissionsCore.sendInvalidPerms(p);
-				}
+				auth.sendPassword(p, args[1], RegiosPlayerListener.regionBinding.get(p));
 			}
 
 			if (args.length >= 2 && args[0].equalsIgnoreCase("warp")) {
@@ -985,7 +981,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 3 && args[0].equalsIgnoreCase("set-cmd-set")) {
+			if (args.length == 3 && args[0].equalsIgnoreCase("use-cmd-set")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
 					miscCmd.setForceCommand(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
 				} else {
@@ -1001,7 +997,7 @@ public class CommandCore implements CommandExecutor {
 			 * Administration
 			 */
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("reload")) {
+			if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.reload")) {
 					admin.reloadAll(p);
 				} else {
@@ -1009,7 +1005,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("reload-regions")) {
+			if (args.length == 1 && args[0].equalsIgnoreCase("reload-regions")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.reload")) {
 					admin.reloadRegions(p);
 				} else {
@@ -1017,7 +1013,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("reload-config")) {
+			if (args.length == 1 && args[0].equalsIgnoreCase("reload-config")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.reload")) {
 					admin.reloadConfig(p);
 				} else {
@@ -1025,7 +1021,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("version")) {
+			if (args.length == 1 && args[0].equalsIgnoreCase("version")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.version")) {
 					p.sendMessage(ChatColor.GREEN + "[Regios] Running version : " + ChatColor.BLUE + Regios.version);
 				} else {
@@ -1040,7 +1036,7 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
-			
+
 			if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.list")) {
 					admin.listRegions(p);
@@ -1049,9 +1045,9 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 4 && args[0].equalsIgnoreCase("inherit")) {
+			if (args.length == 3 && args[0].equalsIgnoreCase("inherit")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.inherit")) {
-					admin.inherit(GlobalRegionManager.getRegion(args[2]), GlobalRegionManager.getRegion(args[3]), args[2], args[3], p);
+					admin.inherit(GlobalRegionManager.getRegion(args[1]), GlobalRegionManager.getRegion(args[2]), args[1], args[2], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

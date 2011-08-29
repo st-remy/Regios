@@ -103,17 +103,17 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 		return outcome;
 	}
-	
-	public void onPlayerQuit(PlayerQuitEvent evt){
+
+	public void onPlayerQuit(PlayerQuitEvent evt) {
 		Player p = evt.getPlayer();
-		if(HealthRegeneration.isRegenerator(p)){
+		if (HealthRegeneration.isRegenerator(p)) {
 			HealthRegeneration.removeRegenerator(p);
 		}
-		if(SpoutInterface.doesPlayerHaveSpout(p)){
+		if (SpoutInterface.doesPlayerHaveSpout(p)) {
 			SpoutInterface.stopMusicPlaying(p, null);
 		}
-		for(Region r : GlobalRegionManager.getRegions()){
-			if(r.isAuthenticated(p)){
+		for (Region r : GlobalRegionManager.getRegions()) {
+			if (r.isAuthenticated(p)) {
 				r.getAuthentication().put(p, false);
 			}
 		}
@@ -121,7 +121,7 @@ public class RegiosPlayerListener extends PlayerListener {
 
 	public void onPlayerJoin(PlayerJoinEvent evt) {
 		SpoutInterface.spoutEnabled.put(evt.getPlayer(), false);
-		if(EconomyPending.isPending(evt.getPlayer())){
+		if (EconomyPending.isPending(evt.getPlayer())) {
 			EconomyPending.loadAndSendPending(evt.getPlayer());
 		}
 	}
@@ -178,7 +178,8 @@ public class RegiosPlayerListener extends PlayerListener {
 								return;
 							} else {
 								EconomyCore.getiConomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
-								p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for " + ChatColor.GOLD + price + ChatColor.GREEN + "!");
+								p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for " + ChatColor.GOLD
+										+ price + ChatColor.GREEN + "!");
 								EconomyCore.getEconomySigns().removeSign(b.getLocation());
 								b.setTypeId(0);
 								return;
@@ -191,7 +192,8 @@ public class RegiosPlayerListener extends PlayerListener {
 								return;
 							} else {
 								EconomyCore.getBoseEconomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
-								p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for " + ChatColor.GOLD + price + ChatColor.GREEN + "!");
+								p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for " + ChatColor.GOLD
+										+ price + ChatColor.GREEN + "!");
 								EconomyCore.getEconomySigns().removeSign(b.getLocation());
 								b.setTypeId(0);
 								return;
@@ -243,18 +245,19 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 
 		if (r.isPreventingInteraction()) {
-			if (!r.canBuild(p, r)) {
+			if (!r.canBuild(p)) {
 				if (isSendable(p, MSG.PROTECTION)) {
 					p.sendMessage(ChatColor.RED + "[Regios] You cannot interact within this region!");
 				}
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to interact but did not have permissions."));
+				evt.setCancelled(true);
 				return;
 			}
 		}
 
 		if (b.getTypeId() == 71 || b.getTypeId() == 64) {
 			if (r.areDoorsLocked()) {
-				if (!r.canBuild(p, r)) {
+				if (!r.canBuild(p)) {
 					if (isSendable(p, MSG.PROTECTION)) {
 						p.sendMessage(ChatColor.RED + "[Regios] Doors are locked for this region!");
 					}
@@ -313,6 +316,8 @@ public class RegiosPlayerListener extends PlayerListener {
 			return;
 		}
 
+		boolean authenticated = false;
+
 		if (regionBinding.containsKey(p)) {
 			Region binding = regionBinding.get(p);
 			if (binding == null) {
@@ -321,7 +326,9 @@ public class RegiosPlayerListener extends PlayerListener {
 			if (binding.isPreventingEntry() && extReg.isInsideCuboid(p, binding.getL1().toBukkitLocation(), binding.getL2().toBukkitLocation())) {
 				if (!binding.canEnter(p, binding)) {
 					if (!binding.isPasswordEnabled()) {
-						p.teleport(outsideRegionLocation.get(p));
+						if (outsideRegionLocation.containsKey(p)) {
+							p.teleport(outsideRegionLocation.get(p));
+						}
 						if (isSendable(p, MSG.PREVENT_ENTRY)) {
 							binding.sendPreventEntryMessage(p);
 						}
@@ -331,8 +338,12 @@ public class RegiosPlayerListener extends PlayerListener {
 							if (isSendable(p, MSG.AUTHENTICATION)) {
 								binding.sendAuthenticationMessage(p);
 							}
-							p.teleport(outsideRegionLocation.get(p));
+							if (outsideRegionLocation.containsKey(p)) {
+								p.teleport(outsideRegionLocation.get(p));
+							}
 							return;
+						} else {
+							authenticated = true;
 						}
 					}
 				}
@@ -341,7 +352,9 @@ public class RegiosPlayerListener extends PlayerListener {
 			if (binding.isPreventingExit() && !extReg.isInsideCuboid(p, binding.getL1().toBukkitLocation(), binding.getL2().toBukkitLocation())) {
 				if (!binding.canExit(p, binding)) {
 					if (!binding.isPasswordEnabled()) {
-						p.teleport(insideRegionLocation.get(p));
+						if (insideRegionLocation.containsKey(p)) {
+							p.teleport(insideRegionLocation.get(p));
+						}
 						if (isSendable(p, MSG.PREVENT_EXIT)) {
 							binding.sendPreventExitMessage(p);
 						}
@@ -351,8 +364,12 @@ public class RegiosPlayerListener extends PlayerListener {
 							if (isSendable(p, MSG.AUTHENTICATION)) {
 								binding.sendAuthenticationMessage(p);
 							}
-							p.teleport(insideRegionLocation.get(p));
+							if (insideRegionLocation.containsKey(p)) {
+								p.teleport(insideRegionLocation.get(p));
+							}
 							return;
+						} else {
+							authenticated = true;
 						}
 					}
 				}
@@ -369,7 +386,9 @@ public class RegiosPlayerListener extends PlayerListener {
 		for (Region reg : regionSet) {
 			if (extReg.isInsideCuboid(p, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
 				currentRegionSet.add(reg);
-				insideRegionLocation.put(p, p.getLocation());
+				if (insideRegionLocation.containsKey(p)) {
+					insideRegionLocation.put(p, p.getLocation());
+				}
 			}
 		}
 
@@ -400,7 +419,9 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 
 		if (r.isRegionFull(p)) {
-			p.teleport(outsideRegionLocation.get(p));
+			if (outsideRegionLocation.containsKey(p)) {
+				p.teleport(outsideRegionLocation.get(p));
+			}
 			LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to enter region but it was full."));
 			if (isSendable(p, MSG.PREVENT_ENTRY)) {
 				p.sendMessage(ChatColor.RED + "[Regios] This region is full! Only " + r.getPlayerCap() + " players are allowed inside at a time.");
@@ -408,10 +429,12 @@ public class RegiosPlayerListener extends PlayerListener {
 			return;
 		}
 
-		if (r.isPreventingEntry()) {
+		if (r.isPreventingEntry() && !authenticated) {
 			if (!r.canEnter(p)) {
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to enter but did not have permissions."));
-				p.teleport(outsideRegionLocation.get(p));
+				if (outsideRegionLocation.containsKey(p)) {
+					p.teleport(outsideRegionLocation.get(p));
+				}
 				if (isSendable(p, MSG.PREVENT_ENTRY)) {
 					r.sendPreventEntryMessage(p);
 				}

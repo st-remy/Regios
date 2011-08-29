@@ -21,12 +21,8 @@ import couk.Adamki11s.Regios.Regions.SubRegionManager;
 
 public class SpoutInventoryListener extends org.getspout.spoutapi.event.inventory.InventoryListener {
 	
-	private static final GlobalRegionManager grm = new GlobalRegionManager();
-	private static final ExtrasEvents extEvt = new ExtrasEvents();
 	private static final ExtrasRegions extReg = new ExtrasRegions();
 	private static final SubRegionManager srm = new SubRegionManager();
-	private static final PermChecks permChecks = new PermChecks();
-	private static final CreationCommands creationCommands = new CreationCommands();
 	
 	public boolean areChunksEqual(Chunk c1, Chunk c2){
 		return (c1.getX() == c2.getX() && c1.getZ() == c2.getZ());
@@ -48,7 +44,7 @@ public class SpoutInventoryListener extends org.getspout.spoutapi.event.inventor
 			
 			ArrayList<Region> regionSet = new ArrayList<Region>();
 			
-			for(Region region : grm.getRegions()){
+			for(Region region : GlobalRegionManager.getRegions()){
 				for(Chunk chunk : region.getChunkGrid().getChunks()){
 					if(chunk.getWorld() == w){
 						if(areChunksEqual(chunk, c)){
@@ -83,7 +79,7 @@ public class SpoutInventoryListener extends org.getspout.spoutapi.event.inventor
 			}
 			
 			if(r.areChestsLocked()){
-				if(!r.canBypass(p, r)){
+				if(!r.canBuild(p)){
 					p.sendMessage(ChatColor.RED + "[Regios] Chests are locked for this region!");
 					evt.setCancelled(true);
 				} else {

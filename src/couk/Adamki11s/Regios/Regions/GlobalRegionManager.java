@@ -37,6 +37,10 @@ public class GlobalRegionManager {
 		System.gc();
 	}
 	
+	public static void purgeWorldSettings(){
+		worldSettings.clear();
+	}
+	
 	public static Region getRegion(Player p){
 		for(Region r : regions){
 			if(r.getPlayersInRegion().contains(p)){

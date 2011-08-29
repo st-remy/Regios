@@ -37,6 +37,16 @@ public class CreationCommands {
 
 	public void giveTool(Player p) {
 		if (isSetting(p)) {
+			if (!p.getInventory().contains(new ItemStack(ConfigurationData.defaultSelectionTool, 1))) {
+			ItemStack is = new ItemStack(ConfigurationData.defaultSelectionTool, 1);
+
+			p.getInventory().addItem(is);
+
+			if (p.getItemInHand() == new ItemStack(Material.AIR, 0)) {
+				p.setItemInHand(is);
+			}
+
+		}
 			p.sendMessage(ChatColor.RED + "[Regios] You are already setting a region!");
 			return;
 		} else {

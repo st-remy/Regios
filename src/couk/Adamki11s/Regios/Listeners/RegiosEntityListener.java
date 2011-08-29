@@ -30,93 +30,93 @@ import couk.Adamki11s.Regios.Scheduler.LogRunner;
 
 public class RegiosEntityListener extends EntityListener {
 
-	private static final GlobalRegionManager grm = new GlobalRegionManager();
-	private static final ExtrasEvents extEvt = new ExtrasEvents();
 	private static final ExtrasRegions extReg = new ExtrasRegions();
 	private static final SubRegionManager srm = new SubRegionManager();
-	private static final PermChecks permChecks = new PermChecks();
-	private static final CreationCommands creationCommands = new CreationCommands();
 
 	public void onCreatureSpawn(CreatureSpawnEvent evt) {
-		
+
 		Location l = evt.getEntity().getLocation();
 		World w = l.getWorld();
 		Chunk c = w.getChunkAt(l);
-		
+
 		GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);
-		
+
 		Region r;
-		
+
 		ArrayList<Region> regionSet = new ArrayList<Region>();
-		
-		for(Region region : GlobalRegionManager.getRegions()){
-			for(Chunk chunk : region.getChunkGrid().getChunks()){
-				if(chunk.getWorld() == w){
-					if(areChunksEqual(chunk, c)){
-						if(!regionSet.contains(region)){
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
 							regionSet.add(region);
 						}
 					}
 				}
 			}
 		}
-		
-		if(regionSet.isEmpty()){
-			if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
-				evt.setCancelled(true);
+
+		if (regionSet.isEmpty()) {
+			if (GlobalRegionManager.getGlobalWorldSetting(w) != null) {
+				if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
+					evt.setCancelled(true);
+				}
+				return;
 			}
-			return;
 		}
-		
+
 		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
-		
-		for(Region reg : regionSet){
-			if(extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())){
+
+		for (Region reg : regionSet) {
+			if (extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
 				currentRegionSet.add(reg);
 			}
 		}
-		
-		if(currentRegionSet.isEmpty()){ //If player is in chunk range but not inside region then cancel the check.
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
 			if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
 				evt.setCancelled(true);
 			}
 			return;
 		}
-		
-		if(currentRegionSet.size() > 1){
+
+		if (currentRegionSet.size() > 1) {
 			r = srm.getCurrentRegion(null, currentRegionSet);
 		} else {
 			r = currentRegionSet.get(0);
 		}
-		
-		if(!r.canMobsSpawn()){
+
+		if (!r.canMobsSpawn()) {
 			CreatureType ce = evt.getCreatureType();
-			if(ce == CreatureType.CHICKEN || ce == CreatureType.COW || ce == CreatureType.PIG || ce == CreatureType.SHEEP || ce == CreatureType.SQUID){
+			if (ce == CreatureType.CHICKEN || ce == CreatureType.COW || ce == CreatureType.PIG || ce == CreatureType.SHEEP || ce == CreatureType.SQUID) {
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Mob '" + ce.getName() + "' tried to spawn but was prevented."));
 				evt.setCancelled(true);
 				return;
 			}
 		}
-		
-		if(!r.canMonstersSpawn()){
+
+		if (!r.canMonstersSpawn()) {
 			CreatureType ce = evt.getCreatureType();
-			if(ce != CreatureType.CHICKEN && ce != CreatureType.COW && ce != CreatureType.PIG && ce != CreatureType.SHEEP && ce != CreatureType.SQUID){
+			if (ce != CreatureType.CHICKEN && ce != CreatureType.COW && ce != CreatureType.PIG && ce != CreatureType.SHEEP && ce != CreatureType.SQUID) {
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Monster '" + ce.getName() + "' tried to spawn but was prevented."));
 				evt.setCancelled(true);
 				return;
 			}
 		}
-		
+
 		if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
 			evt.setCancelled(true);
 		}
 	}
-	
-	public void onEntityDeath(EntityDeathEvent evt){
+
+	public void onEntityDeath(EntityDeathEvent evt) {
 		Entity e = evt.getEntity();
-		if(e instanceof Player){
-			Player p = (Player)e;
-			if(HealthRegeneration.isRegenerator(p)){
+		if (e instanceof Player) {
+			Player p = (Player) e;
+			if (HealthRegeneration.isRegenerator(p)) {
 				HealthRegeneration.removeRegenerator(p);
 			}
 		}
@@ -189,13 +189,13 @@ public class RegiosEntityListener extends EntityListener {
 											// check.
 			return;
 		} else {
-			for(Region r : currentRegionSet){
-				if(r.is_protection()){
+			for (Region r : currentRegionSet) {
+				if (r.is_protection()) {
 					evt.setCancelled(true);
 					evt.setRadius(0);
 					return;
 				}
-			}	
+			}
 		}
 
 	}

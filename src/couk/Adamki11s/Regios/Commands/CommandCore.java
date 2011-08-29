@@ -26,6 +26,7 @@ public class CommandCore implements CommandExecutor {
 	final AuthenticationCommands auth = new AuthenticationCommands();
 	final CreationCommands creation = new CreationCommands();
 	final DebugCommands debug = new DebugCommands();
+	final EconomyCommands eco = new EconomyCommands();
 	final ExceptionCommands excep = new ExceptionCommands();
 	final FunCommands fun = new FunCommands();
 	final InfoCommands info = new InfoCommands();
@@ -81,7 +82,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("cancel")) {
+			if (args.length == 1 && args[0].equalsIgnoreCase("cancel")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
 					CreationCommands.clearAll(p);
 				} else {
@@ -527,6 +528,30 @@ public class CommandCore implements CommandExecutor {
 
 			/*
 			 * Exceptions
+			 */
+			
+			/*
+			 * Economy
+			 */
+			
+			if (args.length == 3 && args[0].equalsIgnoreCase("for-sale")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.sell")) {
+					eco.setForSale(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 3 && args[0].equalsIgnoreCase("set-price")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.sell")) {
+					eco.setSalePrice(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			/*
+			 * Economy
 			 */
 
 			/*

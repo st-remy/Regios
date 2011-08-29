@@ -17,7 +17,7 @@ public class RegiosServerListener extends ServerListener {
         if (EconomyCore.iconomy != null) {
             if (event.getPlugin().getDescription().getName().equals("iConomy")) {
             	EconomyCore.iconomy = null;
-                System.out.println("[Regios] un-hooked from iConomy.");
+                System.out.println("[Regios] Un-hooked from iConomy.");
             }
         }
     }
@@ -30,7 +30,8 @@ public class RegiosServerListener extends ServerListener {
             if (iConomy != null) {
                 if (iConomy.isEnabled() && iConomy.getClass().getName().equals("com.iConomy.iConomy")) {
                 	EconomyCore.iconomy = (iConomy)iConomy;
-                    System.out.println("[Regios] hooked into iConomy successfully!");
+                    System.out.println("[Regios] Hooked into iConomy successfully!");
+                    EconomyCore.economySupport = true;
                 }
             } else {
             	System.out.println("[Regios] iConomy not found on server!");

@@ -117,8 +117,8 @@ public class Region extends PermChecks implements Checks {
 		this.preventEntryMode = ConfigurationData.preventEntryMode;
 		this.preventExitMode = ConfigurationData.preventExitMode;
 		this.preventExit = ConfigurationData.regionPreventExit;
-		this.authenticationRequiredMessage = colourFormat(ConfigurationData.defaultAuthenticationMessage);
-		this.authenticationSuccessMessage = colourFormat(ConfigurationData.defaultAuthenticationSuccessMessage);
+		this.authenticationRequiredMessage = ConfigurationData.defaultAuthenticationMessage;
+		this.authenticationSuccessMessage = ConfigurationData.defaultAuthenticationSuccessMessage;
 		this.spoutEntryMaterial = ConfigurationData.defaultSpoutWelcomeMaterial;
 		this.spoutExitMaterial = ConfigurationData.defaultSpoutLeaveMaterial;
 		this.spoutEntryMessage = "Welcome to [NAME]";
@@ -140,11 +140,6 @@ public class Region extends PermChecks implements Checks {
 		if (p == null && save) {
 			saveable.saveRegion(this, rl1, rl2);
 		}
-		this.welcomeMessage = colourFormat(welcomeMessage);
-		this.leaveMessage = colourFormat(leaveMessage);
-		this.protectionMessage = colourFormat(protectionMessage);
-		this.preventEntryMessage = colourFormat(preventEntryMessage);
-		this.preventExitMessage = colourFormat(preventExitMessage);
 
 		this.temporaryNodesCacheAdd = ConfigurationData.temporaryNodesCacheAdd;
 		this.spoutTexturePack = "";
@@ -271,7 +266,7 @@ public class Region extends PermChecks implements Checks {
 				}
 			}
 			if (this.showLeaveMessage) {
-				p.sendMessage(this.liveFormat(leaveMessage, p));
+				p.sendMessage(this.colourFormat(this.liveFormat(leaveMessage, p)));
 			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
 				if (this.showLeaveMessage) {
@@ -365,7 +360,7 @@ public class Region extends PermChecks implements Checks {
 				}
 			}
 			if (this.showWelcomeMessage) {
-				p.sendMessage(this.liveFormat(welcomeMessage, p));
+				p.sendMessage(this.colourFormat(this.liveFormat(welcomeMessage, p)));
 			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
 				if (this.showWelcomeMessage) {
@@ -437,21 +432,21 @@ public class Region extends PermChecks implements Checks {
 	public void sendBuildMessage(Player p) {
 		if (this.showProtectionMessage && isSendable(p)) {
 			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' tried to build but did not have permissions."));
-			p.sendMessage(protectionMessage);
+			p.sendMessage(this.colourFormat(this.liveFormat(protectionMessage, p)));
 		}
 	}
 
 	public void sendPreventEntryMessage(Player p) {
 		if (this.showPreventEntryMessage && isSendable(p)) {
 			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' tried to enter but did not have permissions."));
-			p.sendMessage(preventEntryMessage);
+			p.sendMessage(this.colourFormat(this.liveFormat(preventEntryMessage, p)));
 		}
 	}
 
 	public void sendPreventExitMessage(Player p) {
 		if (this.showPreventExitMessage && isSendable(p)) {
 			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' tried to leave but did not have permissions."));
-			p.sendMessage(preventExitMessage);
+			p.sendMessage(this.colourFormat(this.liveFormat(preventExitMessage, p)));
 		}
 	}
 
@@ -703,11 +698,11 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public void sendAuthenticationMessage(Player p) {
-		p.sendMessage(this.authenticationRequiredMessage);
+		p.sendMessage(this.colourFormat(this.authenticationRequiredMessage));
 	}
 
 	public void sendAuthenticationGrantedMessage(Player p) {
-		p.sendMessage(this.authenticationSuccessMessage);
+		p.sendMessage(this.colourFormat(this.authenticationSuccessMessage));
 	}
 
 	public RegionLocation getL1() {
@@ -770,8 +765,8 @@ public class Region extends PermChecks implements Checks {
 		message = message.replaceAll("\\[", "");
 		message = message.replaceAll("\\]", "");
 		message = message.replaceAll("OWNER", this.getOwner());
-		message = message.replaceAll("NAME", this.name);
-
+		message = message.replaceAll("NAME", this.getName());
+		
 		return message;
 	}
 

@@ -77,8 +77,10 @@ public class RegiosEntityListener extends EntityListener {
 		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
 											// inside region then cancel the
 											// check.
-			if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
-				evt.setCancelled(true);
+			if (GlobalRegionManager.getGlobalWorldSetting(w) != null) {
+				if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
+					evt.setCancelled(true);
+				}
 			}
 			return;
 		}

@@ -9,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -17,12 +18,16 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.inventory.ItemStack;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
 import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
+import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
+import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener.MSG;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -55,28 +60,44 @@ public class RegiosBlockListener extends BlockListener {
 			if (!lines[0].equalsIgnoreCase("[Regios]")) {
 				return;
 			} else {
-				Region r = GlobalRegionManager.getRegion(lines[1]);
-				if (r == null) {
-					evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + lines[1] + ChatColor.RED + " does not exist.");
-					evt.getBlock().setTypeId(0);
-					evt.setCancelled(true);
-					return;
-				} else {
-					if(!r.isForSale()){
-						evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + lines[1] + ChatColor.RED + " is not for sale!");
+				if (PermissionsCore.doesHaveNode(evt.getPlayer(), "regios.fun.sell")) {
+					Region r = GlobalRegionManager.getRegion(lines[1]);
+					if (r == null) {
+						if (RegiosPlayerListener.isSendable(evt.getPlayer(), MSG.ECONOMY)) {
+							evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + lines[1] + ChatColor.RED + " does not exist.");
+						}
 						evt.getBlock().setTypeId(0);
+						evt.getPlayer().getInventory().addItem(new ItemStack(323, 1));
 						evt.setCancelled(true);
 						return;
+					} else {
+						if (!r.isForSale()) {
+							if (RegiosPlayerListener.isSendable(evt.getPlayer(), MSG.ECONOMY)) {
+								evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + lines[1] + ChatColor.RED + " is not for sale!");
+							}
+							evt.getBlock().setTypeId(0);
+							evt.getPlayer().getInventory().addItem(new ItemStack(323, 1));
+							evt.setCancelled(true);
+							return;
+						}
+						if (!PermissionsCore.canModifyMain(r, evt.getPlayer())) {
+							if (RegiosPlayerListener.isSendable(evt.getPlayer(), MSG.ECONOMY)) {
+								evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] You don't have permissions to sell this region!");
+							}
+						}
+						evt.setLine(0, ChatColor.GREEN + "[Regios]");
+						evt.setLine(1, ChatColor.BLUE + r.getName());
+						evt.setLine(2, ChatColor.RED + "Price : " + r.getSalePrice());
+						evt.setLine(3, ChatColor.GREEN + "[Regios]");
+						evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Sale sign created for region : " + ChatColor.BLUE + r.getName());
+						evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Price : " + ChatColor.BLUE + r.getSalePrice());
 					}
-					if(!r.canOverride(evt.getPlayer(), r)){
-						evt.getPlayer().sendMessage(ChatColor.RED + "[Regios] You don't have permissions to sell this region!");
-					}
-					EconomyCore.getEconomySigns().addSign(r, evt.getBlock().getLocation());
-					evt.setLine(0, ChatColor.GREEN + "[Regios]");
-					evt.setLine(1, ChatColor.BLUE + r.getName());
-					evt.setLine(2, ChatColor.RED + "" + r.getSalePrice());
-					evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Sale sign created for region : " + ChatColor.BLUE + r.getName());
-					evt.getPlayer().sendMessage(ChatColor.GREEN + "[Regios] Price : " + ChatColor.BLUE + r.getSalePrice());
+				} else {
+					PermissionsCore.sendInvalidPerms(evt.getPlayer());
+					evt.getBlock().setTypeId(0);
+					evt.getPlayer().getInventory().addItem(new ItemStack(323, 1));
+					evt.setCancelled(true);
+					return;
 				}
 			}
 		}
@@ -96,7 +117,7 @@ public class RegiosBlockListener extends BlockListener {
 			extinguish(b.getRelative(0, 0, -1));
 			evt.setCancelled(true);
 		} else {
-			
+
 			Region r;
 
 			ArrayList<Region> regionSet = new ArrayList<Region>();
@@ -125,7 +146,8 @@ public class RegiosBlockListener extends BlockListener {
 				}
 			}
 
-			if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+			if (currentRegionSet.isEmpty()) { // If player is in chunk range but
+												// not
 												// inside region then cancel the
 												// check.
 				return;
@@ -136,8 +158,8 @@ public class RegiosBlockListener extends BlockListener {
 			} else {
 				r = currentRegionSet.get(0);
 			}
-			
-			if(r.isFireProtection()){
+
+			if (r.isFireProtection()) {
 				Block b = evt.getBlock();
 				extinguish(b.getRelative(1, 0, 0));
 				extinguish(b.getRelative(-1, 0, 0));
@@ -310,12 +332,46 @@ public class RegiosBlockListener extends BlockListener {
 
 	}
 
+	final CreationCommands cc = new CreationCommands();
+
 	public void onBlockBreak(BlockBreakEvent evt) {
 		Player p = evt.getPlayer();
 		Block b = evt.getBlock();
 		Location l = b.getLocation();
 		World w = b.getWorld();
 		Chunk c = w.getChunkAt(l);
+
+		if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getTypeId() == 68)) {
+			Sign sign = (Sign) b.getState();
+			String[] lines = sign.getLines();
+			if (sign.getLine(0).contains("[Regios]")) {
+				Region reg = GlobalRegionManager.getRegion(sign.getLine(1).substring(2, sign.getLine(1).length()));
+				if (reg != null) {
+					if (!PermissionsCore.canModifyMain(reg, p)) {
+						p.sendMessage(ChatColor.RED + "[Regios] You cannot destroy this sign!");
+						evt.setCancelled(true);
+						int count = 0;
+						for(String line : lines){
+							sign.setLine(count, line);
+							count++;
+						}
+						sign.update();
+						return;
+					}
+				} else {
+					p.sendMessage(ChatColor.RED + "[Regios] The region relating to this sign no longer exists!");
+					b.setTypeId(0);
+					return;
+				}
+			}
+		}
+
+		if (cc.isSetting(p) || cc.isModding(p)) {
+			if (p.getItemInHand().getType() == ConfigurationData.defaultSelectionTool) {
+				evt.setCancelled(true);
+				return;
+			}
+		}
 
 		GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);
 

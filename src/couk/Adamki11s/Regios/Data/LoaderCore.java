@@ -299,11 +299,11 @@ public class LoaderCore {
 				r.setShowWelcomeMessage(showWelcomeMessage);
 				r.setShowPvpWarning(showPvpWarning);
 
-				r.setPreventExitMessage(r.colourFormat(preventExitMessage));
-				r.setPreventEntryMessage(r.colourFormat(preventEntryMessage));
-				r.setProtectionMessage(r.colourFormat(protectionMessage));
-				r.setLeaveMessage(r.colourFormat(leaveMessage));
-				r.setWelcomeMessage(r.colourFormat(welcomeMessage));
+				r.setPreventExitMessage((preventExitMessage));
+				r.setPreventEntryMessage((preventEntryMessage));
+				r.setProtectionMessage((protectionMessage));
+				r.setLeaveMessage((leaveMessage));
+				r.setWelcomeMessage((welcomeMessage));
 
 				r.setFireProtection(fireProtection);
 

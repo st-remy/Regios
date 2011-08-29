@@ -24,13 +24,12 @@ public class EconomyCore {
 	private static iConomyManager iconomyManager = new iConomyManager();
 	
 	private static BoseEconomyManager boseManager = new BoseEconomyManager();
-	
-	private static EconomySigns economySigns = new EconomySigns();
 
 	public static void boseConomySetup() {
 		Plugin temp = Bukkit.getServer().getPluginManager().getPlugin("BOSEconomy");
 		if (temp != null) {
 			boseconomy = (BOSEconomy) temp;
+			economySupport = true;
 			log.info("[Regios] Hooked into BOSEconomy Successfully!");
 			return;
 		}	
@@ -51,10 +50,6 @@ public class EconomyCore {
 	
 	public static BoseEconomyManager getBoseEconomyManager(){
 		return boseManager;
-	}
-	
-	public static EconomySigns getEconomySigns(){
-		return economySigns;
 	}
 
 }

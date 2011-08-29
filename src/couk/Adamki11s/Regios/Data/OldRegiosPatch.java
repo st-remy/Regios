@@ -207,6 +207,55 @@ public class OldRegiosPatch {
 	}
 
 	private static String replaceString(String message) {
+		
+		message = message.replaceAll("<BLACK>", "\u00A70");
+		message = message.replaceAll("<0>", "\u00A70");
+
+		message = message.replaceAll("<DBLUE>", "\u00A71");
+		message = message.replaceAll("<1>", "\u00A71");
+
+		message = message.replaceAll("<DGREEN>", "\u00A72");
+		message = message.replaceAll("<2>", "\u00A72");
+
+		message = message.replaceAll("<DTEAL>", "\u00A73");
+		message = message.replaceAll("<3>", "\u00A73");
+
+		message = message.replaceAll("<DRED>", "\u00A74");
+		message = message.replaceAll("<4>", "\u00A74");
+
+		message = message.replaceAll("<PURPLE>", "\u00A75");
+		message = message.replaceAll("<5>", "\u00A75");
+
+		message = message.replaceAll("<GOLD>", "\u00A76");
+		message = message.replaceAll("<6>", "\u00A76");
+
+		message = message.replaceAll("<GREY>", "\u00A77");
+		message = message.replaceAll("<7>", "\u00A77");
+
+		message = message.replaceAll("<DGREY>", "\u00A78");
+		message = message.replaceAll("<8>", "\u00A78");
+
+		message = message.replaceAll("<BLUE>", "\u00A79");
+		message = message.replaceAll("<9>", "\u00A79");
+
+		message = message.replaceAll("<BGREEN>", "\u00A7a");
+		message = message.replaceAll("<A>", "\u00A7a");
+
+		message = message.replaceAll("<TEAL>", "\u00A7b");
+		message = message.replaceAll("<B>", "\u00A7b");
+
+		message = message.replaceAll("<RED>", "\u00A7c");
+		message = message.replaceAll("<C>", "\u00A7c");
+
+		message = message.replaceAll("<PINK>", "\u00A7d");
+		message = message.replaceAll("<D>", "\u00A7d");
+
+		message = message.replaceAll("<YELLOW>", "\u00A7e");
+		message = message.replaceAll("<E>", "\u00A7e");
+
+		message = message.replaceAll("<WHITE>", "\u00A7f");
+		message = message.replaceAll("<F>", "\u00A7f");
+		//-----------------------------------------------------------------------------
 		message = message.replaceAll("%BLACK%", "\u00A70");
 		message = message.replaceAll("\\&0", "\u00A70");
 		message = message.replaceAll("\\$0", "\u00A70");

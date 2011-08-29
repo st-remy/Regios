@@ -26,6 +26,7 @@ import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Economy.EconomyPending;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.RegionLocation;
@@ -36,7 +37,7 @@ import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class RegiosPlayerListener extends PlayerListener {
 
-	private enum MSG {
+	public static enum MSG {
 		PROTECTION, AUTHENTICATION, PREVENT_ENTRY, PREVENT_EXIT, ECONOMY;
 	}
 
@@ -53,13 +54,13 @@ public class RegiosPlayerListener extends PlayerListener {
 	private static HashMap<Player, Location> outsideRegionLocation = new HashMap<Player, Location>();
 	private static HashMap<Player, Location> insideRegionLocation = new HashMap<Player, Location>();
 
-	public HashMap<Player, Long> timeStampsProtection = new HashMap<Player, Long>();
-	public HashMap<Player, Long> timeStampsAuth = new HashMap<Player, Long>();
-	public HashMap<Player, Long> timeStampsPreventEntry = new HashMap<Player, Long>();
-	public HashMap<Player, Long> timeStampsPreventExit = new HashMap<Player, Long>();
-	public HashMap<Player, Long> timeStampsEconomy = new HashMap<Player, Long>();
+	public static HashMap<Player, Long> timeStampsProtection = new HashMap<Player, Long>();
+	public static HashMap<Player, Long> timeStampsAuth = new HashMap<Player, Long>();
+	public static HashMap<Player, Long> timeStampsPreventEntry = new HashMap<Player, Long>();
+	public static HashMap<Player, Long> timeStampsPreventExit = new HashMap<Player, Long>();
+	public static HashMap<Player, Long> timeStampsEconomy = new HashMap<Player, Long>();
 
-	private void setTimestamp(Player p, MSG msg) {
+	private static void setTimestamp(Player p, MSG msg) {
 		switch (msg) {
 		case PROTECTION:
 			timeStampsProtection.put(p, System.currentTimeMillis());
@@ -79,7 +80,7 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 	}
 
-	private boolean isSendable(Player p, MSG msg) {
+	public static boolean isSendable(Player p, MSG msg) {
 		boolean outcome = false;
 		switch (msg) {
 		case PROTECTION:
@@ -166,42 +167,76 @@ public class RegiosPlayerListener extends PlayerListener {
 		if (EconomyCore.isEconomySupportEnabled() && evt.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getTypeId() == 68)) {
 				Sign sign = (Sign) b.getState();
-				if (sign.getLine(0).equalsIgnoreCase("[Regios]")) {
-					Region region = GlobalRegionManager.getRegion(sign.getLine(1));
+				if (sign.getLine(0).contains("[Regios]")) {
+					Region region = GlobalRegionManager.getRegion(sign.getLine(1).substring(2, sign.getLine(1).length()));
+					if (region == null) {
+						p.sendMessage(ChatColor.RED + "[Regios] Sorry, This region no longer exists!");
+						b.setTypeId(0);
+						return;
+					}
+					if (region.getOwner().equals(p.getName())) {
+						if (isSendable(p, MSG.ECONOMY)) {
+							p.sendMessage(ChatColor.RED + "[Regios] You cannot buy this region as you already own it!");
+						}
+						evt.setCancelled(true);
+						return;
+					}
 					if (region.isForSale()) {
-						int price = region.getSalePrice();
-						if (EconomyCore.getEconomy() == Economy.ICONOMY) {
-							if (!EconomyCore.getiConomyManager().canAffordRegion(p, price)) {
-								if (isSendable(p, MSG.ECONOMY)) {
-									p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+						if (PermissionsCore.doesHaveNode(p, "regios.fun.buy")) {
+							int price = region.getSalePrice();
+							if (EconomyCore.getEconomy() == Economy.ICONOMY) {
+								if (!EconomyCore.getiConomyManager().canAffordRegion(p, price)) {
+									if (isSendable(p, MSG.ECONOMY)) {
+										p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+									}
+									return;
+								} else {
+									EconomyCore.getiConomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
+									p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for "
+											+ ChatColor.GOLD + price + ChatColor.GREEN + "!");
+									b.setTypeId(0);
+									return;
 								}
-								return;
-							} else {
-								EconomyCore.getiConomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
-								p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for " + ChatColor.GOLD
-										+ price + ChatColor.GREEN + "!");
-								EconomyCore.getEconomySigns().removeSign(b.getLocation());
-								b.setTypeId(0);
-								return;
-							}
-						} else if (EconomyCore.getEconomy() == Economy.BOSECONOMY) {
-							if (!EconomyCore.getBoseEconomyManager().canAffordRegion(p.getName(), price)) {
-								if (isSendable(p, MSG.ECONOMY)) {
-									p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+							} else if (EconomyCore.getEconomy() == Economy.BOSECONOMY) {
+								if (!EconomyCore.getBoseEconomyManager().canAffordRegion(p.getName(), price)) {
+									if (isSendable(p, MSG.ECONOMY)) {
+										p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+									}
+									return;
+								} else {
+									EconomyCore.getBoseEconomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
+									p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for "
+											+ ChatColor.GOLD + price + ChatColor.GREEN + "!");
+									b.setTypeId(0);
+									return;
 								}
-								return;
-							} else {
-								EconomyCore.getBoseEconomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
-								p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for " + ChatColor.GOLD
-										+ price + ChatColor.GREEN + "!");
-								EconomyCore.getEconomySigns().removeSign(b.getLocation());
-								b.setTypeId(0);
-								return;
 							}
+						} else {
+							PermissionsCore.sendInvalidPerms(p);
+							return;
 						}
 					} else {
-						p.sendMessage(ChatColor.RED + "[Regios] This region is not for sale, sorry!");
+						if (isSendable(p, MSG.ECONOMY)) {
+							p.sendMessage(ChatColor.RED + "[Regios] This region is not for sale, sorry!");
+						}
 						b.setTypeId(0);
+						return;
+					}
+				}
+			}
+		} else {
+			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getTypeId() == 68)) {
+				Sign sign = (Sign) b.getState();
+				if (sign.getLine(0).contains("[Regios]")) {
+					if (evt.getAction() == Action.LEFT_CLICK_BLOCK) {
+						if (isSendable(p, MSG.ECONOMY)) {
+							p.sendMessage(ChatColor.RED + "[Regios] You must right click to buy the relative region!");
+						}
+						return;
+					} else if (!EconomyCore.isEconomySupportEnabled() && evt.getAction() == Action.RIGHT_CLICK_BLOCK) {
+						if (isSendable(p, MSG.ECONOMY)) {
+							p.sendMessage(ChatColor.RED + "[Regios] Economy support is not enabled in the configuration!");
+						}
 						return;
 					}
 				}

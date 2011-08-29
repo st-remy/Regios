@@ -13,7 +13,7 @@ public class EconomyPending {
 	static final File root = new File("plugins" + File.separator + "Regios" + File.separator + "Other" + File.separator + "Pending");
 
 	public static void sendAppropriatePending(String seller, String buyer, String region_name, int price){
-		Player p = Bukkit.getPlayer(seller);
+		Player p = Bukkit.getServer().getPlayer(seller);
 		if(p == null){
 			createPending(seller, buyer, region_name, price);
 		} else {

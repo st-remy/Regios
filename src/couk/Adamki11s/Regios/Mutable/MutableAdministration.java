@@ -13,7 +13,7 @@ import couk.Adamki11s.Regios.Data.Saveable;
 import couk.Adamki11s.Regios.Regions.Region;
 
 public class MutableAdministration extends Saveable {
-	
+
 	final LoaderCore lc = new LoaderCore();
 
 	public void setOwner(Region r, String owner) {
@@ -28,29 +28,35 @@ public class MutableAdministration extends Saveable {
 		r.setOwner(owner);
 		c.save();
 	}
-	
-	public void reloadRegions(){
+
+	public void reloadRegions() {
 		lc.silentReload();
 	}
-	
-	public void reloadConfig(){
+
+	public void reloadConfig() {
 		lc.loadConfiguration();
 	}
-	
-	public void reloadAll(){
+
+	public void reloadAll() {
 		lc.silentReload();
 		lc.loadConfiguration();
 	}
-	
-	public String listRegions(){
+
+	public String listRegions() {
 		StringBuilder sb = new StringBuilder();
-		for(File f : new File("plugins" + File.separator + "Regios" + File.separator + "Database").listFiles()){
-			sb.append(ChatColor.WHITE).append(f.getName().substring(0, f.getName().lastIndexOf("."))).append(ChatColor.BLUE).append(", ");
+		int build = 0;
+		for (File f : new File("plugins" + File.separator + "Regios" + File.separator + "Database").listFiles()) {
+			build++;
+			sb.append(ChatColor.WHITE).append(f.getName().trim()).append(ChatColor.BLUE).append(", ");
 		}
-		return sb.toString();
+		if (build == 0) {
+			return "No Regions Found!";
+		} else {
+			return sb.toString();
+		}
 	}
-	
-	public void inherit(Region tin, Region inf){
+
+	public void inherit(Region tin, Region inf) {
 		tin.set_protection(inf.is_protection());
 		tin.setAuthenticationRequiredMessage(inf.getAuthenticationRequiredMessage());
 		tin.setAuthenticationSuccessMessage(inf.getAuthenticationSuccessMessage());

@@ -130,11 +130,11 @@ public class LoaderCore {
 	public void loadRegions(boolean silent) {
 		File[] children = db_root.listFiles();
 		if (children.length > 0) {
-			if (silent) {
+			if (!silent) {
 				log.info(prefix + " Loading [" + children.length + "] Regions.");
 			}
 		} else {
-			if (silent) {
+			if (!silent) {
 				log.info(prefix + " No Regions to load.");
 			}
 		}

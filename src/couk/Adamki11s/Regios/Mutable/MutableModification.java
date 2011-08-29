@@ -252,13 +252,13 @@ public class MutableModification {
 
 		f.renameTo(new File(r.getLogFile().getParentFile() + new_name + ".rz"));
 	}
+	
+	final static LoaderCore lc = new LoaderCore();
 
 	public static void editDeleteRegion(Region r, boolean reload) {
 		File f = r.getLogFile().getParentFile().getParentFile();
 		deleteDir(f);
-		if (reload) {
-			new LoaderCore().loadRegions(true);
-		}
+		lc.silentReload();
 	}
 
 	public static boolean deleteDir(File dir) {

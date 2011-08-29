@@ -58,7 +58,7 @@ public class MutableFun {
 		for(Entry<String, Object> entry : all.entrySet()){
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.Teleportation.Warp.Location", val.getWorld() + "," + val.getBlockX() + "," + val.getBlockY() + "," + val.getBlockZ());
+		c.setProperty("Region.Teleportation.Warp.Location", val.getWorld().getName() + "," + val.getBlockX() + "," + val.getBlockY() + "," + val.getBlockZ());
 		r.setWarp(val);
 		c.save();
 	}

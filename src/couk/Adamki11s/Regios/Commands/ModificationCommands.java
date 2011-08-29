@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Mutable.MutableModification;
+import couk.Adamki11s.Regios.Net.PingManager;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -168,6 +169,7 @@ public class ModificationCommands extends PermissionsCore {
 			p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region + ChatColor.GREEN + " deleted successfully.");
 		}
 		MutableModification.editDeleteRegion(r, true);
+		PingManager.delete();
 	}
 
 	public void setRename(Region r, String region, String input, Player p) {

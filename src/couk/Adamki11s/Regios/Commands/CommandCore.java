@@ -44,7 +44,7 @@ public class CommandCore implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
-		if (label.equalsIgnoreCase("regios")) {
+		if (label.equalsIgnoreCase("regios") || label.equalsIgnoreCase("reg") || label.equalsIgnoreCase("r")) {
 
 			Player p = (Player) sender;
 
@@ -70,7 +70,7 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("create")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
-					if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("placeholder")) {
+					if (args[1].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("placeholder") || args[1].equalsIgnoreCase("confirm")) {
 						p.sendMessage(ChatColor.RED + "[Regios] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is a reserved word!");
 						return true;
 					}
@@ -1036,6 +1036,14 @@ public class CommandCore implements CommandExecutor {
 			if (args.length == 3 && args[0].equalsIgnoreCase("set-owner")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.set-owner")) {
 					admin.setOwner(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.list")) {
+					admin.listRegions(p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

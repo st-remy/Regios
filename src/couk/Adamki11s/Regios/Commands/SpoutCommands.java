@@ -19,7 +19,7 @@ public class SpoutCommands extends PermissionsCore {
 	
 	public void setWelcome(Region r, String region, String[] message, Player p){
 		String builder = "";
-		for(int index = 2; index <= message.length; index++){
+		for(int index = 2; index < message.length; index++){
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
@@ -34,7 +34,7 @@ public class SpoutCommands extends PermissionsCore {
 	
 	public void setLeave(Region r, String region, String[] message, Player p){
 		String builder = "";
-		for(int index = 2; index <= message.length; index++){
+		for(int index = 2; index < message.length; index++){
 			builder += message[index] + " ";
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {

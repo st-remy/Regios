@@ -54,14 +54,16 @@ public class Region extends PermChecks implements Checks {
 	private ArrayList<String> nodes = new ArrayList<String>();
 	private ArrayList<Integer> items = new ArrayList<Integer>();
 
-	private String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", authenticationRequiredMessage = "", authenticationSuccessMessage = "", password = "", name = "", owner = "",
-			spoutEntryMessage = "", spoutExitMessage = "", spoutTexturePack = "";
+	private String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", authenticationRequiredMessage = "",
+			authenticationSuccessMessage = "", password = "", name = "", owner = "", spoutEntryMessage = "", spoutExitMessage = "", spoutTexturePack = "";
 
 	private Material spoutEntryMaterial = Material.GRASS, spoutExitMaterial = Material.DIRT;
 
-	private boolean _protection = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true, doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true,
-			passwordEnabled = false, showWelcomeMessage = true, showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false, playCustomSoundUrl = false, permWipeOnEnter = false,
-			permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false, blockForm = true, forSale = false, useSpoutTexturePack = false;
+	private boolean _protection = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true,
+			doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true, passwordEnabled = false, showWelcomeMessage = true,
+			showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false,
+			playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false,
+			blockForm = true, forSale = false, useSpoutTexturePack = false;
 
 	private int LSPS = 0, healthRegen = 0, playerCap = 0, salePrice = 0;
 	private double velocityWarp = 0;
@@ -156,11 +158,13 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public File getLogFile() {
-		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Logs" + File.separator + this.name + ".log");
+		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Logs" + File.separator
+				+ this.name + ".log");
 	}
 
 	public Configuration getConfigFile() {
-		return new Configuration(new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + this.name + ".rz"));
+		return new Configuration(new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + this.name
+				+ ".rz"));
 	}
 
 	public File getExceptionDirectory() {
@@ -253,13 +257,17 @@ public class Region extends PermChecks implements Checks {
 			}
 			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' left region."));
 			if (PermissionsCore.hasPermissions) {
-				if (this.temporaryNodesCacheAdd.length > 0) {
-					PermissionsCacheManager.unCacheNodes(p, this);
-					LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Temporary node caches wiped upon region exit for player '" + p.getName() + "'"));
+				if (this.temporaryNodesCacheAdd != null) {
+					if (this.temporaryNodesCacheAdd.length > 0) {
+						PermissionsCacheManager.unCacheNodes(p, this);
+						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Temporary node caches wiped upon region exit for player '" + p.getName() + "'"));
+					}
 				}
-				if (this.permanentNodesCacheRemove.length > 0) {
-					PermissionsCacheManager.permRemoveNodes(p, this);
-					LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Permanent nodes wiped upon region exit for player '" + p.getName() + "'"));
+				if (this.permanentNodesCacheRemove != null) {
+					if (this.permanentNodesCacheRemove.length > 0) {
+						PermissionsCacheManager.permRemoveNodes(p, this);
+						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Permanent nodes wiped upon region exit for player '" + p.getName() + "'"));
+					}
 				}
 			}
 			if (this.showLeaveMessage) {
@@ -272,7 +280,7 @@ public class Region extends PermChecks implements Checks {
 				if (this.playCustomSoundUrl) {
 					SpoutInterface.stopMusicPlaying(p, region);
 				}
-				if (this.useSpoutTexturePack){
+				if (this.useSpoutTexturePack) {
 					SpoutInterface.resetTexturePack(p);
 				}
 			}
@@ -331,22 +339,29 @@ public class Region extends PermChecks implements Checks {
 				}
 			}
 			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' entered region."));
-			if (this.commandSet.length > 0) {
-				for (String s : commandSet) {
-					if (s.length() > 1) {
-						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player forced command '" + s + "' upon enter."));
-						p.performCommand(s.trim());
+			if (this.commandSet != null) {
+				if (this.commandSet.length > 0) {
+					for (String s : commandSet) {
+						if (s.length() > 1) {
+							LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player forced command '" + s + "' upon enter."));
+							p.performCommand(s.trim());
+						}
 					}
 				}
 			}
 			if (PermissionsCore.hasPermissions) {
-				if (this.temporaryNodesCacheAdd.length > 0) {
-					PermissionsCacheManager.cacheNodes(p, this);
-					LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Temporary node caches added upon region enter for player '" + p.getName() + "'"));
+				if (this.temporaryNodesCacheAdd != null) {
+					if (this.temporaryNodesCacheAdd.length > 0) {
+						PermissionsCacheManager.cacheNodes(p, this);
+						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Temporary node caches added upon region enter for player '" + p.getName() + "'"));
+					}
 				}
-				if (this.permanentNodesCacheAdd.length > 0) {
-					PermissionsCacheManager.permAddNodes(p, this);
-					LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Permanent nodes added upon region enter for player '" + p.getName() + "'"));
+
+				if (this.permanentNodesCacheAdd != null) {
+					if (this.permanentNodesCacheAdd.length > 0) {
+						PermissionsCacheManager.permAddNodes(p, this);
+						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Permanent nodes added upon region enter for player '" + p.getName() + "'"));
+					}
 				}
 			}
 			if (this.showWelcomeMessage) {

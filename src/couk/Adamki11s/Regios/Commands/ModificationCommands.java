@@ -171,7 +171,7 @@ public class ModificationCommands extends PermissionsCore {
 			}
 			p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region + ChatColor.GREEN + " deleted successfully.");
 		}
-		MutableModification.editDeleteRegion(r, true);
+		MutableModification.editDeleteRegion(r, true, p);
 		PingManager.delete();
 	}
 

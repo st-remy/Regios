@@ -22,16 +22,23 @@ public class LogRunner {
 
 	public static void pollLogMessages() {
 		timer++;
-		if (timer >= 600) {//10 minutes between logs
-			pushLogMessages();
+		if (timer >= 600) {//10 minutes between logs(600)
+			try {
+				pushLogMessages();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			timer = 0;
 		}
 	}
 
-	private synchronized static void pushLogMessages() {
+	private synchronized static void pushLogMessages() throws IOException {
 		System.out.println("[Regios] Writing region logs to log files...");
 		for (Entry<Region, ArrayList<String>> entry : log.entrySet()) {
 			File logFile = entry.getKey().getLogFile();
+			if(!logFile.exists()){
+				logFile.createNewFile();
+			}
 			fileWipeCheck(logFile);
 			ArrayList<String> messages = log.get(entry.getKey());
 			for (String msg : messages) {
@@ -46,6 +53,7 @@ public class LogRunner {
 				}
 			}
 		}
+		System.out.println("[Regios] Log files saved & closed.");
 	}
 	
 	private synchronized static void fileWipeCheck(File f){

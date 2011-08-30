@@ -136,7 +136,7 @@ public class OldRegiosPatch {
 				String name = regres.getString("regionname").toLowerCase();
 
 				if (GlobalRegionManager.doesExist(name)) {
-					MutableModification.editDeleteRegion(GlobalRegionManager.getRegion(name), false);
+					MutableModification.editDeleteRegion(GlobalRegionManager.getRegion(name), false, p);
 					patchMessage("Deleting existing region name : " + name, p);
 				}
 
@@ -208,117 +208,72 @@ public class OldRegiosPatch {
 
 	private static String replaceString(String message) {
 		
-		message = message.replaceAll("<BLACK>", "\u00A70");
-		message = message.replaceAll("<0>", "\u00A70");
+		System.out.println(message);
+		System.out.println(message.contains("§"));
+		
+		message = message.replaceAll("%BLACK%", "<BLACK>");
+		message = message.replaceAll("\\&0", "<BLACK>");
+		message = message.replaceAll("\\$0", "<BLACK>");
 
-		message = message.replaceAll("<DBLUE>", "\u00A71");
-		message = message.replaceAll("<1>", "\u00A71");
+		message = message.replaceAll("%DBLUE%", "<DBLUE>");
+		message = message.replaceAll("\\&1", "<DBLUE>");
+		message = message.replaceAll("\\$1", "<DBLUE>");
 
-		message = message.replaceAll("<DGREEN>", "\u00A72");
-		message = message.replaceAll("<2>", "\u00A72");
+		message = message.replaceAll("%DGREEN%", "<DGREEN>");
+		message = message.replaceAll("\\&2", "<DGREEN>");
+		message = message.replaceAll("\\$2", "<DGREEN>");
 
-		message = message.replaceAll("<DTEAL>", "\u00A73");
-		message = message.replaceAll("<3>", "\u00A73");
+		message = message.replaceAll("%DTEAL%", "<DTEAL>");
+		message = message.replaceAll("\\&3", "<DTEAL>");
+		message = message.replaceAll("\\$3", "<DTEAL>");
 
-		message = message.replaceAll("<DRED>", "\u00A74");
-		message = message.replaceAll("<4>", "\u00A74");
+		message = message.replaceAll("%DRED%", "<DRED>");
+		message = message.replaceAll("\\&4", "<DRED>");
+		message = message.replaceAll("\\$4", "<DRED>");
 
-		message = message.replaceAll("<PURPLE>", "\u00A75");
-		message = message.replaceAll("<5>", "\u00A75");
+		message = message.replaceAll("%PURPLE%", "<PURPLE>");
+		message = message.replaceAll("\\&5", "<PURPLE>");
+		message = message.replaceAll("\\$5", "<PURPLE>");
 
-		message = message.replaceAll("<GOLD>", "\u00A76");
-		message = message.replaceAll("<6>", "\u00A76");
+		message = message.replaceAll("%GOLD%", "<GOLD>");
+		message = message.replaceAll("\\&6", "<GOLD>");
+		message = message.replaceAll("\\$6", "<GOLD>");
 
-		message = message.replaceAll("<GREY>", "\u00A77");
-		message = message.replaceAll("<7>", "\u00A77");
+		message = message.replaceAll("%GREY%", "<GREY>");
+		message = message.replaceAll("\\&7", "<GREY>");
+		message = message.replaceAll("\\$7", "<GREY>");
 
-		message = message.replaceAll("<DGREY>", "\u00A78");
-		message = message.replaceAll("<8>", "\u00A78");
+		message = message.replaceAll("%DGREY%", "<DGREY>");
+		message = message.replaceAll("\\&8", "<DGREY>");
+		message = message.replaceAll("\\$8", "<DGREY>");
 
-		message = message.replaceAll("<BLUE>", "\u00A79");
-		message = message.replaceAll("<9>", "\u00A79");
+		message = message.replaceAll("%BLUE%", "<BLUE>");
+		message = message.replaceAll("\\&9", "<BLUE>");
+		message = message.replaceAll("\\$9", "<BLUE>");
 
-		message = message.replaceAll("<BGREEN>", "\u00A7a");
-		message = message.replaceAll("<A>", "\u00A7a");
+		message = message.replaceAll("%BGREEN%", "<BGREEN>");
+		message = message.replaceAll("\\&A", "<BGREEN>");
+		message = message.replaceAll("\\$A", "<BGREEN>");
 
-		message = message.replaceAll("<TEAL>", "\u00A7b");
-		message = message.replaceAll("<B>", "\u00A7b");
+		message = message.replaceAll("%TEAL%", "<TEAL>");
+		message = message.replaceAll("\\&B", "<TEAL>");
+		message = message.replaceAll("\\$B", "<TEAL>");
 
-		message = message.replaceAll("<RED>", "\u00A7c");
-		message = message.replaceAll("<C>", "\u00A7c");
+		message = message.replaceAll("%RED%", "<RED>");
+		message = message.replaceAll("\\&C", "<RED>");
+		message = message.replaceAll("\\$C", "<RED>");
 
-		message = message.replaceAll("<PINK>", "\u00A7d");
-		message = message.replaceAll("<D>", "\u00A7d");
+		message = message.replaceAll("%PINK%", "<PINK>");
+		message = message.replaceAll("\\&D", "<PINK>");
+		message = message.replaceAll("\\$D", "<PINK>");
 
-		message = message.replaceAll("<YELLOW>", "\u00A7e");
-		message = message.replaceAll("<E>", "\u00A7e");
+		message = message.replaceAll("%YELLOW%", "<YELLOW>");
+		message = message.replaceAll("\\&E", "<YELLOW>");
+		message = message.replaceAll("\\$E", "<YELLOW>");
 
-		message = message.replaceAll("<WHITE>", "\u00A7f");
-		message = message.replaceAll("<F>", "\u00A7f");
-		//-----------------------------------------------------------------------------
-		message = message.replaceAll("%BLACK%", "\u00A70");
-		message = message.replaceAll("\\&0", "\u00A70");
-		message = message.replaceAll("\\$0", "\u00A70");
-
-		message = message.replaceAll("%DBLUE%", "\u00A71");
-		message = message.replaceAll("\\&1", "\u00A71");
-		message = message.replaceAll("\\$1", "\u00A71");
-
-		message = message.replaceAll("%DGREEN%", "\u00A72");
-		message = message.replaceAll("\\&2", "\u00A72");
-		message = message.replaceAll("\\$2", "\u00A72");
-
-		message = message.replaceAll("%DTEAL%", "\u00A73");
-		message = message.replaceAll("\\&3", "\u00A73");
-		message = message.replaceAll("\\$3", "\u00A73");
-
-		message = message.replaceAll("%DRED%", "\u00A74");
-		message = message.replaceAll("\\&4", "\u00A74");
-		message = message.replaceAll("\\$4", "\u00A74");
-
-		message = message.replaceAll("%PURPLE%", "\u00A75");
-		message = message.replaceAll("\\&5", "\u00A75");
-		message = message.replaceAll("\\$5", "\u00A75");
-
-		message = message.replaceAll("%GOLD%", "\u00A76");
-		message = message.replaceAll("\\&6", "\u00A76");
-		message = message.replaceAll("\\$6", "\u00A76");
-
-		message = message.replaceAll("%GREY%", "\u00A77");
-		message = message.replaceAll("\\&7", "\u00A77");
-		message = message.replaceAll("\\$7", "\u00A77");
-
-		message = message.replaceAll("%DGREY%", "\u00A78");
-		message = message.replaceAll("\\&8", "\u00A78");
-		message = message.replaceAll("\\$8", "\u00A78");
-
-		message = message.replaceAll("%BLUE%", "\u00A79");
-		message = message.replaceAll("\\&9", "\u00A79");
-		message = message.replaceAll("\\$9", "\u00A79");
-
-		message = message.replaceAll("%BGREEN%", "\u00A7a");
-		message = message.replaceAll("\\&A", "\u00A7a");
-		message = message.replaceAll("\\$A", "\u00A7a");
-
-		message = message.replaceAll("%TEAL%", "\u00A7b");
-		message = message.replaceAll("\\&B", "\u00A7b");
-		message = message.replaceAll("\\$B", "\u00A7b");
-
-		message = message.replaceAll("%RED%", "\u00A7c");
-		message = message.replaceAll("\\&C", "\u00A7c");
-		message = message.replaceAll("\\$C", "\u00A7c");
-
-		message = message.replaceAll("%PINK%", "\u00A7d");
-		message = message.replaceAll("\\&D", "\u00A7d");
-		message = message.replaceAll("\\$D", "\u00A7d");
-
-		message = message.replaceAll("%YELLOW%", "\u00A7e");
-		message = message.replaceAll("\\&E", "\u00A7e");
-		message = message.replaceAll("\\$E", "\u00A7e");
-
-		message = message.replaceAll("%WHITE%", "\u00A7f");
-		message = message.replaceAll("\\&F", "\u00A7f");
-		message = message.replaceAll("\\$F", "\u00A7f");
+		message = message.replaceAll("%WHITE%", "<WHITE>");
+		message = message.replaceAll("\\&F", "<WHITE>");
+		message = message.replaceAll("\\$F", "<WHITE>");
 
 		return message;
 	}

@@ -2,12 +2,14 @@ package couk.Adamki11s.Regios.Commands;
 
 import java.util.HashMap;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Net.PingManager;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
@@ -75,12 +77,15 @@ public class CreationCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
 			return;
 		}
-		new Region(p.getName(), name, point1.get(p), point2.get(p), p.getWorld(), null, true);
+		Region r = new Region(p.getName(), name, point1.get(p), point2.get(p), p.getWorld(), null, true);
 		p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + name + ChatColor.GREEN + " created successfully!");
 		clearPoints(p);
 		modding.put(p, false);
 		setting.put(p, false);
 		PingManager.created();
+		RegionCreateEvent event = new RegionCreateEvent("RegionCreateEvent");
+		event.setProperties(p, r);
+        Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 
 	public boolean arePointsSet(Player p) {

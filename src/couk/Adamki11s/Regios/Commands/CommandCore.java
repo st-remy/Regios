@@ -3,13 +3,17 @@ package couk.Adamki11s.Regios.Commands;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
+import couk.Adamki11s.Regios.CustomEvents.RegionCommandEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.Data.OldRegiosPatch;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Main.Regios;
@@ -19,6 +23,7 @@ import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.RBF.RBF_Save;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
+import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class CommandCore implements CommandExecutor {
 
@@ -29,6 +34,7 @@ public class CommandCore implements CommandExecutor {
 	final EconomyCommands eco = new EconomyCommands();
 	final ExceptionCommands excep = new ExceptionCommands();
 	final FunCommands fun = new FunCommands();
+	final HelpCommands help = new HelpCommands();
 	final InfoCommands info = new InfoCommands();
 	final MessageCommands msg = new MessageCommands();
 	final MiscCommands miscCmd = new MiscCommands();
@@ -47,7 +53,20 @@ public class CommandCore implements CommandExecutor {
 
 		if (label.equalsIgnoreCase("regios") || label.equalsIgnoreCase("reg") || label.equalsIgnoreCase("r")) {
 
+			if(!(sender instanceof Player)){
+				System.out.println("[Regios] Regios doesn't support console commands yet. Please log in and excute your command as a player.");
+				return true;
+			}
+			
 			Player p = (Player) sender;
+			
+			if(args.length >= 1 && args[0].equalsIgnoreCase("help")){
+				if(SpoutInterface.doesPlayerHaveSpout(p)){
+					help.getSpoutHelp((SpoutPlayer)p);
+				} else {
+					help.getStandardHelp(p, args);
+				}
+			}
 
 			if (args.length == 1 && args[0].equalsIgnoreCase("set")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
@@ -94,7 +113,7 @@ public class CommandCore implements CommandExecutor {
 				auth.sendPassword(p, args[1], RegiosPlayerListener.regionBinding.get(p));
 			}
 
-			if (args.length >= 2 && args[0].equalsIgnoreCase("warp")) {
+			if (args.length >= 2 && (args[0].equalsIgnoreCase("warpto") || args[0].equalsIgnoreCase("warp-to"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.warpto")) {
 					warps.warpToRegion(args[1], p);
 				} else {
@@ -529,11 +548,11 @@ public class CommandCore implements CommandExecutor {
 			/*
 			 * Exceptions
 			 */
-			
+
 			/*
 			 * Economy
 			 */
-			
+
 			if (args.length == 3 && args[0].equalsIgnoreCase("for-sale")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.sell")) {
 					eco.setForSale(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
@@ -541,7 +560,7 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
-			
+
 			if (args.length == 3 && args[0].equalsIgnoreCase("set-price")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.sell")) {
 					eco.setSalePrice(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
@@ -550,6 +569,18 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 			
+			if (args.length == 2 && (args[0].equalsIgnoreCase("buy") || args[0].equalsIgnoreCase("buy-region"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.buy")) {
+					eco.buyRegion(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+
+			if (args.length == 1 && (args[0].equalsIgnoreCase("list-for-sale") || args[0].equalsIgnoreCase("list-forsale"))) {
+				eco.listRegionsForSale(p);
+			}
+
 			/*
 			 * Economy
 			 */
@@ -655,7 +686,7 @@ public class CommandCore implements CommandExecutor {
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("usepassword") || args[0].equalsIgnoreCase("use-password"))) {
-				if (PermissionsCore.doesHaveNode(p, "regios.protection.use-warp")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.set-password")) {
 					misc.setPasswordEnabled(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
@@ -973,6 +1004,14 @@ public class CommandCore implements CommandExecutor {
 			/*
 			 * Misc. Cmd
 			 */
+			
+			if (args.length == 1 && args[0].equalsIgnoreCase("check")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.other.check")) {
+					miscCmd.checkRegion(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("add-cmd-set")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.other.cmd-set")) {
@@ -1077,6 +1116,10 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
+			
+			if (args.length == 2 && (args[0].equalsIgnoreCase("list-backups") || args[0].equalsIgnoreCase("list-backup"))) {
+					admin.listRegionBackups(GlobalRegionManager.getRegion(args[1]), args[1], p);
+			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.backup-region")) {
@@ -1111,6 +1154,10 @@ public class CommandCore implements CommandExecutor {
 					e.printStackTrace();
 				}
 			}
+			
+			RegionCommandEvent event = new RegionCommandEvent("RegionCreateEvent");
+			event.setProperties(sender, label, args);
+	        Bukkit.getServer().getPluginManager().callEvent(event);
 
 			return true;
 		}

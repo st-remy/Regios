@@ -18,6 +18,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.painting.PaintingBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
@@ -51,6 +52,8 @@ public class RegiosBlockListener extends BlockListener {
 			b.setType(Material.AIR);
 		}
 	}
+
+	
 
 	public void onSignChange(SignChangeEvent evt) {
 		if (!EconomyCore.isEconomySupportEnabled()) {
@@ -198,8 +201,10 @@ public class RegiosBlockListener extends BlockListener {
 		}
 
 		if (regionSet.isEmpty()) {
-			if (!GlobalRegionManager.getGlobalWorldSetting(w).blockForm_enabled) {
-				evt.setCancelled(true);
+			if (gws != null) {
+				if (!gws.blockForm_enabled) {
+					evt.setCancelled(true);
+				}
 			}
 			return;
 		}
@@ -230,10 +235,6 @@ public class RegiosBlockListener extends BlockListener {
 		if (!r.isBlockForm()) {
 			evt.setCancelled(true);
 			return;
-		}
-
-		if (!GlobalRegionManager.getGlobalWorldSetting(w).blockForm_enabled) {
-			evt.setCancelled(true);
 		}
 	}
 
@@ -283,12 +284,14 @@ public class RegiosBlockListener extends BlockListener {
 
 		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
 											// inside region then cancel the
-											// check.
-			if (gws.invert_protection) {
-				if (!gws.canBypassWorldChecks(p)) {
-					p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
-					evt.setCancelled(true);
-					return;
+			// check.
+			if (gws != null) {
+				if (gws.invert_protection) {
+					if (!gws.canBypassWorldChecks(p)) {
+						p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
+						evt.setCancelled(true);
+						return;
+					}
 				}
 			}
 			return;
@@ -351,7 +354,7 @@ public class RegiosBlockListener extends BlockListener {
 						p.sendMessage(ChatColor.RED + "[Regios] You cannot destroy this sign!");
 						evt.setCancelled(true);
 						int count = 0;
-						for(String line : lines){
+						for (String line : lines) {
 							sign.setLine(count, line);
 							count++;
 						}
@@ -430,7 +433,7 @@ public class RegiosBlockListener extends BlockListener {
 		}
 
 		if (r.isProtected()) {
-			if (!r.canBuild(p, r)) {
+			if (!r.canBuild(p)) {
 				evt.setCancelled(true);
 				r.sendBuildMessage(p);
 				return;

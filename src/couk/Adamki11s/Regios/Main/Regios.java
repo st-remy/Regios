@@ -25,6 +25,8 @@ import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Scheduler.MainRunner;
+import couk.Adamki11s.Regios.SpoutGUI.CacheHandler;
+import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutCraftListener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInventoryListener;
@@ -80,6 +82,7 @@ public class Regios extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_JOIN, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Highest, this);
+		pm.registerEvent(Type.PLAYER_BUCKET_EMPTY, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_IGNITE, blockListener, Priority.Highest, this);
@@ -88,8 +91,9 @@ public class Regios extends JavaPlugin {
 		pm.registerEvent(Type.EXPLOSION_PRIME, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_DAMAGE, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.CREATURE_SPAWN, entityListener, Priority.Highest, this);
-		pm.registerEvent(Type.LIGHTNING_STRIKE, weatherListener, Priority.Highest, this);
+		pm.registerEvent(Type.PAINTING_BREAK, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_DEATH, entityListener, Priority.Highest, this);
+		pm.registerEvent(Type.LIGHTNING_STRIKE, weatherListener, Priority.Highest, this);
 		
 		if(EconomyCore.economy == Economy.ICONOMY){
 			pm.registerEvent(Type.PLUGIN_ENABLE, serverListener, Priority.Monitor, this);
@@ -114,8 +118,10 @@ public class Regios extends JavaPlugin {
 		}
 
 		if (SpoutInterface.global_spoutEnabled) {
+			CacheHandler.cacheObjects();
 			pm.registerEvent(Type.CUSTOM_EVENT, new SpoutCraftListener(), Priority.Highest, this);
 			pm.registerEvent(Type.CUSTOM_EVENT, new SpoutInventoryListener(), Priority.Highest, this);
+			pm.registerEvent(Type.CUSTOM_EVENT, new Screen_Listener(), Priority.Highest, this);
 		}
 		
 		log.info(prefix + " Starting scheduler task...");

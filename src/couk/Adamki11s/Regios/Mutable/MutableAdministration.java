@@ -31,6 +31,7 @@ public class MutableAdministration extends Saveable {
 	}
 
 	public void reloadRegions() {
+		GlobalRegionManager.purgeWorldSettings();
 		lc.silentReload();
 	}
 
@@ -53,7 +54,7 @@ public class MutableAdministration extends Saveable {
 			sb.append(ChatColor.WHITE).append(f.getName().trim()).append(ChatColor.BLUE).append(", ");
 		}
 		if (build == 0) {
-			return "No Regions Found!";
+			return ChatColor.RED + "[Regios] No Regions Found!";
 		} else {
 			return sb.toString();
 		}

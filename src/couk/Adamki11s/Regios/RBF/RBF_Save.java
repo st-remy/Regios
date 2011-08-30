@@ -8,12 +8,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import couk.Adamki11s.Regios.CustomEvents.RegionBackupEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.jnbt.ByteArrayTag;
@@ -110,6 +113,10 @@ public class RBF_Save extends PermissionsCore{
 			nbt.writeTag(compoundTag);
 			nbt.close();
 			p.sendMessage(ChatColor.GREEN + "[Regios] Region saved to .rbf file successfully!");
+			
+			RegionBackupEvent event = new RegionBackupEvent("RegionBackupEvent");
+			event.setProperties(r, backupname, p);
+	        Bukkit.getServer().getPluginManager().callEvent(event);
 		} catch (Exception ex) {
 			p.sendMessage(ChatColor.RED + "[Regios] Error saving region! Stack trace printed in console.");
 			ex.printStackTrace();

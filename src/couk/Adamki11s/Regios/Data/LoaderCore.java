@@ -11,6 +11,8 @@ import org.bukkit.World;
 import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Checks.ChunkGrid;
+import couk.Adamki11s.Regios.CustomEvents.RegionDeleteEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionLoadEvent;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
@@ -35,6 +37,7 @@ public class LoaderCore {
 
 	public void silentReload() {
 		GlobalRegionManager.purgeRegions();
+		loadConfiguration();
 		loadRegions(true);
 	}
 
@@ -100,7 +103,7 @@ public class LoaderCore {
 		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa,
 				bb, ccc, dd, ee, fireProtection, musicUrl, playmusic, permWipeOnEnter, permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, commandSet,
 				tempAddCache, permAddCache, permRemCache, form, playerCap);
-		
+
 		System.out.println("[Regios] Loaded default region configuation file.");
 		// Initialises variables in configuration data.
 
@@ -151,23 +154,31 @@ public class LoaderCore {
 						+ File.separator + root.getName() + File.separator + "Exceptions" + File.separator + "Nodes"), it = new File(db_root + File.separator + root.getName()
 						+ File.separator + "Items");
 
-				for (File ex : excep.listFiles()) {
-					if (!ex.getName().contains("Placeholder")) {
-						exceptionsPlayers.add(ex.getName().substring(0, ex.getName().lastIndexOf(".")));
+				if (excep.exists()) {
+					for (File ex : excep.listFiles()) {
+						if (!ex.getName().contains("Placeholder")) {
+							exceptionsPlayers.add(ex.getName().substring(0, ex.getName().lastIndexOf(".")));
+						}
 					}
 				}
-				for (File nd : nodes.listFiles()) {
-					if (!nd.getName().contains("Placeholder")) {
-						exceptionsNodes.add(nd.getName().substring(0, nd.getName().lastIndexOf(".")));
+
+				if (nodes.exists()) {
+					for (File nd : nodes.listFiles()) {
+						if (!nd.getName().contains("Placeholder")) {
+							exceptionsNodes.add(nd.getName().substring(0, nd.getName().lastIndexOf(".")));
+						}
 					}
 				}
-				if (it.listFiles().length > 0) {
-					for (File f : it.listFiles()) {
-						if (!f.getName().contains("Placeholder")) {
-							try {
-								items.add(Integer.parseInt(f.getName().substring(0, f.getName().lastIndexOf("."))));
-							} catch (NumberFormatException nfe) {
-								log.severe(prefix + " Error parsing integer in item file! File : " + f.getName());
+
+				if (it.exists()) {
+					if (it.listFiles().length > 0) {
+						for (File f : it.listFiles()) {
+							if (!f.getName().contains("Placeholder")) {
+								try {
+									items.add(Integer.parseInt(f.getName().substring(0, f.getName().lastIndexOf("."))));
+								} catch (NumberFormatException nfe) {
+									log.severe(prefix + " Error parsing integer in item file! File : " + f.getName());
+								}
 							}
 						}
 					}
@@ -339,6 +350,10 @@ public class LoaderCore {
 				} else if (r.getLSPS() == 0 && LightningRunner.doesStikesContain(r)) {
 					LightningRunner.removeRegion(r);
 				}
+				
+				RegionLoadEvent event = new RegionLoadEvent("RegionLoadEvent");
+				event.setProperties(r);
+		        Bukkit.getServer().getPluginManager().callEvent(event);
 
 			}
 		}

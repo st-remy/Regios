@@ -17,8 +17,10 @@ import couk.Adamki11s.Extras.Cryptography.ExtrasCryptography;
 import couk.Adamki11s.Regios.Checks.Checks;
 import couk.Adamki11s.Regios.Checks.ChunkGrid;
 import couk.Adamki11s.Regios.Checks.PermChecks;
+import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionEnterEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionLightningStrikeEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Data.Saveable;
@@ -135,12 +137,6 @@ public class Region extends PermChecks implements Checks {
 		this.wipeAndCacheOnExit = ConfigurationData.wipeAndCacheOnExit;
 		this.forceCommand = ConfigurationData.forceCommand;
 		this.commandSet = ConfigurationData.commandSet;
-		chunkGrid = new ChunkGrid(l1, l2, this);
-		GlobalRegionManager.addRegion(this);
-		if (p == null && save) {
-			saveable.saveRegion(this, rl1, rl2);
-		}
-
 		this.temporaryNodesCacheAdd = ConfigurationData.temporaryNodesCacheAdd;
 		this.spoutTexturePack = "";
 		this.useSpoutTexturePack = false;
@@ -149,6 +145,11 @@ public class Region extends PermChecks implements Checks {
 			LightningRunner.addRegion(this);
 		} else if (this.LSPS == 0 && LightningRunner.doesStikesContain(this)) {
 			LightningRunner.removeRegion(this);
+		}
+		chunkGrid = new ChunkGrid(l1, l2, this);
+		GlobalRegionManager.addRegion(this);
+		if (p == null && save) {
+			saveable.saveRegion(this, rl1, rl2);
 		}
 	}
 
@@ -164,6 +165,10 @@ public class Region extends PermChecks implements Checks {
 
 	public File getExceptionDirectory() {
 		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Exceptions");
+	}
+
+	public File getBackupsDirectory() {
+		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Backups");
 	}
 
 	public String getName() {
@@ -219,6 +224,7 @@ public class Region extends PermChecks implements Checks {
 	public void sendLeaveMessage(Player p) {
 		if (!isLeaveMessageSent(p)) {
 			this.registerExitEvent(p);
+			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' left region."));
 			if (RegiosPlayerListener.currentRegion.containsKey(p)) {
 				RegiosPlayerListener.currentRegion.remove(p);
 			}
@@ -297,6 +303,7 @@ public class Region extends PermChecks implements Checks {
 	public void sendWelcomeMessage(Player p) {
 		if (!isWelcomeMessageSent(p)) {
 			this.registerWelcomeEvent(p);
+			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' entered region."));
 			if (this.useSpoutTexturePack && SpoutInterface.doesPlayerHaveSpout(p)) {
 				SpoutInterface.forceTexturePack(p, this);
 			}
@@ -403,20 +410,24 @@ public class Region extends PermChecks implements Checks {
 
 	public void addException(String exception) {
 		this.exceptions.add(exception);
+		LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Exception '" + exception + "' added."));
 	}
 
 	public void removeException(String exception) {
 		if (this.exceptions.contains(exception)) {
 			this.exceptions.remove(exception);
+			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Exception '" + exception + "' removed."));
 		}
 	}
 
 	public void addExceptionNode(String node) {
 		this.nodes.add(node);
+		LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Exception node '" + node + "' added."));
 	}
 
 	public void removeExceptionNode(String node) {
 		if (this.nodes.contains(node)) {
+			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Exception node '" + node + "' removed."));
 			this.nodes.remove(node);
 		}
 	}
@@ -714,6 +725,72 @@ public class Region extends PermChecks implements Checks {
 	}
 
 	public String colourFormat(String message) {
+		// In case old regions were not patched properly
+		message = message.replaceAll("%BLACK%", "<BLACK>");
+		message = message.replaceAll("\\&0", "<BLACK>");
+		message = message.replaceAll("\\$0", "<BLACK>");
+
+		message = message.replaceAll("%DBLUE%", "<DBLUE>");
+		message = message.replaceAll("\\&1", "<DBLUE>");
+		message = message.replaceAll("\\$1", "<DBLUE>");
+
+		message = message.replaceAll("%DGREEN%", "<DGREEN>");
+		message = message.replaceAll("\\&2", "<DGREEN>");
+		message = message.replaceAll("\\$2", "<DGREEN>");
+
+		message = message.replaceAll("%DTEAL%", "<DTEAL>");
+		message = message.replaceAll("\\&3", "<DTEAL>");
+		message = message.replaceAll("\\$3", "<DTEAL>");
+
+		message = message.replaceAll("%DRED%", "<DRED>");
+		message = message.replaceAll("\\&4", "<DRED>");
+		message = message.replaceAll("\\$4", "<DRED>");
+
+		message = message.replaceAll("%PURPLE%", "<PURPLE>");
+		message = message.replaceAll("\\&5", "<PURPLE>");
+		message = message.replaceAll("\\$5", "<PURPLE>");
+
+		message = message.replaceAll("%GOLD%", "<GOLD>");
+		message = message.replaceAll("\\&6", "<GOLD>");
+		message = message.replaceAll("\\$6", "<GOLD>");
+
+		message = message.replaceAll("%GREY%", "<GREY>");
+		message = message.replaceAll("\\&7", "<GREY>");
+		message = message.replaceAll("\\$7", "<GREY>");
+
+		message = message.replaceAll("%DGREY%", "<DGREY>");
+		message = message.replaceAll("\\&8", "<DGREY>");
+		message = message.replaceAll("\\$8", "<DGREY>");
+
+		message = message.replaceAll("%BLUE%", "<BLUE>");
+		message = message.replaceAll("\\&9", "<BLUE>");
+		message = message.replaceAll("\\$9", "<BLUE>");
+
+		message = message.replaceAll("%BGREEN%", "<BGREEN>");
+		message = message.replaceAll("\\&A", "<BGREEN>");
+		message = message.replaceAll("\\$A", "<BGREEN>");
+
+		message = message.replaceAll("%TEAL%", "<TEAL>");
+		message = message.replaceAll("\\&B", "<TEAL>");
+		message = message.replaceAll("\\$B", "<TEAL>");
+
+		message = message.replaceAll("%RED%", "<RED>");
+		message = message.replaceAll("\\&C", "<RED>");
+		message = message.replaceAll("\\$C", "<RED>");
+
+		message = message.replaceAll("%PINK%", "<PINK>");
+		message = message.replaceAll("\\&D", "<PINK>");
+		message = message.replaceAll("\\$D", "<PINK>");
+
+		message = message.replaceAll("%YELLOW%", "<YELLOW>");
+		message = message.replaceAll("\\&E", "<YELLOW>");
+		message = message.replaceAll("\\$E", "<YELLOW>");
+
+		message = message.replaceAll("%WHITE%", "<WHITE>");
+		message = message.replaceAll("\\&F", "<WHITE>");
+		message = message.replaceAll("\\$F", "<WHITE>");
+		// In case old regions were not patched properly
+
 		message = message.replaceAll("<BLACK>", "\u00A70");
 		message = message.replaceAll("<0>", "\u00A70");
 
@@ -766,7 +843,7 @@ public class Region extends PermChecks implements Checks {
 		message = message.replaceAll("\\]", "");
 		message = message.replaceAll("OWNER", this.getOwner());
 		message = message.replaceAll("NAME", this.getName());
-		
+
 		return message;
 	}
 

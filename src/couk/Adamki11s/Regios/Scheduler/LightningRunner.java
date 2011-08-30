@@ -80,8 +80,7 @@ public class LightningRunner {
 		
 		RegionLightningStrikeEvent event = new RegionLightningStrikeEvent("RegionLightningStrikeEvent");
 		event.setProperties(new Location(world, xStrike, yStrike, zStrike, 0, 0), r);
-        Bukkit.getServer().getPluginManager().callEvent(event);
-		
+        Bukkit.getServer().getPluginManager().callEvent(event);	
 
 	}
 	

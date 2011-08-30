@@ -10,8 +10,10 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -184,14 +186,27 @@ public class RegiosPlayerListener extends PlayerListener {
 					if (region.isForSale()) {
 						if (PermissionsCore.doesHaveNode(p, "regios.fun.buy")) {
 							int price = region.getSalePrice();
+							try {
+								if (Integer.parseInt(sign.getLine(2).split(":")[1].trim()) != price) {
+									p.sendMessage(ChatColor.RED + "[Regios] Invalid sign! Price does not correspond!");
+									b.setTypeId(0);
+									return;
+								}
+							} catch (NumberFormatException ex) {
+								ex.printStackTrace();
+							}
 							if (EconomyCore.getEconomy() == Economy.ICONOMY) {
 								if (!EconomyCore.getiConomyManager().canAffordRegion(p, price)) {
 									if (isSendable(p, MSG.ECONOMY)) {
 										p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+										LogRunner.addLogMessage(region, LogRunner.getPrefix(region)
+												+ (" Player '" + p.getName() + "' tried to buy region but didn't have enough money."));
 									}
 									return;
 								} else {
 									EconomyCore.getiConomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
+									LogRunner.addLogMessage(region, LogRunner.getPrefix(region)
+											+ (" Player '" + p.getName() + "' bought region from '" + region.getOwner() + "' for " + price + "."));
 									p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for "
 											+ ChatColor.GOLD + price + ChatColor.GREEN + "!");
 									b.setTypeId(0);
@@ -201,10 +216,14 @@ public class RegiosPlayerListener extends PlayerListener {
 								if (!EconomyCore.getBoseEconomyManager().canAffordRegion(p.getName(), price)) {
 									if (isSendable(p, MSG.ECONOMY)) {
 										p.sendMessage(ChatColor.RED + "[Regios] You cannot afford this region!");
+										LogRunner.addLogMessage(region, LogRunner.getPrefix(region)
+												+ (" Player '" + p.getName() + "' tried to buy region but didn't have enough money."));
 									}
 									return;
 								} else {
 									EconomyCore.getBoseEconomyManager().buyRegion(region, p.getName(), region.getOwner(), price);
+									LogRunner.addLogMessage(region, LogRunner.getPrefix(region)
+											+ (" Player '" + p.getName() + "' bought region from '" + region.getOwner() + "' for " + price + "."));
 									p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + region.getName() + ChatColor.GREEN + " purchased for "
 											+ ChatColor.GOLD + price + ChatColor.GREEN + "!");
 									b.setTypeId(0);
@@ -308,6 +327,79 @@ public class RegiosPlayerListener extends PlayerListener {
 
 	public boolean areChunksEqual(Chunk c1, Chunk c2) {
 		return (c1.getX() == c2.getX() && c1.getZ() == c2.getZ());
+	}
+
+	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent evt) {
+		Location l = evt.getBlockClicked().getLocation();
+		Player p = evt.getPlayer();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			Location rl1 = reg.getL1().toBukkitLocation(), rl2 = reg.getL2().toBukkitLocation();
+			if (rl1.getX() > rl2.getX()) {
+				rl2.subtract(8, 0, 0);
+				rl1.add(8, 0, 0);
+			} else {
+				rl2.add(8, 0, 0);
+				rl1.subtract(8, 0, 0);
+			}
+			if (rl1.getZ() > rl2.getZ()) {
+				rl2.subtract(0, 0, 8);
+				rl1.add(0, 0, 8);
+			} else {
+				rl2.add(0, 0, 8);
+				rl1.subtract(0, 0, 8);
+			}
+			if (rl1.getY() > rl2.getY()) {
+				rl2.subtract(0, 10, 0);
+				rl1.add(0, 10, 0);
+			} else {
+				rl2.add(0, 10, 0);
+				rl1.subtract(0, 10, 0);
+			}
+			if (extReg.isInsideCuboid(l, rl1, rl2)) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
+			return;
+		} else {
+			for (Region r : currentRegionSet) {
+				if (r.is_protection()) {
+					if (!r.canBuild(p)) {
+						LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
+								+ (" Player '" + p.getName() + "' tried to empty a " + evt.getBucket().toString() + " but was prevented."));
+						r.sendBuildMessage(p);
+						evt.setCancelled(true);
+						return;
+					}
+				}
+			}
+		}
 	}
 
 	public void onPlayerMove(PlayerMoveEvent evt) {

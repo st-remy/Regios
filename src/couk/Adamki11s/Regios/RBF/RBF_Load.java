@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import couk.Adamki11s.Regios.CustomEvents.RegionBackupEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionRestoreEvent;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.jnbt.ByteArrayTag;
@@ -85,6 +88,10 @@ public class RBF_Load extends PermissionsCore {
 
 		fis.close();
 		nbt.close();
+		
+		RegionRestoreEvent event = new RegionRestoreEvent("RegionRestoreEvent");
+		event.setProperties(r, backupname, p);
+        Bukkit.getServer().getPluginManager().callEvent(event);
 
 		p.sendMessage(ChatColor.GREEN + "[Regios] Region restored successfully from .rbf file!");
 	}

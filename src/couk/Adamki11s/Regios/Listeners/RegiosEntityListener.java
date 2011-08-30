@@ -17,6 +17,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.painting.PaintingBreakEvent;
+
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
 import couk.Adamki11s.Regios.Checks.PermChecks;
@@ -124,6 +126,73 @@ public class RegiosEntityListener extends EntityListener {
 		}
 	}
 
+	public void onPaintingBreak(PaintingBreakEvent evt) {
+		Location l = evt.getPainting().getLocation();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+
+		GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);
+
+		Region r;
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			if (gws != null) {
+				if (gws.invert_protection) {
+					evt.setCancelled(true);
+					return;
+				}
+			}
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			if (extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
+			if (gws != null) {
+				if (gws.invert_protection) {
+					evt.setCancelled(true);
+					return;
+				}
+			}
+			return;
+		}
+
+		if (currentRegionSet.size() > 1) {
+			r = srm.getCurrentRegion(null, currentRegionSet);
+		} else {
+			r = currentRegionSet.get(0);
+		}
+
+		if (r.is_protection()) {
+			LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Painting break was prevented."));
+			evt.setCancelled(true);
+			return;
+		}
+
+	}
+
 	public void onExplosionPrime(ExplosionPrimeEvent evt) {
 
 		Location l = evt.getEntity().getLocation();
@@ -131,10 +200,12 @@ public class RegiosEntityListener extends EntityListener {
 		Chunk c = w.getChunkAt(l);
 
 		if (evt.getEntity() instanceof Creeper) {
-			if (!GlobalRegionManager.getGlobalWorldSetting(w).creeperExplodes) {
-				evt.setCancelled(true);
-				evt.setRadius(0);
-				return;
+			if (GlobalRegionManager.getGlobalWorldSetting(w) != null) {
+				if (!GlobalRegionManager.getGlobalWorldSetting(w).creeperExplodes) {
+					evt.setCancelled(true);
+					evt.setRadius(0);
+					return;
+				}
 			}
 		}
 
@@ -193,6 +264,7 @@ public class RegiosEntityListener extends EntityListener {
 		} else {
 			for (Region r : currentRegionSet) {
 				if (r.is_protection()) {
+					LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Entity explosion was prevented."));
 					evt.setCancelled(true);
 					evt.setRadius(0);
 					return;
@@ -247,9 +319,11 @@ public class RegiosEntityListener extends EntityListener {
 		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
 											// inside region then cancel the
 											// check.
-			if (!gws.invert_pvp && gws.overridingPvp) {
-				evt.setCancelled(true);
-				return;
+			if (gws != null) {
+				if (!gws.invert_pvp && gws.overridingPvp) {
+					evt.setCancelled(true);
+					return;
+				}
 			}
 			return;
 		}
@@ -271,6 +345,8 @@ public class RegiosEntityListener extends EntityListener {
 				EntityDamageByEntityEvent edevt = (EntityDamageByEntityEvent) evt;
 				if (edevt.getDamager() instanceof Player && edevt.getEntity() instanceof Player) {
 					Player damager = (Player) edevt.getDamager();
+					LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
+							+ (" Player '" + damager.getName() + "' tried to attack '" + ((Player) evt.getEntity()).getName() + " but was prevented."));
 					damager.sendMessage(ChatColor.RED + "[Regios] You cannot fight within regions in this world!");
 					evt.setCancelled(true);
 					evt.setDamage(0);

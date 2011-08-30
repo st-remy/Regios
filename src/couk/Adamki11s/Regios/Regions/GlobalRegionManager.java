@@ -22,6 +22,14 @@ public class GlobalRegionManager {
 		return worldSettings;
 	}
 	
+	public static boolean deleteRegionFromCache(Region r){
+		if(regions.contains(r)){
+			regions.remove(r);
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean doesExist(String name){
 		for(Region r : regions){
 			if(r.getName().equalsIgnoreCase(name)){
@@ -61,7 +69,7 @@ public class GlobalRegionManager {
 	
 	public static GlobalWorldSetting getGlobalWorldSetting(World w){
 		for(GlobalWorldSetting gws : worldSettings){
-			if(gws.world.equals(w.getName())){
+			if(gws.world.equalsIgnoreCase(w.getName())){
 				return gws;
 			}
 		}

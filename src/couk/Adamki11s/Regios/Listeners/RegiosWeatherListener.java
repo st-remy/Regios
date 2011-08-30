@@ -25,6 +25,9 @@ public class RegiosWeatherListener extends WeatherListener {
 	
 	public void onLightningStrike(LightningStrikeEvent evt){
 		World w = evt.getWorld();
+		if(GlobalRegionManager.getGlobalWorldSetting(w) == null){
+			return;
+		}
 		if(!GlobalRegionManager.getGlobalWorldSetting(w).lightning_enabled){
 			evt.setCancelled(true);
 		}

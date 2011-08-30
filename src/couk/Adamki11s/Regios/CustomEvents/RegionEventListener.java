@@ -21,5 +21,17 @@ public abstract class RegionEventListener extends CustomEventListener {
     public abstract void onRegionExit(RegionExitEvent event);
     
     public abstract void onRegionLightningStrike(RegionLightningStrikeEvent event);
+    
+    public abstract void onRegionCreate(RegionCreateEvent event);
+    
+    public abstract void onRegionDelete(RegionDeleteEvent event);
+    
+    public abstract void onRegionLoad(RegionLoadEvent event);
+    
+    public abstract void onRegionBackup(RegionBackupEvent event);
+    
+    public abstract void onRegionRestore(RegionRestoreEvent event);
+    
+    public abstract void onRegionCommand(RegionCommandEvent event);
 
 }

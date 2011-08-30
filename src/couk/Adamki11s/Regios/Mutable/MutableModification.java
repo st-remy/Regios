@@ -4,12 +4,15 @@ import java.io.File;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
+import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionDeleteEvent;
 import couk.Adamki11s.Regios.Data.LoaderCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -212,10 +215,13 @@ public class MutableModification {
 	
 	final static LoaderCore lc = new LoaderCore();
 
-	public static void editDeleteRegion(Region r, boolean reload) {
+	public static void editDeleteRegion(Region r, boolean reload, Player p) {
 		File f = r.getLogFile().getParentFile().getParentFile();
 		deleteDir(f);
-		lc.silentReload();
+		GlobalRegionManager.deleteRegionFromCache(r);
+		RegionDeleteEvent event = new RegionDeleteEvent("RegionDeleteEvent");
+		event.setProperties(p, r);
+        Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 
 	public static boolean deleteDir(File dir) {

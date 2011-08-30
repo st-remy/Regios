@@ -3,8 +3,11 @@ package couk.Adamki11s.Regios.Mutable;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
+import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 
 public class MutableEconomy {
@@ -39,6 +42,20 @@ public class MutableEconomy {
 		c.setProperty("Region.Economy.Price", val);
 		r.setSalePrice(val);
 		c.save();
+	}
+
+	public String listRegionsForSale() {
+		StringBuilder sb = new StringBuilder();
+		for (Region r : GlobalRegionManager.getRegions()) {
+			if (r.isForSale()) {
+				sb.append(ChatColor.WHITE).append(r.getName()).append(ChatColor.YELLOW).append(" : ").append(r.getSalePrice()).append(ChatColor.BLUE + ", ");
+			}
+		}
+		if (sb.toString().length() < 3) {
+			return ChatColor.RED + "[Regios] No Regions for sale!";
+		} else {
+			return sb.toString();
+		}
 	}
 
 }

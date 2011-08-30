@@ -1,5 +1,7 @@
 package couk.Adamki11s.Regios.Commands;
 
+import java.io.File;
+
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -28,6 +30,24 @@ public class AdministrationCommands extends PermissionsCore {
 	public void reloadAll(Player p){
 		mutable.reloadAll();
 		p.sendMessage(ChatColor.GREEN + "[Regios] Complete reload completed.");
+	}
+	
+	public void listRegionBackups(Region r, String region, Player p){
+		if(r == null){
+			p.sendMessage(ChatColor.RED + "[Regios] The region to inherit : " + ChatColor.BLUE + region + ChatColor.RED + " does not exist!");
+			return;
+		}
+		File f = r.getBackupsDirectory();
+		if(f.listFiles().length < 1){
+			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " has no backups!");
+		} else {
+			StringBuilder sb = new StringBuilder();
+			for(File backup : f.listFiles()){
+				sb.append(ChatColor.WHITE).append(backup.getName().substring(0, backup.getName().lastIndexOf("."))).append(ChatColor.BLUE).append(", ");
+			}
+			p.sendMessage(sb.toString());
+			return;
+		}
 	}
 	
 	public void setOwner(Region r, String name, String owner, Player p){

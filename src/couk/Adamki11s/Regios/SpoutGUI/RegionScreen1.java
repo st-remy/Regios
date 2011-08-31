@@ -2,8 +2,10 @@ package couk.Adamki11s.Regios.SpoutGUI;
 
 import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.GenericButton;
+import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.InGameHUD;
+import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -14,14 +16,14 @@ import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 
 public class RegionScreen1 {
 
-	public static GenericButton[] page1Buttons = { new GenericButton("Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
+	/*public static GenericButton[] page1Buttons = { new GenericButton("Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
 			new GenericButton("Prevent Interaction"), new GenericButton("Doors Locked"), new GenericButton("Chests Locked"), new GenericButton("Fire Protection"),
 			new GenericButton("Block Form"), new GenericButton("Mobs Spawn"), new GenericButton("Monsters Spawn"), new GenericButton("Show Welcome"),
 			new GenericButton("Show Leave"), new GenericButton("Show Prevent Entry"), new GenericButton("Show Prevent Exit"), new GenericButton("Show Protection"),
 			new GenericButton("Show Pvp"), new GenericButton("PvP"), new GenericButton("Health Enabled"), new GenericButton("Protection Mode"),
-			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode") };
+			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode")};*/
 
-	public static void loadScreen(SpoutPlayer sp, Region r, Object[] oldWidgets) {
+	public static void loadScreen(SpoutPlayer sp, Region r, Object[] oldWidgets, ScreenHolder sh) {
 		InGameHUD hud = sp.getMainScreen();
 
 		if (oldWidgets != null) {
@@ -33,10 +35,14 @@ public class RegionScreen1 {
 				}
 			}
 		}
+		
+		for(Widget widg : sh.page1Buttons){
+			widg.setPriority(RenderPriority.Lowest);
+		}
 
 		int pinX = 18, pinY = 10, index = 0;
 
-		for (GenericButton b : page1Buttons) {
+		for (GenericButton b : sh.page1Buttons) {
 			pinY += 23;
 			if (pinY > (hud.getHeight() - 35)) {
 				pinY = 33;

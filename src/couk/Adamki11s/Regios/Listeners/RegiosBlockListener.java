@@ -108,59 +108,8 @@ public class RegiosBlockListener extends BlockListener {
 		World w = evt.getBlock().getWorld();
 		Chunk c = w.getChunkAt(evt.getBlock());
 		Location l = evt.getBlock().getLocation();
-		if (!GlobalRegionManager.getGlobalWorldSetting(w).fireEnabled) {
-			Block b = evt.getBlock();
-			extinguish(b.getRelative(1, 0, 0));
-			extinguish(b.getRelative(-1, 0, 0));
-			extinguish(b.getRelative(0, 1, 0));
-			extinguish(b.getRelative(0, -1, 0));
-			extinguish(b.getRelative(0, 0, 1));
-			extinguish(b.getRelative(0, 0, -1));
-			evt.setCancelled(true);
-		} else {
-
-			Region r;
-
-			ArrayList<Region> regionSet = new ArrayList<Region>();
-
-			for (Region region : GlobalRegionManager.getRegions()) {
-				for (Chunk chunk : region.getChunkGrid().getChunks()) {
-					if (chunk.getWorld() == w) {
-						if (areChunksEqual(chunk, c)) {
-							if (!regionSet.contains(region)) {
-								regionSet.add(region);
-							}
-						}
-					}
-				}
-			}
-
-			if (regionSet.isEmpty()) {
-				return;
-			}
-
-			ArrayList<Region> currentRegionSet = new ArrayList<Region>();
-
-			for (Region reg : regionSet) {
-				if (extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
-					currentRegionSet.add(reg);
-				}
-			}
-
-			if (currentRegionSet.isEmpty()) { // If player is in chunk range but
-												// not
-												// inside region then cancel the
-												// check.
-				return;
-			}
-
-			if (currentRegionSet.size() > 1) {
-				r = srm.getCurrentRegion(null, currentRegionSet);
-			} else {
-				r = currentRegionSet.get(0);
-			}
-
-			if (r.isFireProtection()) {
+		if (GlobalRegionManager.getGlobalWorldSetting(w) != null) {
+			if (!GlobalRegionManager.getGlobalWorldSetting(w).fireEnabled) {
 				Block b = evt.getBlock();
 				extinguish(b.getRelative(1, 0, 0));
 				extinguish(b.getRelative(-1, 0, 0));
@@ -172,6 +121,60 @@ public class RegiosBlockListener extends BlockListener {
 				return;
 			}
 		}
+
+		Region r;
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			if (extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but
+											// not
+											// inside region then cancel the
+											// check.
+			return;
+		}
+
+		if (currentRegionSet.size() > 1) {
+			r = srm.getCurrentRegion(null, currentRegionSet);
+		} else {
+			r = currentRegionSet.get(0);
+		}
+
+		if (r.isFireProtection()) {
+			Block b = evt.getBlock();
+			extinguish(b.getRelative(1, 0, 0));
+			extinguish(b.getRelative(-1, 0, 0));
+			extinguish(b.getRelative(0, 1, 0));
+			extinguish(b.getRelative(0, -1, 0));
+			extinguish(b.getRelative(0, 0, 1));
+			extinguish(b.getRelative(0, 0, -1));
+			evt.setCancelled(true);
+			return;
+		}
+
 	}
 
 	public void onBlockForm(BlockFormEvent evt) {

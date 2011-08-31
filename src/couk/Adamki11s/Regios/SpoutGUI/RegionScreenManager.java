@@ -2,6 +2,7 @@ package couk.Adamki11s.Regios.SpoutGUI;
 
 import java.util.HashMap;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -26,16 +27,18 @@ public class RegionScreenManager {
 	public static HashMap<SpoutPlayer, GenericPopup> popup = new HashMap<SpoutPlayer, GenericPopup>();
 	public static HashMap<SpoutPlayer, Integer> page = new HashMap<SpoutPlayer, Integer>();
 	public static HashMap<SpoutPlayer, Region> editing = new HashMap<SpoutPlayer, Region>();
+	
+	public static HashMap<SpoutPlayer, GenericButton> escButton = new HashMap<SpoutPlayer, GenericButton>();
+	public static HashMap<SpoutPlayer, GenericButton> pageForward = new HashMap<SpoutPlayer, GenericButton>();
+	public static HashMap<SpoutPlayer, GenericButton> pageBackwards = new HashMap<SpoutPlayer, GenericButton>();
+	public static HashMap<SpoutPlayer, GenericLabel> pageTracker = new HashMap<SpoutPlayer, GenericLabel>();
 
-	public static GenericButton escButton, pageForward, pageBackwards;
-
-	public static GenericLabel pageTracker;
 
 	public static Plugin plugin;
 
 	private static final int pages = 2;
 
-	public static void drawPanelFramework(SpoutPlayer sp, Region r) {
+	public static void drawPanelFramework(SpoutPlayer sp, Region r, ScreenHolder sh) {
 		
 		plugin = Regios.regios;
 
@@ -49,11 +52,11 @@ public class RegionScreenManager {
 
 		page.put(sp, 1);
 
-		drawPanelBase(sp);
-		RegionScreen1.loadScreen(sp, r, null);
+		drawPanelBase(sp, sh);
+		RegionScreen1.loadScreen(sp, r, null, sh);
 	}
 
-	private static void drawPanelBase(SpoutPlayer sp) {
+	private static void drawPanelBase(SpoutPlayer sp, ScreenHolder sh) {
 		InGameHUD hud = sp.getMainScreen();
 
 		GenericTexture texture = new GenericTexture("http://dl.dropbox.com/u/27260323/Regios/GUI/Editor%20GUI%20Texture.png");
@@ -65,74 +68,90 @@ public class RegionScreenManager {
 
 		((GenericPopup) popup.get(sp)).attachWidget(plugin, texture);
 
-		escButton = new GenericButton("Close");
-		escButton.setColor(RGB.RED.getColour());
-		escButton.setHoverColor(RGB.FIREBRICK.getColour());
-		escButton.setX(4);
-		escButton.setY(6);
-		escButton.setWidth(60);
-		escButton.setHeight(20);
-		escButton.setTooltip("  Close the Editor");
+		GenericButton tmp1 = new GenericButton("Close");
+		tmp1.setColor(RGB.RED.getColour());
+		tmp1.setHoverColor(RGB.FIREBRICK.getColour());
+		tmp1.setX(4);
+		tmp1.setY(6);
+		tmp1.setWidth(60);
+		tmp1.setHeight(20);
+		tmp1.setTooltip("  Close the Editor");
+		
+		sh.escButton = tmp1;
+		
+		escButton.put(sp, tmp1);
 
-		((GenericPopup) popup.get(sp)).attachWidget(plugin, escButton);
+		((GenericPopup) popup.get(sp)).attachWidget(plugin, escButton.get(sp));
 
-		pageTracker = new GenericLabel("Page : " + page.get(sp) + " / " + pages);
-		pageTracker.setX((hud.getWidth() / 2) - 37);
-		pageTracker.setY(hud.getHeight() - 15);
-		pageTracker.setWidth(60);
-		pageTracker.setTextColor(RGB.YELLOW.getColour());
+		GenericLabel tracker = new GenericLabel("Page : " + page.get(sp) + " / " + pages);
+		tracker.setX((hud.getWidth() / 2) - 37);
+		tracker.setY(hud.getHeight() - 15);
+		tracker.setWidth(60);
+		tracker.setTextColor(RGB.YELLOW.getColour());
+		
+	    pageTracker.put(sp, tracker);
+	    
+	    sh.pageTracker = tracker;
 
-		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageTracker);
+		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageTracker.get(sp));
 
-		pageForward = new GenericButton(">");
-		pageForward.setWidth(35);
-		pageForward.setHeight(20);
-		pageForward.setX(390);
-		pageForward.setY(hud.getHeight() - 24);
-		pageForward.setColor(RGB.RED.getColour());
-		pageForward.setHoverColor(RGB.GREEN.getColour());
+		GenericButton tm2 = new GenericButton(">");
+		tm2.setWidth(35);
+		tm2.setHeight(20);
+		tm2.setX(390);
+		tm2.setY(hud.getHeight() - 24);
+		tm2.setColor(RGB.RED.getColour());
+		tm2.setHoverColor(RGB.GREEN.getColour());
+		
+		pageForward.put(sp, tm2);
+		
+		sh.pageForward = tm2;
 
-		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageForward);
+		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageForward.get(sp));
 
-		pageBackwards = new GenericButton("<");
-		pageBackwards.setWidth(35);
-		pageBackwards.setHeight(20);
-		pageBackwards.setX(2);
-		pageBackwards.setY(hud.getHeight() - 22);
-		pageBackwards.setColor(RGB.RED.getColour());
-		pageBackwards.setHoverColor(RGB.GREEN.getColour());
+		GenericButton back = new GenericButton("<");
+		back.setWidth(35);
+		back.setHeight(20);
+		back.setX(2);
+		back.setY(hud.getHeight() - 22);
+		back.setColor(RGB.RED.getColour());
+		back.setHoverColor(RGB.GREEN.getColour());
+		
+		pageBackwards.put(sp, back);
+		
+		sh.pageBackwards = back;
 
-		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageBackwards);
+		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageBackwards.get(sp));
 
 		hud.attachPopupScreen((PopupScreen) popup.get(sp));
 
 	}
 
-	public static void nextPage(SpoutPlayer sp) {
+	public static void nextPage(SpoutPlayer sp, ScreenHolder sh) {
 		int pageNum = page.get(sp);
 		if (pageNum == pages) {
-			sp.sendNotification("Error!", "No next page.", Material.FIRE);
+			sp.sendNotification(ChatColor.DARK_RED + "Error!", "No next page.", Material.FIRE);
 			return;
 		}
 		page.put(sp, pageNum + 1);
-		pageTracker.setText("Page : " + page.get(sp) + " / " + pages);
-		pageTracker.setDirty(true);
+		pageTracker.get(sp).setText("Page : " + page.get(sp) + " / " + pages);
+		pageTracker.get(sp).setDirty(true);
 		switch(page.get(sp)){
-			case 2 : RegionScreen2.loadScreen(sp, editing.get(sp), RegionScreen1.page1Buttons);
+			case 2 : RegionScreen2.loadScreen(sp, editing.get(sp), sh.page1Buttons, sh);
 		}
 	}
 
-	public static void previousPage(SpoutPlayer sp) {
+	public static void previousPage(SpoutPlayer sp, ScreenHolder sh) {
 		int pageNum = page.get(sp);
 		if (pageNum == 1) {
-			sp.sendNotification("Error!", "No previous page.", Material.FIRE);
+			sp.sendNotification(ChatColor.DARK_RED + "Error!", "No previous page.", Material.FIRE);
 			return;
 		}
 		page.put(sp, pageNum - 1);
-		pageTracker.setText("Page : " + page.get(sp) + " / " + pages);
-		pageTracker.setDirty(true);
+		pageTracker.get(sp).setText("Page : " + page.get(sp) + " / " + pages);
+		pageTracker.get(sp).setDirty(true);
 		switch(page.get(sp)){
-		case 1 : RegionScreen1.loadScreen(sp, editing.get(sp), RegionScreen2.page2Widgets);
+		case 1 : RegionScreen1.loadScreen(sp, editing.get(sp), sh.page2Widgets, sh);
 		}
 	}
 

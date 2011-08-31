@@ -22,12 +22,13 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 
 import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
+import couk.Adamki11s.Regios.SpoutGUI.ScreenHolder;
 
 public class HelpCommands {
 
 	static Plugin plugin;
 
-	public void getStandardHelp(Player p, String[] args) {
+	public void getStandardHelp(Player p, String[] args, ScreenHolder sh) {
 		String pre = ChatColor.GREEN + "[Regios] ";
 		if (args.length == 1) {
 			p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] For more help use the commands below.");
@@ -37,20 +38,20 @@ public class HelpCommands {
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help fun");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help data");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help messages");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help inventory");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help modes");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help modify");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.inventory");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.modes");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.modify");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help exceptions");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help spout");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help permissions");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help other");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.other");
 			p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 			return;
 		} else if (args.length == 2) {
 			p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 			if (args[1].equalsIgnoreCase("general")) {
 				p.sendMessage(ChatColor.DARK_RED + "[General]");
-				for (GenericLabel gl : generalDataText) {
+				for (GenericLabel gl : sh.generalDataText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[General]");
@@ -58,7 +59,7 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("protection")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Protection]");
-				for (GenericLabel gl : protectionText) {
+				for (GenericLabel gl : sh.protectionText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Protection]");
@@ -67,7 +68,7 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("fun")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Fun]");
-				for (GenericLabel gl : funText) {
+				for (GenericLabel gl : sh.funText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Fun]");
@@ -76,7 +77,7 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("data")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Data]");
-				for (GenericLabel gl : dataText) {
+				for (GenericLabel gl : sh.dataText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Data]");
@@ -85,34 +86,34 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("messages")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Messages]");
-				for (GenericLabel gl : messagesText) {
+				for (GenericLabel gl : sh.messagesText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Messages]");
 
 				p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 				return;
-			} else if (args[1].equalsIgnoreCase("inventory")) {
-				p.sendMessage(ChatColor.DARK_RED + "[Inventory]");
-				for (GenericLabel gl : inventText) {
+			} else if (args[1].equalsIgnoreCase("sh.inventory")) {
+				p.sendMessage(ChatColor.DARK_RED + "[sh.inventory]");
+				for (GenericLabel gl : sh.inventText) {
 					p.sendMessage(pre + gl.getText());
 				}
-				p.sendMessage(ChatColor.DARK_RED + "[Inventory]");
+				p.sendMessage(ChatColor.DARK_RED + "[sh.inventory]");
 
 				p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 				return;
-			} else if (args[1].equalsIgnoreCase("modes")) {
+			} else if (args[1].equalsIgnoreCase("sh.modes")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Modes]");
-				for (GenericLabel gl : modeText) {
+				for (GenericLabel gl : sh.modeText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Modes]");
 
 				p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 				return;
-			} else if (args[1].equalsIgnoreCase("modify")) {
+			} else if (args[1].equalsIgnoreCase("sh.modify")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Modify]");
-				for (GenericLabel gl : modifyText) {
+				for (GenericLabel gl : sh.modifyText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Modify]");
@@ -121,7 +122,7 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("exceptions")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Exceptions]");
-				for (GenericLabel gl : exceptionText) {
+				for (GenericLabel gl : sh.exceptionText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Exceptions]");
@@ -130,7 +131,7 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("spout")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Spout]");
-				for (GenericLabel gl : spoutText) {
+				for (GenericLabel gl : sh.spoutText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Spout]");
@@ -139,16 +140,16 @@ public class HelpCommands {
 				return;
 			} else if (args[1].equalsIgnoreCase("permissions")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Permissions]");
-				for (GenericLabel gl : permissionsText) {
+				for (GenericLabel gl : sh.permissionsText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Permissions]");
 
 				p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 				return;
-			} else if (args[1].equalsIgnoreCase("other")) {
+			} else if (args[1].equalsIgnoreCase("sh.other")) {
 				p.sendMessage(ChatColor.DARK_RED + "[Other]");
-				for (GenericLabel gl : otherText) {
+				for (GenericLabel gl : sh.otherText) {
 					p.sendMessage(pre + gl.getText());
 				}
 				p.sendMessage(ChatColor.DARK_RED + "[Other]");
@@ -161,20 +162,20 @@ public class HelpCommands {
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help fun");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help data");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help messages");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help inventory");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help modes");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help modify");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.inventory");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.modes");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.modify");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help exceptions");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help spout");
 			p.sendMessage(ChatColor.GREEN + "[Regios] /r help permissions");
-			p.sendMessage(ChatColor.GREEN + "[Regios] /r help other");
+			p.sendMessage(ChatColor.GREEN + "[Regios] /r help sh.other");
 			p.sendMessage(ChatColor.LIGHT_PURPLE + "[Regios] -----------------------------------------");
 		}
 	}
 
 	public static HashMap<SpoutPlayer, GenericPopup> helps = new HashMap<SpoutPlayer, GenericPopup>();
 
-	public static GenericButton escButton, generalData, modes, protection, messages, fun, other, inventory, perms, exceptions, modify, spout, data;
+	/*public static GenericButton escButton, generalData, sh.modes, protection, messages, fun, sh.other, sh.inventory, sh.perms, exceptions, sh.modify, spout, data;
 
 	public static GenericLabel[] generalDataText = { new GenericLabel("/r create <region>"), new GenericLabel("/r delete <region>"),
 			new GenericLabel("/r rename <oldname> <newname>"), new GenericLabel("/r info <region>"), new GenericLabel("/r list"), new GenericLabel("/r list-for-sale"),
@@ -202,7 +203,7 @@ public class HelpCommands {
 			new GenericLabel("/r health-enabled <region> <T/F>"), new GenericLabel("/r vel-warp <region> <rate>"), new GenericLabel("/r sell <region> <price>"),
 			new GenericLabel("/r buy <region>") };
 
-	public static GenericLabel[] otherText = { new GenericLabel("/r mob-spawns <region> <T/F>"), new GenericLabel("/r monster-spawns <region> <T/F>"),
+	public static GenericLabel[] sh.otherText = { new GenericLabel("/r mob-spawns <region> <T/F>"), new GenericLabel("/r monster-spawns <region> <T/F>"),
 			new GenericLabel("/r check"), new GenericLabel("/r add-cmd-set <region> <cmd>"), new GenericLabel("/r rem-cmd-set <region> <cmd>"),
 			new GenericLabel("/r list-cmd-set <region> <cmd>"), new GenericLabel("/r reset-cmd-set <region>"), new GenericLabel("/r use-cmd-set <region> <T/F>") };
 
@@ -216,10 +217,10 @@ public class HelpCommands {
 			new GenericLabel("/r erase-node-ex <region>"), new GenericLabel("/r add-sub-ex <region> <node>"), new GenericLabel("/r rem-sub-ex <region> <node>"),
 			new GenericLabel("/r list-sub-ex <region>"), new GenericLabel("/r reset-sub-ex <region>") };
 
-	public static GenericLabel[] modifyText = { new GenericLabel("/r expand-up <region> <value>"), new GenericLabel("/r expand-down <region> <value>"),
+	public static GenericLabel[] sh.modifyText = { new GenericLabel("/r expand-up <region> <value>"), new GenericLabel("/r expand-down <region> <value>"),
 			new GenericLabel("/r expand-out <region> <value>"), new GenericLabel("/r expand-max <region>"), new GenericLabel("/r shrink-up <region> <value>"),
 			new GenericLabel("/r shrink-down <region> <value>"), new GenericLabel("/r shrink-in <region> <value>"), new GenericLabel("/r expand-up <region> <value>"),
-			new GenericLabel("/r modify <region>"), new GenericLabel("/r modify confirm"), new GenericLabel("/r inherit <toinherit> <inheritfrom>") };
+			new GenericLabel("/r sh.modify <region>"), new GenericLabel("/r sh.modify confirm"), new GenericLabel("/r inherit <toinherit> <inheritfrom>") };
 
 	public static GenericLabel[] spoutText = { new GenericLabel("/r set-spout-welcome <region> <message>"), new GenericLabel("/r set-spout-leave <region> <message>"),
 			new GenericLabel("/r set-wlecome-id <region> <itemid>"), new GenericLabel("/r set-leave-id <region> <itemid>"),
@@ -235,9 +236,9 @@ public class HelpCommands {
 
 	public static GenericLabel[] dataText = { new GenericLabel("/r save-region <region> <name>"), new GenericLabel("/r load-region <region> <name>"),
 			new GenericLabel("/r list-backups <region>"), new GenericLabel("/r backup-database <region> <name>"), new GenericLabel("/r version"),
-			new GenericLabel("/r check"), new GenericLabel("/r info <region>"), new GenericLabel("/r patch") };
+			new GenericLabel("/r check"), new GenericLabel("/r info <region>"), new GenericLabel("/r patch") };*/
 
-	public static void pinLabels(SpoutPlayer sp, GenericLabel[] labels, GenericLabel[] oldLabels) {
+	public static void pinLabels(SpoutPlayer sp, GenericLabel[] labels, GenericLabel[] oldLabels, ScreenHolder sh) {
 		if (oldLabels != null) {
 			for (GenericLabel gl : oldLabels) {
 				((GenericPopup) helps.get(sp)).removeWidget(gl);
@@ -256,7 +257,7 @@ public class HelpCommands {
 		}
 	}
 
-	public void getSpoutHelp(SpoutPlayer p) {
+	public void getSpoutHelp(SpoutPlayer p, ScreenHolder sh) {
 		
 		this.plugin = Regios.regios;
 		InGameHUD hud = p.getMainScreen();
@@ -276,136 +277,136 @@ public class HelpCommands {
 
 		((GenericPopup) helps.get(p)).attachWidget(plugin, texture);
 
-		escButton = new GenericButton("Close");
-		escButton.setColor(RGB.RED.getColour());
-		escButton.setHoverColor(RGB.GREEN.getColour());
-		escButton.setX(4);
-		escButton.setY(5);
-		escButton.setWidth(100);
-		escButton.setHeight(20);
-		escButton.setTooltip("  Close the help menu");
+		sh.escButton = new GenericButton("Close");
+		sh.escButton.setColor(RGB.RED.getColour());
+		sh.escButton.setHoverColor(RGB.GREEN.getColour());
+		sh.escButton.setX(4);
+		sh.escButton.setY(5);
+		sh.escButton.setWidth(100);
+		sh.escButton.setHeight(20);
+		sh.escButton.setTooltip("  Close the help menu");
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, escButton);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.escButton);
 
-		generalData = new GenericButton("General");
-		generalData.setColor(RGB.RED.getColour());
-		generalData.setHoverColor(RGB.GREEN.getColour());
-		generalData.setX(4);
-		generalData.setY(50);
-		generalData.setWidth(100);
-		generalData.setHeight(20);
+		sh.generalData = new GenericButton("General");
+		sh.generalData.setColor(RGB.RED.getColour());
+		sh.generalData.setHoverColor(RGB.GREEN.getColour());
+		sh.generalData.setX(4);
+		sh.generalData.setY(50);
+		sh.generalData.setWidth(100);
+		sh.generalData.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, generalData);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.generalData);
 
-		protection = new GenericButton("Protection");
-		protection.setColor(RGB.RED.getColour());
-		protection.setHoverColor(RGB.GREEN.getColour());
-		protection.setX(4);
-		protection.setY(75);
-		protection.setWidth(100);
-		protection.setHeight(20);
+		sh.protection = new GenericButton("Protection");
+		sh.protection.setColor(RGB.RED.getColour());
+		sh.protection.setHoverColor(RGB.GREEN.getColour());
+		sh.protection.setX(4);
+		sh.protection.setY(75);
+		sh.protection.setWidth(100);
+		sh.protection.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, protection);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.protection);
 
-		fun = new GenericButton("Fun");
-		fun.setColor(RGB.RED.getColour());
-		fun.setHoverColor(RGB.GREEN.getColour());
-		fun.setX(4);
-		fun.setY(100);
-		fun.setWidth(100);
-		fun.setHeight(20);
+		sh.fun = new GenericButton("Fun");
+		sh.fun.setColor(RGB.RED.getColour());
+		sh.fun.setHoverColor(RGB.GREEN.getColour());
+		sh.fun.setX(4);
+		sh.fun.setY(100);
+		sh.fun.setWidth(100);
+		sh.fun.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, fun);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.fun);
 
-		data = new GenericButton("Data");
-		data.setColor(RGB.RED.getColour());
-		data.setHoverColor(RGB.GREEN.getColour());
-		data.setX(4);
-		data.setY(125);
-		data.setWidth(100);
-		data.setHeight(20);
+		sh.data = new GenericButton("Data");
+		sh.data.setColor(RGB.RED.getColour());
+		sh.data.setHoverColor(RGB.GREEN.getColour());
+		sh.data.setX(4);
+		sh.data.setY(125);
+		sh.data.setWidth(100);
+		sh.data.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, data);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.data);
 
-		messages = new GenericButton("Messages");
-		messages.setColor(RGB.RED.getColour());
-		messages.setHoverColor(RGB.GREEN.getColour());
-		messages.setX(4);
-		messages.setY(150);
-		messages.setWidth(100);
-		messages.setHeight(20);
+		sh.messages = new GenericButton("Messages");
+		sh.messages.setColor(RGB.RED.getColour());
+		sh.messages.setHoverColor(RGB.GREEN.getColour());
+		sh.messages.setX(4);
+		sh.messages.setY(150);
+		sh.messages.setWidth(100);
+		sh.messages.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, messages);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.messages);
 
-		inventory = new GenericButton("Inventory");
-		inventory.setColor(RGB.RED.getColour());
-		inventory.setHoverColor(RGB.GREEN.getColour());
-		inventory.setX(4);
-		inventory.setY(175);
-		inventory.setWidth(100);
-		inventory.setHeight(20);
+		sh.inventory = new GenericButton("Inventory");
+		sh.inventory.setColor(RGB.RED.getColour());
+		sh.inventory.setHoverColor(RGB.GREEN.getColour());
+		sh.inventory.setX(4);
+		sh.inventory.setY(175);
+		sh.inventory.setWidth(100);
+		sh.inventory.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, inventory);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.inventory);
 
-		modes = new GenericButton("Modes");
-		modes.setColor(RGB.RED.getColour());
-		modes.setHoverColor(RGB.GREEN.getColour());
-		modes.setX(322);
-		modes.setY(50);
-		modes.setWidth(100);
-		modes.setHeight(20);
+		sh.modes = new GenericButton("Modes");
+		sh.modes.setColor(RGB.RED.getColour());
+		sh.modes.setHoverColor(RGB.GREEN.getColour());
+		sh.modes.setX(322);
+		sh.modes.setY(50);
+		sh.modes.setWidth(100);
+		sh.modes.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, modes);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.modes);
 
-		modify = new GenericButton("Modify");
-		modify.setColor(RGB.RED.getColour());
-		modify.setHoverColor(RGB.GREEN.getColour());
-		modify.setX(322);
-		modify.setY(75);
-		modify.setWidth(100);
-		modify.setHeight(20);
+		sh.modify = new GenericButton("Modify");
+		sh.modify.setColor(RGB.RED.getColour());
+		sh.modify.setHoverColor(RGB.GREEN.getColour());
+		sh.modify.setX(322);
+		sh.modify.setY(75);
+		sh.modify.setWidth(100);
+		sh.modify.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, modify);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.modify);
 
-		exceptions = new GenericButton("Exceptions");
-		exceptions.setColor(RGB.RED.getColour());
-		exceptions.setHoverColor(RGB.GREEN.getColour());
-		exceptions.setX(322);
-		exceptions.setY(100);
-		exceptions.setWidth(100);
-		exceptions.setHeight(20);
+		sh.exceptions = new GenericButton("Exceptions");
+		sh.exceptions.setColor(RGB.RED.getColour());
+		sh.exceptions.setHoverColor(RGB.GREEN.getColour());
+		sh.exceptions.setX(322);
+		sh.exceptions.setY(100);
+		sh.exceptions.setWidth(100);
+		sh.exceptions.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, exceptions);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.exceptions);
 
-		spout = new GenericButton("Spout");
-		spout.setColor(RGB.RED.getColour());
-		spout.setHoverColor(RGB.GREEN.getColour());
-		spout.setX(322);
-		spout.setY(125);
-		spout.setWidth(100);
-		spout.setHeight(20);
+		sh.spout = new GenericButton("Spout");
+		sh.spout.setColor(RGB.RED.getColour());
+		sh.spout.setHoverColor(RGB.GREEN.getColour());
+		sh.spout.setX(322);
+		sh.spout.setY(125);
+		sh.spout.setWidth(100);
+		sh.spout.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, spout);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.spout);
 
-		perms = new GenericButton("Permissions");
-		perms.setColor(RGB.RED.getColour());
-		perms.setHoverColor(RGB.GREEN.getColour());
-		perms.setX(322);
-		perms.setY(150);
-		perms.setWidth(100);
-		perms.setHeight(20);
+		sh.perms = new GenericButton("Permissions");
+		sh.perms.setColor(RGB.RED.getColour());
+		sh.perms.setHoverColor(RGB.GREEN.getColour());
+		sh.perms.setX(322);
+		sh.perms.setY(150);
+		sh.perms.setWidth(100);
+		sh.perms.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, perms);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.perms);
 
-		other = new GenericButton("Other");
-		other.setColor(RGB.RED.getColour());
-		other.setHoverColor(RGB.GREEN.getColour());
-		other.setX(322);
-		other.setY(175);
-		other.setWidth(100);
-		other.setHeight(20);
+		sh.other = new GenericButton("Other");
+		sh.other.setColor(RGB.RED.getColour());
+		sh.other.setHoverColor(RGB.GREEN.getColour());
+		sh.other.setX(322);
+		sh.other.setY(175);
+		sh.other.setWidth(100);
+		sh.other.setHeight(20);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, other);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.other);
 		
 		hud.attachPopupScreen((PopupScreen) helps.get(p));
 	}

@@ -99,7 +99,7 @@ public class MessageCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Show welcome message : " + ChatColor.BLUE + val);
 		}
 		mutable.editShowWelcomeMessage(r, val);
 	}
@@ -117,7 +117,7 @@ public class MessageCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Show leave message : " + ChatColor.BLUE + val);
 		}
 		mutable.editShowLeaveMessage(r, val);
 	}
@@ -135,7 +135,7 @@ public class MessageCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Show prevent entry message : " + ChatColor.BLUE + val);
 		}
 		mutable.editShowPreventEntryMessage(r, val);
 	}
@@ -153,7 +153,7 @@ public class MessageCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Show prevent exit message : " + ChatColor.BLUE + val);
 		}
 		mutable.editShowPreventExitMessage(r, val);
 	}
@@ -171,7 +171,7 @@ public class MessageCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Show protection message : " + ChatColor.BLUE + val);
 		}
 		mutable.editShowProtectionMessage(r, val);
 	}
@@ -189,7 +189,7 @@ public class MessageCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection message updated for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Show pvp message : " + ChatColor.BLUE + val);
 		}
 		mutable.editShowPvpWarningMessage(r, val);
 	}

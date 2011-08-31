@@ -1,5 +1,6 @@
 package couk.Adamki11s.Regios.SpoutGUI;
 
+import org.bukkit.ChatColor;
 import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
@@ -15,25 +16,32 @@ import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 
 public class RegionScreen2 {
 
-	public static Widget[] page2Widgets = { new GenericTextField(), new GenericTextField(), new GenericTextField(), new GenericTextField(), new GenericTextField(),
-			new GenericLabel("Welcome Message"), new GenericLabel("Leave Message"), new GenericLabel("Prevent Entry Message"), new GenericLabel("Prevent Exit Message"),
-			new GenericLabel("Protection Message") };
-
 	public static void loadScreen(SpoutPlayer sp, Region r, Object[] oldWidgets, ScreenHolder sh) {
 		InGameHUD hud = sp.getMainScreen();
-
-		if (oldWidgets != null) {
-			for (Object w : oldWidgets) {
-				if (w instanceof Widget) {
-					((Widget) w).setVisible(false);
-					((Widget) w).setDirty(true);
-					//((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(((Widget) w).getId()).setVisible(false);
-				}
-			}
+		
+		for(Widget widg : sh.page3Widgets){
+			widg.setPriority(RenderPriority.Highest);
 		}
 		
 		for(Widget widg : sh.page2Widgets){
 			widg.setPriority(RenderPriority.Lowest);
+		}
+		
+		for(Widget widg : sh.page1Widgets){
+			widg.setPriority(RenderPriority.Highest);
+		}
+
+		if (oldWidgets != null) {
+			for (Object w : oldWidgets) {
+				//if (w instanceof Widget) {
+					((Widget) w).setVisible(false);
+					((Widget) w).setDirty(true);
+				//}
+			}
+		}
+		
+		for(Widget w : sh.page1Widgets){
+			w.setPriority(RenderPriority.Lowest);
 		}
 
 		((GenericTextField) sh.page2Widgets[0]).setX(15);
@@ -42,13 +50,14 @@ public class RegionScreen2 {
 		((GenericTextField) sh.page2Widgets[0]).setBorderColor(RGB.SPRING_GREEN.getColour());
 		((GenericTextField) sh.page2Widgets[0]).setWidth(400);
 		((GenericTextField) sh.page2Widgets[0]).setHeight(15);
-		((GenericTextField) sh.page2Widgets[0]).setMaximumCharacters(250);
+		((GenericTextField) sh.page2Widgets[0]).setMaximumCharacters(70);
 		((GenericTextField) sh.page2Widgets[0]).setText(r.getWelcomeMessage());
 		
 		((GenericLabel) sh.page2Widgets[5]).setText("Welcome Message");
 		((GenericLabel) sh.page2Widgets[5]).setX(15);
 		((GenericLabel) sh.page2Widgets[5]).setY(44);
 		((GenericLabel) sh.page2Widgets[5]).setTextColor(RGB.YELLOW.getColour());
+		((GenericLabel) sh.page2Widgets[5]).setTooltip(ChatColor.YELLOW + "  Message shown upon entering a region.");
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page2Widgets[0])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[0].getId()).setVisible(true);
@@ -85,13 +94,14 @@ public class RegionScreen2 {
 		((GenericTextField) sh.page2Widgets[1]).setBorderColor(RGB.SPRING_GREEN.getColour());
 		((GenericTextField) sh.page2Widgets[1]).setWidth(400);
 		((GenericTextField) sh.page2Widgets[1]).setHeight(15);
-		((GenericTextField) sh.page2Widgets[1]).setMaximumCharacters(250);
+		((GenericTextField) sh.page2Widgets[1]).setMaximumCharacters(70);
 		((GenericTextField) sh.page2Widgets[1]).setText(r.getLeaveMessage());
 		
 		((GenericLabel) sh.page2Widgets[6]).setText("Leave Message");
 		((GenericLabel) sh.page2Widgets[6]).setX(15);
 		((GenericLabel) sh.page2Widgets[6]).setY(79);
 		((GenericLabel) sh.page2Widgets[6]).setTextColor(RGB.YELLOW.getColour());
+		((GenericLabel) sh.page2Widgets[6]).setTooltip(ChatColor.YELLOW + "  Message shown upon leaving a region.");
 		
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page2Widgets[6])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[6].getId()).setVisible(true);
@@ -128,13 +138,14 @@ public class RegionScreen2 {
 		((GenericTextField) sh.page2Widgets[2]).setBorderColor(RGB.SPRING_GREEN.getColour());
 		((GenericTextField) sh.page2Widgets[2]).setWidth(400);
 		((GenericTextField) sh.page2Widgets[2]).setHeight(15);
-		((GenericTextField) sh.page2Widgets[2]).setMaximumCharacters(250);
+		((GenericTextField) sh.page2Widgets[2]).setMaximumCharacters(70);
 		((GenericTextField) sh.page2Widgets[2]).setText(r.getPreventEntryMessage());
 		
 		((GenericLabel) sh.page2Widgets[7]).setText("Prevent Entry Message");
 		((GenericLabel) sh.page2Widgets[7]).setX(15);
 		((GenericLabel) sh.page2Widgets[7]).setY(114);
 		((GenericLabel) sh.page2Widgets[7]).setTextColor(RGB.YELLOW.getColour());
+		((GenericLabel) sh.page2Widgets[7]).setTooltip(ChatColor.YELLOW + "  Message shown upon prevention from entering a region.");
 		
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page2Widgets[7])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[7].getId()).setVisible(true);
@@ -172,13 +183,14 @@ public class RegionScreen2 {
 		((GenericTextField) sh.page2Widgets[3]).setBorderColor(RGB.SPRING_GREEN.getColour());
 		((GenericTextField) sh.page2Widgets[3]).setWidth(400);
 		((GenericTextField) sh.page2Widgets[3]).setHeight(15);
-		((GenericTextField) sh.page2Widgets[3]).setMaximumCharacters(250);
+		((GenericTextField) sh.page2Widgets[3]).setMaximumCharacters(70);
 		((GenericTextField) sh.page2Widgets[3]).setText(r.getPreventExitMessage());
 		
 		((GenericLabel) sh.page2Widgets[8]).setText("Prevent Exit Message");
 		((GenericLabel) sh.page2Widgets[8]).setX(15);
 		((GenericLabel) sh.page2Widgets[8]).setY(149);
 		((GenericLabel) sh.page2Widgets[8]).setTextColor(RGB.YELLOW.getColour());
+		((GenericLabel) sh.page2Widgets[8]).setTooltip(ChatColor.YELLOW + "  Message shown upon prevention from leaving a region.");
 		
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page2Widgets[8])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[8].getId()).setVisible(true);
@@ -216,13 +228,14 @@ public class RegionScreen2 {
 		((GenericTextField) sh.page2Widgets[4]).setBorderColor(RGB.SPRING_GREEN.getColour());
 		((GenericTextField) sh.page2Widgets[4]).setWidth(400);
 		((GenericTextField) sh.page2Widgets[4]).setHeight(15);
-		((GenericTextField) sh.page2Widgets[4]).setMaximumCharacters(250);
+		((GenericTextField) sh.page2Widgets[4]).setMaximumCharacters(70);
 		((GenericTextField) sh.page2Widgets[4]).setText(r.getProtectionMessage());
 		
 		((GenericLabel) sh.page2Widgets[9]).setText("Protection Message");
 		((GenericLabel) sh.page2Widgets[9]).setX(15);
 		((GenericLabel) sh.page2Widgets[9]).setY(184);
 		((GenericLabel) sh.page2Widgets[9]).setTextColor(RGB.YELLOW.getColour());
+		((GenericLabel) sh.page2Widgets[9]).setTooltip(ChatColor.YELLOW + "  Message shown upon building in a protected region.");
 		
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page2Widgets[9])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[9].getId()).setVisible(true);
@@ -254,7 +267,10 @@ public class RegionScreen2 {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page2Widgets[15]);
 		}
 		
-		((GenericButton) sh.page2Widgets[10]).setX(340);
+		((GenericButton) sh.page2Widgets[10]).setText("Update");
+		((GenericButton) sh.page2Widgets[10]).setWidth(50);
+		((GenericButton) sh.page2Widgets[10]).setHeight(20);
+		((GenericButton) sh.page2Widgets[10]).setX(335);
 		((GenericButton) sh.page2Widgets[10]).setY(hud.getHeight() - 24);
 		((GenericButton) sh.page2Widgets[10]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page2Widgets[10]).setHoverColor(RGB.SPRING_GREEN.getColour());
@@ -341,21 +357,6 @@ public class RegionScreen2 {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page2Widgets[20]);
 		}
 		
-		((GenericButton) sh.page2Widgets[21]).setText("Update");
-		((GenericButton) sh.page2Widgets[21]).setWidth(50);
-		((GenericButton) sh.page2Widgets[21]).setHeight(20);
-		((GenericButton) sh.page2Widgets[21]).setX(342);
-		((GenericButton) sh.page2Widgets[21]).setY(hud.getHeight() - 24);
-		((GenericButton) sh.page2Widgets[21]).setTextColor(RGB.WHITE.getColour());
-		((GenericButton) sh.page2Widgets[21]).setHoverColor(RGB.SPRING_GREEN.getColour());
-		((GenericButton) sh.page2Widgets[21]).setTooltip("  Update messages");
-		
-		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page2Widgets[21])) {
-			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[21].getId()).setVisible(true);
-			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page2Widgets[21].getId()).setDirty(true);
-		} else {
-			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page2Widgets[21]);
-		}
 	}
 
 }

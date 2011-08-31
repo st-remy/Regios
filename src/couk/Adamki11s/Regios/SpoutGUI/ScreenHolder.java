@@ -13,7 +13,6 @@ import couk.Adamki11s.Regios.Regions.Region;
 public class ScreenHolder {
 
 	public static HashMap<SpoutPlayer, ScreenHolder> screenHolder = new HashMap<SpoutPlayer, ScreenHolder>();
-	public static HashMap<SpoutPlayer, Region> regionLocks = new HashMap<SpoutPlayer, Region>();
 
 	public GenericLabel[] generalDataText = { new GenericLabel("/r create <region>"), new GenericLabel("/r delete <region>"),
 			new GenericLabel("/r rename <oldname> <newname>"), new GenericLabel("/r info <region>"), new GenericLabel("/r list"), new GenericLabel("/r list-for-sale"),
@@ -75,9 +74,9 @@ public class ScreenHolder {
 			new GenericLabel("/r list-backups <region>"), new GenericLabel("/r backup-database <region> <name>"), new GenericLabel("/r version"),
 			new GenericLabel("/r check"), new GenericLabel("/r info <region>"), new GenericLabel("/r patch") };
 
-	public static SpoutPlayer sp;
+	public SpoutPlayer sp;
 
-	public GenericButton[] page1Buttons = { new GenericButton("Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
+	public Widget[] page1Widgets = { new GenericButton("Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
 			new GenericButton("Prevent Interaction"), new GenericButton("Doors Locked"), new GenericButton("Chests Locked"), new GenericButton("Fire Protection"),
 			new GenericButton("Block Form"), new GenericButton("Mobs Spawn"), new GenericButton("Monsters Spawn"), new GenericButton("Show Welcome"),
 			new GenericButton("Show Leave"), new GenericButton("Show Prevent Entry"), new GenericButton("Show Prevent Exit"), new GenericButton("Show Protection"),
@@ -94,9 +93,13 @@ public class ScreenHolder {
 			new GenericLabel("Welcome Message"), new GenericLabel("Leave Message"), new GenericLabel("Prevent Entry Message"), new GenericLabel("Prevent Exit Message"),
 			new GenericLabel("Protection Message"), new GenericButton("Update Messages"), new GenericButton("Reset"), new GenericButton("Reset"), new GenericButton("Reset"),
 			new GenericButton("Reset"), new GenericButton("Reset"), new GenericButton("Clear"), new GenericButton("Clear"), new GenericButton("Clear"),
-			new GenericButton("Clear"), new GenericButton("Clear"), new GenericButton("Update") };
+			new GenericButton("Clear"), new GenericButton("Clear") };
 
-	public static void addScreenHolder(SpoutPlayer sp, ScreenHolder sh) {
+	public Widget[] page3Widgets = { new GenericLabel("LSPS"), new GenericTextField(), new GenericButton("Update"), new GenericLabel("Health-Regen"), new GenericTextField(),
+			new GenericButton("Update"), new GenericLabel("Velocity-Warp"), new GenericTextField(), new GenericButton("Update"), new GenericButton("For Sale"),
+			new GenericLabel("Sale Price"), new GenericTextField(), new GenericButton("Update") };
+
+	public void addScreenHolder(SpoutPlayer sp, ScreenHolder sh) {
 		screenHolder.put(sp, sh);
 	}
 
@@ -105,20 +108,6 @@ public class ScreenHolder {
 			return screenHolder.get(sp);
 		} else {
 			return new ScreenHolder();
-		}
-	}
-
-	public static void initialise(SpoutPlayer spp, ScreenHolder sh) {
-		screenHolder.put(spp, sh);
-		sp = spp;
-	}
-
-	public static boolean removeScreenHolder(SpoutPlayer sp, ScreenHolder sh) {
-		if (screenHolder.containsKey(sp)) {
-			screenHolder.remove(sp);
-			return true;
-		} else {
-			return false;
 		}
 	}
 }

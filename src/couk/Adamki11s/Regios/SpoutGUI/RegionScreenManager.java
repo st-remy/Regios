@@ -14,6 +14,7 @@ import org.getspout.spoutapi.gui.GenericTexture;
 import org.getspout.spoutapi.gui.InGameHUD;
 import org.getspout.spoutapi.gui.PopupScreen;
 import org.getspout.spoutapi.gui.RenderPriority;
+import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
@@ -27,19 +28,18 @@ public class RegionScreenManager {
 	public static HashMap<SpoutPlayer, GenericPopup> popup = new HashMap<SpoutPlayer, GenericPopup>();
 	public static HashMap<SpoutPlayer, Integer> page = new HashMap<SpoutPlayer, Integer>();
 	public static HashMap<SpoutPlayer, Region> editing = new HashMap<SpoutPlayer, Region>();
-	
+
 	public static HashMap<SpoutPlayer, GenericButton> escButton = new HashMap<SpoutPlayer, GenericButton>();
 	public static HashMap<SpoutPlayer, GenericButton> pageForward = new HashMap<SpoutPlayer, GenericButton>();
 	public static HashMap<SpoutPlayer, GenericButton> pageBackwards = new HashMap<SpoutPlayer, GenericButton>();
 	public static HashMap<SpoutPlayer, GenericLabel> pageTracker = new HashMap<SpoutPlayer, GenericLabel>();
 
-
 	public static Plugin plugin;
 
-	private static final int pages = 2;
+	private static final int pages = 3;
 
 	public static void drawPanelFramework(SpoutPlayer sp, Region r, ScreenHolder sh) {
-		
+
 		plugin = Regios.regios;
 
 		editing.put(sp, r);
@@ -53,6 +53,7 @@ public class RegionScreenManager {
 		page.put(sp, 1);
 
 		drawPanelBase(sp, sh);
+
 		RegionScreen1.loadScreen(sp, r, null, sh);
 	}
 
@@ -75,10 +76,10 @@ public class RegionScreenManager {
 		tmp1.setY(6);
 		tmp1.setWidth(60);
 		tmp1.setHeight(20);
-		tmp1.setTooltip("  Close the Editor");
-		
+		tmp1.setTooltip(ChatColor.RED + "  Close the Editor");
+
 		sh.escButton = tmp1;
-		
+
 		escButton.put(sp, tmp1);
 
 		((GenericPopup) popup.get(sp)).attachWidget(plugin, escButton.get(sp));
@@ -88,10 +89,10 @@ public class RegionScreenManager {
 		tracker.setY(hud.getHeight() - 15);
 		tracker.setWidth(60);
 		tracker.setTextColor(RGB.YELLOW.getColour());
-		
-	    pageTracker.put(sp, tracker);
-	    
-	    sh.pageTracker = tracker;
+
+		pageTracker.put(sp, tracker);
+
+		sh.pageTracker = tracker;
 
 		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageTracker.get(sp));
 
@@ -102,9 +103,9 @@ public class RegionScreenManager {
 		tm2.setY(hud.getHeight() - 24);
 		tm2.setColor(RGB.RED.getColour());
 		tm2.setHoverColor(RGB.GREEN.getColour());
-		
+
 		pageForward.put(sp, tm2);
-		
+
 		sh.pageForward = tm2;
 
 		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageForward.get(sp));
@@ -116,9 +117,9 @@ public class RegionScreenManager {
 		back.setY(hud.getHeight() - 22);
 		back.setColor(RGB.RED.getColour());
 		back.setHoverColor(RGB.GREEN.getColour());
-		
+
 		pageBackwards.put(sp, back);
-		
+
 		sh.pageBackwards = back;
 
 		((GenericPopup) popup.get(sp)).attachWidget(plugin, pageBackwards.get(sp));
@@ -136,8 +137,13 @@ public class RegionScreenManager {
 		page.put(sp, pageNum + 1);
 		pageTracker.get(sp).setText("Page : " + page.get(sp) + " / " + pages);
 		pageTracker.get(sp).setDirty(true);
-		switch(page.get(sp)){
-			case 2 : RegionScreen2.loadScreen(sp, editing.get(sp), sh.page1Buttons, sh);
+		switch (page.get(sp)) {
+		case 2:
+			RegionScreen2.loadScreen(sp, editing.get(sp), sh.page1Widgets, sh);
+			break;
+		case 3:
+			RegionScreen3.loadScreen(sp, editing.get(sp), sh.page2Widgets, sh);
+			break;
 		}
 	}
 
@@ -150,8 +156,13 @@ public class RegionScreenManager {
 		page.put(sp, pageNum - 1);
 		pageTracker.get(sp).setText("Page : " + page.get(sp) + " / " + pages);
 		pageTracker.get(sp).setDirty(true);
-		switch(page.get(sp)){
-		case 1 : RegionScreen1.loadScreen(sp, editing.get(sp), sh.page2Widgets, sh);
+		switch (page.get(sp)) {
+		case 1:
+			RegionScreen1.loadScreen(sp, editing.get(sp), sh.page2Widgets, sh);
+			break;
+		case 2:
+			RegionScreen2.loadScreen(sp, editing.get(sp), sh.page3Widgets, sh);
+			break;
 		}
 	}
 
@@ -162,7 +173,7 @@ public class RegionScreenManager {
 			return "  False";
 		}
 	}
-	
+
 	public static String getStatus(MODE m) {
 		if (m == MODE.Whitelist) {
 			return "  Whitelist";
@@ -178,7 +189,7 @@ public class RegionScreenManager {
 			return RGB.FIREBRICK.getColour();
 		}
 	}
-	
+
 	public static Color getColourToken(MODE m) {
 		if (m == MODE.Whitelist) {
 			return RGB.WHITE.getColour();
@@ -190,8 +201,8 @@ public class RegionScreenManager {
 	public static enum RGB {
 		SPRING_GREEN(new Color((float) 0, (float) 0.803, (float) 0.4)), GREEN(new Color(0 / 255, 255 / 255, 0 / 255)), RED(new Color(255 / 255, 0 / 255, 0 / 255)), MIDNIGHT_BLUE(
 				new Color((float) 0.098, (float) 0.098, (float) 0.439)), YELLOW(new Color((float) 255 / 255, (float) 255 / 255, (float) 0 / 255)), WHITE(new Color(255 / 255,
-				255 / 255, 255 / 255)), FIREBRICK((new Color((float) 0.698, (float) 0.13, (float) 0.13))), BLACK(new Color(0 / 255, 0 / 255, 0 / 255)),
-				DARK_GREY(new Color(128 / 255, 128 / 255, 128 / 255));
+				255 / 255, 255 / 255)), FIREBRICK((new Color((float) 0.698, (float) 0.13, (float) 0.13))), BLACK(new Color(0 / 255, 0 / 255, 0 / 255)), DARK_GREY(new Color(
+				128 / 255, 128 / 255, 128 / 255));
 
 		RGB(Color c) {
 			this.colour = c;

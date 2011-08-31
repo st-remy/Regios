@@ -2,10 +2,12 @@ package couk.Adamki11s.Regios.Commands;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,6 +25,7 @@ import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.RBF.RBF_Save;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
+import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager;
 import couk.Adamki11s.Regios.SpoutGUI.ScreenHolder;
 import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
@@ -65,27 +68,13 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length >= 1 && args[0].equalsIgnoreCase("help")) {
 				if (SpoutInterface.doesPlayerHaveSpout(p)) {
-					//if(!LockHandler.isHelpLocked((SpoutPlayer)p)){
-						//LockHandler.helpLocked = true;
-						//LockHandler.helpOccupant = (SpoutPlayer) p;
-						ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer)p);
-						ScreenHolder.initialise((SpoutPlayer)p, sh);
-						help.getSpoutHelp((SpoutPlayer) p, sh);
-						return true;
-					/*} else {
-						if (args.length == 1) {
-							LockHandler.addToHelpQueue(p);
-							p.sendMessage(ChatColor.RED + "[Regios] Using standard help.");
-							help.getStandardHelp(p, args);
-							return true;
-						} else {
-							help.getStandardHelp(p, args);
-							return true;
-						}
-					}*/
+					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
+					sh.addScreenHolder((SpoutPlayer)p, sh);
+					help.getSpoutHelp((SpoutPlayer) p, sh);
+					return true;
 				} else {
-					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer)p);
-					ScreenHolder.initialise((SpoutPlayer)p, sh);
+					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
+					sh.addScreenHolder((SpoutPlayer)p, sh);
 					help.getStandardHelp(p, args, sh);
 					return true;
 				}
@@ -108,17 +97,11 @@ public class CommandCore implements CommandExecutor {
 							p.sendMessage(ChatColor.RED + "[Regios] This region does not exist!");
 							return true;
 						} else {
-							//if (!LockHandler.isEditorLocked((SpoutPlayer)p)){
-								//LockHandler.editorLocked = true;
-								//LockHandler.editorOccupant = (SpoutPlayer)p;
-								ScreenHolder sh = new ScreenHolder();
-								ScreenHolder.initialise((SpoutPlayer)p, sh);
-								RegionScreenManager.drawPanelFramework((SpoutPlayer) p, GlobalRegionManager.getRegion(args[1]), sh);
-								return true;
-							//} else {
-							//	LockHandler.addToEditorQueue(p);
-							//	return true;
-							//}
+							ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
+							sh.addScreenHolder((SpoutPlayer)p, sh);
+							((SpoutPlayer) p).sendNotification("Editing Region", ChatColor.GREEN + args[1], Material.FENCE);
+							RegionScreenManager.drawPanelFramework((SpoutPlayer) p, GlobalRegionManager.getRegion(args[1]), sh);
+							return true;
 						}
 					} else {
 						p.sendMessage(ChatColor.RED + "[Regios] The Spoutcraft launcher is required for this feature!");

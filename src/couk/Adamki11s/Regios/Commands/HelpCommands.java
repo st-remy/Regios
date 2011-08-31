@@ -175,69 +175,6 @@ public class HelpCommands {
 
 	public static HashMap<SpoutPlayer, GenericPopup> helps = new HashMap<SpoutPlayer, GenericPopup>();
 
-	/*public static GenericButton escButton, generalData, sh.modes, protection, messages, fun, sh.other, sh.inventory, sh.perms, exceptions, sh.modify, spout, data;
-
-	public static GenericLabel[] generalDataText = { new GenericLabel("/r create <region>"), new GenericLabel("/r delete <region>"),
-			new GenericLabel("/r rename <oldname> <newname>"), new GenericLabel("/r info <region>"), new GenericLabel("/r list"), new GenericLabel("/r list-for-sale"),
-			new GenericLabel("/r delete <region>"), new GenericLabel("/r reload"), new GenericLabel("/r reload-regions"), new GenericLabel("/r reload-config"),
-			new GenericLabel("/r cancel"), new GenericLabel("/r set-owner <region> <owner>") };
-
-	public static GenericLabel[] modeText = { new GenericLabel("/r protection-mode <region> <bl/wl>"), new GenericLabel("/r prevent-entry-mode <region> <bl/wl>"),
-			new GenericLabel("/r prevent-exit-mode <region> <bl/wl>"), new GenericLabel("/r item-mode <region> <bl/wl>") };
-
-	public static GenericLabel[] protectionText = { new GenericLabel("/r send-auth <password>"), new GenericLabel("/r protect <region>"),
-			new GenericLabel("/r unprotect <region>"), new GenericLabel("/r prevent-entry <region>"), new GenericLabel("/r allow-entry <region>"),
-			new GenericLabel("/r prevent-exit <region>"), new GenericLabel("/r allow-exit <region>"), new GenericLabel("/r prevent-interaction <region> <T/F>"),
-			new GenericLabel("/r doors-locked <region> <T/F>"), new GenericLabel("/r chests-locked <region> <T/F>"), new GenericLabel("/r set-password <region> <password>"),
-			new GenericLabel("/r use-password <region> <T/F>"), new GenericLabel("/r fire-protection <region> <T/F>"), new GenericLabel("/r player-cap <region> <cap>"),
-			new GenericLabel("/r block-form <region> <T/F>") };
-
-	public static GenericLabel[] messagesText = { new GenericLabel("/r set-welcome <region> <message>"), new GenericLabel("/r show-welcome <region> <T/F>"),
-			new GenericLabel("/r set-leave <region> <message>"), new GenericLabel("/r show-leave <region> <T/F>"), new GenericLabel("/r set-prevent-exit <region> <message>"),
-			new GenericLabel("/r show-prevent-exit <region> <T/F>"), new GenericLabel("/r set-prevent-entry <region> <message>"),
-			new GenericLabel("/r show-prevent-entry <region> <T/F>"), new GenericLabel("/r set-protection <region> <message>"),
-			new GenericLabel("/r show-protection <region> <T/F>"), new GenericLabel("/r show-pvp <region> <T/F>") };
-
-	public static GenericLabel[] funText = { new GenericLabel("/r setwarp"), new GenericLabel("/r warp-to <region>"), new GenericLabel("/r reset-warp <region>"),
-			new GenericLabel("/r lsps <region> <rate>"), new GenericLabel("/r pvp <region> <T/F>"), new GenericLabel("/r health-regen <region> <rate>"),
-			new GenericLabel("/r health-enabled <region> <T/F>"), new GenericLabel("/r vel-warp <region> <rate>"), new GenericLabel("/r sell <region> <price>"),
-			new GenericLabel("/r buy <region>") };
-
-	public static GenericLabel[] sh.otherText = { new GenericLabel("/r mob-spawns <region> <T/F>"), new GenericLabel("/r monster-spawns <region> <T/F>"),
-			new GenericLabel("/r check"), new GenericLabel("/r add-cmd-set <region> <cmd>"), new GenericLabel("/r rem-cmd-set <region> <cmd>"),
-			new GenericLabel("/r list-cmd-set <region> <cmd>"), new GenericLabel("/r reset-cmd-set <region>"), new GenericLabel("/r use-cmd-set <region> <T/F>") };
-
-	public static GenericLabel[] inventText = { new GenericLabel("/r perm-wipe-entry <region> <T/F>"), new GenericLabel("/r perm-wipe-exit <region> <T/F>"),
-			new GenericLabel("/r cache-wipe-entry <region> <T/F>"), new GenericLabel("/r cache-wipe-exit <region> <T/F>") };
-
-	public static GenericLabel[] exceptionText = { new GenericLabel("/r add-ex <region> <player>"), new GenericLabel("/r rem-ex <region> <player>"),
-			new GenericLabel("/r list-player-ex <region>"), new GenericLabel("/r erase-player-ex <region>"), new GenericLabel("/r add-item-ex <region> <itemid>"),
-			new GenericLabel("/r rem-item-ex <region> <itemid>"), new GenericLabel("/r list-item-ex <region>"), new GenericLabel("/r erase-item-ex <region>"),
-			new GenericLabel("/r add-node-ex <region> <node>"), new GenericLabel("/r rem-node-ex <region> <node>"), new GenericLabel("/r list-node-ex <region>"),
-			new GenericLabel("/r erase-node-ex <region>"), new GenericLabel("/r add-sub-ex <region> <node>"), new GenericLabel("/r rem-sub-ex <region> <node>"),
-			new GenericLabel("/r list-sub-ex <region>"), new GenericLabel("/r reset-sub-ex <region>") };
-
-	public static GenericLabel[] sh.modifyText = { new GenericLabel("/r expand-up <region> <value>"), new GenericLabel("/r expand-down <region> <value>"),
-			new GenericLabel("/r expand-out <region> <value>"), new GenericLabel("/r expand-max <region>"), new GenericLabel("/r shrink-up <region> <value>"),
-			new GenericLabel("/r shrink-down <region> <value>"), new GenericLabel("/r shrink-in <region> <value>"), new GenericLabel("/r expand-up <region> <value>"),
-			new GenericLabel("/r sh.modify <region>"), new GenericLabel("/r sh.modify confirm"), new GenericLabel("/r inherit <toinherit> <inheritfrom>") };
-
-	public static GenericLabel[] spoutText = { new GenericLabel("/r set-spout-welcome <region> <message>"), new GenericLabel("/r set-spout-leave <region> <message>"),
-			new GenericLabel("/r set-wlecome-id <region> <itemid>"), new GenericLabel("/r set-leave-id <region> <itemid>"),
-			new GenericLabel("/r spout-texture-url <region> <url>"), new GenericLabel("/r use-texture-url <region> <T/F>"),
-			new GenericLabel("/r use-music-url <region> <T/F>"), new GenericLabel("/r add-music-url <region> <url>"), new GenericLabel("/r rem-music-url <region> <url>"),
-			new GenericLabel("/r reset-music-url <region>") };
-
-	public static GenericLabel[] permissionsText = { new GenericLabel("/r perm-cache-add <region> <node>"), new GenericLabel("/r perm-cache-rem <region> <node>"),
-			new GenericLabel("/r perm-cache-list <region>"), new GenericLabel("/r perm-cache-reset <region>"), new GenericLabel("/r perm-add-add <region> <node>"),
-			new GenericLabel("/r perm-add-rem <region> <node>"), new GenericLabel("/r perm-add-list <region>"), new GenericLabel("/r perm-add-reset <region>"),
-			new GenericLabel("/r perm-rem-add <region> <node>"), new GenericLabel("/r perm-rem-rem <region> <node>"), new GenericLabel("/r perm-rem-list <region>"),
-			new GenericLabel("/r perm-rem-reset <region>") };
-
-	public static GenericLabel[] dataText = { new GenericLabel("/r save-region <region> <name>"), new GenericLabel("/r load-region <region> <name>"),
-			new GenericLabel("/r list-backups <region>"), new GenericLabel("/r backup-database <region> <name>"), new GenericLabel("/r version"),
-			new GenericLabel("/r check"), new GenericLabel("/r info <region>"), new GenericLabel("/r patch") };*/
-
 	public static void pinLabels(SpoutPlayer sp, GenericLabel[] labels, GenericLabel[] oldLabels, ScreenHolder sh) {
 		if (oldLabels != null) {
 			for (GenericLabel gl : oldLabels) {
@@ -256,6 +193,8 @@ public class HelpCommands {
 			pinY += 10;
 		}
 	}
+	
+	public static HashMap<SpoutPlayer, GenericButton> escButton = new HashMap<SpoutPlayer, GenericButton>();
 
 	public void getSpoutHelp(SpoutPlayer p, ScreenHolder sh) {
 		
@@ -277,16 +216,20 @@ public class HelpCommands {
 
 		((GenericPopup) helps.get(p)).attachWidget(plugin, texture);
 
-		sh.escButton = new GenericButton("Close");
-		sh.escButton.setColor(RGB.RED.getColour());
-		sh.escButton.setHoverColor(RGB.GREEN.getColour());
-		sh.escButton.setX(4);
-		sh.escButton.setY(5);
-		sh.escButton.setWidth(100);
-		sh.escButton.setHeight(20);
-		sh.escButton.setTooltip("  Close the help menu");
+		GenericButton tmp1 = new GenericButton("Close");
+		tmp1.setColor(RGB.RED.getColour());
+		tmp1.setHoverColor(RGB.FIREBRICK.getColour());
+		tmp1.setX(4);
+		tmp1.setY(6);
+		tmp1.setWidth(60);
+		tmp1.setHeight(20);
+		tmp1.setTooltip("  Close the Editor");
+		
+		sh.escButton = tmp1;
+		
+		escButton.put(p, tmp1);
 
-		((GenericPopup) helps.get(p)).attachWidget(plugin, sh.escButton);
+		((GenericPopup) helps.get(p)).attachWidget(plugin, escButton.get(p));
 
 		sh.generalData = new GenericButton("General");
 		sh.generalData.setColor(RGB.RED.getColour());

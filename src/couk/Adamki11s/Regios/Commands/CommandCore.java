@@ -23,6 +23,9 @@ import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.RBF.RBF_Save;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
+import couk.Adamki11s.Regios.Scheduler.LockHandler;
+import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager;
+import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class CommandCore implements CommandExecutor {
@@ -53,18 +56,34 @@ public class CommandCore implements CommandExecutor {
 
 		if (label.equalsIgnoreCase("regios") || label.equalsIgnoreCase("reg") || label.equalsIgnoreCase("r")) {
 
-			if(!(sender instanceof Player)){
+			if (!(sender instanceof Player)) {
 				System.out.println("[Regios] Regios doesn't support console commands yet. Please log in and excute your command as a player.");
 				return true;
 			}
-			
+
 			Player p = (Player) sender;
-			
-			if(args.length >= 1 && args[0].equalsIgnoreCase("help")){
-				if(SpoutInterface.doesPlayerHaveSpout(p)){
-					help.getSpoutHelp((SpoutPlayer)p);
+
+			if (args.length >= 1 && args[0].equalsIgnoreCase("help")) {
+				if (SpoutInterface.doesPlayerHaveSpout(p)) {
+					if(!LockHandler.isHelpLocked((SpoutPlayer)p)){
+						LockHandler.helpLocked = true;
+						LockHandler.helpOccupant = (SpoutPlayer) p;
+						help.getSpoutHelp((SpoutPlayer) p);
+						return true;
+					} else {
+						if (args.length == 1) {
+							LockHandler.addToHelpQueue(p);
+							p.sendMessage(ChatColor.RED + "[Regios] Using standard help.");
+							help.getStandardHelp(p, args);
+							return true;
+						} else {
+							help.getStandardHelp(p, args);
+							return true;
+						}
+					}
 				} else {
 					help.getStandardHelp(p, args);
+					return true;
 				}
 			}
 
@@ -72,6 +91,33 @@ public class CommandCore implements CommandExecutor {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.create")) {
 					creation.giveTool(p);
 					return true;
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+					return true;
+				}
+			}
+
+			if (args.length == 2 && args[0].equalsIgnoreCase("edit")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.edit")) {
+					if (SpoutInterface.doesPlayerHaveSpout(p)) {
+						if (GlobalRegionManager.getRegion(args[1]) == null) {
+							p.sendMessage(ChatColor.RED + "[Regios] This region does not exist!");
+							return true;
+						} else {
+							if (!LockHandler.isEditorLocked((SpoutPlayer)p)){
+								LockHandler.editorLocked = true;
+								LockHandler.editorOccupant = (SpoutPlayer)p;
+								RegionScreenManager.drawPanelFramework((SpoutPlayer) p, GlobalRegionManager.getRegion(args[1]));
+								return true;
+							} else {
+								LockHandler.addToEditorQueue(p);
+								return true;
+							}
+						}
+					} else {
+						p.sendMessage(ChatColor.RED + "[Regios] The Spoutcraft launcher is required for this feature!");
+						return true;
+					}
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 					return true;
@@ -568,7 +614,7 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
-			
+
 			if (args.length == 2 && (args[0].equalsIgnoreCase("buy") || args[0].equalsIgnoreCase("buy-region"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.buy")) {
 					eco.buyRegion(GlobalRegionManager.getRegion(args[1]), args[1], p);
@@ -1004,7 +1050,7 @@ public class CommandCore implements CommandExecutor {
 			/*
 			 * Misc. Cmd
 			 */
-			
+
 			if (args.length == 1 && args[0].equalsIgnoreCase("check")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.other.check")) {
 					miscCmd.checkRegion(p);
@@ -1116,9 +1162,9 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
-			
+
 			if (args.length == 2 && (args[0].equalsIgnoreCase("list-backups") || args[0].equalsIgnoreCase("list-backup"))) {
-					admin.listRegionBackups(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				admin.listRegionBackups(GlobalRegionManager.getRegion(args[1]), args[1], p);
 			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))) {
@@ -1154,10 +1200,10 @@ public class CommandCore implements CommandExecutor {
 					e.printStackTrace();
 				}
 			}
-			
+
 			RegionCommandEvent event = new RegionCommandEvent("RegionCreateEvent");
 			event.setProperties(sender, label, args);
-	        Bukkit.getServer().getPluginManager().callEvent(event);
+			Bukkit.getServer().getPluginManager().callEvent(event);
 
 			return true;
 		}

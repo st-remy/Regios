@@ -87,7 +87,11 @@ public class Region extends PermChecks implements Checks {
 		this.l1 = new RegionLocation(l1.getWorld(), l1.getX(), l1.getY(), l1.getZ());
 		this.l2 = new RegionLocation(l2.getWorld(), l2.getX(), l2.getY(), l2.getZ());
 		RegionLocation rl1 = new RegionLocation(l1.getWorld(), l1.getX(), l1.getY(), l1.getZ()), rl2 = new RegionLocation(l2.getWorld(), l2.getX(), l2.getY(), l2.getZ());
-		this.world = world.getName();
+		if (world != null) {
+			this.world = world.getName();
+		} else {
+			this.world = Bukkit.getServer().getWorlds().get(0).getName();
+		}
 		exceptions.add(owner);
 		this.welcomeMessage = ConfigurationData.defaultWelcomeMessage.toString();
 

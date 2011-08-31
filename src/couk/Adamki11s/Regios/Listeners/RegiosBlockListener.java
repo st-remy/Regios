@@ -53,8 +53,6 @@ public class RegiosBlockListener extends BlockListener {
 		}
 	}
 
-	
-
 	public void onSignChange(SignChangeEvent evt) {
 		if (!EconomyCore.isEconomySupportEnabled()) {
 			return;
@@ -264,11 +262,13 @@ public class RegiosBlockListener extends BlockListener {
 		}
 
 		if (regionSet.isEmpty()) {
-			if (gws.invert_protection) {
-				if (!gws.canBypassWorldChecks(p)) {
-					p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
-					evt.setCancelled(true);
-					return;
+			if (gws != null) {
+				if (gws.invert_protection) {
+					if (!gws.canBypassWorldChecks(p)) {
+						p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
+						evt.setCancelled(true);
+						return;
+					}
 				}
 			}
 			return;
@@ -395,11 +395,13 @@ public class RegiosBlockListener extends BlockListener {
 		}
 
 		if (regionSet.isEmpty()) {
-			if (gws.invert_protection) {
-				if (!gws.canBypassWorldChecks(p)) {
-					p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
-					evt.setCancelled(true);
-					return;
+			if (gws != null) {
+				if (gws.invert_protection) {
+					if (!gws.canBypassWorldChecks(p)) {
+						p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
+						evt.setCancelled(true);
+						return;
+					}
 				}
 			}
 			return;
@@ -416,11 +418,13 @@ public class RegiosBlockListener extends BlockListener {
 		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
 											// inside region then cancel the
 											// check.
-			if (gws.invert_protection) {
-				if (!gws.canBypassWorldChecks(p)) {
-					p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
-					evt.setCancelled(true);
-					return;
+			if (gws != null) {
+				if (gws.invert_protection) {
+					if (!gws.canBypassWorldChecks(p)) {
+						p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to build in this area!");
+						evt.setCancelled(true);
+						return;
+					}
 				}
 			}
 			return;

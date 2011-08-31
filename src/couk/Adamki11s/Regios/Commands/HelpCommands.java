@@ -21,6 +21,7 @@ import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import couk.Adamki11s.Regios.Main.Regios;
+import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 
 public class HelpCommands {
 
@@ -256,15 +257,16 @@ public class HelpCommands {
 	}
 
 	public void getSpoutHelp(SpoutPlayer p) {
-
+		
 		this.plugin = Regios.regios;
 		InGameHUD hud = p.getMainScreen();
 
 		if (helps.containsKey(p)) {
 			((GenericPopup) helps.get(p)).removeWidgets(plugin);
 		}
-
+		
 		helps.put((SpoutPlayer) p, new GenericPopup());
+		
 		GenericTexture texture = new GenericTexture("http://dl.dropbox.com/u/27260323/Regios/GUI/Help%20GUI%20Texture.png");
 
 		texture.setAnchor(WidgetAnchor.SCALE);
@@ -404,29 +406,8 @@ public class HelpCommands {
 		other.setHeight(20);
 
 		((GenericPopup) helps.get(p)).attachWidget(plugin, other);
-
+		
 		hud.attachPopupScreen((PopupScreen) helps.get(p));
-	}
-
-	public static enum RGB {
-		SPRING_GREEN(new Color((float) 0, (float) 0.803, (float) 0.4)), GREEN(new Color(0 / 255, 255 / 255, 0 / 255)), RED(new Color(255 / 255, 0 / 255, 0 / 255)), MIDNIGHT_BLUE(
-				new Color((float) 0.098, (float) 0.098, (float) 0.439)), YELLOW(new Color((float) 0.93, (float) 0.93, (float) 255)), WHITE(new Color(1, 1, 1)), FIREBRICK(
-				(new Color((float) 0.698, (float) 0.13, (float) 0.13)));
-
-		RGB(Color c) {
-			this.colour = c;
-		}
-
-		public Color getColour() {
-			return this.colour;
-		}
-
-		private final Color colour;
-
-		@Override
-		public String toString() {
-			return super.toString().substring(0, 1).toUpperCase() + super.toString().toLowerCase().substring(1, super.toString().length());
-		}
 	}
 
 }

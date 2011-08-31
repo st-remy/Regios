@@ -28,7 +28,7 @@ public class ProtectionCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protectiondisabled for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Protection disabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editUnprotect(r);
 	}

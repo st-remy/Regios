@@ -5,11 +5,14 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event.Type;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.getspout.spoutapi.player.SpoutPlayer;
+
 import com.nijikokun.bukkit.Permissions.Permissions;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
@@ -26,6 +29,7 @@ import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Scheduler.MainRunner;
 import couk.Adamki11s.Regios.SpoutGUI.CacheHandler;
+import couk.Adamki11s.Regios.SpoutGUI.Input_Listener;
 import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutCraftListener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
@@ -46,6 +50,11 @@ public class Regios extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
+		for(Player p : Bukkit.getServer().getOnlinePlayers()){
+			if(SpoutInterface.doesPlayerHaveSpout(p)){
+				((SpoutPlayer)p).getMainScreen().closePopup();
+			}
+		}
 		log.info(prefix + " Shutting down scheduler task...");
 		MainRunner.stopMainRunner();
 		log.info(prefix + " Scheduler task stopped successfully!");
@@ -122,6 +131,7 @@ public class Regios extends JavaPlugin {
 			pm.registerEvent(Type.CUSTOM_EVENT, new SpoutCraftListener(), Priority.Highest, this);
 			pm.registerEvent(Type.CUSTOM_EVENT, new SpoutInventoryListener(), Priority.Highest, this);
 			pm.registerEvent(Type.CUSTOM_EVENT, new Screen_Listener(), Priority.Highest, this);
+			pm.registerEvent(Type.CUSTOM_EVENT, new Input_Listener(), Priority.Highest, this);
 		}
 		
 		log.info(prefix + " Starting scheduler task...");

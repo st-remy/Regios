@@ -18,7 +18,7 @@ public class MutableMobs {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.MobSpawns", val);
-		r.setShowPreventEntryMessage(val);
+		r.setMobSpawns(val);
 		c.save();
 	}
 	
@@ -31,7 +31,7 @@ public class MutableMobs {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Other.MonsterSpawns", val);
-		r.setShowPreventEntryMessage(val);
+		r.setMonsterSpawns(val);
 		c.save();
 	}
 

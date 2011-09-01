@@ -55,6 +55,7 @@ public class MutableExceptions {
 				f.delete();
 			}
 		}
+		r.getExceptions().clear();
 	}
 
 	/*
@@ -100,6 +101,7 @@ public class MutableExceptions {
 				f.delete();
 			}
 		}
+		r.getNodes().clear();
 	}
 
 	/*
@@ -145,6 +147,7 @@ public class MutableExceptions {
 				f.delete();
 			}
 		}
+		r.getItems().clear();
 	}
 	
 	/*
@@ -190,7 +193,7 @@ public class MutableExceptions {
 		return sb.toString();
 	}
 	
-	public void resetSubOwners(Region r){
+	public void eraseAllSubOwners(Region r){
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -201,6 +204,15 @@ public class MutableExceptions {
 		c.setProperty("Region.Essentials.SubOwners", "");
 		r.setSubOwners(("").split(","));
 		c.save();
+	}
+	
+	public boolean checkSubOwnerException(Region r, String ex) {
+		for (String owner : r.getSubOwners()) {
+			if(ex.trim().equals(owner.trim())){
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

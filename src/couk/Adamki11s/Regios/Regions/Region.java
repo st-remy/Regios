@@ -92,7 +92,11 @@ public class Region extends PermChecks implements Checks {
 		} else {
 			this.world = Bukkit.getServer().getWorlds().get(0).getName();
 		}
-		exceptions.add(owner);
+
+		if (save) {
+			exceptions.add(owner);
+		}
+
 		this.welcomeMessage = ConfigurationData.defaultWelcomeMessage.toString();
 
 		this.leaveMessage = ConfigurationData.defaultLeaveMessage.toString();
@@ -239,12 +243,12 @@ public class Region extends PermChecks implements Checks {
 				HealthRegeneration.removeRegenerator(p);
 			}
 			if (this.permWipeOnExit) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					InventoryCacheManager.wipeInventory(p);
 				}
 			}
 			if (this.wipeAndCacheOnEnter) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					if (InventoryCacheManager.doesCacheContain(p)) {
 						InventoryCacheManager.restoreInventory(p);
 						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' inventory restored upon exit"));
@@ -252,7 +256,7 @@ public class Region extends PermChecks implements Checks {
 				}
 			}
 			if (this.wipeAndCacheOnExit) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					if (!InventoryCacheManager.doesCacheContain(p)) {
 						InventoryCacheManager.cacheInventory(p);
 						InventoryCacheManager.wipeInventory(p);
@@ -316,19 +320,19 @@ public class Region extends PermChecks implements Checks {
 			leaveMessageSent.remove(p);
 			addPlayer(p);
 			if (!HealthRegeneration.isRegenerator(p)) {
-				if (this.healthRegen < 0 && !this.canBypass(p)) {
+				if (this.healthRegen < 0 && !this.canBypassProtection(p)) {
 					HealthRegeneration.addRegenerator(p, this.healthRegen);
 				} else if (this.healthRegen > 0) {
 					HealthRegeneration.addRegenerator(p, this.healthRegen);
 				}
 			}
 			if (this.permWipeOnEnter) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					InventoryCacheManager.wipeInventory(p);
 				}
 			}
 			if (this.wipeAndCacheOnEnter) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					if (!InventoryCacheManager.doesCacheContain(p)) {
 						InventoryCacheManager.cacheInventory(p);
 						InventoryCacheManager.wipeInventory(p);
@@ -337,7 +341,7 @@ public class Region extends PermChecks implements Checks {
 				}
 			}
 			if (this.wipeAndCacheOnExit) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					if (InventoryCacheManager.doesCacheContain(p)) {
 						LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' inventory restored upon entry"));
 						InventoryCacheManager.restoreInventory(p);
@@ -387,7 +391,7 @@ public class Region extends PermChecks implements Checks {
 	public boolean isRegionFull(Player p) {
 		if (this.playerCap > 0) {
 			if (this.playersInRegion.size() > this.playerCap) {
-				if (!this.canBypass(p)) {
+				if (!this.canBypassProtection(p)) {
 					return true;
 				} else {
 					return false;
@@ -493,21 +497,21 @@ public class Region extends PermChecks implements Checks {
 
 	@Override
 	public boolean canBuild(Player p) {
-		return super.canBypass(p, this);
+		return super.canBypassProtection(p, this);
 	}
 
-	public boolean canBypass(Player p) {
-		return super.canBypass(p, this);
+	public boolean canBypassProtection(Player p) {
+		return super.canBypassProtection(p, this);
 	}
 
 	@Override
 	public boolean canEnter(Player p) {
-		return super.canBypass(p, this);
+		return super.canBypassEntryProtection(p, this);
 	}
 
 	@Override
 	public boolean canExit(Player p) {
-		return super.canBypass(p, this);
+		return super.canBypassExitProtection(p, this);
 	}
 
 	@Override

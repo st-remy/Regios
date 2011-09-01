@@ -36,7 +36,7 @@ public class RegionScreenManager {
 
 	public static Plugin plugin;
 
-	private static final int pages = 3;
+	private static final int pages = 4;
 
 	public static void drawPanelFramework(SpoutPlayer sp, Region r, ScreenHolder sh) {
 
@@ -144,6 +144,9 @@ public class RegionScreenManager {
 		case 3:
 			RegionScreen3.loadScreen(sp, editing.get(sp), sh.page2Widgets, sh);
 			break;
+		case 4:
+			RegionScreen4.loadScreen(sp, editing.get(sp), sh.page3Widgets, sh);
+			break;
 		}
 	}
 
@@ -162,6 +165,9 @@ public class RegionScreenManager {
 			break;
 		case 2:
 			RegionScreen2.loadScreen(sp, editing.get(sp), sh.page3Widgets, sh);
+			break;
+		case 3:
+			RegionScreen3.loadScreen(sp, editing.get(sp), sh.page4Widgets, sh);
 			break;
 		}
 	}

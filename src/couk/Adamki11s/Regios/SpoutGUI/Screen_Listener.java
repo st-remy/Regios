@@ -1,29 +1,20 @@
 package couk.Adamki11s.Regios.SpoutGUI;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
-import org.getspout.spoutapi.event.screen.ScreenCloseEvent;
 import org.getspout.spoutapi.event.screen.ScreenListener;
-import org.getspout.spoutapi.event.screen.TextFieldChangeEvent;
+import org.getspout.spoutapi.gui.Container;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.GenericButton;
-import org.getspout.spoutapi.gui.GenericTextField;
+import org.getspout.spoutapi.gui.Label;
 import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.gui.TextField;
-import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.player.SpoutPlayer;
-import org.getspout.spoutapi.sound.SoundEffect;
-
 import couk.Adamki11s.Regios.Commands.HelpCommands;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Mutable.MutableEconomy;
@@ -35,6 +26,7 @@ import couk.Adamki11s.Regios.Mutable.MutableModes;
 import couk.Adamki11s.Regios.Mutable.MutableProtection;
 import couk.Adamki11s.Regios.Mutable.MutableProtectionMisc;
 import couk.Adamki11s.Regios.Regions.Region;
+import couk.Adamki11s.Regios.SpoutGUI.RegionScreen4.ExToggle;
 
 public class Screen_Listener extends ScreenListener {
 
@@ -51,6 +43,8 @@ public class Screen_Listener extends ScreenListener {
 					regionScreen2Listener(evt, sh);
 				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 3) {
 					regionScreen3Listener(evt, sh);
+				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 4) {
+					regionScreen4Listener(evt, sh);
 				}
 			}
 			regionControlListener(evt, sh);
@@ -693,7 +687,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 	}
 
-	private void regionScreen3Listener(ButtonClickEvent evt, ScreenHolder sh){
+	private void regionScreen3Listener(ButtonClickEvent evt, ScreenHolder sh) {
 		Region r = RegionScreenManager.editing.get(evt.getPlayer());
 
 		SpoutPlayer sp = evt.getPlayer();
@@ -702,16 +696,16 @@ public class Screen_Listener extends ScreenListener {
 		TextField healthregentxt = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[4].getId());
 		TextField velwarptxt = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[7].getId());
 		TextField pricetxt = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[11].getId());
-		
+
 		UUID togglesale = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[9].getId()).getId();
 		UUID confirmlsps = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[2].getId()).getId();
 		UUID confirmhealthregen = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[5].getId()).getId();
 		UUID confirmvelwarp = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[8].getId()).getId();
 		UUID confirmprice = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[12].getId()).getId();
-		
+
 		UUID button = evt.getButton().getId();
-		
-		if(button == togglesale){
+
+		if (button == togglesale) {
 			if (r.isForSale()) {
 				eco.editForSale(r, false);
 				sp.sendNotification("Sale", ChatColor.RED + "Not for sale", Material.SIGN);
@@ -719,73 +713,73 @@ public class Screen_Listener extends ScreenListener {
 				eco.editForSale(r, true);
 				sp.sendNotification("Sale", ChatColor.GREEN + "For sale", Material.SIGN);
 			}
-			((GenericButton) (sh.page1Widgets[9])).setTooltip(RegionScreenManager.getStatus(r.isForSale()));
-			((GenericButton) (sh.page1Widgets[9])).setTextColor(RegionScreenManager.getColourToken(r.isForSale()));
-			((GenericButton) (sh.page1Widgets[9])).setDirty(true);
+			((GenericButton) (sh.page3Widgets[9])).setTooltip(RegionScreenManager.getStatus(r.isForSale()));
+			((GenericButton) (sh.page3Widgets[9])).setTextColor(RegionScreenManager.getColourToken(r.isForSale()));
+			((GenericButton) (sh.page3Widgets[9])).setDirty(true);
 			return;
 		}
-		
-		if(button == confirmlsps){
+
+		if (button == confirmlsps) {
 			String lsps = lspstxt.getText();
 			int val;
-			try{
+			try {
 				val = Integer.parseInt(lsps);
-			} catch (NumberFormatException ex){
+			} catch (NumberFormatException ex) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be an int!", Material.FIRE);
 				return;
 			}
-			if(val < 0){
+			if (val < 0) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be > 0!", Material.FIRE);
 				return;
 			}
 			fun.editLSPS(r, val);
 			sp.sendNotification("LSPS", ChatColor.GREEN + "Set to : " + val, Material.FIRE);
 		}
-		
-		if(button == confirmhealthregen){
+
+		if (button == confirmhealthregen) {
 			String hr = healthregentxt.getText();
 			int val;
-			try{
+			try {
 				val = Integer.parseInt(hr);
-			} catch (NumberFormatException ex){
+			} catch (NumberFormatException ex) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be an int!", Material.FIRE);
 				return;
 			}
-			if(val < 0){
+			if (val < 0) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be > 0!", Material.FIRE);
 				return;
 			}
 			fun.editHealthRegen(r, val);
 			sp.sendNotification("Health Regen", ChatColor.GREEN + "Set to : " + val, Material.PORK);
 		}
-		
-		if(button == confirmvelwarp){
+
+		if (button == confirmvelwarp) {
 			String vel = velwarptxt.getText();
 			double val;
-			try{
+			try {
 				val = Double.parseDouble(vel);
-			} catch (NumberFormatException ex){
-				sp.sendNotification(ChatColor.RED + "Error!", "The value must be a double!", Material.FIRE);
+			} catch (NumberFormatException ex) {
+				sp.sendNotification(ChatColor.RED + "Error!", "Value must be a double!", Material.FIRE);
 				return;
 			}
-			if(val < 0){
+			if (val < 0) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be > 0!", Material.FIRE);
 				return;
 			}
 			fun.editVelocityWarp(r, val);
 			sp.sendNotification("Velocity Warp", ChatColor.GREEN + "Set to : " + val, Material.CAKE);
 		}
-		
-		if(button == confirmprice){
+
+		if (button == confirmprice) {
 			String price = pricetxt.getText();
 			int val;
-			try{
+			try {
 				val = Integer.parseInt(price);
-			} catch (NumberFormatException ex){
+			} catch (NumberFormatException ex) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be an int!", Material.FIRE);
 				return;
 			}
-			if(val < 0){
+			if (val < 0) {
 				sp.sendNotification(ChatColor.RED + "Error!", "The value must be > 0!", Material.FIRE);
 				return;
 			}
@@ -793,6 +787,71 @@ public class Screen_Listener extends ScreenListener {
 			sp.sendNotification("Region Price", ChatColor.GREEN + "Set to : " + val, Material.SIGN);
 		}
 	}
-	// public void onScreenClose(ScreenCloseEvent evt) {}
+	
+	private void regionScreen4Listener(ButtonClickEvent evt, ScreenHolder sh) {
+		
+		Region r = RegionScreenManager.editing.get(evt.getPlayer());
+
+		SpoutPlayer sp = evt.getPlayer();
+		
+		TextField excepField = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[5].getId());
+
+		UUID togglePlayer = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[1].getId()).getId();
+		UUID toggleNode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[2].getId()).getId();
+		UUID toggleSubOwner = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[3].getId()).getId();
+		UUID toggleItems = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[4].getId()).getId();
+		
+		UUID addEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[6].getId()).getId();
+		UUID remEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[7].getId()).getId();
+		UUID eraseEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[8].getId()).getId();
+		UUID back = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[10].getId()).getId();
+		UUID forward = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[11].getId()).getId();
+	
+		UUID button = evt.getButton().getId();
+		
+		if(button == addEx){
+			if(excepField.getText().length() < 1){
+				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
+				return;
+			}
+			RegionScreen4.addException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText(), excepField);
+		}
+		
+		if(button == remEx){
+			if(excepField.getText().length() < 1){
+				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
+				return;
+			}
+			RegionScreen4.removeException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText(), excepField);
+		}
+		
+		if(button == eraseEx){
+			RegionScreen4.eraseExceptions(RegionScreen4.toggle.get(sp), sp, r);
+		}
+		
+		if(button == back){
+			RegionScreen4.prevPage(sp, r, sh);
+		}
+		
+		if(button == forward){
+			RegionScreen4.nextPage(sp, r, sh);
+		}
+		
+		if(button == togglePlayer){
+			RegionScreen4.switchToggle(sp, ExToggle.PLAYER, sh, r, evt.getButton());
+		}
+		
+		if(button == toggleNode){
+			RegionScreen4.switchToggle(sp, ExToggle.NODE, sh, r, evt.getButton());
+		}
+		
+		if(button == toggleSubOwner){
+			RegionScreen4.switchToggle(sp, ExToggle.SUB_OWNER, sh, r, evt.getButton());
+		}
+		
+		if(button == toggleItems){
+			RegionScreen4.switchToggle(sp, ExToggle.ITEM, sh, r, evt.getButton());
+		}
+	}
 
 }

@@ -1,8 +1,10 @@
 package couk.Adamki11s.Regios.SpoutGUI;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.getspout.spoutapi.gui.GenericButton;
+import org.getspout.spoutapi.gui.GenericContainer;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericTextField;
 import org.getspout.spoutapi.gui.Widget;
@@ -98,6 +100,12 @@ public class ScreenHolder {
 	public Widget[] page3Widgets = { new GenericLabel("LSPS"), new GenericTextField(), new GenericButton("Update"), new GenericLabel("Health-Regen"), new GenericTextField(),
 			new GenericButton("Update"), new GenericLabel("Velocity-Warp"), new GenericTextField(), new GenericButton("Update"), new GenericButton("For Sale"),
 			new GenericLabel("Sale Price"), new GenericTextField(), new GenericButton("Update") };
+
+	public Widget[] page4Widgets = { new GenericLabel("Exceptions"), new GenericButton("Players"), new GenericButton("Nodes"), new GenericButton("Sub Owners"),
+			new GenericButton("Items"), new GenericTextField(), new GenericButton("Add"), new GenericButton("Remove"), new GenericButton("Erase"),
+			new GenericLabel("Indicator"), new GenericButton("<"), new GenericButton(">"), new GenericContainer()};
+	
+	public static HashMap<SpoutPlayer, ArrayList<Widget>> page4Exceptions = new HashMap<SpoutPlayer, ArrayList<Widget>>();
 
 	public void addScreenHolder(SpoutPlayer sp, ScreenHolder sh) {
 		screenHolder.put(sp, sh);

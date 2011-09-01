@@ -165,7 +165,7 @@ public class RegionScreen3 {
 		}
 		
 		((GenericButton) sh.page3Widgets[9]).setText("For Sale");
-		((GenericButton) sh.page3Widgets[9]).setX(13);
+		((GenericButton) sh.page3Widgets[9]).setX(14);
 		((GenericButton) sh.page3Widgets[9]).setY(145);
 		((GenericButton) sh.page3Widgets[9]).setWidth(72);
 		((GenericButton) sh.page3Widgets[9]).setHeight(20);

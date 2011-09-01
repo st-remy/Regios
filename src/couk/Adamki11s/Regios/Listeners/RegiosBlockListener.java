@@ -320,7 +320,7 @@ public class RegiosBlockListener extends BlockListener {
 			if (r.canItemBePlaced(p, b.getType(), r)) {
 				return;
 			} else {
-				if (!r.canBypass(p, r)) {
+				if (!r.canBypassProtection(p, r)) {
 					evt.setCancelled(true);
 					p.sendMessage(ChatColor.RED + "[Regios] You cannot place this item in this region!");
 					return;

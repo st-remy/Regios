@@ -65,6 +65,11 @@ public class CommandCore implements CommandExecutor {
 			}
 
 			Player p = (Player) sender;
+			
+			if(!SpoutInterface.global_spoutEnabled){
+				p.sendMessage(ChatColor.RED + "[Regios] Spout not detected! Install Spout!");
+				return true;
+			}
 
 			if (args.length >= 1 && args[0].equalsIgnoreCase("help")) {
 				if (SpoutInterface.doesPlayerHaveSpout(p)) {
@@ -540,7 +545,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && (args[0].equalsIgnoreCase("erase-sub-exceptions") || args[0].equalsIgnoreCase("erase-item-ex"))) {
+			if (args.length == 2 && (args[0].equalsIgnoreCase("erase-sub-exceptions") || args[0].equalsIgnoreCase("erase-sub-ex"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.modify.players")) {
 					excep.eraseSubOwnerExceptions(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {
@@ -1197,6 +1202,6 @@ public class CommandCore implements CommandExecutor {
 			return true;
 		}
 
-		return false;
+		return true;
 	}
 }

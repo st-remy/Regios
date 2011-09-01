@@ -29,7 +29,7 @@ public class PermChecks {
 		}
 	}
 	
-	public boolean canBypass(Player p, Region r){
+	public boolean canBypassItemProtection(Player p, Region r){
 		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
 			return true;
 		}
@@ -37,6 +37,77 @@ public class PermChecks {
 			return true;
 		} else {
 			for(String excep : r.getExceptionNodes()){
+				if(r.getItemMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getItemMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getExceptions()){
+				if(r.getItemMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getItemMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getSubOwners()){
+				if(r.getItemMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getItemMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			if(r.getItemMode() == MODE.Whitelist){
+				return false;
+			} else if(r.getItemMode() == MODE.Blacklist){
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public boolean canBypassProtection(Player p, Region r){
+		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
+			return true;
+		}
+	    if(canOverride(p, r)){
+			return true;
+		} else {
+			for(String excep : r.getExceptionNodes()){
+				if(r.getProtectionMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getProtectionMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getExceptions()){
+				if(r.getProtectionMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getProtectionMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getSubOwners()){
 				if(r.getProtectionMode() == MODE.Whitelist){
 					if(excep.equals(p.getName())){
 						return true;	
@@ -56,8 +127,106 @@ public class PermChecks {
 		}
 	}
 	
+	public boolean canBypassEntryProtection(Player p, Region r){
+		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
+			return true;
+		}
+	    if(canOverride(p, r)){
+			return true;
+		} else {
+			for(String excep : r.getExceptionNodes()){
+				if(r.getPreventEntryMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getPreventEntryMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getExceptions()){
+				if(r.getPreventEntryMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getPreventEntryMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getSubOwners()){
+				if(r.getPreventEntryMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getPreventEntryMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			if(r.getPreventEntryMode() == MODE.Whitelist){
+				return false;
+			} else if(r.getPreventEntryMode() == MODE.Blacklist){
+				return true;
+			}
+			return false;
+		}
+	}
+	
+	public boolean canBypassExitProtection(Player p, Region r){
+		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
+			return true;
+		}
+	    if(canOverride(p, r)){
+			return true;
+		} else {
+			for(String excep : r.getExceptionNodes()){
+				if(r.getPreventExitMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getPreventExitMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getExceptions()){
+				if(r.getPreventExitMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getPreventExitMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			for(String excep : r.getSubOwners()){
+				if(r.getPreventExitMode() == MODE.Whitelist){
+					if(excep.equals(p.getName())){
+						return true;	
+					}
+				} else if(r.getPreventExitMode() == MODE.Blacklist){
+					if(excep.equals(p.getName())){
+						return false;	
+					}
+				}
+			}
+			if(r.getPreventExitMode() == MODE.Whitelist){
+				return false;
+			} else if(r.getPreventExitMode() == MODE.Blacklist){
+				return true;
+			}
+			return false;
+		}
+	}
+	
 	public boolean canItemBePlaced(Player p, Material m, Region r){
-		if(canBypass(p, r)){ return true; }
+		if(canBypassItemProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
 		if(r.getItemMode() == MODE.Whitelist){
 			return r.getItems().contains(m.getId());
@@ -68,7 +237,7 @@ public class PermChecks {
 	}
 	
 	public boolean canBuild(Player p, Region r){
-		if(canBypass(p, r)){ return true; }
+		if(canBypassProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
 		for(String excep : r.getExceptions()){
 			if(r.getProtectionMode() == MODE.Whitelist){
@@ -90,7 +259,7 @@ public class PermChecks {
 	}
 	
 	public boolean canEnter(Player p, Region r){
-		if(canBypass(p, r)){ return true; }
+		if(canBypassEntryProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
 		for(String excep : r.getExceptions()){
 			if(r.getPreventEntryMode() == MODE.Whitelist){
@@ -112,7 +281,7 @@ public class PermChecks {
 	}
 	
 	public boolean canExit(Player p, Region r){
-		if(canBypass(p, r)){ return true; }
+		if(canBypassExitProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
 		for(String excep : r.getExceptions()){
 			if(r.getPreventExitMode() == MODE.Whitelist){

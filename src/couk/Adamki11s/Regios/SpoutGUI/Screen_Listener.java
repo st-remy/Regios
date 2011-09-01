@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.getspout.spoutapi.event.screen.ButtonClickEvent;
 import org.getspout.spoutapi.event.screen.ScreenListener;
 import org.getspout.spoutapi.gui.Container;
@@ -25,6 +26,7 @@ import couk.Adamki11s.Regios.Mutable.MutableMobs;
 import couk.Adamki11s.Regios.Mutable.MutableModes;
 import couk.Adamki11s.Regios.Mutable.MutableProtection;
 import couk.Adamki11s.Regios.Mutable.MutableProtectionMisc;
+import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreen4.ExToggle;
 
@@ -266,6 +268,9 @@ public class Screen_Listener extends ScreenListener {
 		UUID buttonID = evt.getButton().getId();
 
 		if (buttonID == protect) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.is_protection()) {
 				protection.editUnprotect(r);
 				sp.sendNotification("Protection", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
@@ -280,6 +285,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == prevententry) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isPreventEntry()) {
 				protection.editAllowEntry(r);
 				sp.sendNotification("Prevent Entry", ChatColor.RED + "Prevent Entry Disabled", Material.CHAINMAIL_CHESTPLATE);
@@ -295,6 +303,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == preventexit) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isPreventExit()) {
 				protection.editAllowExit(r);
 				sp.sendNotification("Prevent Exit", ChatColor.RED + "Prevent Exit Disabled", Material.CHAINMAIL_CHESTPLATE);
@@ -310,6 +321,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == preventinteraction) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isPreventingInteraction()) {
 				miscProtection.editInteraction(r, false);
 				sp.sendNotification("Prevent Interaction", ChatColor.RED + "Interaction Disabled", Material.SHEARS);
@@ -324,6 +338,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == doorslocked) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.areDoorsLocked()) {
 				miscProtection.editDoorsLocked(r, false);
 				sp.sendNotification("Doors Locked", ChatColor.RED + "Door Locking Disabled", Material.IRON_DOOR);
@@ -338,6 +355,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == chestslocked) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isChestsLocked()) {
 				miscProtection.editChestsLocked(r, false);
 				sp.sendNotification("Chests Locked", ChatColor.RED + "Chest Locking Disabled", Material.CHEST);
@@ -352,6 +372,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == fireprotection) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isFireProtection()) {
 				miscProtection.editFireProtection(r, false);
 				sp.sendNotification("Fire Protection", ChatColor.RED + "Fire Protection Disabled", Material.FIRE);
@@ -366,6 +389,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == blockform) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isBlockForm()) {
 				miscProtection.editBlockForm(r, false);
 				sp.sendNotification("Block Form", ChatColor.RED + "Block Form Disabled", Material.SNOW);
@@ -381,6 +407,9 @@ public class Screen_Listener extends ScreenListener {
 
 		if (buttonID == mobspawn) {
 			if (r.isMobSpawns()) {
+				if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+					PermissionsCore.sendInvalidPermsPopup(sp);
+				}
 				mob.editMobSpawn(r, false);
 				sp.sendNotification("Mob Spawns", ChatColor.RED + "Mob Spawns Disabled", Material.RAW_FISH);
 			} else {
@@ -395,6 +424,9 @@ public class Screen_Listener extends ScreenListener {
 
 		if (buttonID == monsterspawn) {
 			if (r.isMonsterSpawns()) {
+				if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+					PermissionsCore.sendInvalidPermsPopup(sp);
+				}
 				mob.editMonsterSpawn(r, false);
 				sp.sendNotification("Monster Spawns", ChatColor.RED + "Monster Spawns Disabled", Material.RAW_FISH);
 			} else {
@@ -408,6 +440,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showwelcome) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isShowWelcomeMessage()) {
 				msg.editShowWelcomeMessage(r, false);
 				sp.sendNotification("Welcome Message", ChatColor.RED + "Welcome Msg Disabled", Material.BOOK);
@@ -422,6 +457,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showleave) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isShowLeaveMessage()) {
 				msg.editShowLeaveMessage(r, false);
 				sp.sendNotification("Leave Message", ChatColor.RED + "Leave Msg Disabled", Material.BOOK);
@@ -436,6 +474,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showprevententry) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isShowPreventEntryMessage()) {
 				msg.editShowPreventEntryMessage(r, false);
 				sp.sendNotification("Prev Entry Message", ChatColor.RED + "Prev Entry Msg Disabled", Material.BOOK);
@@ -450,6 +491,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showpreventexit) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isShowPreventExitMessage()) {
 				msg.editShowPreventExitMessage(r, false);
 				sp.sendNotification("Prev Exit Message", ChatColor.RED + "Prev Exit Msg Disabled", Material.BOOK);
@@ -464,6 +508,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showprotection) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isShowProtectionMessage()) {
 				msg.editShowProtectionMessage(r, false);
 				sp.sendNotification("Protection Message", ChatColor.RED + "Protection Msg Disabled", Material.BOOK);
@@ -478,6 +525,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showpvp) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isShowPvpWarning()) {
 				msg.editShowPvpWarningMessage(r, false);
 				sp.sendNotification("PvP Message", ChatColor.RED + "PvP Msg Disabled", Material.BOOK);
@@ -492,6 +542,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == pvp) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isPvp()) {
 				fun.editPvPEnabled(r, false);
 				sp.sendNotification("PvP", ChatColor.RED + "PvP Disabled", Material.DIAMOND_SWORD);
@@ -506,6 +559,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == healthenabled) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isHealthEnabled()) {
 				fun.editHealthEnabled(r, false);
 				sp.sendNotification("Health", ChatColor.RED + "Health Disabled", Material.GOLDEN_APPLE);
@@ -520,6 +576,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == protectmode) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.getProtectionMode() == MODE.Whitelist) {
 				modes.editProtectionMode(r, MODE.Blacklist);
 				sp.sendNotification("Protection Mode", ChatColor.BLACK + "Mode : Blacklist", Material.OBSIDIAN);
@@ -534,6 +593,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == prevententrymode) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.getPreventEntryMode() == MODE.Whitelist) {
 				modes.editPreventEntryMode(r, MODE.Blacklist);
 				sp.sendNotification("Prevent Entry Mode", ChatColor.BLACK + "Mode : Blacklist", Material.OBSIDIAN);
@@ -548,6 +610,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == preventexitmode) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.getPreventExitMode() == MODE.Whitelist) {
 				modes.editPreventExitMode(r, MODE.Blacklist);
 				sp.sendNotification("Prevent Exit Mode", ChatColor.BLACK + "Mode : Blacklist", Material.OBSIDIAN);
@@ -562,6 +627,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == itemmode) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.getItemMode() == MODE.Whitelist) {
 				modes.editItemControlMode(r, MODE.Blacklist);
 				sp.sendNotification("Item Control Mode", ChatColor.BLACK + "Mode : Blacklist", Material.OBSIDIAN);
@@ -607,6 +675,10 @@ public class Screen_Listener extends ScreenListener {
 		UUID button = evt.getButton().getId();
 
 		if (button == update) {
+
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			msg.editWelcomeMessage(r, welcometxt.getText());
 			msg.editLeaveMessage(r, leavetxt.getText());
 			msg.editPreventEntryMessage(r, prevententrytxt.getText());
@@ -706,6 +778,9 @@ public class Screen_Listener extends ScreenListener {
 		UUID button = evt.getButton().getId();
 
 		if (button == togglesale) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if (r.isForSale()) {
 				eco.editForSale(r, false);
 				sp.sendNotification("Sale", ChatColor.RED + "Not for sale", Material.SIGN);
@@ -720,6 +795,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmlsps) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			String lsps = lspstxt.getText();
 			int val;
 			try {
@@ -737,6 +815,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmhealthregen) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			String hr = healthregentxt.getText();
 			int val;
 			try {
@@ -754,6 +835,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmvelwarp) {
+			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			String vel = velwarptxt.getText();
 			double val;
 			try {
@@ -771,6 +855,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmprice) {
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			String price = pricetxt.getText();
 			int val;
 			try {
@@ -810,6 +897,9 @@ public class Screen_Listener extends ScreenListener {
 		UUID button = evt.getButton().getId();
 		
 		if(button == addEx){
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if(excepField.getText().length() < 1){
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
@@ -818,6 +908,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 		
 		if(button == remEx){
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			if(excepField.getText().length() < 1){
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
@@ -826,6 +919,9 @@ public class Screen_Listener extends ScreenListener {
 		}
 		
 		if(button == eraseEx){
+			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
 			RegionScreen4.eraseExceptions(RegionScreen4.toggle.get(sp), sp, r);
 		}
 		

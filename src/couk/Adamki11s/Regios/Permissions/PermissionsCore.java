@@ -1,7 +1,9 @@
 package couk.Adamki11s.Regios.Permissions;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.getspout.spoutapi.player.SpoutPlayer;
 
 import com.nijiko.permissions.PermissionHandler;
 
@@ -18,6 +20,10 @@ public class PermissionsCore {
     
     public static void sendInvalidPerms(Player p){
     	p.sendMessage(ChatColor.RED + "[Regios] You do not have permissions to do this!");
+    }
+    
+    public static void sendInvalidPermsPopup(SpoutPlayer p){
+    	p.sendNotification("Permissions", ChatColor.RED + "You cannot do this!", Material.FIRE);
     }
     
     public static boolean canModifyBasic(Region r, Player p){

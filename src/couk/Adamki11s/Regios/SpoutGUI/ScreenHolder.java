@@ -103,8 +103,12 @@ public class ScreenHolder {
 
 	public Widget[] page4Widgets = { new GenericLabel("Exceptions"), new GenericButton("Players"), new GenericButton("Nodes"), new GenericButton("Sub Owners"),
 			new GenericButton("Items"), new GenericTextField(), new GenericButton("Add"), new GenericButton("Remove"), new GenericButton("Erase"),
-			new GenericLabel("Indicator"), new GenericButton("<"), new GenericButton(">"), new GenericContainer()};
-	
+			new GenericLabel("Indicator"), new GenericButton("<"), new GenericButton(">"), new GenericContainer() };
+
+	public Widget[] page5Widgets = { new GenericButton("Cache"), new GenericButton("Perm-Add"), new GenericButton("Perm-Rem"), new GenericTextField(),
+			new GenericButton("Add"), new GenericButton("Remove"), new GenericButton("Erase"), new GenericLabel("Indicator"), new GenericButton("<"), new GenericButton(">"),
+			new GenericContainer() };
+
 	public static HashMap<SpoutPlayer, ArrayList<Widget>> page4Exceptions = new HashMap<SpoutPlayer, ArrayList<Widget>>();
 
 	public void addScreenHolder(SpoutPlayer sp, ScreenHolder sh) {

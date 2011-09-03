@@ -638,7 +638,7 @@ public class CommandCore implements CommandExecutor {
 			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("pvp")) {
-				if (PermissionsCore.doesHaveNode(p, "regios.fun.lsps")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.pvp")) {
 					fun.setPvP(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);

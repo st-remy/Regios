@@ -20,13 +20,7 @@ public class PermissionsCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			boolean nodeMatch = false;
-			for (String s : r.getTempCacheNodes()) {
-				if (s.trim().equalsIgnoreCase(message.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if(nodeMatch){
+			if(mutable.checkTempCache(r, message)){
 				p.sendMessage(ChatColor.RED + "[Regios] The Node " + ChatColor.BLUE + message + ChatColor.RED + " already exists!");
 				return;
 			}
@@ -44,13 +38,7 @@ public class PermissionsCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			boolean nodeMatch = false;
-			for (String s : r.getTempCacheNodes()) {
-				if (s.trim().equalsIgnoreCase(message.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if (!nodeMatch) {
+			if(!mutable.checkTempCache(r, message)){
 				p.sendMessage(ChatColor.RED + "[Regios] The node " + ChatColor.BLUE + message + ChatColor.RED + " did not match any in the cache!");
 				return;
 			} else {
@@ -83,13 +71,7 @@ public class PermissionsCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			boolean nodeMatch = false;
-			for (String s : r.getPermAddNodes()) {
-				if (s.trim().equalsIgnoreCase(message.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if(nodeMatch){
+			if(mutable.checkPermAdd(r, message)){
 				p.sendMessage(ChatColor.RED + "[Regios] The Node " + ChatColor.BLUE + message + ChatColor.RED + " already exists!");
 				return;
 			}
@@ -107,13 +89,7 @@ public class PermissionsCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			boolean nodeMatch = false;
-			for (String s : r.getPermAddNodes()) {
-				if (s.trim().equalsIgnoreCase(message.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if (!nodeMatch) {
+			if(!mutable.checkPermAdd(r, message)){
 				p.sendMessage(ChatColor.RED + "[Regios] The node " + ChatColor.BLUE + message + ChatColor.RED + " did not match any in the cache!");
 				return;
 			}
@@ -145,13 +121,7 @@ public class PermissionsCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			boolean nodeMatch = false;
-			for (String s : r.getPermRemoveNodes()) {
-				if (s.trim().equalsIgnoreCase(message.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if(nodeMatch){
+			if(mutable.checkPermRemove(r, message)){
 				p.sendMessage(ChatColor.RED + "[Regios] The Node " + ChatColor.BLUE + message + ChatColor.RED + " already exists!");
 				return;
 			}
@@ -169,13 +139,7 @@ public class PermissionsCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			boolean nodeMatch = false;
-			for (String s : r.getPermRemoveNodes()) {
-				if (s.trim().equalsIgnoreCase(message.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if (!nodeMatch) {
+			if(!mutable.checkPermRemove(r, message)){
 				p.sendMessage(ChatColor.RED + "[Regios] The node " + ChatColor.BLUE + message + ChatColor.RED + " did not match any in the cache!");
 				return;
 			}

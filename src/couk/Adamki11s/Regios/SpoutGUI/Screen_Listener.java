@@ -29,6 +29,7 @@ import couk.Adamki11s.Regios.Mutable.MutableProtectionMisc;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreen4.ExToggle;
+import couk.Adamki11s.Regios.SpoutGUI.RegionScreen5.PermToggle;
 
 public class Screen_Listener extends ScreenListener {
 
@@ -47,6 +48,8 @@ public class Screen_Listener extends ScreenListener {
 					regionScreen3Listener(evt, sh);
 				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 4) {
 					regionScreen4Listener(evt, sh);
+				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 5) {
+					regionScreen5Listener(evt, sh);
 				}
 			}
 			regionControlListener(evt, sh);
@@ -268,7 +271,7 @@ public class Screen_Listener extends ScreenListener {
 		UUID buttonID = evt.getButton().getId();
 
 		if (buttonID == protect) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.is_protection()) {
@@ -285,7 +288,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == prevententry) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isPreventEntry()) {
@@ -303,7 +306,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == preventexit) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isPreventExit()) {
@@ -321,7 +324,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == preventinteraction) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isPreventingInteraction()) {
@@ -338,7 +341,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == doorslocked) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.areDoorsLocked()) {
@@ -355,7 +358,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == chestslocked) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isChestsLocked()) {
@@ -372,7 +375,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == fireprotection) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isFireProtection()) {
@@ -389,7 +392,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == blockform) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isBlockForm()) {
@@ -407,7 +410,7 @@ public class Screen_Listener extends ScreenListener {
 
 		if (buttonID == mobspawn) {
 			if (r.isMobSpawns()) {
-				if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 					PermissionsCore.sendInvalidPermsPopup(sp);
 				}
 				mob.editMobSpawn(r, false);
@@ -424,7 +427,7 @@ public class Screen_Listener extends ScreenListener {
 
 		if (buttonID == monsterspawn) {
 			if (r.isMonsterSpawns()) {
-				if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+				if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 					PermissionsCore.sendInvalidPermsPopup(sp);
 				}
 				mob.editMonsterSpawn(r, false);
@@ -440,7 +443,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showwelcome) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isShowWelcomeMessage()) {
@@ -457,7 +460,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showleave) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isShowLeaveMessage()) {
@@ -474,7 +477,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showprevententry) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isShowPreventEntryMessage()) {
@@ -491,7 +494,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showpreventexit) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isShowPreventExitMessage()) {
@@ -508,7 +511,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showprotection) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isShowProtectionMessage()) {
@@ -525,7 +528,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == showpvp) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isShowPvpWarning()) {
@@ -542,7 +545,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == pvp) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isPvp()) {
@@ -559,7 +562,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == healthenabled) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isHealthEnabled()) {
@@ -576,7 +579,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == protectmode) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.getProtectionMode() == MODE.Whitelist) {
@@ -593,7 +596,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == prevententrymode) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.getPreventEntryMode() == MODE.Whitelist) {
@@ -610,7 +613,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == preventexitmode) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.getPreventExitMode() == MODE.Whitelist) {
@@ -627,7 +630,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (buttonID == itemmode) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.getItemMode() == MODE.Whitelist) {
@@ -676,7 +679,7 @@ public class Screen_Listener extends ScreenListener {
 
 		if (button == update) {
 
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			msg.editWelcomeMessage(r, welcometxt.getText());
@@ -778,7 +781,7 @@ public class Screen_Listener extends ScreenListener {
 		UUID button = evt.getButton().getId();
 
 		if (button == togglesale) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.isForSale()) {
@@ -795,7 +798,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmlsps) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			String lsps = lspstxt.getText();
@@ -815,7 +818,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmhealthregen) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			String hr = healthregentxt.getText();
@@ -835,7 +838,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmvelwarp) {
-			if(!PermissionsCore.canModifyBasic(r, (Player)sp)){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			String vel = velwarptxt.getText();
@@ -855,7 +858,7 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == confirmprice) {
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			String price = pricetxt.getText();
@@ -874,80 +877,146 @@ public class Screen_Listener extends ScreenListener {
 			sp.sendNotification("Region Price", ChatColor.GREEN + "Set to : " + val, Material.SIGN);
 		}
 	}
-	
+
 	private void regionScreen4Listener(ButtonClickEvent evt, ScreenHolder sh) {
-		
+
 		Region r = RegionScreenManager.editing.get(evt.getPlayer());
 
 		SpoutPlayer sp = evt.getPlayer();
-		
+
 		TextField excepField = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[5].getId());
 
 		UUID togglePlayer = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[1].getId()).getId();
 		UUID toggleNode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[2].getId()).getId();
 		UUID toggleSubOwner = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[3].getId()).getId();
 		UUID toggleItems = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[4].getId()).getId();
-		
+
 		UUID addEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[6].getId()).getId();
 		UUID remEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[7].getId()).getId();
 		UUID eraseEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[8].getId()).getId();
 		UUID back = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[10].getId()).getId();
 		UUID forward = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page4Widgets[11].getId()).getId();
-	
+
 		UUID button = evt.getButton().getId();
-		
-		if(button == addEx){
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+
+		if (button == addEx) {
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
-			if(excepField.getText().length() < 1){
+			if (excepField.getText().length() < 1) {
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
 			}
 			RegionScreen4.addException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText(), excepField);
 		}
-		
-		if(button == remEx){
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+
+		if (button == remEx) {
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
-			if(excepField.getText().length() < 1){
+			if (excepField.getText().length() < 1) {
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
 			}
 			RegionScreen4.removeException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText(), excepField);
 		}
-		
-		if(button == eraseEx){
-			if(!PermissionsCore.canModifyMain(r, (Player)sp)){
+
+		if (button == eraseEx) {
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			RegionScreen4.eraseExceptions(RegionScreen4.toggle.get(sp), sp, r);
 		}
-		
-		if(button == back){
+
+		if (button == back) {
 			RegionScreen4.prevPage(sp, r, sh);
 		}
-		
-		if(button == forward){
+
+		if (button == forward) {
 			RegionScreen4.nextPage(sp, r, sh);
 		}
-		
-		if(button == togglePlayer){
+
+		if (button == togglePlayer) {
 			RegionScreen4.switchToggle(sp, ExToggle.PLAYER, sh, r, evt.getButton());
 		}
-		
-		if(button == toggleNode){
+
+		if (button == toggleNode) {
 			RegionScreen4.switchToggle(sp, ExToggle.NODE, sh, r, evt.getButton());
 		}
-		
-		if(button == toggleSubOwner){
+
+		if (button == toggleSubOwner) {
 			RegionScreen4.switchToggle(sp, ExToggle.SUB_OWNER, sh, r, evt.getButton());
 		}
-		
-		if(button == toggleItems){
+
+		if (button == toggleItems) {
 			RegionScreen4.switchToggle(sp, ExToggle.ITEM, sh, r, evt.getButton());
 		}
 	}
 
+	private void regionScreen5Listener(ButtonClickEvent evt, ScreenHolder sh) {
+
+		Region r = RegionScreenManager.editing.get(evt.getPlayer());
+
+		SpoutPlayer sp = evt.getPlayer();
+
+		TextField excepField = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[3].getId());
+
+		UUID cache = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[0].getId()).getId();
+		UUID pa = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[1].getId()).getId();
+		UUID pr = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[2].getId()).getId();
+
+		UUID addEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[4].getId()).getId();
+		UUID remEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[5].getId()).getId();
+		UUID eraseEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[6].getId()).getId();
+		UUID back = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[8].getId()).getId();
+		UUID forward = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[9].getId()).getId();
+
+		UUID button = evt.getButton().getId();
+		
+		if(button == cache){
+			RegionScreen5.switchToggle(sp, PermToggle.CACHE, sh, r, evt.getButton());
+		}
+		
+		if(button == pa){
+			RegionScreen5.switchToggle(sp, PermToggle.PERM_ADD, sh, r, evt.getButton());
+		}
+		
+		if(button == pr){
+			RegionScreen5.switchToggle(sp, PermToggle.PERM_REMOVE, sh, r, evt.getButton());
+		}
+		
+		if(button == addEx){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (excepField.getText().length() < 1) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
+				return;
+			}
+			RegionScreen5.addException(RegionScreen5.toggle.get(sp), sp, r, excepField.getText(), excepField);
+		}
+		
+		if(button == remEx){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			RegionScreen5.removeException(RegionScreen5.toggle.get(sp), sp, r, excepField.getText(), excepField);
+		}
+		
+		if(button == eraseEx){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			RegionScreen5.eraseExceptions(RegionScreen5.toggle.get(sp), sp, r);
+		}
+		
+		if(button == back){
+			RegionScreen5.prevPage(sp, r, sh);
+		}
+		
+		if(button == forward){
+			RegionScreen5.nextPage(sp, r, sh);
+		}
+
+	}
 }

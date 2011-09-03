@@ -36,7 +36,8 @@ public class ChunkGrid {
 		region = r;
 		chunkGrid.add(w.getChunkAt(l1));
 		chunkGrid.add(w.getChunkAt(l2));
-		Location clone1 = l1, clone2 = l2;
+		Location clone1 = new Location(l1.getWorld(), Math.max(l1.getX(), l2.getX()), Math.max(l1.getY(), l2.getY()), Math.max(l1.getZ(), l2.getZ()));
+		Location clone2 = new Location(l1.getWorld(), Math.min(l1.getX(), l2.getX()), Math.min(l1.getY(), l2.getY()), Math.min(l1.getZ(), l2.getZ()));
 		if(l1.getX() < l2.getX()){
 			clone1.setX(l2.getX());
 			clone2.setX(l1.getX());

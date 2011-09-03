@@ -59,12 +59,34 @@ public class RegionScreen4 {
 	}
 
 	public static void nextPage(SpoutPlayer sp, Region r, ScreenHolder sh) {
-		if (currentPage.get(sp) == getExceptionPages(r.getExceptions().size())) {
-			sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
-		} else {
-			currentPage.put(sp, currentPage.get(sp) + 1);
-			updateExceptionPages(sp, currentPage.get(sp), sh, r);
+		switch (toggle.get(sp)) {
+		case PLAYER:
+			if (currentPage.get(sp) == getExceptionPages(r.getExceptions().size())) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
+				return;
+			}
+			break;
+		case NODE:
+			if (currentPage.get(sp) == getExceptionPages(r.getNodes().size())) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
+				return;
+			}
+			break;
+		case SUB_OWNER:
+			if (currentPage.get(sp) == getExceptionPages(r.getSubOwners().length)) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
+				return;
+			}
+			break;
+		case ITEM:
+			if (currentPage.get(sp) == getExceptionPages(r.getItems().size())) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
+				return;
+			}
+			break;
 		}
+		currentPage.put(sp, currentPage.get(sp) + 1);
+		updateExceptionPages(sp, currentPage.get(sp), sh, r);
 	}
 
 	public static void prevPage(SpoutPlayer sp, Region r, ScreenHolder sh) {
@@ -85,17 +107,21 @@ public class RegionScreen4 {
 			return false;
 		}
 	}
-	
+
 	public static void eraseExceptions(ExToggle toggle, SpoutPlayer sp, Region r) {
-		switch(toggle){
-		case PLAYER: excep.eraseAllPlayerExceptions(r);
-		sp.sendNotification("Players", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
-		case NODE: excep.eraseAllNodeExceptions(r);
-		sp.sendNotification("Nodes", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
-		case SUB_OWNER: excep.eraseAllSubOwners(r);
-		sp.sendNotification("Sub Owners", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
-		case ITEM: excep.eraseAllItemExceptions(r);
-		sp.sendNotification("Items", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
+		switch (toggle) {
+		case PLAYER:
+			excep.eraseAllPlayerExceptions(r);
+			sp.sendNotification("Players", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
+		case NODE:
+			excep.eraseAllNodeExceptions(r);
+			sp.sendNotification("Nodes", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
+		case SUB_OWNER:
+			excep.eraseAllSubOwners(r);
+			sp.sendNotification("Sub Owners", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
+		case ITEM:
+			excep.eraseAllItemExceptions(r);
+			sp.sendNotification("Items", ChatColor.GREEN + "Exceptions erased", Material.PAPER);
 		}
 		updateExceptionPages(sp, currentPage.get(sp), ScreenHolder.getScreenHolder(sp), r);
 	}
@@ -172,7 +198,7 @@ public class RegionScreen4 {
 		}
 		updateExceptionPages(sp, currentPage.get(sp), ScreenHolder.getScreenHolder(sp), r);
 	}
-	
+
 	public static void removeException(ExToggle toggle, SpoutPlayer sp, Region r, String ex, TextField tf) {
 		switch (toggle) {
 		case PLAYER:
@@ -287,7 +313,6 @@ public class RegionScreen4 {
 				((GenericLabel) sh.page4Widgets[9]).setDirty(true);
 				((GenericContainer) sh.page4Widgets[12]).setDirty(true);
 				if ((exc < r.getSubOwners().length) && r.getSubOwners()[exc].length() >= 3) {
-					System.out.println("Sub owner [" + r.getSubOwners()[exc] + "]");
 					GenericLabel ex = new GenericLabel(r.getSubOwners()[exc]);
 					ex.setTextColor(RGB.YELLOW.getColour());
 					((GenericContainer) sh.page4Widgets[12]).addChild(ex);
@@ -343,7 +368,7 @@ public class RegionScreen4 {
 		((GenericLabel) sh.page4Widgets[0]).setHeight(20);
 		((GenericLabel) sh.page4Widgets[0]).setTextColor(RGB.YELLOW.getColour());
 		((GenericLabel) sh.page4Widgets[0]).setText("Exceptions");
-		((GenericLabel) sh.page4Widgets[0]).setTooltip(ChatColor.YELLOW + "  Toggle between exception types");
+		((GenericLabel) sh.page4Widgets[0]).setTooltip(ChatColor.YELLOW + "  Toggle between exceptions");
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page4Widgets[0])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[0].getId()).setVisible(true);
@@ -517,26 +542,27 @@ public class RegionScreen4 {
 		((GenericContainer) sh.page4Widgets[12]).setWidth(100);
 		((GenericContainer) sh.page4Widgets[12]).setHeight(85);
 
-		if (!r.getExceptions().isEmpty()) {
-			for (int index = 0; index <= 4; index++) {
-				if (index < (r.getExceptions()).size()) {
-					GenericLabel ex = new GenericLabel((r.getExceptions()).get(index));
-					ex.setTextColor(RGB.YELLOW.getColour());
-					((GenericContainer) sh.page4Widgets[12]).addChild(ex);
-				} else {
-					GenericLabel ex = new GenericLabel("-");
-					ex.setTextColor(RGB.YELLOW.getColour());
-					((GenericContainer) sh.page4Widgets[12]).addChild(ex);
-				}
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page4Widgets[12])) {
+			for (Widget w : ((Container) ((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[12].getId())).getChildren()) {
+				((Container) ((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[12].getId())).removeChild(w);
+			}
+		}
+
+		for (int index = 0; index <= 4; index++) {
+			if (index < (r.getExceptions()).size()) {
+				GenericLabel ex = new GenericLabel((r.getExceptions()).get(index));
+				ex.setTextColor(RGB.YELLOW.getColour());
+				((GenericContainer) sh.page4Widgets[12]).addChild(ex);
+			} else {
+				GenericLabel ex = new GenericLabel("-");
+				ex.setTextColor(RGB.YELLOW.getColour());
+				((GenericContainer) sh.page4Widgets[12]).addChild(ex);
 			}
 		}
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page4Widgets[12])) {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[12].getId()).setVisible(true);
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[12].getId()).setDirty(true);
-			for (Widget w : ((Container) ((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[12].getId())).getChildren()) {
-				((Container) ((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page4Widgets[12].getId())).removeChild(w);
-			}
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page4Widgets[12]);
 		}

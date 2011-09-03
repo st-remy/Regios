@@ -14,9 +14,9 @@ public class ConfigurationData {
 	public static boolean regionProtected, regionPreventEntry, regionPreventExit, mobSpawns, monsterSpawns, healthEnabled, pvp, doorsLocked, chestsLocked, preventInteraction,
 			showPvpWarning, checkForUpdates, downloadUpdatesAuto, cacheOldVersions, forceReload, passwordEnabled, showWelcomeMessage, showLeaveMessage, showProtectionMessage,
 			showPreventEntryMessage, showPreventExitMessage, fireProtection, playCustomMusic, permWipeOnEnter, permWipeOnExit,
-			wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, blockForm;
+			wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, blockForm, forSale;
 
-	public static int LSPS, healthRegen, velocityWarp, playerCap;
+	public static int LSPS, healthRegen, velocityWarp, playerCap, salePrice;
 
 	public static MODE protectionMode, preventEntryMode, preventExitMode, itemMode;
 

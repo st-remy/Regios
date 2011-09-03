@@ -1,5 +1,6 @@
 package couk.Adamki11s.Regios.Checks;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -11,6 +12,12 @@ public class PermChecks {
 	
 	public boolean canOverride(Player p, Region r){
 		if(PermissionsCore.doesHaveNode(p, ("regios.override." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.override.all")){
+			return true;
+		}
+		if(p.hasPermission("regios.override." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.override.all")){
 			return true;
 		}
 		if(p.isOp()){
@@ -29,6 +36,12 @@ public class PermChecks {
 	
 	public boolean canBypassItemProtection(Player p, Region r){
 		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
 			return true;
 		}
 	    if(canOverride(p, r)){
@@ -80,6 +93,12 @@ public class PermChecks {
 		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
 			return true;
 		}
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
+			return true;
+		}
 	    if(canOverride(p, r)){
 			return true;
 		} else {
@@ -129,6 +148,12 @@ public class PermChecks {
 		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
 			return true;
 		}
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
+			return true;
+		}
 	    if(canOverride(p, r)){
 			return true;
 		} else {
@@ -176,6 +201,12 @@ public class PermChecks {
 	
 	public boolean canBypassExitProtection(Player p, Region r){
 		if(PermissionsCore.doesHaveNode(p, ("regios.bypass." + r.getName())) || PermissionsCore.doesHaveNode(p, "regios.bypass.all")){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
 			return true;
 		}
 	    if(canOverride(p, r)){
@@ -237,6 +268,12 @@ public class PermChecks {
 	public boolean canBuild(Player p, Region r){
 		if(canBypassProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
+			return true;
+		}
 		for(String excep : r.getExceptions()){
 			if(r.getProtectionMode() == MODE.Whitelist){
 				if(excep.equals(p.getName())){
@@ -259,6 +296,12 @@ public class PermChecks {
 	public boolean canEnter(Player p, Region r){
 		if(canBypassEntryProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
+			return true;
+		}
 		for(String excep : r.getExceptions()){
 			if(r.getPreventEntryMode() == MODE.Whitelist){
 				if(excep.equals(p.getName())){
@@ -281,6 +324,12 @@ public class PermChecks {
 	public boolean canExit(Player p, Region r){
 		if(canBypassExitProtection(p, r)){ return true; }
 		if(isSuper(p, r)){ return true; }
+		if(p.hasPermission("regios.bypass." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.bypass.all")){
+			return true;
+		}
 		for(String excep : r.getExceptions()){
 			if(r.getPreventExitMode() == MODE.Whitelist){
 				if(excep.equals(p.getName())){
@@ -302,6 +351,12 @@ public class PermChecks {
 	
 	public boolean isSuper(Player p, Region r){
 		if(p.isOp()){ return true; }
+		if(p.hasPermission("regios.override." + r.getName())){
+			return true;
+		}
+		if(p.hasPermission("regios.override.all")){
+			return true;
+		}
 		return r.getOwner().equals(p.getName());
 	}
 

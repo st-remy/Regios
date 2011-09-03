@@ -907,7 +907,11 @@ public class Screen_Listener extends ScreenListener {
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
 			}
-			RegionScreen4.addException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText(), excepField);
+			if(excepField.getText().contains(" ")){
+				sp.sendNotification(ChatColor.RED + "Error!", "No Spaces Allowed!", Material.FIRE);
+				return;
+			}
+			RegionScreen4.addException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText().trim(), excepField);
 		}
 
 		if (button == remEx) {
@@ -964,6 +968,7 @@ public class Screen_Listener extends ScreenListener {
 		UUID cache = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[0].getId()).getId();
 		UUID pa = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[1].getId()).getId();
 		UUID pr = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[2].getId()).getId();
+		UUID cs = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[11].getId()).getId();
 
 		UUID addEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[4].getId()).getId();
 		UUID remEx = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page5Widgets[5].getId()).getId();
@@ -985,6 +990,10 @@ public class Screen_Listener extends ScreenListener {
 			RegionScreen5.switchToggle(sp, PermToggle.PERM_REMOVE, sh, r, evt.getButton());
 		}
 		
+		if(button == cs){
+			RegionScreen5.switchToggle(sp, PermToggle.SET, sh, r, evt.getButton());
+		}
+		
 		if(button == addEx){
 			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
@@ -993,12 +1002,24 @@ public class Screen_Listener extends ScreenListener {
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
 			}
-			RegionScreen5.addException(RegionScreen5.toggle.get(sp), sp, r, excepField.getText(), excepField);
+			if(excepField.getText().contains(" ")){
+				sp.sendNotification(ChatColor.RED + "Error!", "No Spaces Allowed!", Material.FIRE);
+				return;
+			}
+			if (excepField.getText().length() < 1) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
+				return;
+			}
+			RegionScreen5.addException(RegionScreen5.toggle.get(sp), sp, r, excepField.getText().trim(), excepField);
 		}
 		
 		if(button == remEx){
 			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (excepField.getText().length() < 1) {
+				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
+				return;
 			}
 			RegionScreen5.removeException(RegionScreen5.toggle.get(sp), sp, r, excepField.getText(), excepField);
 		}

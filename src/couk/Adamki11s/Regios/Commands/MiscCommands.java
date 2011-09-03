@@ -120,13 +120,7 @@ public class MiscCommands extends PermissionsCore {
 				builder += message[index] + " ";
 			}
 			msg = builder;
-			boolean nodeMatch = false;
-			for (String s : r.getCommandSet()) {
-				if (s.equalsIgnoreCase(msg)) {
-					nodeMatch = true;
-				}
-			}
-			if (nodeMatch) {
+			if(mutable.checkCommandSet(r, msg)){
 				p.sendMessage(ChatColor.RED + "[Regios] The Command " + ChatColor.BLUE + msg + ChatColor.RED + " already exists!");
 				return;
 			}
@@ -150,13 +144,7 @@ public class MiscCommands extends PermissionsCore {
 				builder += message[index] + " ";
 			}
 			msg = builder;
-			boolean nodeMatch = false;
-			for (String s : r.getCommandSet()) {
-				if (s.trim().equalsIgnoreCase(msg.trim())) {
-					nodeMatch = true;
-				}
-			}
-			if (!nodeMatch) {
+			if(!mutable.checkCommandSet(r, msg)){
 				p.sendMessage(ChatColor.RED + "[Regios] The command " + ChatColor.BLUE + msg + ChatColor.RED + " did not match any in the set!");
 				return;
 			} else {

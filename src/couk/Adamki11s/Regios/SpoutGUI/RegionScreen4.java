@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.GenericTextField;
@@ -17,6 +18,7 @@ import org.getspout.spoutapi.gui.*;
 import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Mutable.MutableExceptions;
 import couk.Adamki11s.Regios.Regions.Region;
+import couk.Adamki11s.Regios.SpoutGUI.RegionScreen5.PermToggle;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 
 public class RegionScreen4 {
@@ -61,25 +63,25 @@ public class RegionScreen4 {
 	public static void nextPage(SpoutPlayer sp, Region r, ScreenHolder sh) {
 		switch (toggle.get(sp)) {
 		case PLAYER:
-			if (currentPage.get(sp) == getExceptionPages(r.getExceptions().size())) {
+			if (currentPage.get(sp) >= getExceptionPages(r.getExceptions().size())) {
 				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
 				return;
 			}
 			break;
 		case NODE:
-			if (currentPage.get(sp) == getExceptionPages(r.getNodes().size())) {
+			if (currentPage.get(sp) >= getExceptionPages(r.getNodes().size())) {
 				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
 				return;
 			}
 			break;
 		case SUB_OWNER:
-			if (currentPage.get(sp) == getExceptionPages(r.getSubOwners().length)) {
+			if (currentPage.get(sp) >= getExceptionPages(r.getSubOwners().length)) {
 				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
 				return;
 			}
 			break;
 		case ITEM:
-			if (currentPage.get(sp) == getExceptionPages(r.getItems().size())) {
+			if (currentPage.get(sp) >= getExceptionPages(r.getItems().size())) {
 				sp.sendNotification(ChatColor.RED + "Error!", "No next page!", Material.FIRE);
 				return;
 			}
@@ -277,6 +279,8 @@ public class RegionScreen4 {
 			((GenericContainer) sh.page4Widgets[12]).removeChild(w);
 		}
 		Collections.sort(r.getExceptions());
+		Collections.sort(r.getNodes());
+		Collections.sort(r.getItems());
 		for (int exc = ((page * 5) - 5); exc < ((page * 5)); exc++) {
 
 			switch (toggle.get(sp)) {
@@ -433,6 +437,8 @@ public class RegionScreen4 {
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page4Widgets[4]);
 		}
+		
+		switchToggle(sp, ExToggle.PLAYER, sh, r, ((GenericButton) sh.page4Widgets[1]));
 
 		((GenericTextField) sh.page4Widgets[5]).setText("");
 		((GenericTextField) sh.page4Widgets[5]).setHeight(20);
@@ -566,6 +572,8 @@ public class RegionScreen4 {
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page4Widgets[12]);
 		}
+		
+		updateExceptionPages(sp, 1, sh, r);
 
 	}
 

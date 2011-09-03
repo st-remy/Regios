@@ -24,6 +24,15 @@ public class MutableMisc {
 		c.save();
 	}
 	
+	public boolean checkCommandSet(Region r, String addition){
+		for (String s : r.getCommandSet()) {
+			if (s.equalsIgnoreCase(addition)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void editRemoveFromForceCommandSet(Region r, String message){
 		Configuration c = r.getConfigFile();
 		c.load();

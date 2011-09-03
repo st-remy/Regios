@@ -1,18 +1,12 @@
 package couk.Adamki11s.Regios.Commands;
 
 import java.util.HashMap;
-import java.util.Map;
-
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.SpoutManager;
-import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.GenericButton;
-import org.getspout.spoutapi.gui.GenericGradient;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
-import org.getspout.spoutapi.gui.GenericScreen;
 import org.getspout.spoutapi.gui.GenericTexture;
 import org.getspout.spoutapi.gui.InGameHUD;
 import org.getspout.spoutapi.gui.PopupScreen;

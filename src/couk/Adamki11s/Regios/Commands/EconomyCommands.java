@@ -5,7 +5,6 @@ import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
-import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener.MSG;
 import couk.Adamki11s.Regios.Mutable.MutableEconomy;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;

@@ -83,7 +83,7 @@ public class ScreenHolder {
 			new GenericButton("Block Form"), new GenericButton("Mobs Spawn"), new GenericButton("Monsters Spawn"), new GenericButton("Show Welcome"),
 			new GenericButton("Show Leave"), new GenericButton("Show Prevent Entry"), new GenericButton("Show Prevent Exit"), new GenericButton("Show Protection"),
 			new GenericButton("Show Pvp"), new GenericButton("PvP"), new GenericButton("Health Enabled"), new GenericButton("Protection Mode"),
-			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode") };
+			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode"), new GenericButton("Force Commands") };
 
 	public GenericButton escButton, pageForward, pageBackwards;
 
@@ -99,7 +99,8 @@ public class ScreenHolder {
 
 	public Widget[] page3Widgets = { new GenericLabel("LSPS"), new GenericTextField(), new GenericButton("Update"), new GenericLabel("Health-Regen"), new GenericTextField(),
 			new GenericButton("Update"), new GenericLabel("Velocity-Warp"), new GenericTextField(), new GenericButton("Update"), new GenericButton("For Sale"),
-			new GenericLabel("Sale Price"), new GenericTextField(), new GenericButton("Update") };
+			new GenericLabel("Sale Price"), new GenericTextField(), new GenericButton("Update"), new GenericButton("WipeAndCacheEnter"), new GenericButton("WipeAndCacheExit"),
+			new GenericButton("PermWipeEnter"), new GenericButton("PermWipeExit")};
 
 	public Widget[] page4Widgets = { new GenericLabel("Exceptions"), new GenericButton("Players"), new GenericButton("Nodes"), new GenericButton("Sub Owners"),
 			new GenericButton("Items"), new GenericTextField(), new GenericButton("Add"), new GenericButton("Remove"), new GenericButton("Erase"),

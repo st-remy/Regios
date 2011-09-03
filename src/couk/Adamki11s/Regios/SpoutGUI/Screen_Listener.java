@@ -20,6 +20,7 @@ import couk.Adamki11s.Regios.Commands.HelpCommands;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Mutable.MutableEconomy;
 import couk.Adamki11s.Regios.Mutable.MutableFun;
+import couk.Adamki11s.Regios.Mutable.MutableInventory;
 import couk.Adamki11s.Regios.Mutable.MutableMessages;
 import couk.Adamki11s.Regios.Mutable.MutableMisc;
 import couk.Adamki11s.Regios.Mutable.MutableMobs;
@@ -265,6 +266,7 @@ public class Screen_Listener extends ScreenListener {
 		UUID prevententrymode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[19].getId()).getId();
 		UUID preventexitmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[20].getId()).getId();
 		UUID itemmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[21].getId()).getId();
+		UUID forceCmd = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[22].getId()).getId();
 
 		SpoutPlayer sp = evt.getPlayer();
 
@@ -645,6 +647,23 @@ public class Screen_Listener extends ScreenListener {
 			((GenericButton) (sh.page1Widgets[21])).setDirty(true);
 			return;
 		}
+		
+		if (buttonID == forceCmd) {
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isForcingCommand()) {
+				misc.editSetForceCommand(r, false);
+				sp.sendNotification("Force Command", ChatColor.RED + "Force Command Disabled", Material.GOLDEN_APPLE);
+			} else {
+				misc.editSetForceCommand(r, true);
+				sp.sendNotification("Force Command", ChatColor.GREEN + "Force Command Enabled", Material.GOLDEN_APPLE);
+			}
+			((GenericButton) (sh.page1Widgets[22])).setTooltip(RegionScreenManager.getStatus(r.isForcingCommand()));
+			((GenericButton) (sh.page1Widgets[22])).setTextColor(RegionScreenManager.getColourToken(r.isForcingCommand()));
+			((GenericButton) (sh.page1Widgets[22])).setDirty(true);
+			return;
+		}
 
 	}
 
@@ -761,6 +780,8 @@ public class Screen_Listener extends ScreenListener {
 			return;
 		}
 	}
+	
+	final MutableInventory invent = new MutableInventory();
 
 	private void regionScreen3Listener(ButtonClickEvent evt, ScreenHolder sh) {
 		Region r = RegionScreenManager.editing.get(evt.getPlayer());
@@ -777,8 +798,77 @@ public class Screen_Listener extends ScreenListener {
 		UUID confirmhealthregen = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[5].getId()).getId();
 		UUID confirmvelwarp = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[8].getId()).getId();
 		UUID confirmprice = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[12].getId()).getId();
+		
+		UUID cwEnter = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[13].getId()).getId();
+		UUID cwExit = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[14].getId()).getId();
+		UUID pwEnter = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[15].getId()).getId();
+		UUID pwExit = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page3Widgets[16].getId()).getId();
 
 		UUID button = evt.getButton().getId();
+		
+		if(button == cwEnter){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isWipeAndCacheOnEnter()) {
+				invent.editWipeAndCacheOnEnter(r, false);
+				sp.sendNotification("Inventory", ChatColor.RED + "Disabled", Material.BUCKET);
+			} else {
+				invent.editWipeAndCacheOnEnter(r, true);
+				sp.sendNotification("Inventory", ChatColor.GREEN + "Enabled", Material.BUCKET);
+			}
+			((GenericButton) (sh.page3Widgets[13])).setTextColor(RegionScreenManager.getColourToken(r.isWipeAndCacheOnEnter()));
+			((GenericButton) (sh.page3Widgets[13])).setDirty(true);
+			return;
+		}
+		
+		if(button == cwExit){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isWipeAndCacheOnExit()) {
+				invent.editWipeAndCacheOnExit(r, false);
+				sp.sendNotification("Inventory", ChatColor.RED + "Disabled", Material.BUCKET);
+			} else {
+				invent.editWipeAndCacheOnExit(r, true);
+				sp.sendNotification("Inventory", ChatColor.GREEN + "Enabled", Material.BUCKET);
+			}
+			((GenericButton) (sh.page3Widgets[14])).setTextColor(RegionScreenManager.getColourToken(r.isWipeAndCacheOnExit()));
+			((GenericButton) (sh.page3Widgets[14])).setDirty(true);
+			return;
+		}
+		
+		if(button == pwEnter){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isPermWipeOnEnter()) {
+				invent.editPermWipeOnEnter(r, false);
+				sp.sendNotification("Inventory", ChatColor.RED + "Disabled", Material.BUCKET);
+			} else {
+				invent.editPermWipeOnEnter(r, true);
+				sp.sendNotification("Inventory", ChatColor.GREEN + "Enabled", Material.BUCKET);
+			}
+			((GenericButton) (sh.page3Widgets[15])).setTextColor(RegionScreenManager.getColourToken(r.isPermWipeOnEnter()));
+			((GenericButton) (sh.page3Widgets[15])).setDirty(true);
+			return;
+		}
+		
+		if(button == pwExit){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isPermWipeOnExit()) {
+				invent.editPermWipeOnExit(r, false);
+				sp.sendNotification("Inventory", ChatColor.RED + "Disabled", Material.BUCKET);
+			} else {
+				invent.editPermWipeOnExit(r, true);
+				sp.sendNotification("Inventory", ChatColor.GREEN + "Enabled", Material.BUCKET);
+			}
+			((GenericButton) (sh.page3Widgets[16])).setTextColor(RegionScreenManager.getColourToken(r.isPermWipeOnExit()));
+			((GenericButton) (sh.page3Widgets[16])).setDirty(true);
+			return;
+		}
 
 		if (button == togglesale) {
 			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
@@ -909,6 +999,8 @@ public class Screen_Listener extends ScreenListener {
 			}
 			if(excepField.getText().contains(" ")){
 				sp.sendNotification(ChatColor.RED + "Error!", "No Spaces Allowed!", Material.FIRE);
+				excepField.setText("");
+				excepField.setDirty(true);
 				return;
 			}
 			RegionScreen4.addException(RegionScreen4.toggle.get(sp), sp, r, excepField.getText().trim(), excepField);
@@ -1004,10 +1096,8 @@ public class Screen_Listener extends ScreenListener {
 			}
 			if(excepField.getText().contains(" ")){
 				sp.sendNotification(ChatColor.RED + "Error!", "No Spaces Allowed!", Material.FIRE);
-				return;
-			}
-			if (excepField.getText().length() < 1) {
-				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
+				excepField.setText("");
+				excepField.setDirty(true);
 				return;
 			}
 			RegionScreen5.addException(RegionScreen5.toggle.get(sp), sp, r, excepField.getText().trim(), excepField);

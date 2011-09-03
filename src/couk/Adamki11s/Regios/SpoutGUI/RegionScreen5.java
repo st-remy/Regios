@@ -116,15 +116,19 @@ public class RegionScreen5 {
 		case CACHE:
 			perms.editResetTempAddCache(r);
 			sp.sendNotification("Cache", ChatColor.GREEN + "Permissions erased", Material.PAPER);
+			break;
 		case PERM_ADD:
 			perms.editResetPermAddCache(r);
 			sp.sendNotification("Perm-Add", ChatColor.GREEN + "Permissions erased", Material.PAPER);
+			break;
 		case PERM_REMOVE:
 			perms.editResetPermRemoveCache(r);
 			sp.sendNotification("Perm-Remove", ChatColor.GREEN + "Permissions erased", Material.PAPER);
+			break;
 		case SET:
 			misc.editResetForceCommandSet(r);
 			sp.sendNotification("Command Set", ChatColor.GREEN + "Commands erased", Material.PAPER);
+			break;
 		}
 		updateExceptionPages(sp, currentPage.get(sp), ScreenHolder.getScreenHolder(sp), r);
 	}

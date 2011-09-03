@@ -222,6 +222,70 @@ public class RegionScreen3 {
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page3Widgets[12]);
 		}
+		
+		((GenericButton) sh.page3Widgets[13]).setText("Wipe & Cache On Enter");
+		((GenericButton) sh.page3Widgets[13]).setX(150);
+		((GenericButton) sh.page3Widgets[13]).setY(65);
+		((GenericButton) sh.page3Widgets[13]).setWidth(150);
+		((GenericButton) sh.page3Widgets[13]).setHeight(20);
+		((GenericButton) sh.page3Widgets[13]).setTextColor(RegionScreenManager.getColourToken(r.isWipeAndCacheOnEnter()));
+		((GenericButton) sh.page3Widgets[13]).setHoverColor(RGB.YELLOW.getColour());	
+		((GenericButton) sh.page3Widgets[13]).setTooltip(ChatColor.YELLOW + "  Wipes inventory on entrance. Restores on exit.");
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page3Widgets[13])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[13].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[13].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page3Widgets[13]);
+		}
+		
+		((GenericButton) sh.page3Widgets[14]).setText("Wipe & Cache On Exit");
+		((GenericButton) sh.page3Widgets[14]).setX(150);
+		((GenericButton) sh.page3Widgets[14]).setY(90);
+		((GenericButton) sh.page3Widgets[14]).setWidth(150);
+		((GenericButton) sh.page3Widgets[14]).setHeight(20);
+		((GenericButton) sh.page3Widgets[14]).setTextColor(RegionScreenManager.getColourToken(r.isWipeAndCacheOnExit()));
+		((GenericButton) sh.page3Widgets[14]).setHoverColor(RGB.YELLOW.getColour());	
+		((GenericButton) sh.page3Widgets[14]).setTooltip(ChatColor.YELLOW + "  Wipes inventory on exit. Restores on entrance.");
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page3Widgets[14])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[14].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[14].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page3Widgets[14]);
+		}
+		
+		((GenericButton) sh.page3Widgets[15]).setText("Perm Wipe On Enter");
+		((GenericButton) sh.page3Widgets[15]).setX(150);
+		((GenericButton) sh.page3Widgets[15]).setY(115);
+		((GenericButton) sh.page3Widgets[15]).setWidth(150);
+		((GenericButton) sh.page3Widgets[15]).setHeight(20);
+		((GenericButton) sh.page3Widgets[15]).setTextColor(RegionScreenManager.getColourToken(r.isPermWipeOnEnter()));
+		((GenericButton) sh.page3Widgets[15]).setHoverColor(RGB.YELLOW.getColour());	
+		((GenericButton) sh.page3Widgets[15]).setTooltip(ChatColor.YELLOW + "  Wipes inventory on entrance.");
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page3Widgets[15])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[15].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[15].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page3Widgets[15]);
+		}
+		
+		((GenericButton) sh.page3Widgets[16]).setText("Perm Wipe On Exit");
+		((GenericButton) sh.page3Widgets[16]).setX(150);
+		((GenericButton) sh.page3Widgets[16]).setY(140);
+		((GenericButton) sh.page3Widgets[16]).setWidth(150);
+		((GenericButton) sh.page3Widgets[16]).setHeight(20);
+		((GenericButton) sh.page3Widgets[16]).setTextColor(RegionScreenManager.getColourToken(r.isPermWipeOnExit()));
+		((GenericButton) sh.page3Widgets[16]).setHoverColor(RGB.YELLOW.getColour());	
+		((GenericButton) sh.page3Widgets[16]).setTooltip(ChatColor.YELLOW + "  Wipes inventory on exit.");
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page3Widgets[16])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[16].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page3Widgets[16].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page3Widgets[16]);
+		}
 	}
 
 }

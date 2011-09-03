@@ -2,11 +2,8 @@ package couk.Adamki11s.Regios.Commands;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map.Entry;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,20 +12,15 @@ import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import couk.Adamki11s.Regios.CustomEvents.RegionCommandEvent;
-import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.Data.OldRegiosPatch;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Main.Regios;
-import couk.Adamki11s.Regios.Mutable.MutableInventory;
 import couk.Adamki11s.Regios.Mutable.Zippable;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
-import couk.Adamki11s.Regios.RBF.RBF_Save;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
-import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager;
 import couk.Adamki11s.Regios.SpoutGUI.ScreenHolder;
-import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class CommandCore implements CommandExecutor {

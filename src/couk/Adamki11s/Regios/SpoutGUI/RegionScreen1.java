@@ -156,6 +156,11 @@ public class RegionScreen1 {
 				((GenericButton)b).setTooltip(getStatus(r.getItemMode()));
 				((GenericButton)b).setDirty(true);
 				break;
+			case 22:
+				((GenericButton)b).setTextColor(getColourToken(r.isForcingCommand()));
+				((GenericButton)b).setTooltip(getStatus(r.isForcingCommand()));
+				((GenericButton)b).setDirty(true);
+				break;
 			}
 
 			

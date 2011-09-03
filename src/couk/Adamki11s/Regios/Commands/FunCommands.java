@@ -117,7 +117,7 @@ public class FunCommands extends PermissionsCore {
 		if(RegiosPlayerListener.currentRegion.containsKey(p)){
 			r = RegiosPlayerListener.currentRegion.get(p);
 		}
-		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + r.getName() + ChatColor.RED + " doesn't exist!"); return; } else {
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] You are not in a Region!"); return; } else {
 			if(!super.canModifyBasic(r, p)){
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;

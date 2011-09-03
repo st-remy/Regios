@@ -46,7 +46,6 @@ public class MutablePermissions {
 		Map<String, Object> all = c.getAll();
 		all.remove("Region.Permissions.TemporaryCache.AddNodes");
 		for (Entry<String, Object> entry : all.entrySet()) {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Permissions.TemporaryCache.AddNodes", "");
@@ -118,12 +117,9 @@ public class MutablePermissions {
 		c.load();
 		Map<String, Object> all = c.getAll();
 		all.remove("Region.Permissions.PermanentCache.AddNodes");
-		String old = (String) all.get("Region.Permissions.PermanentCache.RemoveNodes");
 		for (Entry<String, Object> entry : all.entrySet()) {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.Permissions.PermanentCache.RemoveNodes", old);
 		c.setProperty("Region.Permissions.PermanentCache.AddNodes", "");
 		r.setPermanentNodesCacheAdd(("").split(","));
 		c.save();
@@ -165,7 +161,6 @@ public class MutablePermissions {
 		Map<String, Object> all = c.getAll();
 		all.remove("Region.Permissions.PermanentCache.RemoveNodes");
 		for (Entry<String, Object> entry : all.entrySet()) {
-			System.out.println(entry.getKey() + " : " + entry.getValue());
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Permissions.PermanentCache.RemoveNodes", "");

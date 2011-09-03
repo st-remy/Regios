@@ -99,8 +99,8 @@ public class ScreenHolder {
 
 	public Widget[] page3Widgets = { new GenericLabel("LSPS"), new GenericTextField(), new GenericButton("Update"), new GenericLabel("Health-Regen"), new GenericTextField(),
 			new GenericButton("Update"), new GenericLabel("Velocity-Warp"), new GenericTextField(), new GenericButton("Update"), new GenericButton("For Sale"),
-			new GenericLabel("Sale Price"), new GenericTextField(), new GenericButton("Update"), new GenericButton("WipeAndCacheEnter"), new GenericButton("WipeAndCacheExit"),
-			new GenericButton("PermWipeEnter"), new GenericButton("PermWipeExit")};
+			new GenericLabel("Sale Price"), new GenericTextField(), new GenericButton("Update"), new GenericButton("WipeAndCacheEnter"),
+			new GenericButton("WipeAndCacheExit"), new GenericButton("PermWipeEnter"), new GenericButton("PermWipeExit") };
 
 	public Widget[] page4Widgets = { new GenericLabel("Exceptions"), new GenericButton("Players"), new GenericButton("Nodes"), new GenericButton("Sub Owners"),
 			new GenericButton("Items"), new GenericTextField(), new GenericButton("Add"), new GenericButton("Remove"), new GenericButton("Erase"),
@@ -109,6 +109,11 @@ public class ScreenHolder {
 	public Widget[] page5Widgets = { new GenericButton("Cache"), new GenericButton("Perm-Add"), new GenericButton("Perm-Rem"), new GenericTextField(),
 			new GenericButton("Add"), new GenericButton("Remove"), new GenericButton("Erase"), new GenericLabel("Indicator"), new GenericButton("<"), new GenericButton(">"),
 			new GenericContainer(), new GenericButton("Cmd-Set") };
+
+	public Widget[] page6Widgets = { new GenericTextField(), new GenericTextField(), new GenericButton("Reset"), new GenericButton("Reset"), new GenericButton("Clear"),
+			new GenericButton("Clear"), new GenericButton("Update"), new GenericTextField(), new GenericTextField(), new GenericButton("Update"), new GenericButton("Update"),
+			new GenericTextField(), new GenericButton("Reset"), new GenericButton("Clear"), new GenericButton("Paste"), new GenericButton("Use Textures"),
+			new GenericLabel("Spout Welcome Message"), new GenericLabel("Spout Leave Message"), new GenericLabel("Spout Welcome Icon ID"), new GenericLabel("Spout Leave Icon ID"), new GenericLabel("Texture Pack - URL")};
 
 	public static HashMap<SpoutPlayer, ArrayList<Widget>> page4Exceptions = new HashMap<SpoutPlayer, ArrayList<Widget>>();
 

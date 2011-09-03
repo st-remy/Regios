@@ -29,6 +29,7 @@ public class OldRegiosPatch {
 
 	static sqlCore dbManage;
 	static File maindir = new File("plugins" + File.separator + "Regios");
+	static ArrayList<String> toSend = new ArrayList<String>();
 
 	public static void runPatch(Player p) {
 		boolean filefound = false;
@@ -51,6 +52,9 @@ public class OldRegiosPatch {
 		patchMessage("Directories Removed", p);
 		patchMessage("Patch Complete!", p);
 		patchMessage("Please Reload!", p);
+		for(String s : toSend){
+			p.sendMessage(s);
+		}
 	}
 
 	private static void patchMessage(String msg, Player p) {
@@ -88,14 +92,21 @@ public class OldRegiosPatch {
 	private static Location parseLocation(String location, World wn) {
 		// if(location.contains("\\@") && location != constructLocation(new
 		// Location(Regios.server.getWorld(wn), 0, 0, 0, 0, 0))){
+
 		String[] parts = location.split("\\@");
-		double x = Double.parseDouble(parts[1]);
-		double y = Double.parseDouble(parts[2]);
-		double z = Double.parseDouble(parts[3]);
-		float yaw = Float.parseFloat(parts[4]);
-		float pitch = Float.parseFloat(parts[5]);
-		return new Location(wn, x, y, z, yaw, pitch);
+		if (parts.length == 5) {
+			double x = Double.parseDouble(parts[1]);
+			double y = Double.parseDouble(parts[2]);
+			double z = Double.parseDouble(parts[3]);
+			float yaw = Float.parseFloat(parts[4]);
+			float pitch = Float.parseFloat(parts[5]);
+			return new Location(wn, x, y, z, yaw, pitch);
+		} else {
+			return null;
+		}
 	}
+
+	public final static char[] invalidModifiers = { '!', '\'', '£', '$', '%', '^', '&', '*', '¬', '`', '/', '?', '<', '>', '|', '\\' };
 
 	private static void patch(Player p) {
 		try {
@@ -108,7 +119,7 @@ public class OldRegiosPatch {
 			ResultSet regres = dbManage.sqlQuery(regQuery);
 
 			while (regres.next()) {
-
+				boolean integrity = true;
 				double x1, x2, y1, y2, z1, z2;
 				Location l1, l2;
 				String world;
@@ -124,8 +135,15 @@ public class OldRegiosPatch {
 
 				World w = Bukkit.getServer().getWorld(world);
 
+				if (w == null) {
+					System.out.println("[Regios] World name did not resolve to a world! Defaulting to : " + Bukkit.getServer().getWorlds().get(0).getName());
+					w = Bukkit.getServer().getWorlds().get(0);
+				}
+
 				l1 = new Location(w, x1, y1, z1);
 				l2 = new Location(w, x2, y2, z2);
+				
+				Location warp = parseLocation(regres.getString("warps"), w);
 
 				String welcomeMessage = regres.getString("welcomemsg");
 				String leaveMessage = regres.getString("leavemsg");
@@ -135,69 +153,100 @@ public class OldRegiosPatch {
 
 				String name = regres.getString("regionname").toLowerCase();
 
-				if (GlobalRegionManager.doesExist(name)) {
-					MutableModification.editDeleteRegion(GlobalRegionManager.getRegion(name), false, p);
-					patchMessage("Deleting existing region name : " + name, p);
+				if(warp == null){
+					System.out.println("[Regios] Warp couldn't be patched! Defaulting to null.");
+					warp = new Location(w, 0, 0, 0);
+				}
+				
+				if(l1 == null || l2 == null){
+					System.out.println("[Regios] Error parsing region location. Region will not be patched!");
+					toSend.add(ChatColor.RED + "[Regios] Region " + name + " was not patched. Location couldn't be parsed!");
+					integrity = false;
+				}
+				
+				boolean charInteg = true;
+				for (char ch : name.toCharArray()) {
+					for (char inv : invalidModifiers) {
+						if (ch == inv) {
+							integrity = false;
+							charInteg = false;
+						}
+					}
+				}
+				
+				if(!charInteg){
+					toSend.add(ChatColor.RED + "[Regios] Region " + name + " was not patched. name contained invalid characters!");
+					integrity = false;
 				}
 
-				patchMessage(("Patching Region " + name), p);
+				if (integrity) {
 
-				int lsps = regres.getInt("lsps");
+					if (GlobalRegionManager.doesExist(name)) {
+						MutableModification.editDeleteRegion(GlobalRegionManager.getRegion(name), false, p);
+						patchMessage("Deleting existing region name : " + name, p);
+					}
 
-				Location warp = parseLocation(regres.getString("warps"), w);
+					patchMessage(("Patching Region " + name), p);
 
-				boolean showWelcome, showLeave, _protected, preventEntry, preventExit, healthEnabled, pvp;
+					int lsps = regres.getInt("lsps");
 
-				if (regres.getByte("showwelcome") == 1) {
-					showWelcome = true;
-				} else {
-					showWelcome = false;
-				}
-				if (regres.getByte("showleave") == 1) {
-					showLeave = true;
-				} else {
-					showLeave = false;
-				}
-				if (regres.getByte("protected") == 1) {
-					_protected = true;
-				} else {
-					_protected = false;
-				}
-				if (regres.getByte("prevententry") == 1) {
-					preventEntry = true;
-				} else {
-					preventEntry = false;
-				}
-				if (regres.getByte("preventexit") == 1) {
-					preventExit = true;
-				} else {
-					preventExit = false;
-				}
-				if (regres.getByte("healthenabled") == 1) {
-					healthEnabled = true;
-				} else {
-					healthEnabled = false;
-				}
-				if (regres.getByte("pvp") == 1) {
-					pvp = true;
-				} else {
-					pvp = false;
-				}
+					
 
-				Region r = new Region(owner, name, l1, l2, w, null, true);
-				r.setWelcomeMessage(replaceString(welcomeMessage));
-				r.setLeaveMessage(replaceString(leaveMessage));
-				r.setHealthRegen(healthRegen);
-				r.setLSPS(lsps);
-				r.setWarp(warp);
-				r.setShowWelcomeMessage(showWelcome);
-				r.setShowLeaveMessage(showLeave);
-				r.set_protection(_protected);
-				r.setPreventEntry(preventEntry);
-				r.setPreventExit(preventExit);
-				r.setHealthEnabled(healthEnabled);
-				r.setPvp(pvp);
-				massConvertRegion(r);
+					boolean showWelcome, showLeave, _protected, preventEntry, preventExit, healthEnabled, pvp;
+
+					if (regres.getByte("showwelcome") == 1) {
+						showWelcome = true;
+					} else {
+						showWelcome = false;
+					}
+					if (regres.getByte("showleave") == 1) {
+						showLeave = true;
+					} else {
+						showLeave = false;
+					}
+					if (regres.getByte("protected") == 1) {
+						_protected = true;
+					} else {
+						_protected = false;
+					}
+					if (regres.getByte("prevententry") == 1) {
+						preventEntry = true;
+					} else {
+						preventEntry = false;
+					}
+					if (regres.getByte("preventexit") == 1) {
+						preventExit = true;
+					} else {
+						preventExit = false;
+					}
+					if (regres.getByte("healthenabled") == 1) {
+						healthEnabled = true;
+					} else {
+						healthEnabled = false;
+					}
+					if (regres.getByte("pvp") == 1) {
+						pvp = true;
+					} else {
+						pvp = false;
+					}
+
+					Region r = new Region(owner, name, l1, l2, w, null, true);
+					r.setWelcomeMessage(replaceString(welcomeMessage));
+					r.setLeaveMessage(replaceString(leaveMessage));
+					r.setHealthRegen(healthRegen);
+					r.setLSPS(lsps);
+					r.setWarp(warp);
+					r.setShowWelcomeMessage(showWelcome);
+					r.setShowLeaveMessage(showLeave);
+					r.set_protection(_protected);
+					r.setPreventEntry(preventEntry);
+					r.setPreventExit(preventExit);
+					r.setHealthEnabled(healthEnabled);
+					r.setPvp(pvp);
+					massConvertRegion(r);
+				} else {
+					System.out.println("[Regios] Region " + name + " was not patched!");
+				}
 			}
 
 		} catch (SQLException ex) {
@@ -207,10 +256,7 @@ public class OldRegiosPatch {
 	}
 
 	private static String replaceString(String message) {
-		
-		System.out.println(message);
-		System.out.println(message.contains("§"));
-		
+
 		message = message.replaceAll("%BLACK%", "<BLACK>");
 		message = message.replaceAll("\\&0", "<BLACK>");
 		message = message.replaceAll("\\$0", "<BLACK>");

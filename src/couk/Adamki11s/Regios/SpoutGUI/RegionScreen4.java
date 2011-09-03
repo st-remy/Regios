@@ -42,7 +42,7 @@ public class RegionScreen4 {
 		}
 	}
 
-	public static void switchToggle(SpoutPlayer sp, ExToggle tog, ScreenHolder sh, Region r, Button butt) {
+	public static void switchToggle(SpoutPlayer sp, ExToggle tog, ScreenHolder sh, Region r, Button butt, boolean silent) {
 		((GenericButton) sh.page4Widgets[1]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page4Widgets[2]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page4Widgets[3]).setTextColor(RGB.WHITE.getColour());
@@ -56,7 +56,9 @@ public class RegionScreen4 {
 		butt.setTextColor(RGB.GREEN.getColour());
 		butt.setDirty(true);
 		toggle.put(sp, tog);
-		sp.sendNotification("Exception Type Changed", ChatColor.GREEN + tog.toString(), Material.CACTUS);
+		if (!silent) {
+			sp.sendNotification("Exception Type Changed", ChatColor.GREEN + tog.toString(), Material.CACTUS);
+		}
 		updateExceptionPages(sp, currentPage.get(sp), sh, r);
 	}
 
@@ -437,8 +439,8 @@ public class RegionScreen4 {
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page4Widgets[4]);
 		}
-		
-		switchToggle(sp, ExToggle.PLAYER, sh, r, ((GenericButton) sh.page4Widgets[1]));
+
+		switchToggle(sp, ExToggle.PLAYER, sh, r, ((GenericButton) sh.page4Widgets[1]), true);
 
 		((GenericTextField) sh.page4Widgets[5]).setText("");
 		((GenericTextField) sh.page4Widgets[5]).setHeight(20);
@@ -572,7 +574,7 @@ public class RegionScreen4 {
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page4Widgets[12]);
 		}
-		
+
 		updateExceptionPages(sp, 1, sh, r);
 
 	}

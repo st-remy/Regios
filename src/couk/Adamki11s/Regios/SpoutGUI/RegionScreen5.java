@@ -53,7 +53,7 @@ public class RegionScreen5 {
 		}
 	}
 
-	public static void switchToggle(SpoutPlayer sp, PermToggle tog, ScreenHolder sh, Region r, Button butt) {
+	public static void switchToggle(SpoutPlayer sp, PermToggle tog, ScreenHolder sh, Region r, Button butt, boolean silent) {
 		((GenericButton) sh.page5Widgets[0]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page5Widgets[1]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page5Widgets[2]).setTextColor(RGB.WHITE.getColour());
@@ -65,7 +65,9 @@ public class RegionScreen5 {
 		butt.setTextColor(RGB.GREEN.getColour());
 		butt.setDirty(true);
 		toggle.put(sp, tog);
-		sp.sendNotification("Permission Type Changed", ChatColor.GREEN + tog.toString(), Material.CACTUS);
+		if (!silent) {
+			sp.sendNotification("Permission Type Changed", ChatColor.GREEN + tog.toString(), Material.CACTUS);
+		}
 		updateButtons(sh, sp, tog);
 		updateExceptionPages(sp, currentPage.get(sp), sh, r);
 	}
@@ -437,7 +439,7 @@ public class RegionScreen5 {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page5Widgets[11]);
 		}
 		
-		switchToggle(sp, PermToggle.CACHE, sh, r, ((GenericButton) sh.page5Widgets[0]));
+		switchToggle(sp, PermToggle.CACHE, sh, r, ((GenericButton) sh.page5Widgets[0]), true);
 
 		((GenericTextField) sh.page5Widgets[3]).setText("");
 		((GenericTextField) sh.page5Widgets[3]).setHeight(20);

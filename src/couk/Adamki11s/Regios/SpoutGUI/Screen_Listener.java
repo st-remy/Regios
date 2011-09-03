@@ -27,6 +27,7 @@ import couk.Adamki11s.Regios.Mutable.MutableMobs;
 import couk.Adamki11s.Regios.Mutable.MutableModes;
 import couk.Adamki11s.Regios.Mutable.MutableProtection;
 import couk.Adamki11s.Regios.Mutable.MutableProtectionMisc;
+import couk.Adamki11s.Regios.Mutable.MutableSpout;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreen4.ExToggle;
@@ -51,6 +52,8 @@ public class Screen_Listener extends ScreenListener {
 					regionScreen4Listener(evt, sh);
 				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 5) {
 					regionScreen5Listener(evt, sh);
+				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 6) {
+					regionScreen6Listener(evt, sh);
 				}
 			}
 			regionControlListener(evt, sh);
@@ -1033,19 +1036,19 @@ public class Screen_Listener extends ScreenListener {
 		}
 
 		if (button == togglePlayer) {
-			RegionScreen4.switchToggle(sp, ExToggle.PLAYER, sh, r, evt.getButton());
+			RegionScreen4.switchToggle(sp, ExToggle.PLAYER, sh, r, evt.getButton(), false);
 		}
 
 		if (button == toggleNode) {
-			RegionScreen4.switchToggle(sp, ExToggle.NODE, sh, r, evt.getButton());
+			RegionScreen4.switchToggle(sp, ExToggle.NODE, sh, r, evt.getButton(), false);
 		}
 
 		if (button == toggleSubOwner) {
-			RegionScreen4.switchToggle(sp, ExToggle.SUB_OWNER, sh, r, evt.getButton());
+			RegionScreen4.switchToggle(sp, ExToggle.SUB_OWNER, sh, r, evt.getButton(), false);
 		}
 
 		if (button == toggleItems) {
-			RegionScreen4.switchToggle(sp, ExToggle.ITEM, sh, r, evt.getButton());
+			RegionScreen4.switchToggle(sp, ExToggle.ITEM, sh, r, evt.getButton(), false);
 		}
 	}
 
@@ -1071,19 +1074,19 @@ public class Screen_Listener extends ScreenListener {
 		UUID button = evt.getButton().getId();
 		
 		if(button == cache){
-			RegionScreen5.switchToggle(sp, PermToggle.CACHE, sh, r, evt.getButton());
+			RegionScreen5.switchToggle(sp, PermToggle.CACHE, sh, r, evt.getButton(), false);
 		}
 		
 		if(button == pa){
-			RegionScreen5.switchToggle(sp, PermToggle.PERM_ADD, sh, r, evt.getButton());
+			RegionScreen5.switchToggle(sp, PermToggle.PERM_ADD, sh, r, evt.getButton(), false);
 		}
 		
 		if(button == pr){
-			RegionScreen5.switchToggle(sp, PermToggle.PERM_REMOVE, sh, r, evt.getButton());
+			RegionScreen5.switchToggle(sp, PermToggle.PERM_REMOVE, sh, r, evt.getButton(), false);
 		}
 		
 		if(button == cs){
-			RegionScreen5.switchToggle(sp, PermToggle.SET, sh, r, evt.getButton());
+			RegionScreen5.switchToggle(sp, PermToggle.SET, sh, r, evt.getButton(), false);
 		}
 		
 		if(button == addEx){
@@ -1129,5 +1132,142 @@ public class Screen_Listener extends ScreenListener {
 			RegionScreen5.nextPage(sp, r, sh);
 		}
 
+	}
+	
+	final MutableSpout spout = new MutableSpout();
+	
+	private void regionScreen6Listener(ButtonClickEvent evt, ScreenHolder sh) {
+		Region r = RegionScreenManager.editing.get(evt.getPlayer());
+
+		SpoutPlayer sp = evt.getPlayer();
+
+		TextField welcomeMsg = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[0].getId());
+		TextField leaveMsg = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[1].getId());
+		TextField welcomeID = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[7].getId());
+		TextField leaveID = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[8].getId());
+		TextField textureURL = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[11].getId());
+
+		UUID button = evt.getButton().getId();
+		
+		UUID resetWelcome = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[2].getId()).getId();
+		UUID resetLeave = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[3].getId()).getId();		
+		UUID clearWelcome = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[4].getId()).getId();
+		UUID clearLeave = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[5].getId()).getId();
+		UUID updateWelcomeID = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[9].getId()).getId();
+		UUID updateLeaveID = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[10].getId()).getId();
+		
+		UUID resetTexture = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[12].getId()).getId();
+		UUID clearTexture = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[13].getId()).getId();
+		UUID pasteTexture = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[14].getId()).getId();
+		
+		UUID useTextures = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[15].getId()).getId();
+		
+		UUID updateMessages = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[6].getId()).getId();
+		
+		if(button == resetTexture){
+			textureURL.setText(r.getSpoutTexturePack());
+			textureURL.setDirty(true);
+			sp.sendNotification("Spout", "Texture Reset", Material.PAINTING);
+		}
+		
+		if(button == clearTexture){
+			textureURL.setText("");
+			textureURL.setDirty(true);
+			sp.sendNotification("Spout", "Texture Cleared", Material.PAINTING);
+		}
+		
+		if(button == pasteTexture){
+			textureURL.setText(sp.getClipboardText());
+			textureURL.setDirty(true);
+			sp.sendNotification("Spout", "Clipboard Pasted", Material.PAINTING);
+		}
+		
+		if(button == useTextures){
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isUseSpoutTexturePack()) {
+				spout.editUseTexturePack(r, false);
+				sp.sendNotification("Spout", ChatColor.RED + "Texture Pack Disabled", Material.PAINTING);
+			} else {
+
+				spout.editUseTexturePack(r, true);
+				sp.sendNotification("Spout", ChatColor.GREEN + "Texture Pack Enabled", Material.PAINTING);
+			}
+			((GenericButton) (sh.page6Widgets[15])).setTooltip(RegionScreenManager.getStatus(r.isUseSpoutTexturePack()));
+			((GenericButton) (sh.page6Widgets[15])).setTextColor(RegionScreenManager.getColourToken(r.isUseSpoutTexturePack()));
+			((GenericButton) (sh.page6Widgets[15])).setDirty(true);
+			return;
+		}
+		
+		if(button == resetWelcome){
+			welcomeMsg.setText(r.getSpoutWelcomeMessage());
+			welcomeMsg.setDirty(true);
+		}
+		
+		if(button == resetLeave){
+			leaveMsg.setText(r.getSpoutLeaveMessage());
+			leaveMsg.setDirty(true);
+		}
+		
+		if(button == clearWelcome){
+			welcomeMsg.setText("");
+			welcomeMsg.setDirty(true);
+		}
+		
+		if(button == clearLeave){
+			leaveMsg.setText("");
+			leaveMsg.setDirty(true);
+		}
+		
+		if(button == updateMessages){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			spout.editWelcomeMessage(r, welcomeMsg.getText());
+			spout.editLeaveMessage(r, leaveMsg.getText());
+			sp.sendNotification("Spout", ChatColor.GREEN + "Messages Updated", Material.PAPER);
+		}
+		
+		if(button == updateWelcomeID){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			int id;
+			try{
+				id = Integer.parseInt(welcomeID.getText());
+			} catch (NumberFormatException nfex){
+				sp.sendNotification(ChatColor.RED + "Error!", "ID must be an Integer!", Material.FIRE);
+				return;
+			}
+			Material m = Material.getMaterial(id);
+			if(m == null){
+				sp.sendNotification(ChatColor.RED + "Error!", "Invalid Item ID!", Material.FIRE);
+				return;
+			}
+			spout.editWelcomeMaterial(r, id);
+			sp.sendNotification("Spout", ChatColor.GREEN + "ID Updated", m);
+		}
+		
+		if(button == updateLeaveID){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			int id;
+			try{
+				id = Integer.parseInt(leaveID.getText());
+			} catch (NumberFormatException nfex){
+				sp.sendNotification(ChatColor.RED + "Error!", "ID must be an Integer!", Material.FIRE);
+				return;
+			}
+			Material m = Material.getMaterial(id);
+			if(m == null){
+				sp.sendNotification(ChatColor.RED + "Error!", "Invalid Item ID!", Material.FIRE);
+				return;
+			}
+			spout.editLeaveMaterial(r, id);
+			sp.sendNotification("Spout", ChatColor.GREEN + "ID Updated", m);
+		}
+		
 	}
 }

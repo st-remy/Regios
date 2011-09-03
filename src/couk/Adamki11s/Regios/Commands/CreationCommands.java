@@ -26,6 +26,8 @@ public class CreationCommands {
 	public static HashMap<Player, Location> mod2 = new HashMap<Player, Location>();
 
 	public static HashMap<Player, Region> modRegion = new HashMap<Player, Region>();
+	
+	public static char[] invalidModifiers = {'!', '\'', '£', '$', '%', '^', '&', '*', '¬', '`', '/', '?', '<', '>', '|', '\\'};
 
 	static GlobalRegionManager grm = new GlobalRegionManager();
 
@@ -41,7 +43,6 @@ public class CreationCommands {
 		if (isSetting(p)) {
 			if (!p.getInventory().contains(new ItemStack(ConfigurationData.defaultSelectionTool, 1))) {
 			ItemStack is = new ItemStack(ConfigurationData.defaultSelectionTool, 1);
-
 			p.getInventory().addItem(is);
 
 			if (p.getItemInHand() == new ItemStack(Material.AIR, 0)) {
@@ -77,6 +78,28 @@ public class CreationCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
 			return;
 		}
+		StringBuilder invalidName = new StringBuilder();
+		boolean integrity = true;
+		for(char ch : name.toCharArray()){
+			boolean valid = true;
+			for(char inv : invalidModifiers){
+				if(ch == inv){
+					valid = false;
+					integrity = false;
+				}
+			}
+			if(!valid){
+				invalidName.append(ChatColor.RED).append(ch);
+			} else {
+				invalidName.append(ChatColor.GREEN).append(ch);
+			}
+		}
+		
+		if(!integrity){
+			p.sendMessage(ChatColor.RED + "[Regios] Name contained  invalid characters : " + invalidName.toString());
+			return;
+		}
+		
 		Region r = new Region(p.getName(), name, point1.get(p), point2.get(p), p.getWorld(), null, true);
 		p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + name + ChatColor.GREEN + " created successfully!");
 		clearPoints(p);

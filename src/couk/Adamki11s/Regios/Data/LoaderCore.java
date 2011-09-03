@@ -46,9 +46,9 @@ public class LoaderCore {
 		Configuration c = new Configuration(defaultregions);
 		c.load();
 
-		String a = c.getString("DefaultSettings.Messages.WelcomeMessage"), b = c.getString("DefaultSettings.Messages.LeaveMessage"), cc = c
-				.getString("DefaultSettings.Messages.ProtectionMessage"), d = c.getString("DefaultSettings.Messages.PreventEntryMessage"), e = c
-				.getString("DefaultSettings.Messages.PreventExitMessage"), pass = c.getString("DefaultSettings.Password.Password");
+		String a = c.getString("DefaultSettings.Messages.WelcomeMessage", ""), b = c.getString("DefaultSettings.Messages.LeaveMessage", ""), cc = c
+				.getString("DefaultSettings.Messages.ProtectionMessage", ""), d = c.getString("DefaultSettings.Messages.PreventEntryMessage", ""), e = c
+				.getString("DefaultSettings.Messages.PreventExitMessage", ""), pass = c.getString("DefaultSettings.Password.Password", "");
 
 		boolean aa = c.getBoolean("DefaultSettings.Messages.ShowWelcomeMessage", true), bb = c.getBoolean("DefaultSettings.Messages.ShowLeaveMessage", true), ccc = c
 				.getBoolean("DefaultSettings.Messages.ShowProtectionMessage", true), dd = c.getBoolean("DefaultSettings.Messages.ShowPreventEntryMessage", true), ee = c
@@ -188,9 +188,9 @@ public class LoaderCore {
 
 				c.load();
 
-				String welcomeMessage = c.getString("Region.Messages.WelcomeMessage"), leaveMessage = c.getString("Region.Messages.LeaveMessage"), protectionMessage = c
-						.getString("Region.Messages.ProtectionMessage"), preventEntryMessage = c.getString("Region.Messages.PreventEntryMessage"), preventExitMessage = c
-						.getString("Region.Messages.PreventExitMessage");
+				String welcomeMessage = c.getString("Region.Messages.WelcomeMessage", ""), leaveMessage = c.getString("Region.Messages.LeaveMessage", ""), protectionMessage = c
+						.getString("Region.Messages.ProtectionMessage", ""), preventEntryMessage = c.getString("Region.Messages.PreventEntryMessage", ""), preventExitMessage = c
+						.getString("Region.Messages.PreventExitMessage", "");
 
 				boolean showPvpWarning = c.getBoolean("Region.Messages.ShowPvpWarning", true), showWelcomeMessage = c.getBoolean("Region.Messages.ShowWelcomeMessage", true), showLeaveMessage = c
 						.getBoolean("Region.Messages.ShowLeaveMessage", true), showProtectionMessage = c.getBoolean("Region.Messages.ShowProtectionMessage", true), showPreventEntryMessage = c
@@ -205,7 +205,7 @@ public class LoaderCore {
 						.getBoolean("Region.General.DoorsLocked", false), chestsLocked = c.getBoolean("Region.General.ChestsLocked", false), passwordEnabled = c.getBoolean(
 						"Region.General.Password.Enabled", false), fireProtection = c.getBoolean("DefaultSettings.Protection.FireProtection", false);
 
-				String password = c.getString("Region.General.Password.Password");
+				String password = c.getString("Region.General.Password.Password", "");
 
 				boolean mobSpawns = c.getBoolean("Region.Other.MobSpawns", true), monsterSpawns = c.getBoolean("Region.Other.MonsterSpawns", true), pvp = c.getBoolean(
 						"Region.Other.PvP", true), healthEnabled = c.getBoolean("Region.Other.HealthEnabled", true);
@@ -214,16 +214,16 @@ public class LoaderCore {
 
 				double velocityWarp = c.getDouble("Region.Other.VelocityWarp", 0);
 
-				String owner = c.getString("Region.Essentials.Owner"), name = c.getString("Region.Essentials.Name");
+				String owner = c.getString("Region.Essentials.Owner", ""), name = c.getString("Region.Essentials.Name", "");
 
 				String ww = c.getString("Region.Essentials.World", "world");
 				World world = Bukkit.getServer().getWorld(ww);
 
-				String l11 = c.getString("Region.Essentials.Points.Point1"), l22 = c.getString("Region.Essentials.Points.Point2");
+				String l11 = c.getString("Region.Essentials.Points.Point1", "world,0,0,0"), l22 = c.getString("Region.Essentials.Points.Point2", "world,0,0,0");
 
 				Location l1 = toLocation(l11), l2 = toLocation(l22);
 
-				String spoutWelcomeMessage = c.getString("Region.Spout.Welcome.Message"), spoutLeaveMessage = c.getString("Region.Spout.Leave.Message");
+				String spoutWelcomeMessage = c.getString("Region.Spout.Welcome.Message", ""), spoutLeaveMessage = c.getString("Region.Spout.Leave.Message", "");
 
 				Material spoutWelcomeMaterial = Material.getMaterial(c.getInt("Region.Spout.Welcome.IconID", Material.GRASS.getId())), spoutLeaveMaterial = Material
 						.getMaterial(c.getInt("Region.Spout.Leave.IconID", Material.DIRT.getId()));

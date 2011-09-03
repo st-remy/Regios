@@ -139,6 +139,7 @@ public class Regios extends JavaPlugin {
 		log.info(prefix + " Scheduler task initiated!");
 		
 		log.info(prefix + " Regios version " + version + " enabled successfully!");
+		log.info(prefix + " Regios Developed by [Adamki11s].");
 	}
 
 	private void setupPermissions() {

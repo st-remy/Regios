@@ -2,6 +2,7 @@ package couk.Adamki11s.Regios.Listeners;
 
 import java.util.ArrayList;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -20,12 +21,14 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
 import org.bukkit.event.painting.PaintingPlaceEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
 import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
+import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener.MSG;
@@ -100,50 +103,63 @@ public class RegiosBlockListener extends BlockListener {
 			return;
 		}
 	}
-	
-	public void onPaintingPlace(PaintingPlaceEvent evt) {
-		Location l = evt.getPainting().getLocation();
-		World w = l.getWorld();
-		Chunk c = w.getChunkAt(l);
 
-		ArrayList<Region> regionSet = new ArrayList<Region>();
+	public void forceBucketEvent(BlockPlaceEvent evt) {
+		if (evt.getBlock().getType() == Material.LAVA || evt.getBlock().getType() == Material.STATIONARY_LAVA || evt.getBlock().getType() == Material.STATIONARY_WATER
+				|| evt.getBlock().getType() == Material.WATER) {
+			Location l = evt.getBlock().getLocation();
+			Player p = evt.getPlayer();
+			World w = l.getWorld();
+			Chunk c = w.getChunkAt(l);
 
-		for (Region region : GlobalRegionManager.getRegions()) {
-			for (Chunk chunk : region.getChunkGrid().getChunks()) {
-				if (chunk.getWorld() == w) {
-					if (areChunksEqual(chunk, c)) {
-						if (!regionSet.contains(region)) {
-							regionSet.add(region);
+			ArrayList<Region> regionSet = new ArrayList<Region>();
+
+			for (Region region : GlobalRegionManager.getRegions()) {
+				for (Chunk chunk : region.getChunkGrid().getChunks()) {
+					if (chunk.getWorld() == w) {
+						if (areChunksEqual(chunk, c)) {
+							if (!regionSet.contains(region)) {
+								regionSet.add(region);
+							}
 						}
 					}
 				}
 			}
-		}
 
-		if (regionSet.isEmpty()) {
-			return;
-		}
-
-		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
-
-		for (Region reg : regionSet) {
-			Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
-					reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
-					reg.getL1().getZ(), reg.getL2().getZ()));
-			min.subtract(8, 8, 8);
-			max.add(8, 8, 8);
-			if (extReg.isInsideCuboid(l, min, max)) {
-				currentRegionSet.add(reg);
+			if (regionSet.isEmpty()) {
+				return;
 			}
-		}
 
-		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
-											// inside region then cancel the
-											// check.
-			return;
-		} else {
-			evt.setCancelled(true);
-			return;
+			ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+			for (Region reg : regionSet) {
+				Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
+						reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
+						reg.getL1().getZ(), reg.getL2().getZ()));
+				min.subtract(8, 8, 8);
+				max.add(8, 8, 8);
+				if (extReg.isInsideCuboid(l, min, max)) {
+					currentRegionSet.add(reg);
+				}
+			}
+
+			if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+												// inside region then cancel the
+												// check.
+				return;
+			} else {
+				for (Region r : currentRegionSet) {
+					if (r.is_protection()) {
+						if (!r.canBuild(p)) {
+							LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
+									+ (" Player '" + p.getName() + "' tried to place " + evt.getBlock().getType().toString() + " but was prevented."));
+							r.sendBuildMessage(p);
+							evt.setCancelled(true);
+							return;
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -371,6 +387,7 @@ public class RegiosBlockListener extends BlockListener {
 					}
 				}
 			}
+			this.forceBucketEvent(evt);
 			return;
 		}
 
@@ -394,6 +411,7 @@ public class RegiosBlockListener extends BlockListener {
 					}
 				}
 			}
+			this.forceBucketEvent(evt);
 			return;
 		}
 

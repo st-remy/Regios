@@ -1,9 +1,9 @@
 name: Regios
 main: couk.Adamki11s.Regios.Main.Regios
-version: 4.0
+version: 4.0.39
 author: Adamki11s
 commands:
   regios:
-    aliases: reg
+    aliases: [reg, r]
     description: Use /regios help <Page Number>
-    usage: Use /regios help <Page Number>
+    usage: Regios requires the Spout server plugin!

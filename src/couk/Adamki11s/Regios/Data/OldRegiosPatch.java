@@ -90,9 +90,6 @@ public class OldRegiosPatch {
 	}
 
 	private static Location parseLocation(String location, World wn) {
-		// if(location.contains("\\@") && location != constructLocation(new
-		// Location(Regios.server.getWorld(wn), 0, 0, 0, 0, 0))){
-
 		String[] parts = location.split("\\@");
 		if (parts.length == 5) {
 			double x = Double.parseDouble(parts[1]);

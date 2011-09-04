@@ -1245,6 +1245,11 @@ public class Screen_Listener extends ScreenListener {
 				sp.sendNotification(ChatColor.RED + "Error!", "ID must be an Integer!", Material.FIRE);
 				return;
 			}
+			if(id == 0){
+				sp.sendNotification(ChatColor.RED + "Error!", "ID cannot be 0!", Material.FIRE);
+				return;
+			}
+			
 			Material m = Material.getMaterial(id);
 			if(m == null){
 				sp.sendNotification(ChatColor.RED + "Error!", "Invalid Item ID!", Material.FIRE);
@@ -1263,6 +1268,10 @@ public class Screen_Listener extends ScreenListener {
 				id = Integer.parseInt(leaveID.getText());
 			} catch (NumberFormatException nfex){
 				sp.sendNotification(ChatColor.RED + "Error!", "ID must be an Integer!", Material.FIRE);
+				return;
+			}
+			if(id == 0){
+				sp.sendNotification(ChatColor.RED + "Error!", "ID cannot be 0!", Material.FIRE);
 				return;
 			}
 			Material m = Material.getMaterial(id);

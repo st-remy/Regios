@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.painting.PaintingBreakByEntityEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
@@ -127,6 +128,20 @@ public class RegiosEntityListener extends EntityListener {
 	}
 
 	public void onPaintingBreak(PaintingBreakEvent evt) {
+
+		Player cause;
+		
+		if (!(evt instanceof PaintingBreakByEntityEvent)) {
+			return;
+		}
+
+		PaintingBreakByEntityEvent event = (PaintingBreakByEntityEvent) evt;
+		if (!(event.getRemover() instanceof Player)) {
+			return;
+		}
+		
+		cause = (Player)event.getRemover();
+
 		Location l = evt.getPainting().getLocation();
 		World w = l.getWorld();
 		Chunk c = w.getChunkAt(l);

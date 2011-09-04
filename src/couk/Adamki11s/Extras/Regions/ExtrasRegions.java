@@ -8,6 +8,7 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class ExtrasRegions extends RegionMethods {
 
@@ -21,26 +22,10 @@ public class ExtrasRegions extends RegionMethods {
 		       py = p.getLocation().getY(),
 		       pz = p.getLocation().getZ();
 		
-		if( (((py <= y1) && 
-			(py >= y2)) || 
-			((py >= y1) && 
-			(py <= y2))) && 
-			(((pz <= z1) && 
-			(pz >= z2)) || 
-			((pz >= z1) && 
-			(pz <= z2)))  &&  
-			(((px <= x1) && 
-			(px >= x2)) || 
-			((px >= x1) && 
-			(px <= x2))) && 
-			(((px <= x1) && 
-			(px >= x2)) || 
-			((px >= x1) && 
-			(px <= x2)))   ){
-			return true;
-		}			
-		
-		return false;
+		Location max = new Location(point1.getWorld(), Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2));
+		Location min = new Location(point1.getWorld(), Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2));
+
+		return (px >= min.getX() && px <= max.getX() + 1 && py >= min.getY() && py <= max.getY() && pz >= min.getZ() && pz <= max.getZ() + 1);
 	}
 	
 	public boolean isInsideCuboid(Location l, Location point1, Location point2) {

@@ -10,9 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
-
-import couk.Adamki11s.Regios.API.ExternalCommands;
 import couk.Adamki11s.Regios.CustomEvents.RegionCommandEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionLoadEvent;
 import couk.Adamki11s.Regios.Data.OldRegiosPatch;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Main.Regios;
@@ -1188,7 +1187,9 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 			
-			ExternalCommands.processExternalCommands(p, args);
+			RegionCommandEvent event = new RegionCommandEvent("RegionCommandEvent");
+			event.setProperties(sender, label, args);
+			Bukkit.getServer().getPluginManager().callEvent(event);
 
 			return true;
 		}

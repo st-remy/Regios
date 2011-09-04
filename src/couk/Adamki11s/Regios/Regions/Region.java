@@ -21,6 +21,7 @@ import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionEnterEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionLightningStrikeEvent;
+import couk.Adamki11s.Regios.CustomEvents.RegionLoadEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Data.Saveable;
@@ -94,7 +95,14 @@ public class Region extends PermChecks implements Checks {
 		}
 
 		if (save) {
+			RegionCreateEvent event = new RegionCreateEvent("RegionCreateEvent");
+			event.setProperties(p, this);
+			Bukkit.getServer().getPluginManager().callEvent(event);
 			exceptions.add(owner);
+		} else {
+			RegionLoadEvent event = new RegionLoadEvent("RegionLoadEvent");
+			event.setProperties(this);
+			Bukkit.getServer().getPluginManager().callEvent(event);
 		}
 
 		this.welcomeMessage = ConfigurationData.defaultWelcomeMessage.toString();

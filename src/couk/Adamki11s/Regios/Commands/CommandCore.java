@@ -11,7 +11,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import couk.Adamki11s.Regios.CustomEvents.RegionCommandEvent;
-import couk.Adamki11s.Regios.CustomEvents.RegionLoadEvent;
 import couk.Adamki11s.Regios.Data.OldRegiosPatch;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Main.Regios;
@@ -299,7 +298,7 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("protect")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
-					protect.setProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+					protect.setProtectedAll(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

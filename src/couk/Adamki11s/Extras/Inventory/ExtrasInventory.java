@@ -2,8 +2,6 @@ package couk.Adamki11s.Extras.Inventory;
 
 import java.util.HashMap;
 
-import net.minecraft.server.Container;
-
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
 import org.bukkit.entity.Player;

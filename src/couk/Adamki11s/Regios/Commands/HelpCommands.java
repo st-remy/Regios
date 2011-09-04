@@ -192,7 +192,7 @@ public class HelpCommands {
 
 	public void getSpoutHelp(SpoutPlayer p, ScreenHolder sh) {
 		
-		this.plugin = Regios.regios;
+		HelpCommands.plugin = Regios.regios;
 		InGameHUD hud = p.getMainScreen();
 
 		if (helps.containsKey(p)) {

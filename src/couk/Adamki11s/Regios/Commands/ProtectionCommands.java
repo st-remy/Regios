@@ -22,6 +22,19 @@ public class ProtectionCommands extends PermissionsCore {
 		mutable.editProtect(r);
 	}
 	
+	public void setProtectedAll(Region r, String region, Player p){
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Protection enabled for region " + ChatColor.BLUE + region);
+		}
+		mutable.editProtect(r);
+		mutable.editProtectBB(r);
+		mutable.editProtectBP(r);
+	}
+	
 	public void setProtectedBB(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
 			if(!super.canModifyMain(r, p)){

@@ -19,6 +19,7 @@ import org.bukkit.event.entity.EntityListener;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.painting.PaintingBreakByEntityEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
+import org.bukkit.event.painting.PaintingPlaceEvent;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
@@ -130,7 +131,7 @@ public class RegiosEntityListener extends EntityListener {
 	public void onPaintingBreak(PaintingBreakEvent evt) {
 
 		Player cause;
-		
+
 		if (!(evt instanceof PaintingBreakByEntityEvent)) {
 			return;
 		}
@@ -139,8 +140,8 @@ public class RegiosEntityListener extends EntityListener {
 		if (!(event.getRemover() instanceof Player)) {
 			return;
 		}
-		
-		cause = (Player)event.getRemover();
+
+		cause = (Player) event.getRemover();
 
 		Location l = evt.getPainting().getLocation();
 		World w = l.getWorld();
@@ -201,13 +202,91 @@ public class RegiosEntityListener extends EntityListener {
 		}
 
 		if (r.is_protection()) {
-			LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Painting break was prevented."));
-			evt.setCancelled(true);
-			return;
+			if (!r.canBuild(cause)) {
+				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Painting break was prevented."));
+				r.sendBuildMessage(cause);
+				evt.setCancelled(true);
+				return;
+			}
 		}
 
 	}
 
+	public void onPaintingPlace(PaintingPlaceEvent evt) {
+
+		Player cause = evt.getPlayer();
+
+		Location l = evt.getPainting().getLocation();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+
+		GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);
+
+		Region r;
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			if (gws != null) {
+				if (gws.invert_protection) {
+					evt.setCancelled(true);
+					return;
+				}
+			}
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			if (extReg.isInsideCuboid(l, reg.getL1().toBukkitLocation(), reg.getL2().toBukkitLocation())) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
+			if (gws != null) {
+				if (gws.invert_protection) {
+					evt.setCancelled(true);
+					return;
+				}
+			}
+			return;
+		}
+
+		if (currentRegionSet.size() > 1) {
+			r = srm.getCurrentRegion(null, currentRegionSet);
+		} else {
+			r = currentRegionSet.get(0);
+		}
+
+		if (r.is_protection()) {
+			if (!r.canBuild(cause)) {
+				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Painting place was prevented."));
+				r.sendBuildMessage(cause);
+				evt.setCancelled(true);
+				return;
+			}
+		}
+
+	}
+
+
+	
 	public void onExplosionPrime(ExplosionPrimeEvent evt) {
 
 		Location l = evt.getEntity().getLocation();

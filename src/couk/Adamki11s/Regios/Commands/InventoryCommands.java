@@ -3,7 +3,6 @@ package couk.Adamki11s.Regios.Commands;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Mutable.MutableInventory;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;

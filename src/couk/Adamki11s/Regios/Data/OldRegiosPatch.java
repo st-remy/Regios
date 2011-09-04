@@ -1,7 +1,6 @@
 package couk.Adamki11s.Regios.Data;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,14 +12,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
 import com.alta189.sqlLibrary.SQLite.sqlCore;
 
-import couk.Adamki11s.Extras.Extras.Extras;
-import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Mutable.MutableModification;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -64,7 +60,6 @@ public class OldRegiosPatch {
 
 	private static void deleteOldFiles(Player p) {
 		patchMessage("Deleting old files...", p);
-		ArrayList<File> old = new ArrayList<File>();
 		for (File sub : maindir.listFiles()) {
 			if (!sub.getName().equalsIgnoreCase("Database") && !sub.getName().equalsIgnoreCase("Configuration") && !sub.getName().equalsIgnoreCase("Other")
 					&& !sub.getName().equalsIgnoreCase("Backups")) {
@@ -109,9 +104,6 @@ public class OldRegiosPatch {
 		try {
 			dbManage = new sqlCore(Logger.getLogger("Minecraft.Regios"), "[Regios]", "regions", maindir.getAbsolutePath());
 			dbManage.initialize();
-			String query = "SELECT COUNT(*) as count FROM regions;";
-			ResultSet result = dbManage.sqlQuery(query);
-
 			String regQuery = "SELECT * FROM regions;";
 			ResultSet regres = dbManage.sqlQuery(regQuery);
 

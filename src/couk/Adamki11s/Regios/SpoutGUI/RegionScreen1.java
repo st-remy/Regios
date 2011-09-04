@@ -2,7 +2,6 @@ package couk.Adamki11s.Regios.SpoutGUI;
 
 import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.GenericButton;
-import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.InGameHUD;
 import org.getspout.spoutapi.gui.RenderPriority;

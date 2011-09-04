@@ -31,7 +31,6 @@ import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Scheduler.MainRunner;
 import couk.Adamki11s.Regios.SpoutGUI.CacheHandler;
-import couk.Adamki11s.Regios.SpoutGUI.Input_Listener;
 import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutCraftListener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
@@ -136,7 +135,6 @@ public class Regios extends JavaPlugin {
 			pm.registerEvent(Type.CUSTOM_EVENT, new SpoutCraftListener(), Priority.Highest, this);
 			pm.registerEvent(Type.CUSTOM_EVENT, new SpoutInventoryListener(), Priority.Highest, this);
 			pm.registerEvent(Type.CUSTOM_EVENT, new Screen_Listener(), Priority.Highest, this);
-			pm.registerEvent(Type.CUSTOM_EVENT, new Input_Listener(), Priority.Highest, this);
 		}
 		
 		log.info(prefix + " Starting scheduler task...");

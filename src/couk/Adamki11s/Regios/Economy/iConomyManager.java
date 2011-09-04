@@ -1,6 +1,5 @@
 package couk.Adamki11s.Regios.Economy;
 
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Regions.Region;

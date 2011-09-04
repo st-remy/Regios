@@ -20,7 +20,6 @@ import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionEnterEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
-import couk.Adamki11s.Regios.CustomEvents.RegionLightningStrikeEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionLoadEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Data.MODE;

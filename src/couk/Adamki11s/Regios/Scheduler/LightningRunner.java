@@ -1,16 +1,12 @@
 package couk.Adamki11s.Regios.Scheduler;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Random;
 import java.util.Map.Entry;
-import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 
-import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionLightningStrikeEvent;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.RegionLocation;

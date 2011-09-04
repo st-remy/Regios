@@ -9,12 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.getspout.spoutapi.event.inventory.InventoryListener;
-
-import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
-import couk.Adamki11s.Regios.Checks.PermChecks;
-import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.SubRegionManager;

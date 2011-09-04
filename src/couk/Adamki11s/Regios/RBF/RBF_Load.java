@@ -12,7 +12,6 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import couk.Adamki11s.Regios.CustomEvents.RegionBackupEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionRestoreEvent;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;

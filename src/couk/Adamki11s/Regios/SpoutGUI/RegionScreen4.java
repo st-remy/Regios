@@ -1,6 +1,5 @@
 package couk.Adamki11s.Regios.SpoutGUI;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -18,7 +17,6 @@ import org.getspout.spoutapi.gui.*;
 import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Mutable.MutableExceptions;
 import couk.Adamki11s.Regios.Regions.Region;
-import couk.Adamki11s.Regios.SpoutGUI.RegionScreen5.PermToggle;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 
 public class RegionScreen4 {
@@ -348,8 +346,6 @@ public class RegionScreen4 {
 	}
 
 	public static void loadScreen(SpoutPlayer sp, Region r, Object[] oldWidgets, ScreenHolder sh) {
-
-		InGameHUD hud = sp.getMainScreen();
 
 		Collections.sort(r.getExceptions());
 

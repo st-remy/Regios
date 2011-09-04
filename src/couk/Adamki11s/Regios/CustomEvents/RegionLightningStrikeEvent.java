@@ -1,7 +1,6 @@
 package couk.Adamki11s.Regios.CustomEvents;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import couk.Adamki11s.Regios.Regions.Region;

@@ -5,6 +5,7 @@ import org.bukkit.event.Event;
 
 import couk.Adamki11s.Regios.Regions.Region;
 
+@SuppressWarnings("serial")
 public class RegionDeleteEvent extends Event{
 	
 	private Region region;

@@ -1,7 +1,5 @@
 package couk.Adamki11s.Regios.Commands;
 
-import java.util.HashMap;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

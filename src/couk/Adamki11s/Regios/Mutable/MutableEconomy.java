@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
@@ -27,7 +26,7 @@ public class MutableEconomy {
 
 	public void editSalePrice(Region r, int val) {
 		if (val > 0) {
-			editForSale(r, true);// Forces the region to be sellable if a price
+			editForSale(r, true);// Forces the region to be for sale if a price
 									// has been set.
 		} else {
 			editForSale(r, false);

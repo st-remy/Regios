@@ -13,18 +13,15 @@ import org.getspout.spoutapi.gui.GenericContainer;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.GenericTextField;
-import org.getspout.spoutapi.gui.InGameHUD;
 import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.TextField;
 import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import couk.Adamki11s.Regios.Main.Regios;
-import couk.Adamki11s.Regios.Mutable.MutableExceptions;
 import couk.Adamki11s.Regios.Mutable.MutableMisc;
 import couk.Adamki11s.Regios.Mutable.MutablePermissions;
 import couk.Adamki11s.Regios.Regions.Region;
-import couk.Adamki11s.Regios.SpoutGUI.RegionScreen4.ExToggle;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 
 public class RegionScreen5 {
@@ -362,8 +359,6 @@ public class RegionScreen5 {
 	}
 
 	public static void loadScreen(SpoutPlayer sp, Region r, Object[] oldWidgets, ScreenHolder sh) {
-
-		InGameHUD hud = sp.getMainScreen();
 
 		Collections.sort(r.getExceptions());
 

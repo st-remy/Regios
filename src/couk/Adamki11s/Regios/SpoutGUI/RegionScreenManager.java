@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.getspout.spoutapi.gui.Color;
 import org.getspout.spoutapi.gui.GenericButton;
@@ -14,13 +13,11 @@ import org.getspout.spoutapi.gui.GenericTexture;
 import org.getspout.spoutapi.gui.InGameHUD;
 import org.getspout.spoutapi.gui.PopupScreen;
 import org.getspout.spoutapi.gui.RenderPriority;
-import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.gui.WidgetAnchor;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Main.Regios;
-import couk.Adamki11s.Regios.Mutable.MutableProtection;
 import couk.Adamki11s.Regios.Regions.Region;
 
 public class RegionScreenManager {

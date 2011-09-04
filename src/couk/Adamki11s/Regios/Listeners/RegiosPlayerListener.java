@@ -10,7 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
-import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
@@ -24,7 +23,6 @@ import org.bukkit.material.Door;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
-import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
@@ -32,7 +30,6 @@ import couk.Adamki11s.Regios.Economy.EconomyPending;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
-import couk.Adamki11s.Regios.Regions.RegionLocation;
 import couk.Adamki11s.Regios.Regions.SubRegionManager;
 import couk.Adamki11s.Regios.Scheduler.HealthRegeneration;
 import couk.Adamki11s.Regios.Scheduler.LogRunner;
@@ -44,11 +41,9 @@ public class RegiosPlayerListener extends PlayerListener {
 		PROTECTION, AUTHENTICATION, PREVENT_ENTRY, PREVENT_EXIT, ECONOMY;
 	}
 
-	private static final GlobalRegionManager grm = new GlobalRegionManager();
 	private static final ExtrasEvents extEvt = new ExtrasEvents();
 	private static final ExtrasRegions extReg = new ExtrasRegions();
 	private static final SubRegionManager srm = new SubRegionManager();
-	private static final PermChecks permChecks = new PermChecks();
 	private static final CreationCommands creationCommands = new CreationCommands();
 
 	public static HashMap<Player, Region> regionBinding = new HashMap<Player, Region>();

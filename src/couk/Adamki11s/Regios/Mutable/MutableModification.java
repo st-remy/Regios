@@ -11,7 +11,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
-import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionDeleteEvent;
 import couk.Adamki11s.Regios.Data.LoaderCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;

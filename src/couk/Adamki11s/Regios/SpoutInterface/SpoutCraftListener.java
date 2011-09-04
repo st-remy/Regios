@@ -4,8 +4,6 @@ import org.bukkit.entity.Player;
 import org.getspout.spoutapi.event.spout.SpoutCraftEnableEvent;
 import org.getspout.spoutapi.event.spout.SpoutListener;
 
-import couk.Adamki11s.Regios.SpoutGUI.CacheHandler;
-
 public class SpoutCraftListener extends SpoutListener {
 	
 	@Override

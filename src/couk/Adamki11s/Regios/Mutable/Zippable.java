@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -19,7 +18,6 @@ public class Zippable extends PermissionsCore {
 
 	public static void zipDir(File dirObj, File zipFileName, String name, Player p) throws Exception {
 		p.sendMessage(ChatColor.GREEN + "[Regios] Creating .zip backup file...");
-		int index = 0;
 		for(char c : name.toCharArray()){
 			for(char il : ILLEGAL_CHARACTERS){
 				if(c == il){

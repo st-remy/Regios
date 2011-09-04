@@ -2,33 +2,24 @@ package couk.Adamki11s.Regios.Listeners;
 
 import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockFormEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
-import org.bukkit.event.painting.PaintingBreakEvent;
-import org.bukkit.event.painting.PaintingPlaceEvent;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.inventory.ItemStack;
 
-import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
-import couk.Adamki11s.Regios.Checks.PermChecks;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
-import couk.Adamki11s.Regios.CustomEvents.RegionExitEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener.MSG;
@@ -41,13 +32,9 @@ import couk.Adamki11s.Regios.Scheduler.LogRunner;
 
 public class RegiosBlockListener extends BlockListener {
 
-	private static final GlobalRegionManager grm = new GlobalRegionManager();
-	private static final ExtrasEvents extEvt = new ExtrasEvents();
 	private static final ExtrasRegions extReg = new ExtrasRegions();
 	private static final SubRegionManager srm = new SubRegionManager();
-	private static final PermChecks permChecks = new PermChecks();
-	private static final CreationCommands creationCommands = new CreationCommands();
-
+	
 	public boolean areChunksEqual(Chunk c1, Chunk c2) {
 		return (c1.getX() == c2.getX() && c1.getZ() == c2.getZ());
 	}

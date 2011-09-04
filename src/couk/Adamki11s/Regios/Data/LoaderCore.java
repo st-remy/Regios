@@ -10,8 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.config.Configuration;
 
-import couk.Adamki11s.Regios.Checks.ChunkGrid;
-import couk.Adamki11s.Regios.CustomEvents.RegionDeleteEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionLoadEvent;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;

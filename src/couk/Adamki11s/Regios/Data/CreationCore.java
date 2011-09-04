@@ -1,7 +1,6 @@
 package couk.Adamki11s.Regios.Data;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -100,7 +99,7 @@ public class CreationCore {
 	private void configuration() throws IOException {
 		log.info(prefix + " Checking configuration files.");
 		boolean flawless = true;
-		File updateconfig = new File(config_root + File.separator + "Updates.config"), defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(
+		File defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(
 				config_root + File.separator + "GeneralSettings.config");
 
 		if (!generalconfig.exists()) {

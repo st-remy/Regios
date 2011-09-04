@@ -2,12 +2,10 @@ package couk.Adamki11s.Regios.Regions;
 
 import java.util.ArrayList;
 
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Checks.ChunkGrid;
-import couk.Adamki11s.Regios.Data.Saveable;
 
 public class GlobalRegionManager {
 	

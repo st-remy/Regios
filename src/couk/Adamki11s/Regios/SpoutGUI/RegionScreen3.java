@@ -5,7 +5,6 @@ import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.gui.GenericPopup;
 import org.getspout.spoutapi.gui.GenericTextField;
-import org.getspout.spoutapi.gui.InGameHUD;
 import org.getspout.spoutapi.gui.RenderPriority;
 import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.player.SpoutPlayer;
@@ -17,8 +16,6 @@ import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
 public class RegionScreen3 {
 	
 	public static void loadScreen(SpoutPlayer sp, Region r, Object[] oldWidgets, ScreenHolder sh) {
-		InGameHUD hud = sp.getMainScreen();
-
 		if (oldWidgets != null) {
 			for (Object w : oldWidgets) {
 				//if (w instanceof Widget) {

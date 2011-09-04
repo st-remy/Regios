@@ -5,14 +5,12 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 import org.bukkit.Bukkit;
-import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.SpoutManager;
 import org.getspout.spoutapi.block.SpoutWeather;
 import org.getspout.spoutapi.gui.GenericLabel;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import org.getspout.spoutapi.sound.SoundManager;
-import couk.Adamki11s.Extras.Regions.ExtrasRegions;
 import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Regions.Region;
 
@@ -22,8 +20,6 @@ public class SpoutRegion {
 	public static HashMap<Player, String> lastSong = new HashMap<Player, String>();
 	public static HashMap<Player, SpoutWeather> oldWeather = new HashMap<Player, SpoutWeather>();
 
-	private static ExtrasRegions extReg = new ExtrasRegions();
-	
 	public static void forceTexturePack(Player p, Region r){
 		SpoutPlayer sp = (SpoutPlayer)p;
 		sp.setTexturePack(r.getSpoutTexturePack());

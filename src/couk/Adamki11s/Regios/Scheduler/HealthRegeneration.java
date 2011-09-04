@@ -3,7 +3,6 @@ package couk.Adamki11s.Regios.Scheduler;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 public class HealthRegeneration {

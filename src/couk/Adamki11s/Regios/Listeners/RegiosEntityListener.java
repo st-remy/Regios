@@ -6,7 +6,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Entity;
@@ -21,10 +20,7 @@ import org.bukkit.event.painting.PaintingBreakByEntityEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
 import org.bukkit.event.painting.PaintingPlaceEvent;
 
-import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
-import couk.Adamki11s.Regios.Checks.PermChecks;
-import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -42,8 +38,6 @@ public class RegiosEntityListener extends EntityListener {
 		Location l = evt.getEntity().getLocation();
 		World w = l.getWorld();
 		Chunk c = w.getChunkAt(l);
-
-		GlobalWorldSetting gws = GlobalRegionManager.getGlobalWorldSetting(w);
 
 		Region r;
 

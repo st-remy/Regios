@@ -10,8 +10,6 @@ import org.getspout.spoutapi.gui.GenericTextField;
 import org.getspout.spoutapi.gui.Widget;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
-import couk.Adamki11s.Regios.Regions.Region;
-
 public class ScreenHolder {
 
 	public static HashMap<SpoutPlayer, ScreenHolder> screenHolder = new HashMap<SpoutPlayer, ScreenHolder>();

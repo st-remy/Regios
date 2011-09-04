@@ -17,6 +17,7 @@ import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.CustomEvents.RegionBackupEvent;
 import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
+import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.jnbt.ByteArrayTag;
@@ -27,8 +28,25 @@ import couk.Adamki11s.jnbt.NBTOutputStream;
 import couk.Adamki11s.jnbt.Tag;
 
 public class RBF_Save extends PermissionsCore{
+	
+	Region region;
+	String backupname;
+	Player player;
+	
+	public synchronized void startSave(Region r, String bckn, Player p){
+		this.region = r;
+		this.backupname = bckn;
+		this.player = p;
+		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(Regios.regios, new Runnable(){
+			
+			public void run(){
+				saveRegion(region, backupname, player);
+			}
+			
+		}, 1L);
+	}
 
-	public void saveRegion(Region r, String backupname, Player p) {
+	public synchronized void saveRegion(Region r, String backupname, Player p) {
 		try {
 			p.sendMessage(ChatColor.GREEN + "[Regios] Creating .rbf backup file...");
 			if(!super.canModifyBasic(r, p)){

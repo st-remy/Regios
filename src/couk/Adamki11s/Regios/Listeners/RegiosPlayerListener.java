@@ -373,7 +373,7 @@ public class RegiosPlayerListener extends PlayerListener {
 			return;
 		} else {
 			for (Region r : currentRegionSet) {
-				if (r.is_protection() || r.is_protectionPlace()) {
+				if (r.is_protection()) {
 					if (!r.canBuild(p)) {
 						LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
 								+ (" Player '" + p.getName() + "' tried to fill a " + evt.getBucket().toString() + " but was prevented."));
@@ -429,7 +429,7 @@ public class RegiosPlayerListener extends PlayerListener {
 			return;
 		} else {
 			for (Region r : currentRegionSet) {
-				if (r.is_protection() || r.is_protectionPlace()) {
+				if (r.is_protection()) {
 					if (!r.canBuild(p)) {
 						LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
 								+ (" Player '" + p.getName() + "' tried to empty a " + evt.getBucket().toString() + " but was prevented."));

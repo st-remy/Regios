@@ -44,7 +44,7 @@ public class MutableProtection {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.General.Protected.BlockBreak", true);
-		r.set_protection(true);
+		r.set_protectionBreak(true);
 		c.save();
 	}
 	
@@ -57,7 +57,7 @@ public class MutableProtection {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.General.Protected.BlockBreak", false);
-		r.set_protection(false);
+		r.set_protectionBreak(false);
 		c.save();
 	}
 	
@@ -65,15 +65,12 @@ public class MutableProtection {
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
-		all.remove("Region.General.Protected.BlockBreak");
-		all.remove("Region.General.Protected.BlockPlace");
+		all.remove("Region.General.Protected.General");
 		for(Entry<String, Object> entry : all.entrySet()){
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.General.Protected.BlockBreak", true);
-		c.setProperty("Region.General.Protected.BlockPlace", true);
+		c.setProperty("Region.General.Protected.General", true);
 		r.set_protection(true);
-		r.set_protectionPlace(true);
 		c.save();
 	}
 	
@@ -81,15 +78,12 @@ public class MutableProtection {
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
-		all.remove("Region.General.Protected.BlockBreak");
-		all.remove("Region.General.Protected.BlockPlace");
+		all.remove("Region.General.Protected.General");
 		for(Entry<String, Object> entry : all.entrySet()){
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.General.Protected.BlockBreak", false);
-		c.setProperty("Region.General.Protected.BlockPlace", false);
+		c.setProperty("Region.General.Protected.General", false);
 		r.set_protection(false);
-		r.set_protectionPlace(false);
 		c.save();
 	}
 	

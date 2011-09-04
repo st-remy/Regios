@@ -62,7 +62,7 @@ public class Region extends PermChecks implements Checks {
 
 	private Material spoutEntryMaterial = Material.GRASS, spoutExitMaterial = Material.DIRT;
 
-	private boolean _protection = false, _protectionPlace, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true,
+	private boolean _protection = false, _protectionPlace = false, _protectionBreak = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true,
 			doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true, passwordEnabled = false, showWelcomeMessage = true,
 			showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false,
 			playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false,
@@ -119,6 +119,7 @@ public class Region extends PermChecks implements Checks {
 			this.password = "";
 		}
 		this._protection = ConfigurationData.regionProtected;
+		this._protectionBreak = ConfigurationData.regionProtectedBreak;
 		this._protectionPlace = ConfigurationData.regionPlaceProtected;
 		this.preventEntry = ConfigurationData.regionPreventEntry;
 		this.mobSpawns = ConfigurationData.mobSpawns;
@@ -430,6 +431,17 @@ public class Region extends PermChecks implements Checks {
 		}
 		if (original.contains("BUILD-RIGHTS")) {
 			original = original.replaceAll("BUILD-RIGHTS", "" + this.canBuild(p));
+		}
+		if (original.contains("PLAYER")) {
+			original = original.replaceAll("PLAYER", "" + p.getName());
+		}
+		if (original.contains("PLAYER-LIST")) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("");
+			for(Player play : this.playersInRegion){
+				builder.append(ChatColor.WHITE).append(play.getName()).append(ChatColor.BLUE).append(", ");
+			}
+			original = original.replaceAll("PLAYER-LIST", "" + builder.toString());
 		}
 		return original;
 	}
@@ -1371,6 +1383,14 @@ public class Region extends PermChecks implements Checks {
 
 	public void set_protectionPlace(boolean _protectionPlace) {
 		this._protectionPlace = _protectionPlace;
+	}
+
+	public boolean is_protectionBreak() {
+		return _protectionBreak;
+	}
+
+	public void set_protectionBreak(boolean _protectionBreak) {
+		this._protectionBreak = _protectionBreak;
 	}
 
 }

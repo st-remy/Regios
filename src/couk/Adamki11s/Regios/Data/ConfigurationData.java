@@ -11,7 +11,7 @@ public class ConfigurationData {
 
 	public static Material defaultSpoutWelcomeMaterial, defaultSpoutLeaveMaterial, defaultSelectionTool;
 
-	public static boolean regionProtected, regionPlaceProtected, regionPreventEntry, regionPreventExit, mobSpawns, monsterSpawns, healthEnabled, pvp, doorsLocked, chestsLocked, preventInteraction,
+	public static boolean regionProtected, regionProtectedBreak, regionPlaceProtected, regionPreventEntry, regionPreventExit, mobSpawns, monsterSpawns, healthEnabled, pvp, doorsLocked, chestsLocked, preventInteraction,
 			showPvpWarning, checkForUpdates, downloadUpdatesAuto, cacheOldVersions, forceReload, passwordEnabled, showWelcomeMessage, showLeaveMessage, showProtectionMessage,
 			showPreventEntryMessage, showPreventExitMessage, fireProtection, playCustomMusic, permWipeOnEnter, permWipeOnExit,
 			wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, blockForm, forSale;
@@ -25,7 +25,7 @@ public class ConfigurationData {
 			String dam, String dasm, Material welcome, Material leave, boolean welcomeMsg, boolean leaveMsg, boolean protectMsg, boolean preventEntryMsg, boolean preventExitMsg,
 			boolean fireProt, String[] music, boolean playmusic, boolean permWipeOnEnter1, boolean permWipeOnExit1,
 			boolean wipeAndCacheOnEnter1, boolean wipeAndCacheOnExit1, boolean forceCommand1, String[] commandSet1, String[] tempAddCache, String[] permAddCache,
-			String[] permRemoveCache, boolean form, int cap, boolean placeprotect) {
+			String[] permRemoveCache, boolean form, int cap, boolean placeprotect, boolean breakProtect) {
 		defaultWelcomeMessage = a;
 		defaultLeaveMessage = b;
 		defaultProtectionMessage = c;
@@ -79,6 +79,7 @@ public class ConfigurationData {
 		blockForm = form;
 		playerCap = cap;
 		regionPlaceProtected = placeprotect;
+		regionProtectedBreak = breakProtect;
 	}
 
 }

@@ -1187,7 +1187,7 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.backup-region")) {
-					RBF_Core.rbf_save.saveRegion(GlobalRegionManager.getRegion(args[1]), args[2], p);
+					RBF_Core.rbf_save.startSave(GlobalRegionManager.getRegion(args[1]), args[2], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

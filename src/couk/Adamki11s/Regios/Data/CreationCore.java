@@ -117,6 +117,7 @@ public class CreationCore {
 			Configuration c = new Configuration(defaultregions);
 			c.setProperty("DefaultSettings.General.Protected.BlockBreak", false);
 			c.setProperty("DefaultSettings.General.Protected.BlockPlace", false);
+			c.setProperty("DefaultSettings.General.Protected.General", false);
 			c.setProperty("DefaultSettings.General.PreventEntry", false);
 			c.setProperty("DefaultSettings.General.PreventExit", false);
 			c.setProperty("DefaultSettings.General.MobSpawns", true);

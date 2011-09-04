@@ -51,8 +51,8 @@ public class GlobalWorldSetting {
 				}
 				Configuration c = new Configuration(f);
 				c.setProperty(world + ".Protection.ProtectionEnabledOutsideRegions", false);
-				c.setProperty(world + ".PvP.EnabledOutsideRegions", false);
-				c.setProperty(world + ".PvP.OverrideServerPvP", true);
+				c.setProperty(world + ".PvP.EnabledOutsideRegions", true);
+				c.setProperty(world + ".PvP.OverrideServerPvP", false);
 				c.setProperty(world + ".Protection.FireEnabled", true);
 				c.setProperty(world + ".Weather.LightningEnabled", true);
 				c.setProperty(world + ".Mobs.Spawning.Chicken", true);

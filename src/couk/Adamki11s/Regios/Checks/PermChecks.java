@@ -1,6 +1,5 @@
 package couk.Adamki11s.Regios.Checks;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -22,12 +21,12 @@ public class PermChecks {
 		}
 		if (p.isOp()) {
 			return true;
-		} else if (r.getOwner().equals(p.getName())) {
+		} else if (r.getOwner().equalsIgnoreCase(p.getName())) {
 			return true;
 		} else {
 			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
 				for (String subOwner : r.getSubOwners()) {
-					if (subOwner.equals(p.getName())) {
+					if (subOwner.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				}
@@ -51,22 +50,22 @@ public class PermChecks {
 		} else {
 			for (String excep : r.getExceptionNodes()) {
 				if (r.getItemMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getItemMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
 			}
 			for (String excep : r.getExceptions()) {
 				if (r.getItemMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getItemMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
@@ -74,11 +73,11 @@ public class PermChecks {
 			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
 				for (String excep : r.getSubOwners()) {
 					if (r.getItemMode() == MODE.Whitelist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return true;
 						}
 					} else if (r.getItemMode() == MODE.Blacklist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return false;
 						}
 					}
@@ -108,22 +107,22 @@ public class PermChecks {
 		} else {
 			for (String excep : r.getExceptionNodes()) {
 				if (r.getProtectionMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getProtectionMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
 			}
 			for (String excep : r.getExceptions()) {
 				if (r.getProtectionMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getProtectionMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
@@ -131,11 +130,11 @@ public class PermChecks {
 			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
 				for (String excep : r.getSubOwners()) {
 					if (r.getProtectionMode() == MODE.Whitelist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return true;
 						}
 					} else if (r.getProtectionMode() == MODE.Blacklist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return false;
 						}
 					}
@@ -165,22 +164,22 @@ public class PermChecks {
 		} else {
 			for (String excep : r.getExceptionNodes()) {
 				if (r.getPreventEntryMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getPreventEntryMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
 			}
 			for (String excep : r.getExceptions()) {
 				if (r.getPreventEntryMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getPreventEntryMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
@@ -188,11 +187,11 @@ public class PermChecks {
 			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
 				for (String excep : r.getSubOwners()) {
 					if (r.getPreventEntryMode() == MODE.Whitelist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return true;
 						}
 					} else if (r.getPreventEntryMode() == MODE.Blacklist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return false;
 						}
 					}
@@ -222,22 +221,22 @@ public class PermChecks {
 		} else {
 			for (String excep : r.getExceptionNodes()) {
 				if (r.getPreventExitMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getPreventExitMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
 			}
 			for (String excep : r.getExceptions()) {
 				if (r.getPreventExitMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return true;
 					}
 				} else if (r.getPreventExitMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
+					if (excep.equalsIgnoreCase(p.getName())) {
 						return false;
 					}
 				}
@@ -245,11 +244,11 @@ public class PermChecks {
 			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
 				for (String excep : r.getSubOwners()) {
 					if (r.getPreventExitMode() == MODE.Whitelist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return true;
 						}
 					} else if (r.getPreventExitMode() == MODE.Blacklist) {
-						if (excep.equals(p.getName())) {
+						if (excep.equalsIgnoreCase(p.getName())) {
 							return false;
 						}
 					}
@@ -294,11 +293,11 @@ public class PermChecks {
 		}
 		for (String excep : r.getExceptions()) {
 			if (r.getProtectionMode() == MODE.Whitelist) {
-				if (excep.equals(p.getName())) {
+				if (excep.equalsIgnoreCase(p.getName())) {
 					return true;
 				}
 			} else if (r.getProtectionMode() == MODE.Blacklist) {
-				if (excep.equals(p.getName())) {
+				if (excep.equalsIgnoreCase(p.getName())) {
 					return false;
 				}
 			}
@@ -310,6 +309,8 @@ public class PermChecks {
 		}
 		return false;
 	}
+	
+	
 
 	public boolean canEnter(Player p, Region r) {
 		if (canBypassEntryProtection(p, r)) {
@@ -326,11 +327,11 @@ public class PermChecks {
 		}
 		for (String excep : r.getExceptions()) {
 			if (r.getPreventEntryMode() == MODE.Whitelist) {
-				if (excep.equals(p.getName())) {
+				if (excep.equalsIgnoreCase(p.getName())) {
 					return true;
 				}
 			} else if (r.getPreventEntryMode() == MODE.Blacklist) {
-				if (excep.equals(p.getName())) {
+				if (excep.equalsIgnoreCase(p.getName())) {
 					return false;
 				}
 			}
@@ -358,11 +359,11 @@ public class PermChecks {
 		}
 		for (String excep : r.getExceptions()) {
 			if (r.getPreventExitMode() == MODE.Whitelist) {
-				if (excep.equals(p.getName())) {
+				if (excep.equalsIgnoreCase(p.getName())) {
 					return true;
 				}
 			} else if (r.getPreventExitMode() == MODE.Blacklist) {
-				if (excep.equals(p.getName())) {
+				if (excep.equalsIgnoreCase(p.getName())) {
 					return false;
 				}
 			}
@@ -385,7 +386,7 @@ public class PermChecks {
 		if (p.hasPermission("regios.override.all")) {
 			return true;
 		}
-		return r.getOwner().equals(p.getName());
+		return r.getOwner().equalsIgnoreCase(p.getName());
 	}
 
 }

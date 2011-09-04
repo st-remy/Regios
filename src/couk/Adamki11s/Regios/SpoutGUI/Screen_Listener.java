@@ -289,15 +289,9 @@ public class Screen_Listener extends ScreenListener {
 				protection.editProtect(r);
 				sp.sendNotification("General Protection", ChatColor.GREEN + "Protection Enabled", Material.DIAMOND_BLOCK);
 			}
-			((GenericButton) (sh.page1Widgets[24])).setTooltip(RegionScreenManager.getStatus(r.is_protection() || r.is_protectionPlace()));
-			((GenericButton) (sh.page1Widgets[24])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()|| r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[24])).setTooltip(RegionScreenManager.getStatus(r.is_protection()));
+			((GenericButton) (sh.page1Widgets[24])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()));
 			((GenericButton) (sh.page1Widgets[24])).setDirty(true);
-			((GenericButton) (sh.page1Widgets[0])).setTooltip(RegionScreenManager.getStatus(r.is_protection()));
-			((GenericButton) (sh.page1Widgets[0])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()));
-			((GenericButton) (sh.page1Widgets[0])).setDirty(true);
-			((GenericButton) (sh.page1Widgets[1])).setTooltip(RegionScreenManager.getStatus(r.is_protectionPlace()));
-			((GenericButton) (sh.page1Widgets[1])).setTextColor(RegionScreenManager.getColourToken(r.is_protectionPlace()));
-			((GenericButton) (sh.page1Widgets[1])).setDirty(true);
 			return;
 		}
 		
@@ -305,15 +299,15 @@ public class Screen_Listener extends ScreenListener {
 			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
-			if (r.is_protection()) {
+			if (r.is_protectionBreak()) {
 				protection.editUnProtectBB(r);
 				sp.sendNotification("Protection - Block Break", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
 			} else {
 				protection.editProtectBB(r);
 				sp.sendNotification("Protection - Block Break", ChatColor.GREEN + "Protection Enabled", Material.DIAMOND_BLOCK);
 			}
-			((GenericButton) (sh.page1Widgets[0])).setTooltip(RegionScreenManager.getStatus(r.is_protection()));
-			((GenericButton) (sh.page1Widgets[0])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()));
+			((GenericButton) (sh.page1Widgets[0])).setTooltip(RegionScreenManager.getStatus(r.is_protectionBreak()));
+			((GenericButton) (sh.page1Widgets[0])).setTextColor(RegionScreenManager.getColourToken(r.is_protectionBreak()));
 			((GenericButton) (sh.page1Widgets[0])).setDirty(true);
 			return;
 		}
@@ -322,7 +316,7 @@ public class Screen_Listener extends ScreenListener {
 			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
-			if (r.is_protection()) {
+			if (r.is_protectionPlace()) {
 				protection.editUnProtectBP(r);
 				sp.sendNotification("Protection - Block Place", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
 			} else {

@@ -58,52 +58,6 @@ public class RegiosBlockListener extends BlockListener {
 		}
 	}
 
-	public void onPaintingBreak(PaintingBreakEvent evt) {
-		Location l = evt.getPainting().getLocation();
-		World w = l.getWorld();
-		Chunk c = w.getChunkAt(l);
-
-		ArrayList<Region> regionSet = new ArrayList<Region>();
-
-		for (Region region : GlobalRegionManager.getRegions()) {
-			for (Chunk chunk : region.getChunkGrid().getChunks()) {
-				if (chunk.getWorld() == w) {
-					if (areChunksEqual(chunk, c)) {
-						if (!regionSet.contains(region)) {
-							regionSet.add(region);
-						}
-					}
-				}
-			}
-		}
-
-		if (regionSet.isEmpty()) {
-			return;
-		}
-
-		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
-
-		for (Region reg : regionSet) {
-			Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
-					reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
-					reg.getL1().getZ(), reg.getL2().getZ()));
-			min.subtract(8, 8, 8);
-			max.add(8, 8, 8);
-			if (extReg.isInsideCuboid(l, min, max)) {
-				currentRegionSet.add(reg);
-			}
-		}
-
-		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
-											// inside region then cancel the
-											// check.
-			return;
-		} else {
-			evt.setCancelled(true);
-			return;
-		}
-	}
-
 	public void forceBucketEvent(BlockPlaceEvent evt) {
 		if (evt.getBlock().getType() == Material.LAVA || evt.getBlock().getType() == Material.STATIONARY_LAVA || evt.getBlock().getType() == Material.STATIONARY_WATER
 				|| evt.getBlock().getType() == Material.WATER) {
@@ -149,7 +103,7 @@ public class RegiosBlockListener extends BlockListener {
 				return;
 			} else {
 				for (Region r : currentRegionSet) {
-					if (r.is_protection() || r.is_protectionPlace()) {
+					if (r.is_protection()) {
 						if (!r.canBuild(p)) {
 							LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
 									+ (" Player '" + p.getName() + "' tried to place " + evt.getBlock().getType().toString() + " but was prevented."));
@@ -421,7 +375,7 @@ public class RegiosBlockListener extends BlockListener {
 			r = currentRegionSet.get(0);
 		}
 
-		if (r.getItems().isEmpty() && r.isProtected()) {
+		if (r.getItems().isEmpty() && r.is_protectionPlace()) {
 			if (r.canBuild(p, r)) {
 				return;
 			} else {
@@ -442,9 +396,9 @@ public class RegiosBlockListener extends BlockListener {
 				}
 			}
 		}
-
+		
 		if (r.is_protectionPlace()) {
-			if (!r.canBuild(p, r)) {
+			if (!r.canBuild(p)) {
 				evt.setCancelled(true);
 				r.sendBuildMessage(p);
 				return;
@@ -555,7 +509,7 @@ public class RegiosBlockListener extends BlockListener {
 			r = currentRegionSet.get(0);
 		}
 
-		if (r.isProtected()) {
+		if (r.is_protectionBreak()) {
 			if (!r.canBuild(p)) {
 				evt.setCancelled(true);
 				r.sendBuildMessage(p);

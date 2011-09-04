@@ -60,7 +60,8 @@ public class Saveable {
 		c.setProperty("Region.Permissions.PermanentCache.AddNodes", "");
 		c.setProperty("Region.Permissions.PermanentCache.RemoveNodes", "");
 		
-		c.setProperty("Region.General.Protected.BlockBreak", Boolean.valueOf(r.is_protection()));
+		c.setProperty("Region.General.Protected.General", Boolean.valueOf(r.is_protection()));
+		c.setProperty("Region.General.Protected.BlockBreak", Boolean.valueOf(r.is_protectionBreak()));
 		c.setProperty("Region.General.Protected.BlockPlace", Boolean.valueOf(r.is_protectionPlace()));
 		c.setProperty("Region.General.FireProtection", Boolean.valueOf(r.isFireProtection()));
 		c.setProperty("Region.General.PreventEntry", Boolean.valueOf(r.isPreventEntry()));

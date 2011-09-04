@@ -48,11 +48,11 @@ public class PermissionsCore {
 		if (canModifyMain(r, p)) {
 			return true;
 		}
-		if (r.getOwner().equals(p.getName())) {
+		if (r.getOwner().equalsIgnoreCase(p.getName())) {
 			return true;
 		}
 		for (String s : r.getSubOwners()) {
-			if (s.equals(p.getName())) {
+			if (s.equalsIgnoreCase(p.getName())) {
 				return true;
 			}
 		}
@@ -66,7 +66,7 @@ public class PermissionsCore {
 		if (doesHaveNode(p, ("regios.override." + r.getName())) || doesHaveNode(p, "regios.override.all")) {
 			return true;
 		}
-		if (r.getOwner().equals(p.getName())) {
+		if (r.getOwner().equalsIgnoreCase(p.getName())) {
 			return true;
 		}
 		if (p.isOp()) {

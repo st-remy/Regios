@@ -5,6 +5,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
+import ru.tehkode.permissions.PermissionManager;
+
 import com.nijiko.permissions.PermissionHandler;
 
 import couk.Adamki11s.Regios.Regions.Region;
@@ -12,17 +14,24 @@ import couk.Adamki11s.Regios.Regions.Region;
 public class PermissionsCore {
 
 	public static PermissionHandler permissionHandler = null;
-	public static boolean hasPermissions = false, iConomyEnabled = false;
+	public static PermissionManager pex;
+	public static boolean hasPermissions = false, iConomyEnabled = false, hasPEX = false;
 
-	public static boolean doesHaveNode(Player p, String node){
-    	if(p.isOp()){ return true;}
-    	
-    	if(hasPermissions){
-    		return permissionHandler.has(p, node);
-    	} else {
-    		return p.hasPermission(node);
-    	}
-    }
+	public static boolean doesHaveNode(Player p, String node) {
+		if (p.isOp()) {
+			return true;
+		}
+
+		if (hasPermissions) {
+			return permissionHandler.has(p, node);
+		} else {
+			if (hasPEX) {
+				return pex.has(p, node);
+			} else {
+				return p.hasPermission(node);
+			}
+		}
+	}
 
 	public static void sendInvalidPerms(Player p) {
 		p.sendMessage(ChatColor.RED + "[Regios] You do not have permissions to do this!");

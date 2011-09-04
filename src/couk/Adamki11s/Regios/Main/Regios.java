@@ -13,6 +13,8 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.getspout.spoutapi.player.SpoutPlayer;
 
+import ru.tehkode.permissions.bukkit.PermissionsEx;
+
 import com.nijikokun.bukkit.Permissions.Permissions;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
@@ -92,6 +94,7 @@ public class Regios extends JavaPlugin {
 		pm.registerEvent(Type.PLAYER_QUIT, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_INTERACT, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.PLAYER_BUCKET_EMPTY, playerListener, Priority.Highest, this);
+		pm.registerEvent(Type.PLAYER_BUCKET_FILL, playerListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_PLACE, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_BREAK, blockListener, Priority.Highest, this);
 		pm.registerEvent(Type.BLOCK_IGNITE, blockListener, Priority.Highest, this);
@@ -101,6 +104,7 @@ public class Regios extends JavaPlugin {
 		pm.registerEvent(Type.ENTITY_DAMAGE, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.CREATURE_SPAWN, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.PAINTING_BREAK, entityListener, Priority.Highest, this);
+		pm.registerEvent(Type.PAINTING_PLACE, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.ENTITY_DEATH, entityListener, Priority.Highest, this);
 		pm.registerEvent(Type.LIGHTNING_STRIKE, weatherListener, Priority.Highest, this);
 		
@@ -148,9 +152,17 @@ public class Regios extends JavaPlugin {
 			if (permissionsPlugin != null) {
 				PermissionsCore.permissionHandler = ((Permissions) permissionsPlugin).getHandler();
 				PermissionsCore.hasPermissions = true;
-				log.info("[Regios] Permissions support enabled");
+				log.info("[Regios] Permissions support enabled!");
 			} else {
-				log.info("[Regios] Permissions not detected, defaulting to OP");
+				log.info("[Regios] Permissions not detected, checking PEX...");
+				if(Bukkit.getServer().getPluginManager().isPluginEnabled("PermissionsEx")){
+					PermissionsCore.pex = PermissionsEx.getPermissionManager();
+					PermissionsCore.hasPEX = true;
+					log.info("[Regios] Permissions (PEX) support enabled!");
+				} else {
+					log.info("[Regios] PEX not detected, defaulting to OP.");
+				}
+				
 			}
 		}
 	}

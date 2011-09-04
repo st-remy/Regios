@@ -386,7 +386,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("expand-max")) {
+			if (args.length == 2 && (args[0].equalsIgnoreCase("expand-max") || args[0].equalsIgnoreCase("expandmax"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {
 					mod.setExpandMax(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {

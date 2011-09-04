@@ -19,6 +19,7 @@ import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.painting.PaintingBreakEvent;
+import org.bukkit.event.painting.PaintingPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
@@ -33,6 +34,7 @@ import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.GlobalWorldSetting;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.SubRegionManager;
+import couk.Adamki11s.Regios.Scheduler.LogRunner;
 
 public class RegiosBlockListener extends BlockListener {
 
@@ -50,6 +52,98 @@ public class RegiosBlockListener extends BlockListener {
 	public void extinguish(Block b) {
 		if (b.getType() == Material.FIRE) {
 			b.setType(Material.AIR);
+		}
+	}
+
+	public void onPaintingBreak(PaintingBreakEvent evt) {
+		Location l = evt.getPainting().getLocation();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
+					reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
+					reg.getL1().getZ(), reg.getL2().getZ()));
+			min.subtract(8, 8, 8);
+			max.add(8, 8, 8);
+			if (extReg.isInsideCuboid(l, min, max)) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
+			return;
+		} else {
+			evt.setCancelled(true);
+			return;
+		}
+	}
+	
+	public void onPaintingPlace(PaintingPlaceEvent evt) {
+		Location l = evt.getPainting().getLocation();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
+					reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
+					reg.getL1().getZ(), reg.getL2().getZ()));
+			min.subtract(8, 8, 8);
+			max.add(8, 8, 8);
+			if (extReg.isInsideCuboid(l, min, max)) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
+			return;
+		} else {
+			evt.setCancelled(true);
+			return;
 		}
 	}
 

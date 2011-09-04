@@ -14,6 +14,7 @@ import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerListener;
@@ -329,6 +330,62 @@ public class RegiosPlayerListener extends PlayerListener {
 		return (c1.getX() == c2.getX() && c1.getZ() == c2.getZ());
 	}
 
+	public void onPlayerBucketFill(PlayerBucketFillEvent evt) {
+		Location l = evt.getBlockClicked().getLocation();
+		Player p = evt.getPlayer();
+		World w = l.getWorld();
+		Chunk c = w.getChunkAt(l);
+
+		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		for (Region region : GlobalRegionManager.getRegions()) {
+			for (Chunk chunk : region.getChunkGrid().getChunks()) {
+				if (chunk.getWorld() == w) {
+					if (areChunksEqual(chunk, c)) {
+						if (!regionSet.contains(region)) {
+							regionSet.add(region);
+						}
+					}
+				}
+			}
+		}
+
+		if (regionSet.isEmpty()) {
+			return;
+		}
+
+		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
+
+		for (Region reg : regionSet) {
+			Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
+					reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
+					reg.getL1().getZ(), reg.getL2().getZ()));
+			min.subtract(8, 8, 8);
+			max.add(8, 8, 8);
+			if (extReg.isInsideCuboid(l, min, max)) {
+				currentRegionSet.add(reg);
+			}
+		}
+
+		if (currentRegionSet.isEmpty()) { // If player is in chunk range but not
+											// inside region then cancel the
+											// check.
+			return;
+		} else {
+			for (Region r : currentRegionSet) {
+				if (r.is_protection()) {
+					if (!r.canBuild(p)) {
+						LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
+								+ (" Player '" + p.getName() + "' tried to fill a " + evt.getBucket().toString() + " but was prevented."));
+						r.sendBuildMessage(p);
+						evt.setCancelled(true);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent evt) {
 		Location l = evt.getBlockClicked().getLocation();
 		Player p = evt.getPlayer();
@@ -356,29 +413,12 @@ public class RegiosPlayerListener extends PlayerListener {
 		ArrayList<Region> currentRegionSet = new ArrayList<Region>();
 
 		for (Region reg : regionSet) {
-			Location rl1 = reg.getL1().toBukkitLocation(), rl2 = reg.getL2().toBukkitLocation();
-			if (rl1.getX() > rl2.getX()) {
-				rl2.subtract(8, 0, 0);
-				rl1.add(8, 0, 0);
-			} else {
-				rl2.add(8, 0, 0);
-				rl1.subtract(8, 0, 0);
-			}
-			if (rl1.getZ() > rl2.getZ()) {
-				rl2.subtract(0, 0, 8);
-				rl1.add(0, 0, 8);
-			} else {
-				rl2.add(0, 0, 8);
-				rl1.subtract(0, 0, 8);
-			}
-			if (rl1.getY() > rl2.getY()) {
-				rl2.subtract(0, 10, 0);
-				rl1.add(0, 10, 0);
-			} else {
-				rl2.add(0, 10, 0);
-				rl1.subtract(0, 10, 0);
-			}
-			if (extReg.isInsideCuboid(l, rl1, rl2)) {
+			Location max = new Location(w, Math.max(reg.getL1().getX(), reg.getL2().getX()), Math.max(reg.getL1().getY(), reg.getL2().getY()), Math.max(reg.getL1().getZ(),
+					reg.getL2().getZ())), min = new Location(w, Math.min(reg.getL1().getX(), reg.getL2().getX()), Math.min(reg.getL1().getY(), reg.getL2().getY()), Math.min(
+					reg.getL1().getZ(), reg.getL2().getZ()));
+			min.subtract(8, 8, 8);
+			max.add(8, 8, 8);
+			if (extReg.isInsideCuboid(l, min, max)) {
 				currentRegionSet.add(reg);
 			}
 		}

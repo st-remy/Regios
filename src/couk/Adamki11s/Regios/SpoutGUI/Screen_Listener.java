@@ -1177,7 +1177,12 @@ public class Screen_Listener extends ScreenListener {
 		}
 		
 		if(button == pasteTexture){
-			textureURL.setText(sp.getClipboardText());
+			String clipboard = sp.getClipboardText();
+			if(clipboard == null){
+				sp.sendNotification(ChatColor.RED + "Clipboard Empty", ChatColor.RED + "Or Innacessible", Material.FIRE);
+				return;
+			}
+			textureURL.setText(clipboard);
 			textureURL.setDirty(true);
 			sp.sendNotification("Spout", "Clipboard Pasted", Material.PAINTING);
 		}

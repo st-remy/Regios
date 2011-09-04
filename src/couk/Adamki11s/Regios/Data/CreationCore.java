@@ -115,7 +115,8 @@ public class CreationCore {
 			log.info(prefix + " Creating default region settings configuration.");
 			defaultregions.createNewFile();
 			Configuration c = new Configuration(defaultregions);
-			c.setProperty("DefaultSettings.General.Protected", false);
+			c.setProperty("DefaultSettings.General.Protected.BlockBreak", false);
+			c.setProperty("DefaultSettings.General.Protected.BlockPlace", false);
 			c.setProperty("DefaultSettings.General.PreventEntry", false);
 			c.setProperty("DefaultSettings.General.PreventExit", false);
 			c.setProperty("DefaultSettings.General.MobSpawns", true);

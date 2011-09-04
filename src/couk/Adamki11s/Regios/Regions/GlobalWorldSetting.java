@@ -53,7 +53,7 @@ public class GlobalWorldSetting {
 				c.setProperty(world + ".Protection.ProtectionEnabledOutsideRegions", false);
 				c.setProperty(world + ".PvP.EnabledOutsideRegions", false);
 				c.setProperty(world + ".PvP.OverrideServerPvP", true);
-				c.setProperty(world + ".Protection.FireEnabled", false);
+				c.setProperty(world + ".Protection.FireEnabled", true);
 				c.setProperty(world + ".Weather.LightningEnabled", true);
 				c.setProperty(world + ".Mobs.Spawning.Chicken", true);
 				c.setProperty(world + ".Mobs.Spawning.Cow", true);

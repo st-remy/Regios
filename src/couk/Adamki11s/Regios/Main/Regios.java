@@ -36,6 +36,7 @@ import couk.Adamki11s.Regios.SpoutGUI.Screen_Listener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutCraftListener;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInventoryListener;
+import couk.Adamki11s.Regios.Versions.VersionTracker;
 
 public class Regios extends JavaPlugin {
 
@@ -141,6 +142,8 @@ public class Regios extends JavaPlugin {
 		log.info(prefix + " Starting scheduler task...");
 		MainRunner.startMainRunner();
 		log.info(prefix + " Scheduler task initiated!");
+		
+		VersionTracker.createCurrentTracker();
 		
 		log.info(prefix + " Regios version " + version + " enabled successfully!");
 		log.info(prefix + " Regios Developed by [Adamki11s].");

@@ -9,16 +9,71 @@ import couk.Adamki11s.Regios.Regions.Region;
 
 public class MutableProtection {
 	
+	public void editProtectBP(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.General.Protected.BlockPlace");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.General.Protected.BlockPlace", true);
+		r.set_protectionPlace(true);
+		c.save();
+	}
+	
+	public void editUnProtectBP(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.General.Protected.BlockPlace");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.General.Protected.BlockPlace", false);
+		r.set_protectionPlace(false);
+		c.save();
+	}
+	
+	public void editProtectBB(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.General.Protected.BlockBreak");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.General.Protected.BlockBreak", true);
+		r.set_protection(true);
+		c.save();
+	}
+	
+	public void editUnProtectBB(Region r){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.General.Protected.BlockBreak");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.General.Protected.BlockBreak", false);
+		r.set_protection(false);
+		c.save();
+	}
+	
 	public void editProtect(Region r){
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
-		all.remove("Region.General.Protected");
+		all.remove("Region.General.Protected.BlockBreak");
+		all.remove("Region.General.Protected.BlockPlace");
 		for(Entry<String, Object> entry : all.entrySet()){
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.General.Protected", true);
+		c.setProperty("Region.General.Protected.BlockBreak", true);
+		c.setProperty("Region.General.Protected.BlockPlace", true);
 		r.set_protection(true);
+		r.set_protectionPlace(true);
 		c.save();
 	}
 	
@@ -26,12 +81,15 @@ public class MutableProtection {
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
-		all.remove("Region.General.Protected");
+		all.remove("Region.General.Protected.BlockBreak");
+		all.remove("Region.General.Protected.BlockPlace");
 		for(Entry<String, Object> entry : all.entrySet()){
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
-		c.setProperty("Region.General.Protected", false);
+		c.setProperty("Region.General.Protected.BlockBreak", false);
+		c.setProperty("Region.General.Protected.BlockPlace", false);
 		r.set_protection(false);
+		r.set_protectionPlace(false);
 		c.save();
 	}
 	

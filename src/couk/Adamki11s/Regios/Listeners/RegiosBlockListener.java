@@ -149,7 +149,7 @@ public class RegiosBlockListener extends BlockListener {
 				return;
 			} else {
 				for (Region r : currentRegionSet) {
-					if (r.is_protection()) {
+					if (r.is_protection() || r.is_protectionPlace()) {
 						if (!r.canBuild(p)) {
 							LogRunner.addLogMessage(r, LogRunner.getPrefix(r)
 									+ (" Player '" + p.getName() + "' tried to place " + evt.getBlock().getType().toString() + " but was prevented."));
@@ -443,7 +443,7 @@ public class RegiosBlockListener extends BlockListener {
 			}
 		}
 
-		if (r.isProtected()) {
+		if (r.is_protectionPlace()) {
 			if (!r.canBuild(p, r)) {
 				evt.setCancelled(true);
 				r.sendBuildMessage(p);

@@ -78,12 +78,13 @@ public class ScreenHolder {
 
 	public SpoutPlayer sp;
 
-	public Widget[] page1Widgets = { new GenericButton("Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
+	public Widget[] page1Widgets = { new GenericButton("Block Break Protection"), new GenericButton("Block Place Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
 			new GenericButton("Prevent Interaction"), new GenericButton("Doors Locked"), new GenericButton("Chests Locked"), new GenericButton("Fire Protection"),
 			new GenericButton("Block Form"), new GenericButton("Mobs Spawn"), new GenericButton("Monsters Spawn"), new GenericButton("Show Welcome"),
 			new GenericButton("Show Leave"), new GenericButton("Show Prevent Entry"), new GenericButton("Show Prevent Exit"), new GenericButton("Show Protection"),
 			new GenericButton("Show Pvp"), new GenericButton("PvP"), new GenericButton("Health Enabled"), new GenericButton("Protection Mode"),
-			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode"), new GenericButton("Force Commands") };
+			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode"), new GenericButton("Force Commands"),
+			new GenericButton("General Protection")};
 
 	public GenericButton escButton, pageForward, pageBackwards;
 

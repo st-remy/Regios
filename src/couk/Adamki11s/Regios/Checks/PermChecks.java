@@ -71,14 +71,16 @@ public class PermChecks {
 					}
 				}
 			}
-			for (String excep : r.getSubOwners()) {
-				if (r.getItemMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
-						return true;
-					}
-				} else if (r.getItemMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
-						return false;
+			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
+				for (String excep : r.getSubOwners()) {
+					if (r.getItemMode() == MODE.Whitelist) {
+						if (excep.equals(p.getName())) {
+							return true;
+						}
+					} else if (r.getItemMode() == MODE.Blacklist) {
+						if (excep.equals(p.getName())) {
+							return false;
+						}
 					}
 				}
 			}
@@ -126,14 +128,16 @@ public class PermChecks {
 					}
 				}
 			}
-			for (String excep : r.getSubOwners()) {
-				if (r.getProtectionMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
-						return true;
-					}
-				} else if (r.getProtectionMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
-						return false;
+			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
+				for (String excep : r.getSubOwners()) {
+					if (r.getProtectionMode() == MODE.Whitelist) {
+						if (excep.equals(p.getName())) {
+							return true;
+						}
+					} else if (r.getProtectionMode() == MODE.Blacklist) {
+						if (excep.equals(p.getName())) {
+							return false;
+						}
 					}
 				}
 			}
@@ -181,14 +185,16 @@ public class PermChecks {
 					}
 				}
 			}
-			for (String excep : r.getSubOwners()) {
-				if (r.getPreventEntryMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
-						return true;
-					}
-				} else if (r.getPreventEntryMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
-						return false;
+			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
+				for (String excep : r.getSubOwners()) {
+					if (r.getPreventEntryMode() == MODE.Whitelist) {
+						if (excep.equals(p.getName())) {
+							return true;
+						}
+					} else if (r.getPreventEntryMode() == MODE.Blacklist) {
+						if (excep.equals(p.getName())) {
+							return false;
+						}
 					}
 				}
 			}
@@ -236,14 +242,16 @@ public class PermChecks {
 					}
 				}
 			}
-			for (String excep : r.getSubOwners()) {
-				if (r.getPreventExitMode() == MODE.Whitelist) {
-					if (excep.equals(p.getName())) {
-						return true;
-					}
-				} else if (r.getPreventExitMode() == MODE.Blacklist) {
-					if (excep.equals(p.getName())) {
-						return false;
+			if (r.getSubOwners() != null && r.getSubOwners().length > 0) {
+				for (String excep : r.getSubOwners()) {
+					if (r.getPreventExitMode() == MODE.Whitelist) {
+						if (excep.equals(p.getName())) {
+							return true;
+						}
+					} else if (r.getPreventExitMode() == MODE.Blacklist) {
+						if (excep.equals(p.getName())) {
+							return false;
+						}
 					}
 				}
 			}

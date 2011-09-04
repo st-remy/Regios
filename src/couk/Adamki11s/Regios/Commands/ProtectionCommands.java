@@ -22,6 +22,50 @@ public class ProtectionCommands extends PermissionsCore {
 		mutable.editProtect(r);
 	}
 	
+	public void setProtectedBB(Region r, String region, Player p){
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Block Break Protection enabled for region " + ChatColor.BLUE + region);
+		}
+		mutable.editProtectBB(r);
+	}
+	
+	public void setProtectedBP(Region r, String region, Player p){
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Block Place Protection enabled for region " + ChatColor.BLUE + region);
+		}
+		mutable.editProtectBP(r);
+	}
+	
+	public void setUnProtectedBP(Region r, String region, Player p){
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Block Place Protection disabled for region " + ChatColor.BLUE + region);
+		}
+		mutable.editUnProtectBP(r);
+	}
+	
+	public void setUnProtectedBB(Region r, String region, Player p){
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] Block Break Protection disabled for region " + ChatColor.BLUE + region);
+		}
+		mutable.editUnProtectBB(r);
+	}
+	
 	public void setUnProtected(Region r, String region, Player p){
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
 			if(!super.canModifyMain(r, p)){

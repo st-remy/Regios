@@ -304,10 +304,42 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
+			
+			if (args.length == 2 && args[0].equalsIgnoreCase("protect-bb")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setProtectedBB(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && args[0].equalsIgnoreCase("protect-bp")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setProtectedBP(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("unprotect")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
 					protect.setUnProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && args[0].equalsIgnoreCase("unprotect-bb")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setUnProtectedBB(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && args[0].equalsIgnoreCase("unprotect-bp")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setUnProtectedBP(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

@@ -274,7 +274,7 @@ public class RegiosEntityListener extends EntityListener {
 			r = currentRegionSet.get(0);
 		}
 
-		if (r.is_protection()) {
+		if (r.is_protectionPlace()) {
 			if (!r.canBuild(cause)) {
 				LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Painting place was prevented."));
 				r.sendBuildMessage(cause);
@@ -357,7 +357,7 @@ public class RegiosEntityListener extends EntityListener {
 			return;
 		} else {
 			for (Region r : currentRegionSet) {
-				if (r.is_protection()) {
+				if (r.is_protection() || r.is_protectionPlace()) {
 					LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Entity explosion was prevented."));
 					evt.setCancelled(true);
 					evt.setRadius(0);

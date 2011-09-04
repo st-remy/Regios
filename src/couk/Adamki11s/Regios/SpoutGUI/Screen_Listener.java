@@ -241,6 +241,7 @@ public class Screen_Listener extends ScreenListener {
 	static final MutableModes modes = new MutableModes();
 
 	private void regionScreen1Listener(ButtonClickEvent evt, ScreenHolder sh) {
+		
 		if (!RegionScreenManager.popup.containsKey(evt.getPlayer())) {
 			return;
 		}
@@ -248,47 +249,89 @@ public class Screen_Listener extends ScreenListener {
 		Region r = RegionScreenManager.editing.get(evt.getPlayer());
 
 		UUID protect = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[0].getId()).getId();
-		UUID prevententry = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[1].getId()).getId();
-		UUID preventexit = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[2].getId()).getId();
-		UUID preventinteraction = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[3].getId()).getId();
-		UUID doorslocked = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[4].getId()).getId();
-		UUID chestslocked = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[5].getId()).getId();
-		UUID fireprotection = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[6].getId()).getId();
-		UUID blockform = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[7].getId()).getId();
-		UUID mobspawn = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[8].getId()).getId();
-		UUID monsterspawn = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[9].getId()).getId();
-		UUID showwelcome = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[10].getId()).getId();
-		UUID showleave = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[11].getId()).getId();
-		UUID showprevententry = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[12].getId()).getId();
-		UUID showpreventexit = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[13].getId()).getId();
-		UUID showprotection = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[14].getId()).getId();
-		UUID showpvp = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[15].getId()).getId();
-		UUID pvp = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[16].getId()).getId();
-		UUID healthenabled = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[17].getId()).getId();
-		UUID protectmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[18].getId()).getId();
-		UUID prevententrymode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[19].getId()).getId();
-		UUID preventexitmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[20].getId()).getId();
-		UUID itemmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[21].getId()).getId();
-		UUID forceCmd = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[22].getId()).getId();
+		UUID protectplace = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[1].getId()).getId();
+		UUID prevententry = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[2].getId()).getId();
+		UUID preventexit = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[3].getId()).getId();
+		UUID preventinteraction = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[4].getId()).getId();
+		UUID doorslocked = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[5].getId()).getId();
+		UUID chestslocked = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[6].getId()).getId();
+		UUID fireprotection = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[7].getId()).getId();
+		UUID blockform = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[8].getId()).getId();
+		UUID mobspawn = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[9].getId()).getId();
+		UUID monsterspawn = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[10].getId()).getId();
+		UUID showwelcome = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[11].getId()).getId();
+		UUID showleave = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[12].getId()).getId();
+		UUID showprevententry = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[13].getId()).getId();
+		UUID showpreventexit = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[14].getId()).getId();
+		UUID showprotection = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[15].getId()).getId();
+		UUID showpvp = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[16].getId()).getId();
+		UUID pvp = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[17].getId()).getId();
+		UUID healthenabled = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[18].getId()).getId();
+		UUID protectmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[19].getId()).getId();
+		UUID prevententrymode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[20].getId()).getId();
+		UUID preventexitmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[21].getId()).getId();
+		UUID itemmode = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[22].getId()).getId();
+		UUID forceCmd = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[23].getId()).getId();
+		UUID generalProtection = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page1Widgets[24].getId()).getId();
 
 		SpoutPlayer sp = evt.getPlayer();
 
 		UUID buttonID = evt.getButton().getId();
 
-		if (buttonID == protect) {
+		if(buttonID == generalProtection){
 			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
 			if (r.is_protection()) {
 				protection.editUnprotect(r);
-				sp.sendNotification("Protection", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
+				sp.sendNotification("General Protection", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
 			} else {
 				protection.editProtect(r);
-				sp.sendNotification("Protection", ChatColor.GREEN + "Protection Enabled", Material.DIAMOND_BLOCK);
+				sp.sendNotification("General Protection", ChatColor.GREEN + "Protection Enabled", Material.DIAMOND_BLOCK);
+			}
+			((GenericButton) (sh.page1Widgets[24])).setTooltip(RegionScreenManager.getStatus(r.is_protection() || r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[24])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()|| r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[24])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[0])).setTooltip(RegionScreenManager.getStatus(r.is_protection()));
+			((GenericButton) (sh.page1Widgets[0])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()));
+			((GenericButton) (sh.page1Widgets[0])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[1])).setTooltip(RegionScreenManager.getStatus(r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[1])).setTextColor(RegionScreenManager.getColourToken(r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[1])).setDirty(true);
+			return;
+		}
+		
+		if (buttonID == protect) {
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.is_protection()) {
+				protection.editUnProtectBB(r);
+				sp.sendNotification("Protection - Block Break", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
+			} else {
+				protection.editProtectBB(r);
+				sp.sendNotification("Protection - Block Break", ChatColor.GREEN + "Protection Enabled", Material.DIAMOND_BLOCK);
 			}
 			((GenericButton) (sh.page1Widgets[0])).setTooltip(RegionScreenManager.getStatus(r.is_protection()));
 			((GenericButton) (sh.page1Widgets[0])).setTextColor(RegionScreenManager.getColourToken(r.is_protection()));
 			((GenericButton) (sh.page1Widgets[0])).setDirty(true);
+			return;
+		}
+		
+		if (buttonID == protectplace) {
+			if (!PermissionsCore.canModifyMain(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.is_protection()) {
+				protection.editUnProtectBP(r);
+				sp.sendNotification("Protection - Block Place", ChatColor.RED + "Protection Disabled", Material.DIAMOND_BLOCK);
+			} else {
+				protection.editProtectBP(r);
+				sp.sendNotification("Protection - Block Place", ChatColor.GREEN + "Protection Enabled", Material.DIAMOND_BLOCK);
+			}
+			((GenericButton) (sh.page1Widgets[1])).setTooltip(RegionScreenManager.getStatus(r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[1])).setTextColor(RegionScreenManager.getColourToken(r.is_protectionPlace()));
+			((GenericButton) (sh.page1Widgets[1])).setDirty(true);
 			return;
 		}
 
@@ -304,9 +347,9 @@ public class Screen_Listener extends ScreenListener {
 				protection.editPreventEntry(r);
 				sp.sendNotification("Prevent Entry", ChatColor.GREEN + "Prevent Entry Enabled", Material.CHAINMAIL_CHESTPLATE);
 			}
-			((GenericButton) (sh.page1Widgets[1])).setTooltip(RegionScreenManager.getStatus(r.isPreventEntry()));
-			((GenericButton) (sh.page1Widgets[1])).setTextColor(RegionScreenManager.getColourToken(r.isPreventEntry()));
-			((GenericButton) (sh.page1Widgets[1])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[2])).setTooltip(RegionScreenManager.getStatus(r.isPreventEntry()));
+			((GenericButton) (sh.page1Widgets[2])).setTextColor(RegionScreenManager.getColourToken(r.isPreventEntry()));
+			((GenericButton) (sh.page1Widgets[2])).setDirty(true);
 			return;
 		}
 
@@ -322,9 +365,9 @@ public class Screen_Listener extends ScreenListener {
 				protection.editPreventExit(r);
 				sp.sendNotification("Prevent Exit", ChatColor.GREEN + "Prevent Exit Enabled", Material.CHAINMAIL_CHESTPLATE);
 			}
-			((GenericButton) (sh.page1Widgets[2])).setTooltip(RegionScreenManager.getStatus(r.isPreventExit()));
-			((GenericButton) (sh.page1Widgets[2])).setTextColor(RegionScreenManager.getColourToken(r.isPreventExit()));
-			((GenericButton) (sh.page1Widgets[2])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[3])).setTooltip(RegionScreenManager.getStatus(r.isPreventExit()));
+			((GenericButton) (sh.page1Widgets[3])).setTextColor(RegionScreenManager.getColourToken(r.isPreventExit()));
+			((GenericButton) (sh.page1Widgets[3])).setDirty(true);
 			return;
 		}
 
@@ -339,9 +382,9 @@ public class Screen_Listener extends ScreenListener {
 				miscProtection.editInteraction(r, true);
 				sp.sendNotification("Prevent Interaction", ChatColor.GREEN + "Interaction Enabled", Material.SHEARS);
 			}
-			((GenericButton) (sh.page1Widgets[3])).setTooltip(RegionScreenManager.getStatus(r.isPreventingInteraction()));
-			((GenericButton) (sh.page1Widgets[3])).setTextColor(RegionScreenManager.getColourToken(r.isPreventingInteraction()));
-			((GenericButton) (sh.page1Widgets[3])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[4])).setTooltip(RegionScreenManager.getStatus(r.isPreventingInteraction()));
+			((GenericButton) (sh.page1Widgets[4])).setTextColor(RegionScreenManager.getColourToken(r.isPreventingInteraction()));
+			((GenericButton) (sh.page1Widgets[4])).setDirty(true);
 			return;
 		}
 
@@ -356,9 +399,9 @@ public class Screen_Listener extends ScreenListener {
 				miscProtection.editDoorsLocked(r, true);
 				sp.sendNotification("Doors Locked", ChatColor.GREEN + "Door Locking Enabled", Material.IRON_DOOR);
 			}
-			((GenericButton) (sh.page1Widgets[4])).setTooltip(RegionScreenManager.getStatus(r.areDoorsLocked()));
-			((GenericButton) (sh.page1Widgets[4])).setTextColor(RegionScreenManager.getColourToken(r.areDoorsLocked()));
-			((GenericButton) (sh.page1Widgets[4])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[5])).setTooltip(RegionScreenManager.getStatus(r.areDoorsLocked()));
+			((GenericButton) (sh.page1Widgets[5])).setTextColor(RegionScreenManager.getColourToken(r.areDoorsLocked()));
+			((GenericButton) (sh.page1Widgets[5])).setDirty(true);
 			return;
 		}
 
@@ -373,9 +416,9 @@ public class Screen_Listener extends ScreenListener {
 				miscProtection.editChestsLocked(r, true);
 				sp.sendNotification("Chests Locked", ChatColor.GREEN + "Chest Locking Enabled", Material.CHEST);
 			}
-			((GenericButton) (sh.page1Widgets[5])).setTooltip(RegionScreenManager.getStatus(r.isChestsLocked()));
-			((GenericButton) (sh.page1Widgets[5])).setTextColor(RegionScreenManager.getColourToken(r.isChestsLocked()));
-			((GenericButton) (sh.page1Widgets[5])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[6])).setTooltip(RegionScreenManager.getStatus(r.isChestsLocked()));
+			((GenericButton) (sh.page1Widgets[6])).setTextColor(RegionScreenManager.getColourToken(r.isChestsLocked()));
+			((GenericButton) (sh.page1Widgets[6])).setDirty(true);
 			return;
 		}
 
@@ -390,9 +433,9 @@ public class Screen_Listener extends ScreenListener {
 				miscProtection.editFireProtection(r, true);
 				sp.sendNotification("Fire Protection", ChatColor.GREEN + "Fire Protection Enabled", Material.FIRE);
 			}
-			((GenericButton) (sh.page1Widgets[6])).setTooltip(RegionScreenManager.getStatus(r.isFireProtection()));
-			((GenericButton) (sh.page1Widgets[6])).setTextColor(RegionScreenManager.getColourToken(r.isFireProtection()));
-			((GenericButton) (sh.page1Widgets[6])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[7])).setTooltip(RegionScreenManager.getStatus(r.isFireProtection()));
+			((GenericButton) (sh.page1Widgets[7])).setTextColor(RegionScreenManager.getColourToken(r.isFireProtection()));
+			((GenericButton) (sh.page1Widgets[7])).setDirty(true);
 			return;
 		}
 
@@ -407,9 +450,9 @@ public class Screen_Listener extends ScreenListener {
 				miscProtection.editBlockForm(r, true);
 				sp.sendNotification("Block Form", ChatColor.GREEN + "Block Form Enabled", Material.SNOW);
 			}
-			((GenericButton) (sh.page1Widgets[7])).setTooltip(RegionScreenManager.getStatus(r.isBlockForm()));
-			((GenericButton) (sh.page1Widgets[7])).setTextColor(RegionScreenManager.getColourToken(r.isBlockForm()));
-			((GenericButton) (sh.page1Widgets[7])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[8])).setTooltip(RegionScreenManager.getStatus(r.isBlockForm()));
+			((GenericButton) (sh.page1Widgets[8])).setTextColor(RegionScreenManager.getColourToken(r.isBlockForm()));
+			((GenericButton) (sh.page1Widgets[8])).setDirty(true);
 			return;
 		}
 
@@ -424,9 +467,9 @@ public class Screen_Listener extends ScreenListener {
 				mob.editMobSpawn(r, true);
 				sp.sendNotification("Mob Spawns", ChatColor.GREEN + "Mob Spawns Enabled", Material.RAW_FISH);
 			}
-			((GenericButton) (sh.page1Widgets[8])).setTooltip(RegionScreenManager.getStatus(r.isMobSpawns()));
-			((GenericButton) (sh.page1Widgets[8])).setTextColor(RegionScreenManager.getColourToken(r.isMobSpawns()));
-			((GenericButton) (sh.page1Widgets[8])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[9])).setTooltip(RegionScreenManager.getStatus(r.isMobSpawns()));
+			((GenericButton) (sh.page1Widgets[9])).setTextColor(RegionScreenManager.getColourToken(r.isMobSpawns()));
+			((GenericButton) (sh.page1Widgets[9])).setDirty(true);
 			return;
 		}
 
@@ -441,9 +484,9 @@ public class Screen_Listener extends ScreenListener {
 				mob.editMonsterSpawn(r, true);
 				sp.sendNotification("Monster Spawns", ChatColor.GREEN + "Monster Spawns Enabled", Material.RAW_FISH);
 			}
-			((GenericButton) (sh.page1Widgets[9])).setTooltip(RegionScreenManager.getStatus(r.isMonsterSpawns()));
-			((GenericButton) (sh.page1Widgets[9])).setTextColor(RegionScreenManager.getColourToken(r.isMonsterSpawns()));
-			((GenericButton) (sh.page1Widgets[9])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[10])).setTooltip(RegionScreenManager.getStatus(r.isMonsterSpawns()));
+			((GenericButton) (sh.page1Widgets[10])).setTextColor(RegionScreenManager.getColourToken(r.isMonsterSpawns()));
+			((GenericButton) (sh.page1Widgets[10])).setDirty(true);
 			return;
 		}
 
@@ -458,9 +501,9 @@ public class Screen_Listener extends ScreenListener {
 				msg.editShowWelcomeMessage(r, true);
 				sp.sendNotification("Welcome Message", ChatColor.GREEN + "Welcome Msg Enabled", Material.BOOK);
 			}
-			((GenericButton) (sh.page1Widgets[10])).setTooltip(RegionScreenManager.getStatus(r.isShowWelcomeMessage()));
-			((GenericButton) (sh.page1Widgets[10])).setTextColor(RegionScreenManager.getColourToken(r.isShowWelcomeMessage()));
-			((GenericButton) (sh.page1Widgets[10])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[11])).setTooltip(RegionScreenManager.getStatus(r.isShowWelcomeMessage()));
+			((GenericButton) (sh.page1Widgets[11])).setTextColor(RegionScreenManager.getColourToken(r.isShowWelcomeMessage()));
+			((GenericButton) (sh.page1Widgets[11])).setDirty(true);
 			return;
 		}
 
@@ -475,9 +518,9 @@ public class Screen_Listener extends ScreenListener {
 				msg.editShowLeaveMessage(r, true);
 				sp.sendNotification("Leave Message", ChatColor.GREEN + "Leave Msg Enabled", Material.BOOK);
 			}
-			((GenericButton) (sh.page1Widgets[11])).setTooltip(RegionScreenManager.getStatus(r.isShowLeaveMessage()));
-			((GenericButton) (sh.page1Widgets[11])).setTextColor(RegionScreenManager.getColourToken(r.isShowLeaveMessage()));
-			((GenericButton) (sh.page1Widgets[11])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[12])).setTooltip(RegionScreenManager.getStatus(r.isShowLeaveMessage()));
+			((GenericButton) (sh.page1Widgets[12])).setTextColor(RegionScreenManager.getColourToken(r.isShowLeaveMessage()));
+			((GenericButton) (sh.page1Widgets[12])).setDirty(true);
 			return;
 		}
 
@@ -492,9 +535,9 @@ public class Screen_Listener extends ScreenListener {
 				msg.editShowPreventEntryMessage(r, true);
 				sp.sendNotification("Prev Entry Message", ChatColor.GREEN + "Prev Entry Msg Enabled", Material.BOOK);
 			}
-			((GenericButton) (sh.page1Widgets[12])).setTooltip(RegionScreenManager.getStatus(r.isShowPreventEntryMessage()));
-			((GenericButton) (sh.page1Widgets[12])).setTextColor(RegionScreenManager.getColourToken(r.isShowPreventEntryMessage()));
-			((GenericButton) (sh.page1Widgets[12])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[13])).setTooltip(RegionScreenManager.getStatus(r.isShowPreventEntryMessage()));
+			((GenericButton) (sh.page1Widgets[13])).setTextColor(RegionScreenManager.getColourToken(r.isShowPreventEntryMessage()));
+			((GenericButton) (sh.page1Widgets[13])).setDirty(true);
 			return;
 		}
 
@@ -509,9 +552,9 @@ public class Screen_Listener extends ScreenListener {
 				msg.editShowPreventExitMessage(r, true);
 				sp.sendNotification("Prev Exit Message", ChatColor.GREEN + "Prev Exit Msg Enabled", Material.BOOK);
 			}
-			((GenericButton) (sh.page1Widgets[13])).setTooltip(RegionScreenManager.getStatus(r.isShowPreventExitMessage()));
-			((GenericButton) (sh.page1Widgets[13])).setTextColor(RegionScreenManager.getColourToken(r.isShowPreventExitMessage()));
-			((GenericButton) (sh.page1Widgets[13])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[14])).setTooltip(RegionScreenManager.getStatus(r.isShowPreventExitMessage()));
+			((GenericButton) (sh.page1Widgets[14])).setTextColor(RegionScreenManager.getColourToken(r.isShowPreventExitMessage()));
+			((GenericButton) (sh.page1Widgets[14])).setDirty(true);
 			return;
 		}
 
@@ -526,9 +569,9 @@ public class Screen_Listener extends ScreenListener {
 				msg.editShowProtectionMessage(r, true);
 				sp.sendNotification("Protection Message", ChatColor.GREEN + "Protection Msg Enabled", Material.BOOK);
 			}
-			((GenericButton) (sh.page1Widgets[14])).setTooltip(RegionScreenManager.getStatus(r.isShowProtectionMessage()));
-			((GenericButton) (sh.page1Widgets[14])).setTextColor(RegionScreenManager.getColourToken(r.isShowProtectionMessage()));
-			((GenericButton) (sh.page1Widgets[14])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[15])).setTooltip(RegionScreenManager.getStatus(r.isShowProtectionMessage()));
+			((GenericButton) (sh.page1Widgets[15])).setTextColor(RegionScreenManager.getColourToken(r.isShowProtectionMessage()));
+			((GenericButton) (sh.page1Widgets[15])).setDirty(true);
 			return;
 		}
 
@@ -543,9 +586,9 @@ public class Screen_Listener extends ScreenListener {
 				msg.editShowPvpWarningMessage(r, true);
 				sp.sendNotification("PvP Message", ChatColor.GREEN + "PvP Msg Enabled", Material.BOOK);
 			}
-			((GenericButton) (sh.page1Widgets[15])).setTooltip(RegionScreenManager.getStatus(r.isShowPvpWarning()));
-			((GenericButton) (sh.page1Widgets[15])).setTextColor(RegionScreenManager.getColourToken(r.isShowPvpWarning()));
-			((GenericButton) (sh.page1Widgets[15])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[16])).setTooltip(RegionScreenManager.getStatus(r.isShowPvpWarning()));
+			((GenericButton) (sh.page1Widgets[16])).setTextColor(RegionScreenManager.getColourToken(r.isShowPvpWarning()));
+			((GenericButton) (sh.page1Widgets[16])).setDirty(true);
 			return;
 		}
 
@@ -560,9 +603,9 @@ public class Screen_Listener extends ScreenListener {
 				fun.editPvPEnabled(r, true);
 				sp.sendNotification("PvP", ChatColor.GREEN + "PvP Enabled", Material.DIAMOND_SWORD);
 			}
-			((GenericButton) (sh.page1Widgets[16])).setTooltip(RegionScreenManager.getStatus(r.isPvp()));
-			((GenericButton) (sh.page1Widgets[16])).setTextColor(RegionScreenManager.getColourToken(r.isPvp()));
-			((GenericButton) (sh.page1Widgets[16])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[17])).setTooltip(RegionScreenManager.getStatus(r.isPvp()));
+			((GenericButton) (sh.page1Widgets[17])).setTextColor(RegionScreenManager.getColourToken(r.isPvp()));
+			((GenericButton) (sh.page1Widgets[17])).setDirty(true);
 			return;
 		}
 
@@ -577,9 +620,9 @@ public class Screen_Listener extends ScreenListener {
 				fun.editHealthEnabled(r, true);
 				sp.sendNotification("Health", ChatColor.GREEN + "Health Enabled", Material.GOLDEN_APPLE);
 			}
-			((GenericButton) (sh.page1Widgets[17])).setTooltip(RegionScreenManager.getStatus(r.isHealthEnabled()));
-			((GenericButton) (sh.page1Widgets[17])).setTextColor(RegionScreenManager.getColourToken(r.isHealthEnabled()));
-			((GenericButton) (sh.page1Widgets[17])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[18])).setTooltip(RegionScreenManager.getStatus(r.isHealthEnabled()));
+			((GenericButton) (sh.page1Widgets[18])).setTextColor(RegionScreenManager.getColourToken(r.isHealthEnabled()));
+			((GenericButton) (sh.page1Widgets[18])).setDirty(true);
 			return;
 		}
 
@@ -594,9 +637,9 @@ public class Screen_Listener extends ScreenListener {
 				modes.editProtectionMode(r, MODE.Whitelist);
 				sp.sendNotification("Protection Mode", "Mode : Whitelist", Material.OBSIDIAN);
 			}
-			((GenericButton) (sh.page1Widgets[18])).setTooltip(RegionScreenManager.getStatus(r.getProtectionMode()));
-			((GenericButton) (sh.page1Widgets[18])).setTextColor(RegionScreenManager.getColourToken(r.getProtectionMode()));
-			((GenericButton) (sh.page1Widgets[18])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[19])).setTooltip(RegionScreenManager.getStatus(r.getProtectionMode()));
+			((GenericButton) (sh.page1Widgets[19])).setTextColor(RegionScreenManager.getColourToken(r.getProtectionMode()));
+			((GenericButton) (sh.page1Widgets[19])).setDirty(true);
 			return;
 		}
 
@@ -611,9 +654,9 @@ public class Screen_Listener extends ScreenListener {
 				modes.editPreventEntryMode(r, MODE.Whitelist);
 				sp.sendNotification("Prevent Entry Mode", "Mode : Whitelist", Material.OBSIDIAN);
 			}
-			((GenericButton) (sh.page1Widgets[19])).setTooltip(RegionScreenManager.getStatus(r.getPreventEntryMode()));
-			((GenericButton) (sh.page1Widgets[19])).setTextColor(RegionScreenManager.getColourToken(r.getPreventEntryMode()));
-			((GenericButton) (sh.page1Widgets[19])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[20])).setTooltip(RegionScreenManager.getStatus(r.getPreventEntryMode()));
+			((GenericButton) (sh.page1Widgets[20])).setTextColor(RegionScreenManager.getColourToken(r.getPreventEntryMode()));
+			((GenericButton) (sh.page1Widgets[20])).setDirty(true);
 			return;
 		}
 
@@ -628,9 +671,9 @@ public class Screen_Listener extends ScreenListener {
 				modes.editPreventExitMode(r, MODE.Whitelist);
 				sp.sendNotification("Prevent Exit Mode", "Mode : Whitelist", Material.OBSIDIAN);
 			}
-			((GenericButton) (sh.page1Widgets[20])).setTooltip(RegionScreenManager.getStatus(r.getPreventExitMode()));
-			((GenericButton) (sh.page1Widgets[20])).setTextColor(RegionScreenManager.getColourToken(r.getPreventExitMode()));
-			((GenericButton) (sh.page1Widgets[20])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[21])).setTooltip(RegionScreenManager.getStatus(r.getPreventExitMode()));
+			((GenericButton) (sh.page1Widgets[21])).setTextColor(RegionScreenManager.getColourToken(r.getPreventExitMode()));
+			((GenericButton) (sh.page1Widgets[21])).setDirty(true);
 			return;
 		}
 
@@ -645,9 +688,9 @@ public class Screen_Listener extends ScreenListener {
 				modes.editItemControlMode(r, MODE.Whitelist);
 				sp.sendNotification("Item Control Mode", "Mode : Whitelist", Material.OBSIDIAN);
 			}
-			((GenericButton) (sh.page1Widgets[21])).setTooltip(RegionScreenManager.getStatus(r.getItemMode()));
-			((GenericButton) (sh.page1Widgets[21])).setTextColor(RegionScreenManager.getColourToken(r.getItemMode()));
-			((GenericButton) (sh.page1Widgets[21])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[22])).setTooltip(RegionScreenManager.getStatus(r.getItemMode()));
+			((GenericButton) (sh.page1Widgets[22])).setTextColor(RegionScreenManager.getColourToken(r.getItemMode()));
+			((GenericButton) (sh.page1Widgets[22])).setDirty(true);
 			return;
 		}
 		
@@ -662,9 +705,9 @@ public class Screen_Listener extends ScreenListener {
 				misc.editSetForceCommand(r, true);
 				sp.sendNotification("Force Command", ChatColor.GREEN + "Force Command Enabled", Material.GOLDEN_APPLE);
 			}
-			((GenericButton) (sh.page1Widgets[22])).setTooltip(RegionScreenManager.getStatus(r.isForcingCommand()));
-			((GenericButton) (sh.page1Widgets[22])).setTextColor(RegionScreenManager.getColourToken(r.isForcingCommand()));
-			((GenericButton) (sh.page1Widgets[22])).setDirty(true);
+			((GenericButton) (sh.page1Widgets[23])).setTooltip(RegionScreenManager.getStatus(r.isForcingCommand()));
+			((GenericButton) (sh.page1Widgets[23])).setTextColor(RegionScreenManager.getColourToken(r.isForcingCommand()));
+			((GenericButton) (sh.page1Widgets[23])).setDirty(true);
 			return;
 		}
 

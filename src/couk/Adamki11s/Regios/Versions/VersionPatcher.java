@@ -24,15 +24,11 @@ public class VersionPatcher {
 		File generalconfig = new File(config_root + File.separator + "GeneralSettings.config");
 		Configuration c = new Configuration(generalconfig);
 		c.load();
-		Map<String, Object> all = c.getAll();
-		String value = (String) all.get("Regios.Economy");
-		all.remove("Regios.Economy");
-		for (Entry<String, Object> entry : all.entrySet()) {
-			if (!entry.getKey().contains("Regios")) {
-				c.setProperty(entry.getKey(), entry.getValue());
-			}
-		}
+		String value = (String) c.getString("Regios.Economy");
+		int oldID = c.getInt("Region.Tools.Setting.ID", 271);
+		c = new Configuration(generalconfig);
 		c.setProperty("Region.LogsEnabled", true);
+		c.setProperty("Region.Tools.Setting.ID", oldID);
 		c.setProperty("Region.Economy", value);
 		c.save();
 		ConfigurationData.logs = true;

@@ -11,7 +11,9 @@ import org.bukkit.inventory.ItemStack;
 
 import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
+import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Net.PingManager;
+import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 
@@ -110,6 +112,40 @@ public class CreationCommands {
 		event.setProperties(p, r);
         Bukkit.getServer().getPluginManager().callEvent(event);
 	}
+	
+	public void createTerrain(Player p, String name) {
+		if(!point1.containsKey(p) || !point2.containsKey(p)){
+			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
+			return;
+		}
+		StringBuilder invalidName = new StringBuilder();
+		boolean integrity = true;
+		for(char ch : name.toCharArray()){
+			boolean valid = true;
+			for(char inv : invalidModifiers){
+				if(ch == inv){
+					valid = false;
+					integrity = false;
+				}
+			}
+			if(!valid){
+				invalidName.append(ChatColor.RED).append(ch);
+			} else {
+				invalidName.append(ChatColor.GREEN).append(ch);
+			}
+		}
+		
+		if(!integrity){
+			p.sendMessage(ChatColor.RED + "[Regios] Name contained  invalid characters : " + invalidName.toString());
+			return;
+		}
+		
+		RBF_Core.rbf_save.startSave(null, point1.get(p), point2.get(p), name, p, true);
+		clearPoints(p);
+		modding.put(p, false);
+		setting.put(p, false);
+		PingManager.created();
+	}
 
 	public boolean arePointsSet(Player p) {
 		return point1.containsKey(p) && point2.containsKey(p);
@@ -160,6 +196,9 @@ public class CreationCommands {
 		}
 		if (modding.containsKey(p)) {
 			modding.remove(p);
+		}
+		if(RegiosPlayerListener.loadingTerrain.containsKey(p)){
+			RegiosPlayerListener.loadingTerrain.remove(p);
 		}
 		p.sendMessage(ChatColor.RED + "[Regios] Region setting cancelled.");
 	}

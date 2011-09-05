@@ -17,6 +17,7 @@ import couk.Adamki11s.Regios.Main.Regios;
 import couk.Adamki11s.Regios.Mutable.Zippable;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
+import couk.Adamki11s.Regios.RBF.ShareData;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager;
 import couk.Adamki11s.Regios.SpoutGUI.ScreenHolder;
@@ -1186,7 +1187,30 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("backup-region") || args[0].equalsIgnoreCase("save-region"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.backup-region")) {
-					RBF_Core.rbf_save.startSave(GlobalRegionManager.getRegion(args[1]), args[2], p);
+					RBF_Core.rbf_save.startSave(GlobalRegionManager.getRegion(args[1]), null, null, args[2], p, false);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && (args[0].equalsIgnoreCase("save-terrain") || args[0].equalsIgnoreCase("saveterrain"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.save-terrain")) {
+					creation.createTerrain(p, args[1]);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && (args[0].equalsIgnoreCase("load-terrain") || args[0].equalsIgnoreCase("loadterrain"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.load-terrain")) {
+					File f = new File("plugins" + File.separator + "Regios" + File.separator + "Terrain" + File.separator + args[1] + ".trx");
+
+					if (!f.exists()) {
+						p.sendMessage(ChatColor.RED + "[Regios] A terrain file with the name " + ChatColor.BLUE + args[1] + ChatColor.RED + " does not exist!");
+						return true;
+					}
+					RegiosPlayerListener.loadingTerrain.put(p, new ShareData(args[1], p));
+					p.sendMessage(ChatColor.GREEN + "[Regios] Click the block where you wish to begin the paste.");
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

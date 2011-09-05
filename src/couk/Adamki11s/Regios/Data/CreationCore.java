@@ -13,7 +13,8 @@ public class CreationCore {
 	private final File root = new File("plugins" + File.separator + "Regios"), db_root = new File(root + File.separator + "Database"), config_root = new File(root
 			+ File.separator + "Configuration"), backup_root = new File(root + File.separator + "Backups"), version_root = new File(root + File.separator + "Versions"),
 			updates = new File("plugins" + File.separator + "Update"),
-			other = new File(root + File.separator + "Other");
+			other = new File(root + File.separator + "Other"),
+			shares = new File(root + File.separator + "Terrain");
 
 	private final Logger log = Logger.getLogger("Minecraft.Regios");
 	private final String prefix = "[Regios]";
@@ -61,6 +62,12 @@ public class CreationCore {
 			flawless = false;
 			other.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Other");
+		}
+		
+		if (!shares.exists()) {
+			flawless = false;
+			shares.mkdir();
+			log.info(prefix + " Creating directory @_root/plugins/Regios/Terrain");
 		}
 		
 		if (!(new File(other + File.separator + "Pending").exists())) {

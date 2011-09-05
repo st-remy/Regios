@@ -1,5 +1,6 @@
 package couk.Adamki11s.Regios.Listeners;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,6 +29,8 @@ import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Economy.EconomyPending;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
+import couk.Adamki11s.Regios.RBF.RBF_Core;
+import couk.Adamki11s.Regios.RBF.ShareData;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.Regions.SubRegionManager;
@@ -57,6 +60,8 @@ public class RegiosPlayerListener extends PlayerListener {
 	public static HashMap<Player, Long> timeStampsPreventEntry = new HashMap<Player, Long>();
 	public static HashMap<Player, Long> timeStampsPreventExit = new HashMap<Player, Long>();
 	public static HashMap<Player, Long> timeStampsEconomy = new HashMap<Player, Long>();
+
+	public static HashMap<Player, ShareData> loadingTerrain = new HashMap<Player, ShareData>();
 
 	private static void setTimestamp(Player p, MSG msg) {
 		switch (msg) {
@@ -137,6 +142,18 @@ public class RegiosPlayerListener extends PlayerListener {
 		Chunk c = w.getChunkAt(l);
 		Region r;
 		ArrayList<Region> regionSet = new ArrayList<Region>();
+
+		if (evt.getAction() == Action.LEFT_CLICK_BLOCK) {
+			if (loadingTerrain.containsKey(p)) {
+				ShareData sd = loadingTerrain.get(p);
+				try {
+					RBF_Core.rbf_load_share.loadSharedRegion(sd.shareName, sd.player, l);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				loadingTerrain.remove(p);
+			}
+		}
 
 		Block b = evt.getClickedBlock();
 
@@ -380,7 +397,7 @@ public class RegiosPlayerListener extends PlayerListener {
 			}
 		}
 	}
-	
+
 	public void onPlayerBucketEmpty(PlayerBucketEmptyEvent evt) {
 		Location l = evt.getBlockClicked().getLocation();
 		Player p = evt.getPlayer();

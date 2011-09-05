@@ -19,33 +19,42 @@ import couk.Adamki11s.jnbt.IntTag;
 import couk.Adamki11s.jnbt.NBTOutputStream;
 import couk.Adamki11s.jnbt.Tag;
 
-public class RBF_Save extends PermissionsCore{
-	
+public class RBF_Save extends PermissionsCore {
+
 	Region region;
 	String backupname;
 	Player player;
-	
-	public synchronized void startSave(Region r, String bckn, Player p){
+	boolean isSharing;
+	Location l1, l2;
+
+	public synchronized void startSave(Region r, Location l11, Location l22, String bckn, Player p, boolean sh) {
 		this.region = r;
 		this.backupname = bckn;
 		this.player = p;
-		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(Regios.regios, new Runnable(){
-			
-			public void run(){
-				saveRegion(region, backupname, player);
+		this.isSharing = sh;
+		this.l1 = l11;
+		this.l2 = l22;
+		Bukkit.getServer().getScheduler().scheduleAsyncDelayedTask(Regios.regios, new Runnable() {
+
+			public void run() {
+				if (!isSharing) {
+					saveRegion(region, backupname, player);
+				} else {
+					saveTerrain(l1, l2, backupname, player);
+				}
 			}
-			
+
 		}, 1L);
 	}
 
 	public synchronized void saveRegion(Region r, String backupname, Player p) {
 		try {
 			p.sendMessage(ChatColor.GREEN + "[Regios] Creating .rbf backup file...");
-			if(!super.canModifyBasic(r, p)){
+			if (!super.canModifyBasic(r, p)) {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			
+
 			if (r == null) {
 				p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
 				return;
@@ -53,7 +62,7 @@ public class RBF_Save extends PermissionsCore{
 
 			File f = new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + r.getName() + File.separator + "Backups" + File.separator
 					+ backupname + ".rbf");
-			
+
 			if (!f.exists()) {
 				f.createNewFile();
 			} else {
@@ -76,16 +85,19 @@ public class RBF_Save extends PermissionsCore{
 
 			if (width > 65535) {
 				p.sendMessage(ChatColor.RED + "[Regios] The width is too large for a .rbf file!");
+
 				p.sendMessage(ChatColor.RED + "[Regios] Max width : 65535. Your size : " + ChatColor.BLUE + width);
 				return;
 			}
 			if (height > 65535) {
 				p.sendMessage(ChatColor.RED + "[Regios] The height is too large for a .rbf file!");
+
 				p.sendMessage(ChatColor.RED + "[Regios] Max height : 65535. Your size : " + ChatColor.BLUE + width);
 				return;
 			}
 			if (length > 65535) {
 				p.sendMessage(ChatColor.RED + "[Regios] The length is too large for a .rbf file!");
+
 				p.sendMessage(ChatColor.RED + "[Regios] Max length : 65535. Your size : " + ChatColor.BLUE + width);
 				return;
 			}
@@ -123,10 +135,94 @@ public class RBF_Save extends PermissionsCore{
 			nbt.writeTag(compoundTag);
 			nbt.close();
 			p.sendMessage(ChatColor.GREEN + "[Regios] Region saved to .rbf file successfully!");
-			
+
 			RegionBackupEvent event = new RegionBackupEvent("RegionBackupEvent");
 			event.setProperties(r, backupname, p);
-	        Bukkit.getServer().getPluginManager().callEvent(event);
+			Bukkit.getServer().getPluginManager().callEvent(event);
+		} catch (Exception ex) {
+			p.sendMessage(ChatColor.RED + "[Regios] Error saving region! Stack trace printed in console.");
+			ex.printStackTrace();
+		}
+	}
+
+	public synchronized void saveTerrain(Location l1, Location l2, String backupname, Player p) {
+		try {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Creating .trx terrain file...");
+
+			File f = new File("plugins" + File.separator + "Regios" + File.separator + "Terrain" + File.separator + backupname + ".trx");
+
+			if (!f.exists()) {
+				f.createNewFile();
+			} else {
+				p.sendMessage(ChatColor.RED + "[Regios] A terrain file with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " already exists!");
+				return;
+			}
+
+			World w = l1.getWorld();
+			Location max = new Location(w, Math.max(l1.getX(), l2.getX()), Math.max(l1.getY(), l2.getY()), Math.max(l1.getZ(), l2.getZ())), min = new Location(w, Math.min(
+					l1.getX(), l2.getX()), Math.min(l1.getY(), l2.getY()), Math.min(l1.getZ(), l2.getZ()));
+
+			int width = max.getBlockX() - min.getBlockX();
+			int height = max.getBlockY() - min.getBlockY();
+			int length = max.getBlockZ() - min.getBlockZ();
+
+			width += 1;
+			height += 1;
+			length += 1;
+
+			if (width > 65535) {
+				p.sendMessage(ChatColor.RED + "[Regios] The width is too large for a .trx file!");
+
+				p.sendMessage(ChatColor.RED + "[Regios] Max width : 65535. Your size : " + ChatColor.BLUE + width);
+				return;
+			}
+			if (height > 65535) {
+				p.sendMessage(ChatColor.RED + "[Regios] The height is too large for a .trx file!");
+
+				p.sendMessage(ChatColor.RED + "[Regios] Max height : 65535. Your size : " + ChatColor.BLUE + width);
+				return;
+			}
+			if (length > 65535) {
+				p.sendMessage(ChatColor.RED + "[Regios] The length is too large for a .trx file!");
+
+				p.sendMessage(ChatColor.RED + "[Regios] Max length : 65535. Your size : " + ChatColor.BLUE + width);
+				return;
+			}
+
+			HashMap<String, Tag> backuptag = new HashMap<String, Tag>();
+
+			// Copy
+			byte[] blockID = new byte[width * height * length];
+			byte[] blockData = new byte[width * height * length];
+
+			int index = 0;
+
+			for (int x = 0; x < width; x++) {
+				for (int y = 0; y < height; y++) {
+					for (int z = 0; z < length; z++) {
+						blockID[index] = (byte) w.getBlockAt(min.getBlockX() + x, min.getBlockY() + y, min.getBlockZ() + z).getTypeId();
+						blockData[index] = (byte) w.getBlockAt(min.getBlockX() + x, min.getBlockY() + y, min.getBlockZ() + z).getData();
+						index++;
+					}
+				}
+			}
+
+			backuptag.put("BlockID", new ByteArrayTag("BlockID", blockID));
+			backuptag.put("Data", new ByteArrayTag("Data", blockData));
+			backuptag.put("StartX", new IntTag("StartX", min.getBlockX()));
+			backuptag.put("StartY", new IntTag("StartY", min.getBlockY()));
+			backuptag.put("StartZ", new IntTag("StartZ", min.getBlockZ()));
+			backuptag.put("XSize", new IntTag("XSize", width));
+			backuptag.put("YSize", new IntTag("YSize", height));
+			backuptag.put("ZSize", new IntTag("ZSize", length));
+
+			CompoundTag compoundTag = new CompoundTag("RBF", backuptag);
+
+			NBTOutputStream nbt = new NBTOutputStream(new FileOutputStream(f));
+			nbt.writeTag(compoundTag);
+			nbt.close();
+			p.sendMessage(ChatColor.GREEN + "[Regios] Terrain saved to .trx file successfully!");
+
 		} catch (Exception ex) {
 			p.sendMessage(ChatColor.RED + "[Regios] Error saving region! Stack trace printed in console.");
 			ex.printStackTrace();

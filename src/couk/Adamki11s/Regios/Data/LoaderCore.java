@@ -113,12 +113,11 @@ public class LoaderCore {
 		int id = c.getInt("Region.Tools.Setting.ID", Material.WOOD_AXE.getId());
 		ConfigurationData.defaultSelectionTool = Material.getMaterial(id);
 
-		Economy econ = Economy.toEconomy(c.getString("Regios.Economy", "NONE"));
+		Economy econ = Economy.toEconomy(c.getString("Region.Economy", "NONE"));
 		
 		boolean logs = c.getBoolean("Region.LogsEnabled", true);
 		
 		ConfigurationData.logs = logs;
-		System.out.println("Logs : " + logs);
 
 		if (econ == Economy.NONE) {
 			EconomyCore.economySupport = false;

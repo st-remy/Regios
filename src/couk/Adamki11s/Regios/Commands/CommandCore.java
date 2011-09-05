@@ -144,7 +144,7 @@ public class CommandCore implements CommandExecutor {
 				auth.sendPassword(p, args[1], RegiosPlayerListener.regionBinding.get(p));
 			}
 
-			if (args.length >= 2 && (args[0].equalsIgnoreCase("warpto") || args[0].equalsIgnoreCase("warp-to"))) {
+			if (args.length >= 2 && (args[0].equalsIgnoreCase("warpto") || args[0].equalsIgnoreCase("warp-to") || args[0].equalsIgnoreCase("warp"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.warpto")) {
 					warps.warpToRegion(args[1], p);
 				} else {
@@ -692,7 +692,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 1 && args[0].equalsIgnoreCase("set-warp")) {
+			if (args.length == 1 && (args[0].equalsIgnoreCase("set-warp") || args[0].equalsIgnoreCase("setwarp"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.set-warp")) {
 					fun.setWarp(p);
 				} else {
@@ -700,7 +700,7 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("reset-warp")) {
+			if (args.length == 2 && (args[0].equalsIgnoreCase("reset-warp") || args[0].equalsIgnoreCase("resetwarp"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.fun.reset-warp")) {
 					fun.resetWarp(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {

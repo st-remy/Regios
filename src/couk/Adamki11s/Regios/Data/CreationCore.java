@@ -107,6 +107,7 @@ public class CreationCore {
 			generalconfig.createNewFile();
 			Configuration c = new Configuration(generalconfig);
 			c.setProperty("Regios.Economy", "NONE");
+			c.setProperty("Region.LogsEnabled", true);
 			c.setProperty("Region.Tools.Setting.ID", Material.WOOD_AXE.getId());
 			c.save();
 		}

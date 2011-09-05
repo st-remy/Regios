@@ -3,6 +3,8 @@ package couk.Adamki11s.Regios.RBF;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
 
@@ -20,14 +22,36 @@ import couk.Adamki11s.jnbt.NBTInputStream;
 import couk.Adamki11s.jnbt.Tag;
 
 public class RBF_Load_Share extends PermissionsCore {
+	
+	public static HashMap<Player, ArrayList<Block>> undoCache = new HashMap<Player, ArrayList<Block>>();
 
 	private Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
 		Tag tag = items.get(key);
 		return tag;
 	}
 	
+	public void undoLoad(Player p){
+		if(!undoCache.containsKey(p)){
+			p.sendMessage(ChatColor.RED + "[Regios] Nothing to undo!");
+			return;
+		} else {
+			ArrayList<Block> bb = undoCache.get(p);
+			for(Block b : bb){
+				b.getWorld().getBlockAt(b.getLocation()).setTypeId(b.getTypeId());
+			}
+			bb.clear();
+			undoCache.remove(p);
+		}
+	}
+	
 	public void loadSharedRegion(String sharename, Player p, Location l) throws IOException {
 
+		if(undoCache.containsKey(p)){
+			undoCache.remove(p);
+		}
+		
+		undoCache.put(p, new ArrayList<Block>());
+		
 		File f = new File("plugins" + File.separator + "Regios" + File.separator + "Terrain" + File.separator + sharename + ".trx");
 
 		if (!f.exists()) {
@@ -45,8 +69,8 @@ public class RBF_Load_Share extends PermissionsCore {
 		CompoundTag backuptag = (CompoundTag) nbt.readTag();
 		Map<String, Tag> tagCollection = backuptag.getValue();
 
-		if (!backuptag.getName().equals("RBF")) {
-			p.sendMessage(ChatColor.RED + "[Regios] Backup file in unexpected format! Tag does not match 'RBF'.");
+		if (!backuptag.getName().equals("TRX")) {
+			p.sendMessage(ChatColor.RED + "[Regios] Backup file in unexpected format! Tag does not match 'TRX'.");
 		}
 
 		int StartX = l.getBlockX();
@@ -61,17 +85,24 @@ public class RBF_Load_Share extends PermissionsCore {
 		byte[] blockData = (byte[]) getChildTag(tagCollection, "Data", ByteArrayTag.class).getValue();
 
 		int index = 0;
+		
+		ArrayList<Block> tmp = undoCache.get(p);
 
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				for (int z = 0; z < length; z++) {
 					Block b = w.getBlockAt(StartX + x, StartY + y, StartZ + z);
+					tmp.add(b);
 					b.setTypeId((int) blocks[index]);
 					b.setData(blockData[index]);
 					index++;
 				}
 			}
 		}
+		
+		undoCache.put(p, tmp);
+		
+		tmp.clear();
 
 		fis.close();
 		nbt.close();

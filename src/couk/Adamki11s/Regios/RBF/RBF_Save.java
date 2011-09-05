@@ -216,7 +216,7 @@ public class RBF_Save extends PermissionsCore {
 			backuptag.put("YSize", new IntTag("YSize", height));
 			backuptag.put("ZSize", new IntTag("ZSize", length));
 
-			CompoundTag compoundTag = new CompoundTag("RBF", backuptag);
+			CompoundTag compoundTag = new CompoundTag("TRX", backuptag);
 
 			NBTOutputStream nbt = new NBTOutputStream(new FileOutputStream(f));
 			nbt.writeTag(compoundTag);

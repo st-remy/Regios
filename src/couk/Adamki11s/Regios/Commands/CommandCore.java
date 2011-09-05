@@ -1215,6 +1215,14 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
+			
+			if (args.length == 1 && (args[0].equalsIgnoreCase("undo"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.load-terrain")) {
+					RBF_Core.rbf_load_share.undoLoad(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
 
 			if (args.length == 3 && (args[0].equalsIgnoreCase("restore-region") || args[0].equalsIgnoreCase("load-region"))) {
 				try {

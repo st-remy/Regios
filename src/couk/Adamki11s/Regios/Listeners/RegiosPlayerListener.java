@@ -25,6 +25,7 @@ import org.bukkit.material.Door;
 import couk.Adamki11s.Extras.Events.ExtrasEvents;
 import couk.Adamki11s.Extras.Regions.ExtrasRegions;
 import couk.Adamki11s.Regios.Commands.CreationCommands;
+import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Economy.EconomyPending;
@@ -145,13 +146,15 @@ public class RegiosPlayerListener extends PlayerListener {
 
 		if (evt.getAction() == Action.LEFT_CLICK_BLOCK) {
 			if (loadingTerrain.containsKey(p)) {
-				ShareData sd = loadingTerrain.get(p);
-				try {
-					RBF_Core.rbf_load_share.loadSharedRegion(sd.shareName, sd.player, l);
-				} catch (IOException e) {
-					e.printStackTrace();
+				if (p.getItemInHand().getType() == ConfigurationData.defaultSelectionTool) {
+					ShareData sd = loadingTerrain.get(p);
+					try {
+						RBF_Core.rbf_load_share.loadSharedRegion(sd.shareName, sd.player, l);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					loadingTerrain.remove(p);
 				}
-				loadingTerrain.remove(p);
 			}
 		}
 

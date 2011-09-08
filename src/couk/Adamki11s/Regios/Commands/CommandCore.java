@@ -1193,20 +1193,20 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 			
-			if (args.length == 2 && (args[0].equalsIgnoreCase("save-terrain") || args[0].equalsIgnoreCase("saveterrain"))) {
-				if (PermissionsCore.doesHaveNode(p, "regios.data.save-terrain")) {
+			if (args.length == 2 && (args[0].equalsIgnoreCase("save-blueprint") || args[0].equalsIgnoreCase("saveblueprint"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.save-blueprint")) {
 					creation.createTerrain(p, args[1]);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
 			
-			if (args.length == 2 && (args[0].equalsIgnoreCase("load-terrain") || args[0].equalsIgnoreCase("loadterrain"))) {
-				if (PermissionsCore.doesHaveNode(p, "regios.data.load-terrain")) {
-					File f = new File("plugins" + File.separator + "Regios" + File.separator + "Terrain" + File.separator + args[1] + ".trx");
+			if (args.length == 2 && (args[0].equalsIgnoreCase("load-blueprint") || args[0].equalsIgnoreCase("loadblueprint"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.load-blueprint")) {
+					File f = new File("plugins" + File.separator + "Regios" + File.separator + "Blueprints" + File.separator + args[1] + ".blp");
 
 					if (!f.exists()) {
-						p.sendMessage(ChatColor.RED + "[Regios] A terrain file with the name " + ChatColor.BLUE + args[1] + ChatColor.RED + " does not exist!");
+						p.sendMessage(ChatColor.RED + "[Regios] A Blueprint file with the name " + ChatColor.BLUE + args[1] + ChatColor.RED + " does not exist!");
 						return true;
 					}
 					RegiosPlayerListener.loadingTerrain.put(p, new ShareData(args[1], p));

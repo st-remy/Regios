@@ -92,7 +92,7 @@ public class RBF_Load extends PermissionsCore {
 		event.setProperties(r, backupname, p);
         Bukkit.getServer().getPluginManager().callEvent(event);
 
-		p.sendMessage(ChatColor.GREEN + "[Regios] Region restored successfully from .rbf file!");
+		p.sendMessage(ChatColor.GREEN + "[Regios] Region" + ChatColor.BLUE + backupname + ChatColor.GREEN + " restored successfully from .rbf file!");
 	}
 
 }

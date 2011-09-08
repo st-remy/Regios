@@ -40,7 +40,7 @@ public class RBF_Save extends PermissionsCore {
 				if (!isSharing) {
 					saveRegion(region, backupname, player);
 				} else {
-					saveTerrain(l1, l2, backupname, player);
+					saveBlueprint(l1, l2, backupname, player);
 				}
 			}
 
@@ -134,7 +134,7 @@ public class RBF_Save extends PermissionsCore {
 			NBTOutputStream nbt = new NBTOutputStream(new FileOutputStream(f));
 			nbt.writeTag(compoundTag);
 			nbt.close();
-			p.sendMessage(ChatColor.GREEN + "[Regios] Region saved to .rbf file successfully!");
+			p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + backupname + ChatColor.GREEN + " saved to .rbf file successfully!");
 
 			RegionBackupEvent event = new RegionBackupEvent("RegionBackupEvent");
 			event.setProperties(r, backupname, p);
@@ -145,16 +145,16 @@ public class RBF_Save extends PermissionsCore {
 		}
 	}
 
-	public synchronized void saveTerrain(Location l1, Location l2, String backupname, Player p) {
+	public synchronized void saveBlueprint(Location l1, Location l2, String backupname, Player p) {
 		try {
-			p.sendMessage(ChatColor.GREEN + "[Regios] Creating .trx terrain file...");
+			p.sendMessage(ChatColor.GREEN + "[Regios] Creating .blp Blueprint file...");
 
-			File f = new File("plugins" + File.separator + "Regios" + File.separator + "Terrain" + File.separator + backupname + ".trx");
+			File f = new File("plugins" + File.separator + "Regios" + File.separator + "Blueprints" + File.separator + backupname + ".blp");
 
 			if (!f.exists()) {
 				f.createNewFile();
 			} else {
-				p.sendMessage(ChatColor.RED + "[Regios] A terrain file with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " already exists!");
+				p.sendMessage(ChatColor.RED + "[Regios] A Blueprint file with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " already exists!");
 				return;
 			}
 
@@ -171,19 +171,19 @@ public class RBF_Save extends PermissionsCore {
 			length += 1;
 
 			if (width > 65535) {
-				p.sendMessage(ChatColor.RED + "[Regios] The width is too large for a .trx file!");
+				p.sendMessage(ChatColor.RED + "[Regios] The width is too large for a .blp file!");
 
 				p.sendMessage(ChatColor.RED + "[Regios] Max width : 65535. Your size : " + ChatColor.BLUE + width);
 				return;
 			}
 			if (height > 65535) {
-				p.sendMessage(ChatColor.RED + "[Regios] The height is too large for a .trx file!");
+				p.sendMessage(ChatColor.RED + "[Regios] The height is too large for a .blp file!");
 
 				p.sendMessage(ChatColor.RED + "[Regios] Max height : 65535. Your size : " + ChatColor.BLUE + width);
 				return;
 			}
 			if (length > 65535) {
-				p.sendMessage(ChatColor.RED + "[Regios] The length is too large for a .trx file!");
+				p.sendMessage(ChatColor.RED + "[Regios] The length is too large for a .blp file!");
 
 				p.sendMessage(ChatColor.RED + "[Regios] Max length : 65535. Your size : " + ChatColor.BLUE + width);
 				return;
@@ -221,7 +221,7 @@ public class RBF_Save extends PermissionsCore {
 			NBTOutputStream nbt = new NBTOutputStream(new FileOutputStream(f));
 			nbt.writeTag(compoundTag);
 			nbt.close();
-			p.sendMessage(ChatColor.GREEN + "[Regios] Terrain saved to .trx file successfully!");
+			p.sendMessage(ChatColor.GREEN + "[Regios] Blueprint " + ChatColor.BLUE + backupname + ChatColor.GREEN + " saved to .blp file successfully!");
 
 		} catch (Exception ex) {
 			p.sendMessage(ChatColor.RED + "[Regios] Error saving region! Stack trace printed in console.");

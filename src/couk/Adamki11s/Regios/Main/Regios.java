@@ -18,6 +18,7 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
+import couk.Adamki11s.Regios.DependancyControl.SpoutDependancy;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Listeners.RegiosBlockListener;
@@ -73,7 +74,12 @@ public class Regios extends JavaPlugin {
 		
 		Plugin p = pm.getPlugin("Spout");
 		if(p == null){
-			log.info("[Regios] Spout was not found, Regios requires spout. Please download it!");
+			if(!SpoutDependancy.doesDependancyExist()){
+				SpoutDependancy.downloadDependancy();
+			} else {
+				log.info("[Regios] Spout is in the folder : plugins/Regios/Dependancies");
+				log.info("[Regios] Please move this plugin into your plugins folder to enable Regios.");
+			}
 			onDisable();
 			return;
 		} else {

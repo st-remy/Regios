@@ -106,10 +106,6 @@ public class RegiosEntityListener extends EntityListener {
 				return;
 			}
 		}
-
-		if (!GlobalRegionManager.getGlobalWorldSetting(w).canCreatureSpawn(evt.getCreatureType())) {
-			evt.setCancelled(true);
-		}
 	}
 
 	public void onEntityDeath(EntityDeathEvent evt) {

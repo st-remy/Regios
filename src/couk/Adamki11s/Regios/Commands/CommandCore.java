@@ -424,6 +424,14 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
+			
+			if (args.length == 1 && (args[0].equalsIgnoreCase("expand-max") || args[0].equalsIgnoreCase("expandmax"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {
+					creation.expandMaxSelection(p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("expand-up")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.modify.expand")) {

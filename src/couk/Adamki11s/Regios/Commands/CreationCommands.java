@@ -28,8 +28,8 @@ public class CreationCommands {
 	public static HashMap<Player, Location> mod2 = new HashMap<Player, Location>();
 
 	public static HashMap<Player, Region> modRegion = new HashMap<Player, Region>();
-	
-	public static char[] invalidModifiers = {'!', '\'', '£', '$', '%', '^', '&', '*', '¬', '`', '/', '?', '<', '>', '|', '\\'};
+
+	public static char[] invalidModifiers = { '!', '\'', '£', '$', '%', '^', '&', '*', '¬', '`', '/', '?', '<', '>', '|', '\\' };
 
 	static GlobalRegionManager grm = new GlobalRegionManager();
 
@@ -44,14 +44,14 @@ public class CreationCommands {
 	public void giveTool(Player p) {
 		if (isSetting(p)) {
 			if (!p.getInventory().contains(new ItemStack(ConfigurationData.defaultSelectionTool, 1))) {
-			ItemStack is = new ItemStack(ConfigurationData.defaultSelectionTool, 1);
-			p.getInventory().addItem(is);
+				ItemStack is = new ItemStack(ConfigurationData.defaultSelectionTool, 1);
+				p.getInventory().addItem(is);
 
-			if (p.getItemInHand() == new ItemStack(Material.AIR, 0)) {
-				p.setItemInHand(is);
+				if (p.getItemInHand() == new ItemStack(Material.AIR, 0)) {
+					p.setItemInHand(is);
+				}
+
 			}
-
-		}
 			p.sendMessage(ChatColor.RED + "[Regios] You are already setting a region!");
 			return;
 		} else {
@@ -76,32 +76,32 @@ public class CreationCommands {
 			p.sendMessage(ChatColor.RED + "[Regios] A region with name : " + ChatColor.BLUE + name + ChatColor.RED + " already exists!");
 			return;
 		}
-		if(!point1.containsKey(p) || !point2.containsKey(p)){
+		if (!point1.containsKey(p) || !point2.containsKey(p)) {
 			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
 			return;
 		}
 		StringBuilder invalidName = new StringBuilder();
 		boolean integrity = true;
-		for(char ch : name.toCharArray()){
+		for (char ch : name.toCharArray()) {
 			boolean valid = true;
-			for(char inv : invalidModifiers){
-				if(ch == inv){
+			for (char inv : invalidModifiers) {
+				if (ch == inv) {
 					valid = false;
 					integrity = false;
 				}
 			}
-			if(!valid){
+			if (!valid) {
 				invalidName.append(ChatColor.RED).append(ch);
 			} else {
 				invalidName.append(ChatColor.GREEN).append(ch);
 			}
 		}
-		
-		if(!integrity){
+
+		if (!integrity) {
 			p.sendMessage(ChatColor.RED + "[Regios] Name contained  invalid characters : " + invalidName.toString());
 			return;
 		}
-		
+
 		Region r = new Region(p.getName(), name, point1.get(p), point2.get(p), p.getWorld(), null, true);
 		p.sendMessage(ChatColor.GREEN + "[Regios] Region " + ChatColor.BLUE + name + ChatColor.GREEN + " created successfully!");
 		clearPoints(p);
@@ -110,36 +110,36 @@ public class CreationCommands {
 		PingManager.created();
 		RegionCreateEvent event = new RegionCreateEvent("RegionCreateEvent");
 		event.setProperties(p, r);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
-	
+
 	public void createTerrain(Player p, String name) {
-		if(!point1.containsKey(p) || !point2.containsKey(p)){
+		if (!point1.containsKey(p) || !point2.containsKey(p)) {
 			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
 			return;
 		}
 		StringBuilder invalidName = new StringBuilder();
 		boolean integrity = true;
-		for(char ch : name.toCharArray()){
+		for (char ch : name.toCharArray()) {
 			boolean valid = true;
-			for(char inv : invalidModifiers){
-				if(ch == inv){
+			for (char inv : invalidModifiers) {
+				if (ch == inv) {
 					valid = false;
 					integrity = false;
 				}
 			}
-			if(!valid){
+			if (!valid) {
 				invalidName.append(ChatColor.RED).append(ch);
 			} else {
 				invalidName.append(ChatColor.GREEN).append(ch);
 			}
 		}
-		
-		if(!integrity){
+
+		if (!integrity) {
 			p.sendMessage(ChatColor.RED + "[Regios] Name contained  invalid characters : " + invalidName.toString());
 			return;
 		}
-		
+
 		RBF_Core.rbf_save.startSave(null, point1.get(p), point2.get(p), name, p, true);
 		clearPoints(p);
 		modding.put(p, false);
@@ -155,31 +155,52 @@ public class CreationCommands {
 		return mod1.containsKey(p) && mod2.containsKey(p);
 	}
 
+	public void expandMaxSelection(Player p) {
+		if (point1.containsKey(p) && point2.containsKey(p)) {
+			point1.put(p, (new Location(p.getWorld(), point1.get(p).getX(), 0, point1.get(p).getZ())));
+			point2.put(p, (new Location(p.getWorld(), point2.get(p).getX(), 128, point2.get(p).getZ())));
+			p.sendMessage(ChatColor.GREEN + "[Regios] Selection expanded from bedrock to sky.");
+			return;
+		} else if (mod1.containsKey(p) && mod2.containsKey(p)) {
+			mod1.put(p, (new Location(p.getWorld(), mod1.get(p).getX(), 0, mod1.get(p).getZ())));
+			mod2.put(p, (new Location(p.getWorld(), mod2.get(p).getX(), 128, mod2.get(p).getZ())));
+			p.sendMessage(ChatColor.GREEN + "[Regios] Selection expanded from bedrock to sky.");
+			return;
+		} else {
+			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
+			return;
+		}
+	}
+
 	public void setFirst(Player p, Location l) {
 		if (p.getItemInHand().getType() == ConfigurationData.defaultSelectionTool) {
 			point1.put(p, l);
-			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[1] " + ChatColor.LIGHT_PURPLE + String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
+			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[1] " + ChatColor.LIGHT_PURPLE
+					+ String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
 		}
 	}
 
 	public void setSecond(Player p, Location l) {
 		if (p.getItemInHand().getType() == ConfigurationData.defaultSelectionTool) {
 			point2.put(p, l);
-			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[2] " + ChatColor.LIGHT_PURPLE + String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
+			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[2] " + ChatColor.LIGHT_PURPLE
+					+ String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
 		}
 	}
 
 	public void setFirstMod(Player p, Location l) {
 		if (p.getItemInHand().getType() == ConfigurationData.defaultSelectionTool) {
 			mod1.put(p, l);
-			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[1] " + ChatColor.LIGHT_PURPLE + String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
+			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[1] " + ChatColor.LIGHT_PURPLE
+					+ String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
 		}
 	}
 
 	public void setSecondMod(Player p, Location l) {
 		if (p.getItemInHand().getType() == ConfigurationData.defaultSelectionTool) {
 			mod2.put(p, l);
-			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[2] " + ChatColor.LIGHT_PURPLE + String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
+			p.sendMessage(ChatColor.GREEN + "[Regios]" + ChatColor.BLUE + "[2] " + ChatColor.LIGHT_PURPLE
+					+ String.format("X : %d, Y : %d, Z : %d", l.getBlockX(), l.getBlockY(), l.getBlockZ()));
 		}
 	}
 
@@ -197,7 +218,7 @@ public class CreationCommands {
 		if (modding.containsKey(p)) {
 			modding.remove(p);
 		}
-		if(RegiosPlayerListener.loadingTerrain.containsKey(p)){
+		if (RegiosPlayerListener.loadingTerrain.containsKey(p)) {
 			RegiosPlayerListener.loadingTerrain.remove(p);
 		}
 		p.sendMessage(ChatColor.RED + "[Regios] Region setting cancelled.");

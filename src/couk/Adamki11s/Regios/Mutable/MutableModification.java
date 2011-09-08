@@ -24,14 +24,11 @@ public class MutableModification {
 	}
 
 	public void editExpandUp(Region r, int value) {
-		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
-		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
-		if(smaller.getBlockY() == bigger.getBlockY()){
-			smaller.add(0, value, 0);
-			bigger.add(0, value, 0);
-		} else {
-			bigger.add(0, value, 0);
-		}
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		bigger.add(0, value, 0);
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -48,14 +45,11 @@ public class MutableModification {
 	}
 
 	public void editExpandDown(Region r, int value) {
-		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
-		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
-		if(smaller.getBlockY() == bigger.getBlockY()){
-			smaller.subtract(0, value, 0);
-			bigger.subtract(0, value, 0);
-		} else {
-			smaller.subtract(0, value, 0);
-		}
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		smaller.subtract(0, value, 0);
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -72,14 +66,11 @@ public class MutableModification {
 	}
 
 	public void editShrinkDown(Region r, int value) {
-		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
-		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
-		if(smaller.getBlockY() == bigger.getBlockY()){
-			smaller.subtract(0, value, 0);
-			bigger.subtract(0, value, 0);
-		} else {
-			bigger.subtract(0, value, 0);
-		}
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		bigger.subtract(0, value, 0);
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -96,14 +87,11 @@ public class MutableModification {
 	}
 
 	public void editShrinkUp(Region r, int value) {
-		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
-		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
-		if(smaller.getBlockY() == bigger.getBlockY()){
-			smaller.add(0, value, 0);
-			bigger.add(0, value, 0);
-		} else {
-			smaller.add(0, value, 0);
-		}
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		smaller.add(0, value, 0);
 		Configuration c = r.getConfigFile();
 		c.load();
 		Map<String, Object> all = c.getAll();
@@ -152,8 +140,10 @@ public class MutableModification {
 	}
 
 	public void editExpandOut(Region r, int expand) {
-		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
-		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1()
+				.getZ(), r.getL2().getZ()));
 		smaller.subtract(expand, 0, expand);
 		bigger.add(expand, 0, expand);
 		Configuration c = r.getConfigFile();
@@ -172,8 +162,10 @@ public class MutableModification {
 	}
 
 	public void editShrinkIn(Region r, int shrink) {
-		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1().getZ(), r.getL2().getZ()));
-		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1().getZ(), r.getL2().getZ()));
+		Location smaller = new Location(r.getL1().getWorld(), Math.min(r.getL1().getX(), r.getL2().getX()), Math.min(r.getL1().getY(), r.getL2().getY()), Math.min(r.getL1()
+				.getZ(), r.getL2().getZ()));
+		Location bigger = new Location(r.getL1().getWorld(), Math.max(r.getL1().getX(), r.getL2().getX()), Math.max(r.getL1().getY(), r.getL2().getY()), Math.max(r.getL1()
+				.getZ(), r.getL2().getZ()));
 		smaller.add(shrink, 0, shrink);
 		bigger.subtract(shrink, 0, shrink);
 		Configuration c = r.getConfigFile();
@@ -192,8 +184,8 @@ public class MutableModification {
 	}
 
 	public void editRename(Region r, String new_name, Player p) {
-		
-		if(GlobalRegionManager.getRegion(new_name) != null){
+
+		if (GlobalRegionManager.getRegion(new_name) != null) {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + new_name + ChatColor.RED + " already exists!");
 			return;
 		}
@@ -211,7 +203,7 @@ public class MutableModification {
 
 		f.renameTo(new File(r.getLogFile().getParentFile() + new_name + ".rz"));
 	}
-	
+
 	final static LoaderCore lc = new LoaderCore();
 
 	public static void editDeleteRegion(Region r, boolean reload, Player p) {
@@ -220,7 +212,7 @@ public class MutableModification {
 		GlobalRegionManager.deleteRegionFromCache(r);
 		RegionDeleteEvent event = new RegionDeleteEvent("RegionDeleteEvent");
 		event.setProperties(p, r);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 
 	public static boolean deleteDir(File dir) {

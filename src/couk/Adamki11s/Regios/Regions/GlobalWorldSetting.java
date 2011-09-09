@@ -98,6 +98,7 @@ public class GlobalWorldSetting {
 			if(c.getBoolean(world + ".Mobs.Spawning.Creeper", true)){ gws.addCreatureSpawn(CreatureType.CREEPER); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Ghast", true)){ gws.addCreatureSpawn(CreatureType.GHAST); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Giant", true)){ gws.addCreatureSpawn(CreatureType.GIANT); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Pig", true)){ gws.addCreatureSpawn(CreatureType.PIG); }
 			if(c.getBoolean(world + ".Mobs.Spawning.PigZombie", true)){ gws.addCreatureSpawn(CreatureType.PIG_ZOMBIE); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Sheep", true)){ gws.addCreatureSpawn(CreatureType.SHEEP); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Skeleton", true)){ gws.addCreatureSpawn(CreatureType.SKELETON); }

@@ -8,6 +8,7 @@ import org.bukkit.Location;
 import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Regions.Region;
+import couk.Adamki11s.Regios.Scheduler.LightningRunner;
 
 public class MutableFun {
 	
@@ -22,6 +23,11 @@ public class MutableFun {
 		c.setProperty("Region.Other.LSPS", val);
 		r.setLSPS(val);
 		c.save();
+		if(val == 0){
+			LightningRunner.removeRegion(r);
+		} else if(val > 0){
+			LightningRunner.addRegion(r);
+		}
 	}
 	
 	public void editHealthRegen(Region r, int val){

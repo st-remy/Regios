@@ -13,6 +13,7 @@ import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Mutable.MutableEconomy;
 import couk.Adamki11s.Regios.Mutable.MutableMisc;
 import couk.Adamki11s.Regios.Mutable.MutableModification;
+import couk.Adamki11s.Regios.Mutable.MutableProtection;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -30,6 +31,7 @@ public class MiscCommands extends PermissionsCore {
 	private final SubRegionManager srm = new SubRegionManager();
 	private final MutableModification mods = new MutableModification();
 	private final MutableEconomy eco = new MutableEconomy();
+	private final MutableProtection prot = new MutableProtection();
 	
 	public void createAllotment(Player p, String region, Region r){
 		if (r == null) {
@@ -44,7 +46,10 @@ public class MiscCommands extends PermissionsCore {
 			System.out.println(ConfigurationData.salePrice);
 			eco.editSalePrice(r, ConfigurationData.salePrice);
 			eco.editForSale(r, true);
-			p.sendMessage(ChatColor.GREEN + "[Regios] Region expanded to max and for sale!");
+			prot.editProtect(r);
+			prot.editProtectBB(r);
+			prot.editProtectBP(r);
+			p.sendMessage(ChatColor.GREEN + "[Regios] Region expanded to max, protected and for sale!");
 		}
 	}
 	

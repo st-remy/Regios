@@ -176,6 +176,9 @@ public class CreationCore {
 
 			c.setProperty("DefaultSettings.Command.ForceCommand", false);
 			c.setProperty("DefaultSettings.Command.CommandSet", "");
+			
+			c.setProperty("DefaultSettings.Economy.ForSale", false);
+			c.setProperty("DefaultSettings.Economy.SalePrice", 0);
 
 			c.setProperty("DefaultSettings.Password.PasswordProtection", false);
 			c.setProperty("DefaultSettings.Password.Password", "NA");

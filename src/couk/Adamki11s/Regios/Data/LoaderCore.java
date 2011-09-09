@@ -98,10 +98,13 @@ public class LoaderCore {
 				.getBoolean("ForceReload", true);
 
 		int playerCap = c.getInt("DefaultSettings.General.PlayerCap.Cap", 0);
+		
+		boolean forSale = c.getBoolean("DefaultSettings.Economy.ForSale", false);
+		int salePrice = c.getInt("DefaultSettings.Economy.SalePrice", 0);
 
 		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa,
 				bb, ccc, dd, ee, fireProtection, musicUrl, playmusic, permWipeOnEnter, permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, commandSet,
-				tempAddCache, permAddCache, permRemCache, form, playerCap, protectPlace, protectBreak);
+				tempAddCache, permAddCache, permRemCache, form, playerCap, protectPlace, protectBreak, forSale, salePrice);
 
 		System.out.println("[Regios] Loaded default region configuation file.");
 		// Initialises variables in configuration data.

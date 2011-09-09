@@ -86,6 +86,16 @@ public class CommandCore implements CommandExecutor {
 					return true;
 				}
 			}
+			
+			if (args.length == 2 && args[0].equalsIgnoreCase("plot")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.plot")) {
+					miscCmd.createAllotment(p, args[2], GlobalRegionManager.getRegion(args[2]));
+					return true;
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+					return true;
+				}
+			}
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("edit")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.edit")) {

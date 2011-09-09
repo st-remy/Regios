@@ -157,6 +157,8 @@ public class Region extends PermChecks implements Checks {
 		this.temporaryNodesCacheAdd = ConfigurationData.temporaryNodesCacheAdd;
 		this.spoutTexturePack = "";
 		this.useSpoutTexturePack = false;
+		this.forSale = ConfigurationData.forSale;
+		this.salePrice = ConfigurationData.salePrice;
 		this.blockForm = ConfigurationData.blockForm;
 		if (this.LSPS > 0 && !LightningRunner.doesStikesContain(this)) {
 			LightningRunner.addRegion(this);

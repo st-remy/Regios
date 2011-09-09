@@ -44,16 +44,16 @@ public class LoaderCore {
 		Configuration c = new Configuration(defaultregions);
 		c.load();
 
-		String a = c.getString("DefaultSettings.Messages.WelcomeMessage", ""), b = c.getString("DefaultSettings.Messages.LeaveMessage", ""), cc = c
-				.getString("DefaultSettings.Messages.ProtectionMessage", ""), d = c.getString("DefaultSettings.Messages.PreventEntryMessage", ""), e = c
-				.getString("DefaultSettings.Messages.PreventExitMessage", ""), pass = c.getString("DefaultSettings.Password.Password", "");
+		String a = c.getString("DefaultSettings.Messages.WelcomeMessage", ""), b = c.getString("DefaultSettings.Messages.LeaveMessage", ""), cc = c.getString(
+				"DefaultSettings.Messages.ProtectionMessage", ""), d = c.getString("DefaultSettings.Messages.PreventEntryMessage", ""), e = c.getString(
+				"DefaultSettings.Messages.PreventExitMessage", ""), pass = c.getString("DefaultSettings.Password.Password", "");
 
 		boolean aa = c.getBoolean("DefaultSettings.Messages.ShowWelcomeMessage", true), bb = c.getBoolean("DefaultSettings.Messages.ShowLeaveMessage", true), ccc = c
 				.getBoolean("DefaultSettings.Messages.ShowProtectionMessage", true), dd = c.getBoolean("DefaultSettings.Messages.ShowPreventEntryMessage", true), ee = c
 				.getBoolean("DefaultSettings.Messages.ShowPreventExitMessage", true);
 
-		boolean f = c.getBoolean("DefaultSettings.General.Protected.General", false), protectPlace= c.getBoolean("DefaultSettings.General.Protected.BlockPlace", false),
-				protectBreak = c.getBoolean("DefaultSettings.General.Protected.BlockBreak", false), g = c.getBoolean("DefaultSettings.General.PreventEntry", false), exit = c.getBoolean(
+		boolean f = c.getBoolean("DefaultSettings.General.Protected.General", false), protectPlace = c.getBoolean("DefaultSettings.General.Protected.BlockPlace", false), protectBreak = c
+				.getBoolean("DefaultSettings.General.Protected.BlockBreak", false), g = c.getBoolean("DefaultSettings.General.PreventEntry", false), exit = c.getBoolean(
 				"DefaultSettings.General.PreventExit", false), h = c.getBoolean("DefaultSettings.General.MobSpawns", true), i = c.getBoolean(
 				"DefaultSettings.General.MonsterSpawns", true), j = c.getBoolean("DefaultSettings.Other.HealthEnabled", true), k = c.getBoolean("DefaultSettings.General.PvP",
 				false), m = c.getBoolean("DefaultSettings.General.DoorsLocked", false), n = c.getBoolean("DefaultSettings.General.ChestsLocked", false), o = c.getBoolean(
@@ -88,6 +88,11 @@ public class LoaderCore {
 
 		boolean form = c.getBoolean("DefaultSettings.Block.BlockForm.Enabled", true);
 
+		int playerCap = c.getInt("DefaultSettings.General.PlayerCap.Cap", 0);
+
+		boolean forSale = c.getBoolean("DefaultSettings.Economy.ForSale", false);
+		int salePrice = c.getInt("DefaultSettings.Economy.SalePrice", 0);
+
 		// ___________________________________
 
 		c = new Configuration(updateconfig);
@@ -96,11 +101,6 @@ public class LoaderCore {
 
 		boolean cfu = c.getBoolean("CheckForUpdates", true), dua = c.getBoolean("DownloadUpdatesAutomatically", true), cov = c.getBoolean("CacheOldVersions", true), fr = c
 				.getBoolean("ForceReload", true);
-
-		int playerCap = c.getInt("DefaultSettings.General.PlayerCap.Cap", 0);
-		
-		boolean forSale = c.getBoolean("DefaultSettings.Economy.ForSale", false);
-		int salePrice = c.getInt("DefaultSettings.Economy.SalePrice", 0);
 
 		new ConfigurationData(a, b, cc, d, e, pass, f, g, h, i, j, k, m, n, o, v, pe, p, q, r, s, t, u, item, cfu, dua, cov, fr, exit, dam, dasm, welcomeIcon, leaveIcon, aa,
 				bb, ccc, dd, ee, fireProtection, musicUrl, playmusic, permWipeOnEnter, permWipeOnExit, wipeAndCacheOnEnter, wipeAndCacheOnExit, forceCommand, commandSet,
@@ -117,9 +117,9 @@ public class LoaderCore {
 		ConfigurationData.defaultSelectionTool = Material.getMaterial(id);
 
 		Economy econ = Economy.toEconomy(c.getString("Region.Economy", "NONE"));
-		
+
 		boolean logs = c.getBoolean("Region.LogsEnabled", true);
-		
+
 		ConfigurationData.logs = logs;
 
 		if (econ == Economy.NONE) {
@@ -205,9 +205,9 @@ public class LoaderCore {
 				MODE itemMode = MODE.toMode(c.getString("Region.Modes.ItemControlMode", "Whitelist")), protectionMode = MODE.toMode(c.getString("Region.Modes.ProtectionMode",
 						"Whitelist")), preventEntryMode = MODE.toMode(c.getString("Region.Modes.PreventEntryMode", "Whitelist")), preventExitMode = MODE.toMode(c.getString(
 						"Region.Modes.PreventExitMode", "Whitelist"));
-			
-				boolean _protected = c.getBoolean("Region.General.Protected.General", false), _protectedPlace = c.getBoolean("Region.General.Protected.BlockPlace", false),
-						_protectedBreak = c.getBoolean("Region.General.Protected.BlockBreak", false), preventEntry = c.getBoolean("Region.General.PreventEntry", false), preventExit = c
+
+				boolean _protected = c.getBoolean("Region.General.Protected.General", false), _protectedPlace = c.getBoolean("Region.General.Protected.BlockPlace", false), _protectedBreak = c
+						.getBoolean("Region.General.Protected.BlockBreak", false), preventEntry = c.getBoolean("Region.General.PreventEntry", false), preventExit = c
 						.getBoolean("Region.General.PreventExit", false), preventInteraction = c.getBoolean("Region.General.PreventInteraction", false), doorsLocked = c
 						.getBoolean("Region.General.DoorsLocked", false), chestsLocked = c.getBoolean("Region.General.ChestsLocked", false), passwordEnabled = c.getBoolean(
 						"Region.General.Password.Enabled", false), fireProtection = c.getBoolean("DefaultSettings.Protection.FireProtection", false);
@@ -359,10 +359,10 @@ public class LoaderCore {
 				} else if (r.getLSPS() == 0 && LightningRunner.doesStikesContain(r)) {
 					LightningRunner.removeRegion(r);
 				}
-				
+
 				RegionLoadEvent event = new RegionLoadEvent("RegionLoadEvent");
 				event.setProperties(r);
-		        Bukkit.getServer().getPluginManager().callEvent(event);
+				Bukkit.getServer().getPluginManager().callEvent(event);
 
 			}
 		}

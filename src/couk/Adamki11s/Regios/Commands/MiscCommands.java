@@ -41,6 +41,7 @@ public class MiscCommands extends PermissionsCore {
 				return;
 			}
 			mods.editExpandMax(r);
+			System.out.println(ConfigurationData.salePrice);
 			eco.editSalePrice(r, ConfigurationData.salePrice);
 			eco.editForSale(r, true);
 			p.sendMessage(ChatColor.GREEN + "[Regios] Region expanded to max and for sale!");

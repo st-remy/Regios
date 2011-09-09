@@ -89,7 +89,7 @@ public class CommandCore implements CommandExecutor {
 			
 			if (args.length == 2 && args[0].equalsIgnoreCase("plot")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.plot")) {
-					miscCmd.createAllotment(p, args[2], GlobalRegionManager.getRegion(args[2]));
+					miscCmd.createAllotment(p, args[1], GlobalRegionManager.getRegion(args[1]));
 					return true;
 				} else {
 					PermissionsCore.sendInvalidPerms(p);

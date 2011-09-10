@@ -24,7 +24,7 @@ public class LogRunner {
 			return;
 		}
 		timer++;
-		if (timer >= 600) {// 10 minutes between logs(600)
+		if (timer >= 30) {// 10 minutes between logs(600)
 			try {
 				pushLogMessages();
 			} catch (IOException e) {
@@ -43,26 +43,26 @@ public class LogRunner {
 					logFile.createNewFile();
 				}
 				fileWipeCheck(logFile);
-				ArrayList<String> messages = log.get(entry.getKey());
-				for (String msg : messages) {
+				FileWriter fstream = new FileWriter(logFile, true);
+				BufferedWriter fbw = new BufferedWriter(fstream);
+				for (String msg : entry.getValue()) {
 					try {
-						FileWriter fstream = new FileWriter(logFile, true);
-						BufferedWriter fbw = new BufferedWriter(fstream);
 						fbw.write(msg);
 						fbw.newLine();
-						fbw.close();
 					} catch (IOException ex) {
 						ex.printStackTrace();
 					}
 				}
+				fbw.close();
 			}
+			log.clear();
 			System.out.println("[Regios] Log files saved & closed.");
 		}
 	}
 
 	private synchronized static void fileWipeCheck(File f) {
 		long filesizeInKB = f.length() / 1024;
-		if (filesizeInKB > (1024 * 5000)) { // 5 MB Cap on log files because
+		if (filesizeInKB > 5000) { // 5 MB Cap on log files because
 											// they are wiped.
 			f.delete();
 			try {

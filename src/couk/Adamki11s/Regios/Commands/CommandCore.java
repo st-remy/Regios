@@ -309,6 +309,14 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("protect")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && (args[0].equalsIgnoreCase("protectall") || args[0].equalsIgnoreCase("protect-all"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
 					protect.setProtectedAll(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
@@ -331,9 +339,17 @@ public class CommandCore implements CommandExecutor {
 				}
 			}
 
-			if (args.length == 2 && args[0].equalsIgnoreCase("unprotect")) {
+			if (args.length == 2 && (args[0].equalsIgnoreCase("unprotect") || args[0].equalsIgnoreCase("un-protect"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
 					protect.setUnProtected(GlobalRegionManager.getRegion(args[1]), args[1], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length == 2 && (args[0].equalsIgnoreCase("unprotectall") || args[0].equalsIgnoreCase("un-protect-all") || args[0].equalsIgnoreCase("unprotect-all"))) {
+				if (PermissionsCore.doesHaveNode(p, "regios.protection.protection")) {
+					protect.setUnProtectAll(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

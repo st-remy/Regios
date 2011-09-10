@@ -47,8 +47,8 @@ public class RegionScreen1 {
 
 			switch (index) {
 			case 0:
-				((GenericButton) b).setTextColor(getColourToken(r.is_protection()));
-				((GenericButton) b).setTooltip(getStatus(r.is_protection()));
+				((GenericButton) b).setTextColor(getColourToken(r.is_protectionBreak()));
+				((GenericButton) b).setTooltip(getStatus(r.is_protectionBreak()));
 				((GenericButton) b).setDirty(true);
 				break;
 			case 1:
@@ -164,6 +164,11 @@ public class RegionScreen1 {
 			case 23:
 				((GenericButton) b).setTextColor(getColourToken(r.isForcingCommand()));
 				((GenericButton) b).setTooltip(getStatus(r.isForcingCommand()));
+				((GenericButton) b).setDirty(true);
+				break;
+			case 24:
+				((GenericButton) b).setTextColor(getColourToken(r.is_protection()));
+				((GenericButton) b).setTooltip(getStatus(r.is_protection()));
 				((GenericButton) b).setDirty(true);
 				break;
 			}

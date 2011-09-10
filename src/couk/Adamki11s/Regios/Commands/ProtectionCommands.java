@@ -17,7 +17,7 @@ public class ProtectionCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection enabled for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] General Protection enabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editProtect(r);
 	}
@@ -28,7 +28,7 @@ public class ProtectionCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection enabled for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] All Protection enabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editProtect(r);
 		mutable.editProtectBB(r);
@@ -85,9 +85,22 @@ public class ProtectionCommands extends PermissionsCore {
 				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
 				return;
 			}
-			p.sendMessage(ChatColor.GREEN + "[Regios] Protection disabled for region " + ChatColor.BLUE + region);
+			p.sendMessage(ChatColor.GREEN + "[Regios] General Protection disabled for region " + ChatColor.BLUE + region);
 		}
 		mutable.editUnprotect(r);
+	}
+	
+	public void setUnProtectAll(Region r, String region, Player p){
+		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
+			if(!super.canModifyMain(r, p)){
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+				return;
+			}
+			p.sendMessage(ChatColor.GREEN + "[Regios] All Protection disabled for region " + ChatColor.BLUE + region);
+		}
+		mutable.editUnprotect(r);
+		mutable.editUnProtectBB(r);
+		mutable.editUnProtectBP(r);
 	}
 	
 	public void setPreventEntry(Region r, String region, Player p){

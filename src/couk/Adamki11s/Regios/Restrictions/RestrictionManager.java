@@ -1,7 +1,5 @@
 package couk.Adamki11s.Regios.Restrictions;
 
-import java.util.HashMap;
-
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;

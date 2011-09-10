@@ -92,6 +92,8 @@ public class Saveable {
 		c.setProperty("Region.Essentials.Points.Point1", convertLocation(rl1));
 		c.setProperty("Region.Essentials.Points.Point2", convertLocation(rl2));
 		
+		c.setProperty("Region.Spout.Welcome.Enabled", r.isSpoutWelcomeEnabled());
+		c.setProperty("Region.Spout.Leave.Enabled", r.isSpoutWelcomeEnabled());
 		c.setProperty("Region.Spout.Welcome.Message", r.getSpoutEntryMessage());
 		c.setProperty("Region.Spout.Welcome.IconID", r.getSpoutEntryMaterial().getId());	
 		c.setProperty("Region.Spout.Leave.Message", r.getSpoutExitMessage());
@@ -251,6 +253,9 @@ public class Saveable {
 		
 		c.setProperty("Region.Economy.ForSale", r.isForSale());
 		c.setProperty("Region.Economy.Price", r.getSalePrice());
+		
+		c.setProperty("Region.Spout.Welcome.Enabled", r.isSpoutWelcomeEnabled());
+		c.setProperty("Region.Spout.Leave.Enabled", r.isSpoutWelcomeEnabled());
 		
 		c.setProperty("Region.Teleportation.Warp.Location", r.getWarp().getWorld() + "," + r.getWarp().getBlockX() + "," + r.getWarp().getBlockY() + "," + r.getWarp().getBlockZ());
 		

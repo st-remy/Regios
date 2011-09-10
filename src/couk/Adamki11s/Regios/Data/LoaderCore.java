@@ -264,10 +264,8 @@ public class LoaderCore {
 
 				String textureUrl = c.getString("Region.Spout.Texture.TexturePackURL", "");
 
-				boolean useTexture = c.getBoolean("Region.Spout.Texture.UseTexture", false);
-
-				c.setProperty("Region.Spout.Texture.UseTexture", false);
-				c.setProperty("Region.Spout.Texture.TexturePackURL", "");
+				boolean useTexture = c.getBoolean("Region.Spout.Texture.UseTexture", false), sw = c.getBoolean("Region.Spout.Welcome.Enabled", true),
+						sl = c.getBoolean("Region.Spout.Leave.Enabled", true);;
 
 				Region r = new Region(owner, name, l1, l2, world, null, false);
 
@@ -278,6 +276,9 @@ public class LoaderCore {
 					r.addExceptionNode(s);
 				}
 
+				r.setSpoutWelcomeEnabled(sw);
+				r.setSpoutLeaveEnabled(sl);
+				
 				r.setUseSpoutTexturePack(useTexture);
 				r.setSpoutTexturePack(textureUrl);
 

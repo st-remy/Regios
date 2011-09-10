@@ -65,7 +65,7 @@ public class Region extends PermChecks implements Checks {
 			doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true, passwordEnabled = false, showWelcomeMessage = true,
 			showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false,
 			playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false,
-			blockForm = true, forSale = false, useSpoutTexturePack = false;
+			blockForm = true, forSale = false, useSpoutTexturePack = false, spoutWelcomeEnabled, spoutLeaveEnabled;
 
 	private int LSPS = 0, healthRegen = 0, playerCap = 0, salePrice = 0;
 	private double velocityWarp = 0;
@@ -298,7 +298,7 @@ public class Region extends PermChecks implements Checks {
 				p.sendMessage(this.colourFormat(this.liveFormat(leaveMessage, p)));
 			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
-				if (this.showLeaveMessage) {
+				if (this.spoutLeaveEnabled) {
 					SpoutInterface.sendLeaveMessage(p, this);
 				}
 				if (this.playCustomSoundUrl) {
@@ -398,11 +398,14 @@ public class Region extends PermChecks implements Checks {
 				p.sendMessage(this.colourFormat(this.liveFormat(welcomeMessage, p)));
 			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
-				if (this.showWelcomeMessage) {
+				if (this.spoutWelcomeEnabled) {
 					SpoutInterface.sendWelcomeMessage(p, this);
 				}
 				if (this.playCustomSoundUrl) {
 					SpoutInterface.playToPlayerMusicFromUrl(p, this);
+				}
+				if (this.useSpoutTexturePack) {
+					SpoutInterface.forceTexturePack(p, this);
 				}
 			}
 		}
@@ -1392,6 +1395,22 @@ public class Region extends PermChecks implements Checks {
 
 	public void set_protectionBreak(boolean _protectionBreak) {
 		this._protectionBreak = _protectionBreak;
+	}
+
+	public boolean isSpoutWelcomeEnabled() {
+		return spoutWelcomeEnabled;
+	}
+
+	public void setSpoutWelcomeEnabled(boolean spoutWelcomeEnabled) {
+		this.spoutWelcomeEnabled = spoutWelcomeEnabled;
+	}
+
+	public boolean isSpoutLeaveEnabled() {
+		return spoutLeaveEnabled;
+	}
+
+	public void setSpoutLeaveEnabled(boolean spoutLeaveEnabled) {
+		this.spoutLeaveEnabled = spoutLeaveEnabled;
 	}
 
 }

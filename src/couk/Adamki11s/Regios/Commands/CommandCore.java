@@ -50,7 +50,7 @@ public class CommandCore implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
 		if (label.equalsIgnoreCase("regios") || label.equalsIgnoreCase("reg") || label.equalsIgnoreCase("r")) {
-
+			
 			if (!(sender instanceof Player)) {
 				System.out.println("[Regios] Regios doesn't support console commands yet. Please log in and excute your command as a player.");
 				return true;
@@ -61,6 +61,20 @@ public class CommandCore implements CommandExecutor {
 			if(!SpoutInterface.global_spoutEnabled){
 				p.sendMessage(ChatColor.RED + "[Regios] Spout not detected! Install Spout!");
 				return true;
+			}
+			
+			if (args.length == 0) {
+				if (SpoutInterface.doesPlayerHaveSpout(p)) {
+					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
+					sh.addScreenHolder((SpoutPlayer)p, sh);
+					help.getSpoutHelp((SpoutPlayer) p, sh);
+					return true;
+				} else {
+					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
+					sh.addScreenHolder((SpoutPlayer)p, sh);
+					help.getStandardHelp(p, args, sh);
+					return true;
+				}
 			}
 
 			if (args.length >= 1 && args[0].equalsIgnoreCase("help")) {

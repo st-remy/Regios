@@ -23,6 +23,32 @@ public class MutableSpout {
 		c.save();
 	}
 	
+	public void editWelcomeEnabled(Region r, boolean val){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.Spout.Welcome.Enabled");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.Spout.Welcome.Enabled", val);
+		r.setSpoutWelcomeEnabled(val);
+		c.save();
+	}
+	
+	public void editLeaveEnabled(Region r, boolean val){
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.Spout.Leave.Enabled");
+		for(Entry<String, Object> entry : all.entrySet()){
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.Spout.Leave.Enabled", val);
+		r.setSpoutLeaveEnabled(val);
+		c.save();
+	}
+	
 	public void editLeaveMessage(Region r, String message){
 		Configuration c = r.getConfigFile();
 		c.load();

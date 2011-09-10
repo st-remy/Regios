@@ -1006,10 +1006,26 @@ public class CommandCore implements CommandExecutor {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
+			
+			if (args.length >= 3 && args[0].equalsIgnoreCase("show-spout-welcome")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
+					spout.setUseWelcome(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
 
 			if (args.length >= 3 && args[0].equalsIgnoreCase("set-spout-leave")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
 					spout.setLeave(GlobalRegionManager.getRegion(args[1]), args[1], args, p);
+				} else {
+					PermissionsCore.sendInvalidPerms(p);
+				}
+			}
+			
+			if (args.length >= 3 && args[0].equalsIgnoreCase("show-spout-leave")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.spout.messages")) {
+					spout.setUseLeave(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}

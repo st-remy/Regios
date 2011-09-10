@@ -24,7 +24,7 @@ public class LogRunner {
 			return;
 		}
 		timer++;
-		if (timer >= 30) {// 10 minutes between logs(600)
+		if (timer >= 600) {// 10 minutes between logs(600s)
 			try {
 				pushLogMessages();
 			} catch (IOException e) {

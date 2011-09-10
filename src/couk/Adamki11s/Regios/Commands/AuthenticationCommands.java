@@ -14,7 +14,7 @@ public class AuthenticationCommands {
 		}
 		
 		if(r.getAuthentication(password, p)){
-			p.sendMessage(ChatColor.GREEN + "[Regios] Authentication successfull! You can now enter region " + ChatColor.BLUE + r.getName());
+			p.sendMessage(ChatColor.GREEN + "[Regios] Authentication successfull! You can now enter/exit region " + ChatColor.BLUE + r.getName());
 			return;
 		} else {
 			p.sendMessage(ChatColor.RED + "[Regios] Invalid password for region " + ChatColor.BLUE + r.getName());

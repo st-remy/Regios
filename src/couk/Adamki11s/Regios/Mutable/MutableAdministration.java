@@ -62,8 +62,6 @@ public class MutableAdministration extends Saveable {
 
 	public void inherit(Region tin, Region inf) {
 		tin.set_protection(inf.is_protection());
-		tin.setAuthenticationRequiredMessage(inf.getAuthenticationRequiredMessage());
-		tin.setAuthenticationSuccessMessage(inf.getAuthenticationSuccessMessage());
 		tin.setBlockForm(inf.isBlockForm());
 		tin.setChestsLocked(inf.isChestsLocked());
 		tin.setCommandSet(inf.getCommandSet());

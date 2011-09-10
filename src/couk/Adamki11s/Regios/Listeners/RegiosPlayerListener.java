@@ -518,7 +518,7 @@ public class RegiosPlayerListener extends PlayerListener {
 					} else {
 						if (!binding.isAuthenticated(p)) {
 							if (isSendable(p, MSG.AUTHENTICATION)) {
-								binding.sendAuthenticationMessage(p);
+								p.sendMessage(ChatColor.RED + "Authentication required! Do /regios auth <password>");
 							}
 							if (outsideRegionLocation.containsKey(p)) {
 								p.teleport(outsideRegionLocation.get(p));
@@ -544,7 +544,7 @@ public class RegiosPlayerListener extends PlayerListener {
 					} else {
 						if (!binding.isAuthenticated(p)) {
 							if (isSendable(p, MSG.AUTHENTICATION)) {
-								binding.sendAuthenticationMessage(p);
+								p.sendMessage(ChatColor.RED + "Authentication required! Do /regios auth <password>");
 							}
 							if (insideRegionLocation.containsKey(p)) {
 								p.teleport(insideRegionLocation.get(p));
@@ -625,6 +625,7 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 
 		r.sendWelcomeMessage(p);
+		insideRegionLocation.put(p, p.getLocation());
 
 		// __________________________________
 		// ^^^^ Messages & Entry control ^^^^

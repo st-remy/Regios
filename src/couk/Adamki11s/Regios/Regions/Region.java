@@ -56,16 +56,16 @@ public class Region extends PermChecks implements Checks {
 	private ArrayList<String> nodes = new ArrayList<String>();
 	private ArrayList<Integer> items = new ArrayList<Integer>();
 
-	private String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", authenticationRequiredMessage = "",
-			authenticationSuccessMessage = "", password = "", name = "", owner = "", spoutEntryMessage = "", spoutExitMessage = "", spoutTexturePack = "";
+	private String welcomeMessage = "", leaveMessage = "", protectionMessage = "", preventEntryMessage = "", preventExitMessage = "", password = "", name = "", owner = "",
+			spoutEntryMessage = "", spoutExitMessage = "", spoutTexturePack = "";
 
 	private Material spoutEntryMaterial = Material.GRASS, spoutExitMaterial = Material.DIRT;
 
-	private boolean _protection = false, _protectionPlace = false, _protectionBreak = false, preventEntry = false, preventExit = false, mobSpawns = true, monsterSpawns = true, healthEnabled = true, pvp = true,
-			doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true, passwordEnabled = false, showWelcomeMessage = true,
-			showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true, showPreventExitMessage = true, fireProtection = false,
-			playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false, wipeAndCacheOnExit = false, forceCommand = false,
-			blockForm = true, forSale = false, useSpoutTexturePack = false, spoutWelcomeEnabled, spoutLeaveEnabled;
+	private boolean _protection = false, _protectionPlace = false, _protectionBreak = false, preventEntry = false, preventExit = false, mobSpawns = true,
+			monsterSpawns = true, healthEnabled = true, pvp = true, doorsLocked = false, chestsLocked = false, preventInteraction = false, showPvpWarning = true,
+			passwordEnabled = false, showWelcomeMessage = true, showLeaveMessage = true, showProtectionMessage = true, showPreventEntryMessage = true,
+			showPreventExitMessage = true, fireProtection = false, playCustomSoundUrl = false, permWipeOnEnter = false, permWipeOnExit = false, wipeAndCacheOnEnter = false,
+			wipeAndCacheOnExit = false, forceCommand = false, blockForm = true, forSale = false, useSpoutTexturePack = false, spoutWelcomeEnabled, spoutLeaveEnabled;
 
 	private int LSPS = 0, healthRegen = 0, playerCap = 0, salePrice = 0;
 	private double velocityWarp = 0;
@@ -136,8 +136,6 @@ public class Region extends PermChecks implements Checks {
 		this.preventEntryMode = ConfigurationData.preventEntryMode;
 		this.preventExitMode = ConfigurationData.preventExitMode;
 		this.preventExit = ConfigurationData.regionPreventExit;
-		this.authenticationRequiredMessage = ConfigurationData.defaultAuthenticationMessage;
-		this.authenticationSuccessMessage = ConfigurationData.defaultAuthenticationSuccessMessage;
 		this.spoutEntryMaterial = ConfigurationData.defaultSpoutWelcomeMaterial;
 		this.spoutExitMaterial = ConfigurationData.defaultSpoutLeaveMaterial;
 		this.spoutEntryMessage = "Welcome to [NAME]";
@@ -442,7 +440,7 @@ public class Region extends PermChecks implements Checks {
 		if (original.contains("PLAYER-LIST")) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("");
-			for(Player play : this.playersInRegion){
+			for (Player play : this.playersInRegion) {
 				builder.append(ChatColor.WHITE).append(play.getName()).append(ChatColor.BLUE).append(", ");
 			}
 			original = original.replaceAll("PLAYER-LIST", "" + builder.toString());
@@ -750,14 +748,6 @@ public class Region extends PermChecks implements Checks {
 		authentication.put(p, false);
 	}
 
-	public void sendAuthenticationMessage(Player p) {
-		p.sendMessage(this.colourFormat(this.authenticationRequiredMessage));
-	}
-
-	public void sendAuthenticationGrantedMessage(Player p) {
-		p.sendMessage(this.colourFormat(this.authenticationSuccessMessage));
-	}
-
 	public RegionLocation getL1() {
 		return this.l1;
 	}
@@ -951,22 +941,6 @@ public class Region extends PermChecks implements Checks {
 
 	public void setProtectionMessage(String protectionMessage) {
 		this.protectionMessage = protectionMessage;
-	}
-
-	public String getAuthenticationRequiredMessage() {
-		return authenticationRequiredMessage;
-	}
-
-	public void setAuthenticationRequiredMessage(String authenticationRequiredMessage) {
-		this.authenticationRequiredMessage = authenticationRequiredMessage;
-	}
-
-	public String getAuthenticationSuccessMessage() {
-		return authenticationSuccessMessage;
-	}
-
-	public void setAuthenticationSuccessMessage(String authenticationSuccessMessage) {
-		this.authenticationSuccessMessage = authenticationSuccessMessage;
 	}
 
 	public String getSpoutEntryMessage() {

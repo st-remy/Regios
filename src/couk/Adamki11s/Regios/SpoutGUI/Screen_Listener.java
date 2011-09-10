@@ -94,10 +94,6 @@ public class Screen_Listener extends ScreenListener {
 			return;
 		}
 
-		System.out.println(HelpCommands.helps.containsKey(evt.getPlayer()));
-		System.out.println(sh);
-		System.out.println(sh.escButton);
-
 		UUID esc = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.escButton.getId()).getId();
 		UUID general = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.generalData.getId()).getId();
 		UUID protection = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.protection.getId()).getId();

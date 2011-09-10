@@ -12,10 +12,8 @@ public class CreationCore {
 
 	private final File root = new File("plugins" + File.separator + "Regios"), db_root = new File(root + File.separator + "Database"), config_root = new File(root
 			+ File.separator + "Configuration"), backup_root = new File(root + File.separator + "Backups"), version_root = new File(root + File.separator + "Versions"),
-			updates = new File("plugins" + File.separator + "Update"),
-			other = new File(root + File.separator + "Other"),
-			shares = new File(root + File.separator + "Blueprints"),
-					depend = new File(root + File.separator + "Dependancies");
+			updates = new File("plugins" + File.separator + "Update"), other = new File(root + File.separator + "Other"), shares = new File(root + File.separator
+					+ "Blueprints"), depend = new File(root + File.separator + "Dependancies"), restrict = new File(root + File.separator + "Restrictions");
 
 	private final Logger log = Logger.getLogger("Minecraft.Regios");
 	private final String prefix = "[Regios]";
@@ -29,8 +27,8 @@ public class CreationCore {
 	private void directories() throws IOException {
 		log.info(prefix + " Checking directories.");
 		boolean flawless = true;
-		
-		if(!updates.exists()){
+
+		if (!updates.exists()) {
 			flawless = false;
 			updates.mkdir();
 			log.info(prefix + " Creating directory @_root/Update");
@@ -58,31 +56,37 @@ public class CreationCore {
 			backup_root.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Backups");
 		}
-		
+
 		if (!other.exists()) {
 			flawless = false;
 			other.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Other");
 		}
-		
+
 		if (!depend.exists()) {
 			flawless = false;
 			depend.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Dependancies");
 		}
 		
+		if (!restrict.exists()) {
+			flawless = false;
+			restrict.mkdir();
+			log.info(prefix + " Creating directory @_root/plugins/Regios/Restrictions");
+		}
+
 		if (!shares.exists()) {
 			flawless = false;
 			shares.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Blueprints");
 		}
-		
+
 		if (!(new File(other + File.separator + "Pending").exists())) {
 			flawless = false;
 			new File(other + File.separator + "Pending").mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Other/Pending");
 		}
-		
+
 		if (!version_root.exists()) {
 			flawless = false;
 			version_root.mkdir();
@@ -99,7 +103,7 @@ public class CreationCore {
 			pw.close();
 			fos.flush();
 			fos.close();
-			if(!vtt.exists()){
+			if (!vtt.exists()) {
 				vtt.mkdir();
 			}
 		}
@@ -113,8 +117,8 @@ public class CreationCore {
 	private void configuration() throws IOException {
 		log.info(prefix + " Checking configuration files.");
 		boolean flawless = true;
-		File defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(
-				config_root + File.separator + "GeneralSettings.config");
+		File defaultregions = new File(config_root + File.separator + "DefaultRegion.config"), generalconfig = new File(config_root + File.separator
+				+ "GeneralSettings.config");
 
 		if (!generalconfig.exists()) {
 			log.info(prefix + " Creating general configuration.");
@@ -176,7 +180,7 @@ public class CreationCore {
 
 			c.setProperty("DefaultSettings.Command.ForceCommand", false);
 			c.setProperty("DefaultSettings.Command.CommandSet", "");
-			
+
 			c.setProperty("DefaultSettings.Economy.ForSale", false);
 			c.setProperty("DefaultSettings.Economy.SalePrice", 0);
 

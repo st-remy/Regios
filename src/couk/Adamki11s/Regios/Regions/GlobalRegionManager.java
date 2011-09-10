@@ -65,6 +65,16 @@ public class GlobalRegionManager {
 		return null;
 	}
 	
+	public static int getOwnedRegions(String name){
+		int count = 0;
+		for(Region r : regions){
+			if(r.getOwner().equalsIgnoreCase(name)){
+				count++;
+			}
+		}
+		return count;
+	}
+	
 	public static GlobalWorldSetting getGlobalWorldSetting(World w){
 		for(GlobalWorldSetting gws : worldSettings){
 			if(gws.world.equalsIgnoreCase(w.getName())){

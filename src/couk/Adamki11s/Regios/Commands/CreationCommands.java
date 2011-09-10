@@ -16,6 +16,8 @@ import couk.Adamki11s.Regios.Net.PingManager;
 import couk.Adamki11s.Regios.RBF.RBF_Core;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
+import couk.Adamki11s.Regios.Restrictions.RestrictionManager;
+import couk.Adamki11s.Regios.Restrictions.RestrictionParameters;
 
 public class CreationCommands {
 
@@ -99,6 +101,35 @@ public class CreationCommands {
 
 		if (!integrity) {
 			p.sendMessage(ChatColor.RED + "[Regios] Name contained  invalid characters : " + invalidName.toString());
+			return;
+		}
+
+		RestrictionParameters params = RestrictionManager.getRestriction(p);
+		double width = Math.max(point1.get(p).getX(), point2.get(p).getX()) - Math.min(point1.get(p).getX(), point2.get(p).getX()), height = Math.max(point1.get(p).getY(),
+				point2.get(p).getY()) - Math.min(point1.get(p).getY(), point2.get(p).getY()), length = Math.max(point1.get(p).getZ(), point2.get(p).getZ())
+				- Math.min(point1.get(p).getZ(), point2.get(p).getZ());
+		int rCount = GlobalRegionManager.getOwnedRegions(p.getName());
+		
+		if(width > params.getRegionWidthLimit()){
+			p.sendMessage(ChatColor.RED + "[Regios] You cannot create a region of this width!");
+			p.sendMessage(ChatColor.RED + "[Regios] Maximum width : " + ChatColor.BLUE + params.getRegionWidthLimit() + ChatColor.RED + ", your width : " + ChatColor.BLUE + width);
+			return;
+		}
+		
+		if(height > params.getRegionHeightLimit()){
+			p.sendMessage(ChatColor.RED + "[Regios] You cannot create a region of this height!");
+			p.sendMessage(ChatColor.RED + "[Regios] Maximum height : " + ChatColor.BLUE + params.getRegionHeightLimit() + ChatColor.RED + ", your height : " + ChatColor.BLUE + height);
+			return;
+		}
+		
+		if(length > params.getRegionLengthLimit()){
+			p.sendMessage(ChatColor.RED + "[Regios] You cannot create a region of this length!");
+			p.sendMessage(ChatColor.RED + "[Regios] Maximum length : " + ChatColor.BLUE + params.getRegionLengthLimit() + ChatColor.RED + ", your length : " + ChatColor.BLUE + length);
+			return;
+		}
+		
+		if(rCount > params.getRegionLimit()){
+			p.sendMessage(ChatColor.RED + "[Regios] You cannot create more than " + ChatColor.YELLOW + params.getRegionLimit() + ChatColor.RED + " regions!");
 			return;
 		}
 

@@ -169,10 +169,10 @@ public class RegionScreen7 {
 		}
 
 		((GenericButton) sh.page7Widgets[6]).setText("Add Music");
-		((GenericButton) sh.page7Widgets[6]).setWidth(100);
+		((GenericButton) sh.page7Widgets[6]).setWidth(120);
 		((GenericButton) sh.page7Widgets[6]).setHeight(20);
 		((GenericButton) sh.page7Widgets[6]).setX(15);
-		((GenericButton) sh.page7Widgets[6]).setY(80);
+		((GenericButton) sh.page7Widgets[6]).setY(70);
 		((GenericButton) sh.page7Widgets[6]).setTextColor(RGB.GREEN.getColour());
 		((GenericButton) sh.page7Widgets[6]).setHoverColor(RGB.YELLOW.getColour());
 
@@ -186,9 +186,9 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[7]).setText("Remove Music");
 		((GenericButton) sh.page7Widgets[7]).setWidth(100);
 		((GenericButton) sh.page7Widgets[7]).setHeight(20);
-		((GenericButton) sh.page7Widgets[7]).setX(120);
-		((GenericButton) sh.page7Widgets[7]).setY(80);
-		((GenericButton) sh.page7Widgets[7]).setTextColor(RGB.GREEN.getColour());
+		((GenericButton) sh.page7Widgets[7]).setX(140);
+		((GenericButton) sh.page7Widgets[7]).setY(70);
+		((GenericButton) sh.page7Widgets[7]).setTextColor(RGB.RED.getColour());
 		((GenericButton) sh.page7Widgets[7]).setHoverColor(RGB.YELLOW.getColour());
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[7])) {
@@ -201,9 +201,9 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[8]).setText("Clear Music");
 		((GenericButton) sh.page7Widgets[8]).setWidth(100);
 		((GenericButton) sh.page7Widgets[8]).setHeight(20);
-		((GenericButton) sh.page7Widgets[8]).setX(225);
-		((GenericButton) sh.page7Widgets[8]).setY(80);
-		((GenericButton) sh.page7Widgets[8]).setTextColor(RGB.GREEN.getColour());
+		((GenericButton) sh.page7Widgets[8]).setX(245);
+		((GenericButton) sh.page7Widgets[8]).setY(70);
+		((GenericButton) sh.page7Widgets[8]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page7Widgets[8]).setHoverColor(RGB.YELLOW.getColour());
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[8])) {
@@ -223,6 +223,36 @@ public class RegionScreen7 {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[2].getId()).setDirty(true);
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page7Widgets[2]);
+		}
+		
+		((GenericButton) sh.page7Widgets[4]).setText("<");
+		((GenericButton) sh.page7Widgets[4]).setWidth(35);
+		((GenericButton) sh.page7Widgets[4]).setHeight(20);
+		((GenericButton) sh.page7Widgets[4]).setX(15);
+		((GenericButton) sh.page7Widgets[4]).setY(265);
+		((GenericButton) sh.page7Widgets[4]).setTextColor(RGB.WHITE.getColour());
+		((GenericButton) sh.page7Widgets[4]).setHoverColor(RGB.GREEN.getColour());
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[4])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[4].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[4].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page7Widgets[4]);
+		}
+		
+		((GenericButton) sh.page7Widgets[5]).setText(">");
+		((GenericButton) sh.page7Widgets[5]).setWidth(35);
+		((GenericButton) sh.page7Widgets[5]).setHeight(20);
+		((GenericButton) sh.page7Widgets[5]).setX(380);
+		((GenericButton) sh.page7Widgets[5]).setY(265);
+		((GenericButton) sh.page7Widgets[5]).setTextColor(RGB.WHITE.getColour());
+		((GenericButton) sh.page7Widgets[5]).setHoverColor(RGB.GREEN.getColour());
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[5])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[5].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[5].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page7Widgets[5]);
 		}
 
 		((GenericContainer) sh.page7Widgets[3]).setX(15);

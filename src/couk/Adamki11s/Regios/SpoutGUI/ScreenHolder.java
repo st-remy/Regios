@@ -22,7 +22,8 @@ public class ScreenHolder {
 	public GenericLabel[] modeText = { new GenericLabel("/r protection-mode <region> <bl/wl>"), new GenericLabel("/r prevent-entry-mode <region> <bl/wl>"),
 			new GenericLabel("/r prevent-exit-mode <region> <bl/wl>"), new GenericLabel("/r item-mode <region> <bl/wl>") };
 
-	public GenericLabel[] protectionText = { new GenericLabel("/r send-auth <password>"), new GenericLabel("/r protect <region>"), new GenericLabel("/r unprotect <region>"),
+	public GenericLabel[] protectionText = { new GenericLabel("/r send-auth <password>"), new GenericLabel("/r un/protect-all <region>"), new GenericLabel("/r un/protect-bb <region>"),
+			new GenericLabel("/r un/protect-bp <region>"),
 			new GenericLabel("/r prevent-entry <region>"), new GenericLabel("/r allow-entry <region>"), new GenericLabel("/r prevent-exit <region>"),
 			new GenericLabel("/r allow-exit <region>"), new GenericLabel("/r prevent-interaction <region> <T/F>"), new GenericLabel("/r doors-locked <region> <T/F>"),
 			new GenericLabel("/r chests-locked <region> <T/F>"), new GenericLabel("/r set-password <region> <password>"), new GenericLabel("/r use-password <region> <T/F>"),
@@ -36,8 +37,8 @@ public class ScreenHolder {
 
 	public GenericLabel[] funText = { new GenericLabel("/r setwarp"), new GenericLabel("/r warp-to <region>"), new GenericLabel("/r reset-warp <region>"),
 			new GenericLabel("/r lsps <region> <rate>"), new GenericLabel("/r pvp <region> <T/F>"), new GenericLabel("/r health-regen <region> <rate>"),
-			new GenericLabel("/r health-enabled <region> <T/F>"), new GenericLabel("/r vel-warp <region> <rate>"), new GenericLabel("/r sell <region> <price>"),
-			new GenericLabel("/r buy <region>") };
+			new GenericLabel("/r health-enabled <region> <T/F>"), new GenericLabel("/r vel-warp <region> <rate>"), new GenericLabel("/r set-price <region> <price>"),
+			new GenericLabel("/r for-sale <region> <T/F>"),new GenericLabel("/r list-for-sale"), new GenericLabel("/r buy <region>") };
 
 	public GenericLabel[] otherText = { new GenericLabel("/r mob-spawns <region> <T/F>"), new GenericLabel("/r monster-spawns <region> <T/F>"), new GenericLabel("/r check"),
 			new GenericLabel("/r add-cmd-set <region> <cmd>"), new GenericLabel("/r rem-cmd-set <region> <cmd>"), new GenericLabel("/r list-cmd-set <region> <cmd>"),
@@ -117,7 +118,7 @@ public class ScreenHolder {
 			new GenericButton("Enabled") };
 
 	public Widget[] page7Widgets = { new GenericTextField(), new GenericLabel("Music"), new GenericLabel("Page : "), new GenericContainer(), new GenericButton("<"),
-			new GenericButton(">"), new GenericButton("Add Music"), new GenericButton("Remove Music"), new GenericButton("Clear Music")};
+			new GenericButton(">"), new GenericButton("Add Music"), new GenericButton("Remove Music"), new GenericButton("Clear Music") };
 
 	public static HashMap<SpoutPlayer, ArrayList<Widget>> page4Exceptions = new HashMap<SpoutPlayer, ArrayList<Widget>>();
 

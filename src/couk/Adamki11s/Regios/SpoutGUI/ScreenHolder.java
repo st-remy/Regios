@@ -113,7 +113,11 @@ public class ScreenHolder {
 			new GenericButton("Clear"), new GenericButton("Update"), new GenericTextField(), new GenericTextField(), new GenericButton("Update"), new GenericButton("Update"),
 			new GenericTextField(), new GenericButton("Reset"), new GenericButton("Clear"), new GenericButton("Paste"), new GenericButton("Use Textures"),
 			new GenericLabel("Spout Welcome Message"), new GenericLabel("Spout Leave Message"), new GenericLabel("Spout Welcome Icon ID"),
-			new GenericLabel("Spout Leave Icon ID"), new GenericLabel("Texture Pack URL"), new GenericButton("Update"), new GenericButton("Enabled"), new GenericButton("Enabled") };
+			new GenericLabel("Spout Leave Icon ID"), new GenericLabel("Texture Pack URL"), new GenericButton("Update"), new GenericButton("Enabled"),
+			new GenericButton("Enabled") };
+
+	public Widget[] page7Widgets = { new GenericTextField(), new GenericLabel("Music"), new GenericLabel("Page : "), new GenericContainer(), new GenericButton("<"),
+			new GenericButton(">"), new GenericButton("Add Music"), new GenericButton("Remove Music"), new GenericButton("Clear Music")};
 
 	public static HashMap<SpoutPlayer, ArrayList<Widget>> page4Exceptions = new HashMap<SpoutPlayer, ArrayList<Widget>>();
 

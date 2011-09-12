@@ -55,6 +55,8 @@ public class Screen_Listener extends ScreenListener {
 					regionScreen5Listener(evt, sh);
 				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 6) {
 					regionScreen6Listener(evt, sh);
+				} else if (RegionScreenManager.page.get(evt.getPlayer()) == 7) {
+					regionScreen7Listener(evt, sh);
 				}
 			}
 			regionControlListener(evt, sh);
@@ -1371,6 +1373,45 @@ public class Screen_Listener extends ScreenListener {
 			}
 			spout.editLeaveMaterial(r, id);
 			sp.sendNotification("Spout", ChatColor.GREEN + "ID Updated", m);
+		}
+		
+	}
+	
+	private void regionScreen7Listener(ButtonClickEvent evt, ScreenHolder sh) {
+		
+		Region r = RegionScreenManager.editing.get(evt.getPlayer());
+
+		SpoutPlayer sp = evt.getPlayer();
+
+		TextField field = (TextField) ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page7Widgets[0].getId());
+
+		UUID button = evt.getButton().getId();
+		
+		UUID prev = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page7Widgets[4].getId()).getId();
+		UUID next = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page7Widgets[5].getId()).getId();
+		
+		UUID add = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page7Widgets[6].getId()).getId();
+		UUID remove = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page7Widgets[7].getId()).getId();
+		UUID clear = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page7Widgets[8].getId()).getId();
+		
+		if(button == prev){
+			RegionScreen7.prevPage(sp, r, sh);
+		}
+		
+		if(button == next){
+			RegionScreen7.prevPage(sp, r, sh);
+		}
+		
+		if(button == add){
+			RegionScreen7.addURL(sp, r, field.getText(), field);
+		}
+		
+		if(button == remove){
+			RegionScreen7.removeURL(sp, r, field.getText(), field);
+		}
+		
+		if(button == clear){
+			RegionScreen7.clearURLS(sp, r);
 		}
 		
 	}

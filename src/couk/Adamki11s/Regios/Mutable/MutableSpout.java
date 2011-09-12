@@ -10,6 +10,15 @@ import couk.Adamki11s.Regios.Regions.Region;
 
 public class MutableSpout {
 	
+	public boolean checkMusicUrl(String url, Region r){
+		for(String URL : r.getMusicUrls()){
+			if(URL.equalsIgnoreCase(url)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public void editWelcomeMessage(Region r, String message){
 		Configuration c = r.getConfigFile();
 		c.load();

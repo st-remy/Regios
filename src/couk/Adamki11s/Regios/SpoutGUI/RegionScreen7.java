@@ -202,7 +202,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[8]).setText("Clear Music");
 		((GenericButton) sh.page7Widgets[8]).setWidth(100);
 		((GenericButton) sh.page7Widgets[8]).setHeight(20);
-		((GenericButton) sh.page7Widgets[8]).setX(245);
+		((GenericButton) sh.page7Widgets[8]).setX(225);
 		((GenericButton) sh.page7Widgets[8]).setY(70);
 		((GenericButton) sh.page7Widgets[8]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page7Widgets[8]).setHoverColor(RGB.YELLOW.getColour());
@@ -216,7 +216,7 @@ public class RegionScreen7 {
 
 		((GenericLabel) sh.page7Widgets[2]).setText("Page : ");
 		((GenericLabel) sh.page7Widgets[2]).setX(200);
-		((GenericLabel) sh.page7Widgets[2]).setY(270);
+		((GenericLabel) sh.page7Widgets[2]).setY(200);
 		((GenericLabel) sh.page7Widgets[2]).setTextColor(RGB.YELLOW.getColour());
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[2])) {

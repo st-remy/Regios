@@ -131,12 +131,13 @@ public class RegionScreen7 {
 
 		if (oldWidgets != null) {
 			for (Object w : oldWidgets) {
-				((Widget) w).setVisible(false);
 				((Widget) w).setDirty(true);
+				((Widget) w).shiftYPos(1000);// work around for overlap layer //
+												// stack bug
 			}
 		}
 
-		for (Widget w : sh.page6Widgets) {
+		for (Widget w : sh.page7Widgets) {
 			w.setPriority(RenderPriority.Lowest);
 		}
 
@@ -169,7 +170,7 @@ public class RegionScreen7 {
 		}
 
 		((GenericButton) sh.page7Widgets[6]).setText("Add Music");
-		((GenericButton) sh.page7Widgets[6]).setWidth(120);
+		((GenericButton) sh.page7Widgets[6]).setWidth(100);
 		((GenericButton) sh.page7Widgets[6]).setHeight(20);
 		((GenericButton) sh.page7Widgets[6]).setX(15);
 		((GenericButton) sh.page7Widgets[6]).setY(70);
@@ -186,7 +187,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[7]).setText("Remove Music");
 		((GenericButton) sh.page7Widgets[7]).setWidth(100);
 		((GenericButton) sh.page7Widgets[7]).setHeight(20);
-		((GenericButton) sh.page7Widgets[7]).setX(140);
+		((GenericButton) sh.page7Widgets[7]).setX(120);
 		((GenericButton) sh.page7Widgets[7]).setY(70);
 		((GenericButton) sh.page7Widgets[7]).setTextColor(RGB.RED.getColour());
 		((GenericButton) sh.page7Widgets[7]).setHoverColor(RGB.YELLOW.getColour());
@@ -229,7 +230,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[4]).setWidth(35);
 		((GenericButton) sh.page7Widgets[4]).setHeight(20);
 		((GenericButton) sh.page7Widgets[4]).setX(15);
-		((GenericButton) sh.page7Widgets[4]).setY(265);
+		((GenericButton) sh.page7Widgets[4]).setY(195);
 		((GenericButton) sh.page7Widgets[4]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page7Widgets[4]).setHoverColor(RGB.GREEN.getColour());
 
@@ -244,7 +245,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[5]).setWidth(35);
 		((GenericButton) sh.page7Widgets[5]).setHeight(20);
 		((GenericButton) sh.page7Widgets[5]).setX(380);
-		((GenericButton) sh.page7Widgets[5]).setY(265);
+		((GenericButton) sh.page7Widgets[5]).setY(195);
 		((GenericButton) sh.page7Widgets[5]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page7Widgets[5]).setHoverColor(RGB.GREEN.getColour());
 
@@ -258,12 +259,32 @@ public class RegionScreen7 {
 		((GenericContainer) sh.page7Widgets[3]).setX(15);
 		((GenericContainer) sh.page7Widgets[3]).setY(110);
 		((GenericContainer) sh.page7Widgets[3]).setWidth(400);
-		((GenericContainer) sh.page7Widgets[3]).setHeight(150);
+		((GenericContainer) sh.page7Widgets[3]).setHeight(80);
 
 		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[3])) {
 			for (Widget w : ((Container) ((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[3].getId())).getChildren()) {
 				((Container) ((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[3].getId())).removeChild(w);
 			}
+		}
+		
+		for (int index = 0; index <= 4; index++) {
+			if ((index < (r.getMusicUrls()).length) && r.getMusicUrls()[index].length() > 2) {
+				GenericLabel ex = new GenericLabel((r.getMusicUrls())[index]);
+				ex.setTextColor(RGB.YELLOW.getColour());
+				((GenericContainer) sh.page7Widgets[3]).addChild(ex);
+			} else {
+				GenericLabel ex = new GenericLabel("-");
+				ex.setTextColor(RGB.YELLOW.getColour());
+				((GenericContainer) sh.page7Widgets[3]).addChild(ex);
+			}
+		}
+		
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page7Widgets[3])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[3].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page7Widgets[3].getId()).setDirty(true);
+
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page7Widgets[3]);
 		}
 
 		updatePages(sp, 1, sh, r);

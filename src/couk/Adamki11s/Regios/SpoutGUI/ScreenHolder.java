@@ -76,13 +76,13 @@ public class ScreenHolder {
 
 	public SpoutPlayer sp;
 
-	public Widget[] page1Widgets = { new GenericButton("Block Break Protection"), new GenericButton("Block Place Protection"), new GenericButton("Prevent Entry"), new GenericButton("Prevent Exit"),
-			new GenericButton("Prevent Interaction"), new GenericButton("Doors Locked"), new GenericButton("Chests Locked"), new GenericButton("Fire Protection"),
-			new GenericButton("Block Form"), new GenericButton("Mobs Spawn"), new GenericButton("Monsters Spawn"), new GenericButton("Show Welcome"),
-			new GenericButton("Show Leave"), new GenericButton("Show Prevent Entry"), new GenericButton("Show Prevent Exit"), new GenericButton("Show Protection"),
-			new GenericButton("Show Pvp"), new GenericButton("PvP"), new GenericButton("Health Enabled"), new GenericButton("Protection Mode"),
-			new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode"), new GenericButton("Force Commands"),
-			new GenericButton("General Protection")};
+	public Widget[] page1Widgets = { new GenericButton("Block Break Protection"), new GenericButton("Block Place Protection"), new GenericButton("Prevent Entry"),
+			new GenericButton("Prevent Exit"), new GenericButton("Prevent Interaction"), new GenericButton("Doors Locked"), new GenericButton("Chests Locked"),
+			new GenericButton("Fire Protection"), new GenericButton("Block Form"), new GenericButton("Mobs Spawn"), new GenericButton("Monsters Spawn"),
+			new GenericButton("Show Welcome"), new GenericButton("Show Leave"), new GenericButton("Show Prevent Entry"), new GenericButton("Show Prevent Exit"),
+			new GenericButton("Show Protection"), new GenericButton("Show Pvp"), new GenericButton("PvP"), new GenericButton("Health Enabled"),
+			new GenericButton("Protection Mode"), new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode"),
+			new GenericButton("Force Commands"), new GenericButton("General Protection") };
 
 	public GenericButton escButton, pageForward, pageBackwards;
 
@@ -112,7 +112,8 @@ public class ScreenHolder {
 	public Widget[] page6Widgets = { new GenericTextField(), new GenericTextField(), new GenericButton("Reset"), new GenericButton("Reset"), new GenericButton("Clear"),
 			new GenericButton("Clear"), new GenericButton("Update"), new GenericTextField(), new GenericTextField(), new GenericButton("Update"), new GenericButton("Update"),
 			new GenericTextField(), new GenericButton("Reset"), new GenericButton("Clear"), new GenericButton("Paste"), new GenericButton("Use Textures"),
-			new GenericLabel("Spout Welcome Message"), new GenericLabel("Spout Leave Message"), new GenericLabel("Spout Welcome Icon ID"), new GenericLabel("Spout Leave Icon ID"), new GenericLabel("Texture Pack - URL")};
+			new GenericLabel("Spout Welcome Message"), new GenericLabel("Spout Leave Message"), new GenericLabel("Spout Welcome Icon ID"),
+			new GenericLabel("Spout Leave Icon ID"), new GenericLabel("Texture Pack URL"), new GenericButton("Update"), new GenericButton("Enabled"), new GenericButton("Enabled") };
 
 	public static HashMap<SpoutPlayer, ArrayList<Widget>> page4Exceptions = new HashMap<SpoutPlayer, ArrayList<Widget>>();
 

@@ -103,6 +103,22 @@ public class RegionScreen6 {
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page6Widgets[5]);
 		}
+		
+		((GenericButton) sh.page6Widgets[22]).setText("Enabled");
+		((GenericButton) sh.page6Widgets[22]).setWidth(50);
+		((GenericButton) sh.page6Widgets[22]).setHeight(15);
+		((GenericButton) sh.page6Widgets[22]).setX(283);
+		((GenericButton) sh.page6Widgets[22]).setY(72);
+		((GenericButton) sh.page6Widgets[22]).setTextColor(RegionScreenManager.getColourToken(r.isSpoutLeaveEnabled()));
+		((GenericButton) sh.page6Widgets[22]).setHoverColor(RGB.YELLOW.getColour());
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page6Widgets[22])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[22].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[22].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page6Widgets[22]);
+		}
+
 
 		((GenericButton) sh.page6Widgets[4]).setText("Clear");
 		((GenericButton) sh.page6Widgets[4]).setWidth(40);
@@ -117,6 +133,21 @@ public class RegionScreen6 {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[4].getId()).setDirty(true);
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page6Widgets[4]);
+		}
+		
+		((GenericButton) sh.page6Widgets[23]).setText("Enabled");
+		((GenericButton) sh.page6Widgets[23]).setWidth(50);
+		((GenericButton) sh.page6Widgets[23]).setHeight(15);
+		((GenericButton) sh.page6Widgets[23]).setX(283);
+		((GenericButton) sh.page6Widgets[23]).setY(37);
+		((GenericButton) sh.page6Widgets[23]).setTextColor(RegionScreenManager.getColourToken(r.isSpoutWelcomeEnabled()));
+		((GenericButton) sh.page6Widgets[23]).setHoverColor(RGB.YELLOW.getColour());
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page6Widgets[23])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[23].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[23].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page6Widgets[23]);
 		}
 
 		((GenericButton) sh.page6Widgets[6]).setText("Update");
@@ -294,6 +325,21 @@ public class RegionScreen6 {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[14].getId()).setDirty(true);
 		} else {
 			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page6Widgets[14]);
+		}
+		
+		((GenericButton) sh.page6Widgets[21]).setText("Update");
+		((GenericButton) sh.page6Widgets[21]).setWidth(40);
+		((GenericButton) sh.page6Widgets[21]).setHeight(15);
+		((GenericButton) sh.page6Widgets[21]).setX(226);
+		((GenericButton) sh.page6Widgets[21]).setY(162);
+		((GenericButton) sh.page6Widgets[21]).setTextColor(RGB.WHITE.getColour());
+		((GenericButton) sh.page6Widgets[21]).setHoverColor(RGB.SPRING_GREEN.getColour());
+
+		if (((GenericPopup) RegionScreenManager.popup.get(sp)).containsWidget(sh.page6Widgets[21])) {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[21].getId()).setVisible(true);
+			((GenericPopup) RegionScreenManager.popup.get(sp)).getWidget(sh.page6Widgets[21].getId()).setDirty(true);
+		} else {
+			((GenericPopup) RegionScreenManager.popup.get(sp)).attachWidget(Regios.regios, sh.page6Widgets[21]);
 		}
 
 		((GenericButton) sh.page6Widgets[15]).setText("Use Textures");

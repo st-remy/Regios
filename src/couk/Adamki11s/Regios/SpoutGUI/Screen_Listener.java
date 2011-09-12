@@ -1,5 +1,8 @@
 package couk.Adamki11s.Regios.SpoutGUI;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -1193,7 +1196,63 @@ public class Screen_Listener extends ScreenListener {
 		
 		UUID useTextures = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[15].getId()).getId();
 		
+		UUID toggleLeave = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[22].getId()).getId();
+		UUID toggleWelcome = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[23].getId()).getId();
+		
 		UUID updateMessages = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[6].getId()).getId();
+		
+		UUID updateTexture = ((GenericPopup) RegionScreenManager.popup.get(evt.getPlayer())).getWidget(sh.page6Widgets[21].getId()).getId();
+		
+		if(button == toggleLeave){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isSpoutLeaveEnabled()) {
+				spout.editLeaveEnabled(r, false);
+				sp.sendNotification("Spout - Leave", ChatColor.RED + "Message Disabled", Material.PAPER);
+			} else {
+				spout.editLeaveEnabled(r, true);
+				sp.sendNotification("Spout - Leave", ChatColor.GREEN + "Message Enabled", Material.PAPER);
+			}
+			((GenericButton) (sh.page6Widgets[22])).setTextColor(RegionScreenManager.getColourToken(r.isSpoutLeaveEnabled()));
+			((GenericButton) (sh.page6Widgets[22])).setDirty(true);
+			return;
+		}
+		
+		if(button == toggleWelcome){
+			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
+				PermissionsCore.sendInvalidPermsPopup(sp);
+			}
+			if (r.isSpoutWelcomeEnabled()) {
+				spout.editWelcomeEnabled(r, false);
+				sp.sendNotification("Spout - Welcome", ChatColor.RED + "Message Disabled", Material.PAPER);
+			} else {
+				spout.editWelcomeEnabled(r, true);
+				sp.sendNotification("Spout - Welcome", ChatColor.GREEN + "Message Enabled", Material.PAPER);
+			}
+			((GenericButton) (sh.page6Widgets[23])).setTextColor(RegionScreenManager.getColourToken(r.isSpoutWelcomeEnabled()));
+			((GenericButton) (sh.page6Widgets[23])).setDirty(true);
+			return;
+		}
+		
+		if(button == updateTexture){
+		    try {
+			URL u = new URL(textureURL.getText()); 
+		    HttpURLConnection huc =  (HttpURLConnection)  u.openConnection(); 
+		    HttpURLConnection.setFollowRedirects(false);
+		    huc.setRequestMethod("HEAD"); 
+		    huc.connect(); 
+				if(huc.getResponseCode() != HttpURLConnection.HTTP_OK){
+					sp.sendNotification(ChatColor.RED + "Error!", "URL does not exist!", Material.FIRE);
+				} else {
+					spout.editTexturePackURL(r, textureURL.getText());
+					sp.sendNotification("Spout", "Texture Pack Updated", Material.PAINTING);
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		if(button == resetTexture){
 			textureURL.setText(r.getSpoutTexturePack());

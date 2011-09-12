@@ -146,7 +146,7 @@ public class MutableSpout {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Spout.Sound.CustomMusicURL", current.trim() + message.trim() + ",");
-		r.setPermanentNodesCacheRemove((current.trim() + "," + message.trim()).split(","));
+		r.setCustomSoundUrl((current.trim() + "," + message.trim()).split(","));
 		c.save();
 	}
 	
@@ -163,7 +163,7 @@ public class MutableSpout {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Spout.Sound.CustomMusicURL", current.trim());
-		r.setPermanentNodesCacheRemove((current.trim()).split(","));
+		r.setCustomSoundUrl((current.trim()).split(","));
 		c.save();
 	}
 	
@@ -176,7 +176,7 @@ public class MutableSpout {
 			c.setProperty(entry.getKey(), entry.getValue());
 		}
 		c.setProperty("Region.Spout.Sound.CustomMusicURL", "");
-		r.setPermanentNodesCacheRemove(("").split(","));
+		r.setCustomSoundUrl(("").split(","));
 		c.save();
 	}
 

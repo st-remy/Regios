@@ -1,6 +1,7 @@
 package couk.Adamki11s.Regios.Commands;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -93,14 +94,20 @@ public class SpoutCommands extends PermissionsCore {
 	
 	public void setTexturePackURL(Region r, String region, String message, Player p){
 		try {
-		    URL url = new URL(message);
-		    URLConnection conn = url.openConnection();
-		    conn.connect();
-		} catch (MalformedURLException e) {
-			p.sendMessage(ChatColor.RED + "[Regios] Invalid URL!");
+			URL u = new URL(message);
+			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			HttpURLConnection.setFollowRedirects(false);
+			huc.setRequestMethod("HEAD");
+			huc.connect();
+			if (huc.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				p.sendMessage(ChatColor.RED + "[Regios] URL does not exist!");
+				return;
+			}
+		} catch(MalformedURLException murlex){
+			p.sendMessage(ChatColor.RED + "[Regios] Invalid URL Format!");
 			return;
 		} catch (IOException e) {
-			p.sendMessage(ChatColor.RED + "[Regios] Could not connect to the URL!");
+			e.printStackTrace();
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {
@@ -159,14 +166,20 @@ public class SpoutCommands extends PermissionsCore {
 	
 	public void setAddMusic(Region r, String region, String message, Player p){
 		try {
-		    URL url = new URL(message);
-		    URLConnection conn = url.openConnection();
-		    conn.connect();
-		} catch (MalformedURLException e) {
-			p.sendMessage(ChatColor.RED + "[Regios] Invalid URL!");
+			URL u = new URL(message);
+			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			HttpURLConnection.setFollowRedirects(false);
+			huc.setRequestMethod("HEAD");
+			huc.connect();
+			if (huc.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				p.sendMessage(ChatColor.RED + "[Regios] URL does not exist!");
+				return;
+			}
+		} catch(MalformedURLException murlex){
+			p.sendMessage(ChatColor.RED + "[Regios] Invalid URL Format!");
 			return;
 		} catch (IOException e) {
-			p.sendMessage(ChatColor.RED + "[Regios] Could not connect to the URL!");
+			e.printStackTrace();
 			return;
 		}
 		if(r == null){ p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + region + ChatColor.RED + " doesn't exist!"); return; } else {

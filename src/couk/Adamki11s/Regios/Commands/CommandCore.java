@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import couk.Adamki11s.Regios.CustomEvents.RegionCommandEvent;
+import couk.Adamki11s.Regios.CustomExceptions.RegionNameExistsException;
+import couk.Adamki11s.Regios.CustomExceptions.RegionPointsNotSetException;
 import couk.Adamki11s.Regios.Data.OldRegiosPatch;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Main.Regios;
@@ -149,7 +151,9 @@ public class CommandCore implements CommandExecutor {
 						p.sendMessage(ChatColor.RED + "[Regios] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is a reserved word!");
 						return true;
 					}
-					creation.createRegion(p, args[1]);
+					try {
+						creation.createRegion(p, args[1]);
+					} catch (RegionNameExistsException e) {} catch (RegionPointsNotSetException e) {}
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 					return true;

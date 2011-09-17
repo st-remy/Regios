@@ -9,7 +9,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import couk.Adamki11s.Regios.API.RegionDataSet;
 import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
+import couk.Adamki11s.Regios.CustomExceptions.RegionNameExistsException;
+import couk.Adamki11s.Regios.CustomExceptions.RegionPointsNotSetException;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
 import couk.Adamki11s.Regios.Listeners.RegiosPlayerListener;
 import couk.Adamki11s.Regios.Net.PingManager;
@@ -72,15 +75,19 @@ public class CreationCommands {
 		}
 		p.sendMessage(ChatColor.GREEN + "[Regios] Left and right click to select points.");
 	}
+	
+	public static void createRegion(RegionDataSet rds){
+		//TODO
+	}
 
-	public void createRegion(Player p, String name) {
+	public void createRegion(Player p, String name) throws RegionNameExistsException, RegionPointsNotSetException {
 		if (GlobalRegionManager.doesExist(name)) {
 			p.sendMessage(ChatColor.RED + "[Regios] A region with name : " + ChatColor.BLUE + name + ChatColor.RED + " already exists!");
-			return;
+			throw new RegionNameExistsException(name);
 		}
 		if (!point1.containsKey(p) || !point2.containsKey(p)) {
 			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
-			return;
+			throw new RegionPointsNotSetException(name);
 		}
 		StringBuilder invalidName = new StringBuilder();
 		boolean integrity = true;

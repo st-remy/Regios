@@ -45,5 +45,7 @@ public class RegiosAPI {
 	public static boolean isSpoutEnabled(Player p){
 		return SpoutInterface.doesPlayerHaveSpout(p);
 	}
+	
+	
 
 }

@@ -1277,14 +1277,14 @@ public class CommandCore implements CommandExecutor {
 						return true;
 					}
 					RegiosPlayerListener.loadingTerrain.put(p, new ShareData(args[1], p));
-					p.sendMessage(ChatColor.GREEN + "[Regios] Click the block where you wish to begin the paste.");
+					p.sendMessage(ChatColor.GREEN + "[Regios] Click the block where you wish to paste the blueprint.");
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}
 			}
 			
 			if (args.length == 1 && (args[0].equalsIgnoreCase("undo"))) {
-				if (PermissionsCore.doesHaveNode(p, "regios.data.load-terrain")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.data.load-blueprint")) {
 					RBF_Core.rbf_load_share.undoLoad(p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);

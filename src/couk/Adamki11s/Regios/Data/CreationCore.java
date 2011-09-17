@@ -62,12 +62,6 @@ public class CreationCore {
 			other.mkdir();
 			log.info(prefix + " Creating directory @_root/plugins/Regios/Other");
 		}
-
-		if (!depend.exists()) {
-			flawless = false;
-			depend.mkdir();
-			log.info(prefix + " Creating directory @_root/plugins/Regios/Dependancies");
-		}
 		
 		if (!restrict.exists()) {
 			flawless = false;

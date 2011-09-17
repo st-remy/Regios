@@ -408,7 +408,7 @@ public class RegiosBlockListener extends BlockListener {
 			Sign sign = (Sign) b.getState();
 			String[] lines = sign.getLines();
 			if (sign.getLine(0).contains("[Regios]")) {
-				Region reg = GlobalRegionManager.getRegion(sign.getLine(1).substring(2, sign.getLine(1).length()));
+				Region reg = GlobalRegionManager.getRegion(sign.getLine(1).substring(0, sign.getLine(1).length()));
 				if (reg != null) {
 					if (!PermissionsCore.canModifyMain(reg, p)) {
 						p.sendMessage(ChatColor.RED + "[Regios] You cannot destroy this sign!");

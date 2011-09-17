@@ -58,35 +58,30 @@ public class CommandCore implements CommandExecutor {
 
 			Player p = (Player) sender;
 			
-			if(!SpoutInterface.global_spoutEnabled){
-				p.sendMessage(ChatColor.RED + "[Regios] Spout not detected! Install Spout!");
-				return true;
-			}
-			
 			if (args.length == 0) {
 				if (SpoutInterface.doesPlayerHaveSpout(p)) {
 					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
 					sh.addScreenHolder((SpoutPlayer)p, sh);
-					help.getSpoutHelp((SpoutPlayer) p, sh);
+					new SpoutHelp().getSpoutHelp((SpoutPlayer) p, sh);
 					return true;
 				} else {
-					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
-					sh.addScreenHolder((SpoutPlayer)p, sh);
-					help.getStandardHelp(p, args, sh);
+					help.getStandardHelp(p, args);
 					return true;
 				}
 			}
 
 			if (args.length >= 1 && args[0].equalsIgnoreCase("help")) {
 				if (SpoutInterface.doesPlayerHaveSpout(p)) {
+					if(!SpoutInterface.global_spoutEnabled){
+						p.sendMessage(ChatColor.RED + "The Spout server plugin is required for this feature!");
+						return true;
+					}
 					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
 					sh.addScreenHolder((SpoutPlayer)p, sh);
-					help.getSpoutHelp((SpoutPlayer) p, sh);
+					new SpoutHelp().getSpoutHelp((SpoutPlayer) p, sh);
 					return true;
 				} else {
-					ScreenHolder sh = ScreenHolder.getScreenHolder((SpoutPlayer) p);
-					sh.addScreenHolder((SpoutPlayer)p, sh);
-					help.getStandardHelp(p, args, sh);
+					help.getStandardHelp(p, args);
 					return true;
 				}
 			}
@@ -113,6 +108,10 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 2 && args[0].equalsIgnoreCase("edit")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.edit")) {
+					if(!SpoutInterface.global_spoutEnabled){
+						p.sendMessage(ChatColor.RED + "The Spout server plugin is required for this feature!");
+						return true;
+					}
 					if (SpoutInterface.doesPlayerHaveSpout(p)) {
 						if (GlobalRegionManager.getRegion(args[1]) == null) {
 							p.sendMessage(ChatColor.RED + "[Regios] This region does not exist!");
@@ -297,8 +296,8 @@ public class CommandCore implements CommandExecutor {
 			 * Mobs
 			 */
 
-			if (args.length == 3 && args[0].equalsIgnoreCase("set-mob-spawns")) {
-				if (PermissionsCore.doesHaveNode(p, "regios.other.mob-spawns")) {
+			if (args.length == 3 && args[0].equalsIgnoreCase("set-creature-spawns")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.other.creature-spawns")) {
 					mobs.setMobSpawn(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
@@ -750,7 +749,7 @@ public class CommandCore implements CommandExecutor {
 			}
 
 			if (args.length == 2 && (args[0].equalsIgnoreCase("reset-warp") || args[0].equalsIgnoreCase("resetwarp"))) {
-				if (PermissionsCore.doesHaveNode(p, "regios.fun.reset-warp")) {
+				if (PermissionsCore.doesHaveNode(p, "regios.fun.set-warp")) {
 					fun.resetWarp(GlobalRegionManager.getRegion(args[1]), args[1], p);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);

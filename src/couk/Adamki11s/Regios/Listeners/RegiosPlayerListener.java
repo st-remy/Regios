@@ -38,6 +38,7 @@ import couk.Adamki11s.Regios.Regions.SubRegionManager;
 import couk.Adamki11s.Regios.Scheduler.HealthRegeneration;
 import couk.Adamki11s.Regios.Scheduler.LogRunner;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
+import couk.Adamki11s.Regios.SpoutInterface.SpoutRegion;
 
 public class RegiosPlayerListener extends PlayerListener {
 
@@ -115,7 +116,7 @@ public class RegiosPlayerListener extends PlayerListener {
 			HealthRegeneration.removeRegenerator(p);
 		}
 		if (SpoutInterface.doesPlayerHaveSpout(p)) {
-			SpoutInterface.stopMusicPlaying(p, null);
+			SpoutRegion.stopMusicPlaying(p, null);
 		}
 		for (Region r : GlobalRegionManager.getRegions()) {
 			if (r.isAuthenticated(p)) {

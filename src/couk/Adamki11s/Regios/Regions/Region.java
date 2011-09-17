@@ -32,6 +32,7 @@ import couk.Adamki11s.Regios.Scheduler.HealthRegeneration;
 import couk.Adamki11s.Regios.Scheduler.LightningRunner;
 import couk.Adamki11s.Regios.Scheduler.LogRunner;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
+import couk.Adamki11s.Regios.SpoutInterface.SpoutRegion;
 
 public class Region extends PermChecks implements Checks {
 
@@ -297,13 +298,13 @@ public class Region extends PermChecks implements Checks {
 			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
 				if (this.spoutLeaveEnabled) {
-					SpoutInterface.sendLeaveMessage(p, this);
+					SpoutRegion.sendLeaveMessage(p, this);
 				}
 				if (this.playCustomSoundUrl) {
-					SpoutInterface.stopMusicPlaying(p, region);
+					SpoutRegion.stopMusicPlaying(p, region);
 				}
 				if (this.useSpoutTexturePack) {
-					SpoutInterface.resetTexturePack(p);
+					SpoutRegion.resetTexturePack(p);
 				}
 			}
 		}
@@ -326,7 +327,7 @@ public class Region extends PermChecks implements Checks {
 			this.registerWelcomeEvent(p);
 			LogRunner.addLogMessage(this, LogRunner.getPrefix(this) + (" Player '" + p.getName() + "' entered region."));
 			if (this.useSpoutTexturePack && SpoutInterface.doesPlayerHaveSpout(p)) {
-				SpoutInterface.forceTexturePack(p, this);
+				SpoutRegion.forceTexturePack(p, this);
 			}
 			RegiosPlayerListener.currentRegion.put(p, this);
 			welcomeMessageSent.put(p, true);
@@ -397,13 +398,13 @@ public class Region extends PermChecks implements Checks {
 			}
 			if (SpoutInterface.doesPlayerHaveSpout(p)) {
 				if (this.spoutWelcomeEnabled) {
-					SpoutInterface.sendWelcomeMessage(p, this);
+					SpoutRegion.sendWelcomeMessage(p, this);
 				}
 				if (this.playCustomSoundUrl) {
-					SpoutInterface.playToPlayerMusicFromUrl(p, this);
+					SpoutRegion.playToPlayerMusicFromUrl(p, this);
 				}
 				if (this.useSpoutTexturePack) {
-					SpoutInterface.forceTexturePack(p, this);
+					SpoutRegion.forceTexturePack(p, this);
 				}
 			}
 		}

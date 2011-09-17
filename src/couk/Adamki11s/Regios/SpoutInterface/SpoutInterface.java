@@ -3,7 +3,7 @@ package couk.Adamki11s.Regios.SpoutInterface;
 import java.util.HashMap;
 import org.bukkit.entity.Player;
 
-public class SpoutInterface extends SpoutRegion {
+public class SpoutInterface{
 	
 	public static boolean global_spoutEnabled;
 	

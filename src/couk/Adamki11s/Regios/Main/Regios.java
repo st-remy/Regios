@@ -18,7 +18,6 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 import com.nijikokun.bukkit.Permissions.Permissions;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
-import couk.Adamki11s.Regios.DependancyControl.SpoutDependancy;
 import couk.Adamki11s.Regios.Economy.Economy;
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 import couk.Adamki11s.Regios.Listeners.RegiosBlockListener;
@@ -53,9 +52,9 @@ public class Regios extends JavaPlugin {
 
 	@Override
 	public void onDisable() {
-		for(Player p : Bukkit.getServer().getOnlinePlayers()){
-			if(SpoutInterface.doesPlayerHaveSpout(p)){
-				((SpoutPlayer)p).getMainScreen().closePopup();
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			if (SpoutInterface.doesPlayerHaveSpout(p)) {
+				((SpoutPlayer) p).getMainScreen().closePopup();
 			}
 		}
 		log.info(prefix + " Shutting down scheduler task...");
@@ -66,26 +65,19 @@ public class Regios extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		
 		PingManager.enabled();
 		
 		version = this.getDescription().getVersion();
 		PluginManager pm = this.getServer().getPluginManager();
-		
+
 		Plugin p = pm.getPlugin("Spout");
 		if(p == null){
-			if(!SpoutDependancy.doesDependancyExist()){
-				SpoutDependancy.downloadDependancy();
-			} else {
-				log.info("[Regios] Spout is in the folder : plugins/Regios/Dependancies");
-				log.info("[Regios] Please move this plugin into your plugins folder to enable Regios.");
-			}
-			onDisable();
-			return;
+			log.info("[Regios] Spout not detected. No Spout support.");
 		} else {
 			SpoutInterface.global_spoutEnabled = true;
 			log.info("[Regios] Spout detected! Spout support enabled!");
 		}
+		
 
 		try {
 			new CreationCore().setup();
@@ -151,6 +143,7 @@ public class Regios extends JavaPlugin {
 		
 		log.info(prefix + " Regios version " + version + " enabled successfully!");
 		log.info(prefix + " Regios Developed by [Adamki11s].");
+		
 	}
 
 	private void setupPermissions() {
@@ -162,14 +155,14 @@ public class Regios extends JavaPlugin {
 				log.info("[Regios] Permissions support enabled!");
 			} else {
 				log.info("[Regios] Permissions not detected, checking PEX...");
-				if(Bukkit.getServer().getPluginManager().isPluginEnabled("PermissionsEx")){
+				if (Bukkit.getServer().getPluginManager().isPluginEnabled("PermissionsEx")) {
 					PermissionsCore.pex = PermissionsEx.getPermissionManager();
 					PermissionsCore.hasPEX = true;
 					log.info("[Regios] Permissions (PEX) support enabled!");
 				} else {
 					log.info("[Regios] PEX not detected, defaulting to OP.");
 				}
-				
+
 			}
 		}
 	}

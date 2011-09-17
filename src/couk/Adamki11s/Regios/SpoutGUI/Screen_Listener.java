@@ -18,6 +18,7 @@ import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.gui.TextField;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import couk.Adamki11s.Regios.Commands.HelpCommands;
+import couk.Adamki11s.Regios.Commands.SpoutHelp;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Mutable.MutableEconomy;
 import couk.Adamki11s.Regios.Mutable.MutableFun;
@@ -95,23 +96,23 @@ public class Screen_Listener extends ScreenListener {
 
 	private void helpListener(ButtonClickEvent evt, ScreenHolder sh) {
 
-		if (!HelpCommands.helps.containsKey(evt.getPlayer())) {
+		if (!SpoutHelp.helps.containsKey(evt.getPlayer())) {
 			return;
 		}
 
-		UUID esc = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.escButton.getId()).getId();
-		UUID general = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.generalData.getId()).getId();
-		UUID protection = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.protection.getId()).getId();
-		UUID data = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.data.getId()).getId();
-		UUID exceptions = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.exceptions.getId()).getId();
-		UUID fun = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.fun.getId()).getId();
-		UUID invent = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.inventory.getId()).getId();
-		UUID message = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.messages.getId()).getId();
-		UUID modes = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.modes.getId()).getId();
-		UUID modify = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.modify.getId()).getId();
-		UUID other = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.other.getId()).getId();
-		UUID perms = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.perms.getId()).getId();
-		UUID spout = ((GenericPopup) HelpCommands.helps.get(evt.getPlayer())).getWidget(sh.spout.getId()).getId();
+		UUID esc = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.escButton.getId()).getId();
+		UUID general = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.generalData.getId()).getId();
+		UUID protection = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.protection.getId()).getId();
+		UUID data = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.data.getId()).getId();
+		UUID exceptions = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.exceptions.getId()).getId();
+		UUID fun = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.fun.getId()).getId();
+		UUID invent = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.inventory.getId()).getId();
+		UUID message = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.messages.getId()).getId();
+		UUID modes = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.modes.getId()).getId();
+		UUID modify = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.modify.getId()).getId();
+		UUID other = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.other.getId()).getId();
+		UUID perms = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.perms.getId()).getId();
+		UUID spout = ((GenericPopup) SpoutHelp.helps.get(evt.getPlayer())).getWidget(sh.spout.getId()).getId();
 
 		SpoutPlayer sp = evt.getPlayer();
 
@@ -123,108 +124,108 @@ public class Screen_Listener extends ScreenListener {
 
 		if (buttonID == general) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.generalDataText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.generalDataText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.generalDataText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.generalDataText, null, sh);
 			}
 			oldWidgets.put(sp, sh.generalDataText);
 		}
 
 		if (buttonID == protection) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.protectionText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.protectionText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.protectionText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.protectionText, null, sh);
 			}
 			oldWidgets.put(sp, sh.protectionText);
 		}
 
 		if (buttonID == data) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.dataText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.dataText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.dataText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.dataText, null, sh);
 			}
 			oldWidgets.put(sp, sh.dataText);
 		}
 
 		if (buttonID == exceptions) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.exceptionText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.exceptionText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.exceptionText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.exceptionText, null, sh);
 			}
 			oldWidgets.put(sp, sh.exceptionText);
 		}
 
 		if (buttonID == fun) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.funText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.funText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.funText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.funText, null, sh);
 			}
 			oldWidgets.put(sp, sh.funText);
 		}
 
 		if (buttonID == invent) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.inventText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.inventText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.inventText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.inventText, null, sh);
 			}
 			oldWidgets.put(sp, sh.inventText);
 		}
 
 		if (buttonID == message) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.messagesText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.messagesText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.messagesText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.messagesText, null, sh);
 			}
 			oldWidgets.put(sp, sh.messagesText);
 		}
 
 		if (buttonID == modes) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.modeText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.modeText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.modeText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.modeText, null, sh);
 			}
 			oldWidgets.put(sp, sh.modeText);
 		}
 
 		if (buttonID == modify) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.modifyText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.modifyText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.modifyText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.modifyText, null, sh);
 			}
 			oldWidgets.put(sp, sh.modifyText);
 		}
 
 		if (buttonID == other) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.otherText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.otherText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.otherText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.otherText, null, sh);
 			}
 			oldWidgets.put(sp, sh.otherText);
 		}
 
 		if (buttonID == perms) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.permissionsText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.permissionsText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.permissionsText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.permissionsText, null, sh);
 			}
 			oldWidgets.put(sp, sh.permissionsText);
 		}
 
 		if (buttonID == spout) {
 			if (oldWidgets.containsKey(sp)) {
-				HelpCommands.pinLabels(sp, sh.spoutText, oldWidgets.get(sp), sh);
+				SpoutHelp.pinLabels(sp, sh.spoutText, oldWidgets.get(sp), sh);
 			} else {
-				HelpCommands.pinLabels(sp, sh.spoutText, null, sh);
+				SpoutHelp.pinLabels(sp, sh.spoutText, null, sh);
 			}
 			oldWidgets.put(sp, sh.spoutText);
 		}

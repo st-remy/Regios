@@ -490,8 +490,8 @@ public class CommandCore implements CommandExecutor {
 
 			if (args.length == 3 && args[0].equalsIgnoreCase("rename")) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.rename")) {
-					if (args[3].equalsIgnoreCase("all") || args[1].equalsIgnoreCase("placeholder") || args[1].equalsIgnoreCase("confirm")) {
-						p.sendMessage(ChatColor.RED + "[Regios] " + ChatColor.BLUE + args[1] + ChatColor.RED + " is a reserved word!");
+					if (args[2].equalsIgnoreCase("all") || args[2].equalsIgnoreCase("placeholder") || args[2].equalsIgnoreCase("confirm")) {
+						p.sendMessage(ChatColor.RED + "[Regios] " + ChatColor.BLUE + args[2] + ChatColor.RED + " is a reserved word!");
 						return true;
 					}
 					mod.setRename(GlobalRegionManager.getRegion(args[1]), args[1], args[2], p);

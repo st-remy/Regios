@@ -62,7 +62,7 @@ public class LogRunner {
 
 	private synchronized static void fileWipeCheck(File f) {
 		long filesizeInKB = f.length() / 1024;
-		if (filesizeInKB > 5000) { // 5 MB Cap on log files because
+		if (filesizeInKB > 5000) { // 5 MB Cap on log files before
 											// they are wiped.
 			f.delete();
 			try {

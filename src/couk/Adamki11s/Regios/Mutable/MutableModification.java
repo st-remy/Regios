@@ -191,7 +191,6 @@ public class MutableModification {
 			p.sendMessage(ChatColor.RED + "[Regios] The region " + ChatColor.BLUE + new_name + ChatColor.RED + " already exists!");
 			return;
 		}
-		File f = new File(r.getLogFile().getParentFile() + r.getName() + ".rz");
 
 		Configuration c = r.getConfigFile();
 		c.load();

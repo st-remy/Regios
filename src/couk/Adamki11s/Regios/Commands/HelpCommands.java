@@ -1,22 +1,8 @@
 package couk.Adamki11s.Regios.Commands;
 
-import java.util.HashMap;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-import org.getspout.spoutapi.gui.GenericButton;
-import org.getspout.spoutapi.gui.GenericLabel;
-import org.getspout.spoutapi.gui.GenericPopup;
-import org.getspout.spoutapi.gui.GenericTexture;
-import org.getspout.spoutapi.gui.InGameHUD;
-import org.getspout.spoutapi.gui.PopupScreen;
-import org.getspout.spoutapi.gui.RenderPriority;
-import org.getspout.spoutapi.gui.WidgetAnchor;
-import org.getspout.spoutapi.player.SpoutPlayer;
-
-import couk.Adamki11s.Regios.Main.Regios;
-import couk.Adamki11s.Regios.SpoutGUI.RegionScreenManager.RGB;
-import couk.Adamki11s.Regios.SpoutGUI.ScreenHolder;
 
 public class HelpCommands {
 

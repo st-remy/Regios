@@ -77,7 +77,11 @@ public class CreationCommands {
 	}
 	
 	public static void createRegion(RegionDataSet rds){
-		//TODO
+		Region r = new Region(rds.getOwner(), rds.getName(), rds.getL1(), rds.getL2(), Bukkit.getServer().getWorld(rds.getWorld()), null, true);
+		PingManager.created();
+		RegionCreateEvent event = new RegionCreateEvent("RegionCreateEvent");
+		event.setProperties(null, r);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 
 	public void createRegion(Player p, String name) throws RegionNameExistsException, RegionPointsNotSetException {

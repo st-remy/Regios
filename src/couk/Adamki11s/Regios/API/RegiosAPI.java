@@ -2,6 +2,7 @@ package couk.Adamki11s.Regios.API;
 
 import org.bukkit.entity.Player;
 
+import couk.Adamki11s.Regios.Commands.CreationCommands;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
@@ -39,13 +40,19 @@ public class RegiosAPI {
 	
 	/**
 	 * Check if the player is using Spoutcraft.
-	 * @param p
+	 * @param p Player
 	 * @return Whether the player is running the Spoutcraft launcher.
 	 */
 	public static boolean isSpoutEnabled(Player p){
 		return SpoutInterface.doesPlayerHaveSpout(p);
 	}
 	
-	
+	/**
+	 * Create a Region
+	 * @param rds Region Data Set.
+	 */
+	public static void createRegion(RegionDataSet rds){
+		CreationCommands.createRegion(rds);
+	}
 
 }

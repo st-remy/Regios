@@ -17,7 +17,6 @@ import org.getspout.spoutapi.gui.GenericButton;
 import org.getspout.spoutapi.gui.ScreenType;
 import org.getspout.spoutapi.gui.TextField;
 import org.getspout.spoutapi.player.SpoutPlayer;
-import couk.Adamki11s.Regios.Commands.HelpCommands;
 import couk.Adamki11s.Regios.Commands.SpoutHelp;
 import couk.Adamki11s.Regios.Data.MODE;
 import couk.Adamki11s.Regios.Mutable.MutableEconomy;
@@ -1243,12 +1242,6 @@ public class Screen_Listener extends ScreenListener {
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
 			}
-			try{
-				URL ui = new URL(textureURL.getText());
-			} catch (Exception ex){
-				sp.sendNotification(ChatColor.RED + "Error!", "Invalid URL!", Material.FIRE);
-				return;
-			}
 			try {
 				URL u = new URL(textureURL.getText());
 				HttpURLConnection huc = (HttpURLConnection) u.openConnection();
@@ -1418,12 +1411,6 @@ public class Screen_Listener extends ScreenListener {
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
 				return;
 			}
-			try{
-				URL ui = new URL(field.getText());
-			} catch (Exception ex){
-				sp.sendNotification(ChatColor.RED + "Error!", "Invalid URL!", Material.FIRE);
-				return;
-			}
 			try {
 				URL u = new URL(field.getText());
 				HttpURLConnection huc = (HttpURLConnection) u.openConnection();
@@ -1445,12 +1432,6 @@ public class Screen_Listener extends ScreenListener {
 		if (button == remove) {
 			if(field.getText().length() < 1 || field.getText() == null){
 				sp.sendNotification(ChatColor.RED + "Error!", "No Text Entered!", Material.FIRE);
-				return;
-			}
-			try{
-				URL ui = new URL(field.getText());
-			} catch (Exception ex){
-				sp.sendNotification(ChatColor.RED + "Error!", "Invalid URL!", Material.FIRE);
 				return;
 			}
 			RegionScreen7.removeURL(sp, r, field.getText(), field);

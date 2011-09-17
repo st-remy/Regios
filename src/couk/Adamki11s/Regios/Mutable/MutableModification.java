@@ -1,6 +1,7 @@
 package couk.Adamki11s.Regios.Mutable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.config.Configuration;
 
+import couk.Adamki11s.Regios.Commands.AdministrationCommands;
 import couk.Adamki11s.Regios.CustomEvents.RegionDeleteEvent;
 import couk.Adamki11s.Regios.Data.LoaderCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
@@ -200,8 +202,31 @@ public class MutableModification {
 		}
 		c.setProperty("Region.Essentials.Name", new_name);
 		c.save();
-
-		f.renameTo(new File(r.getLogFile().getParentFile() + new_name + ".rz"));
+		
+		
+		
+		c = r.getConfigFile();
+		c.load();
+		Map<String, Object> construct = c.getAll();
+		
+		File conf = r.getRawConfigFile();
+		conf.delete();
+		File newConf = new File(r.getDirectory() + File.separator + new_name + ".rz");
+		
+		try {
+			newConf.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		c = new Configuration(newConf);
+		for (Entry<String, Object> cont : construct.entrySet()) {
+			c.setProperty(cont.getKey(), cont.getValue());
+		}
+		c.save();
+		
+		r.getDirectory().renameTo(new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + new_name));
+		
+		new AdministrationCommands().reloadRegions(p);
 	}
 
 	final static LoaderCore lc = new LoaderCore();

@@ -180,6 +180,11 @@ public class Region extends PermChecks implements Checks {
 		return new Configuration(new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + this.name
 				+ ".rz"));
 	}
+	
+	public File getRawConfigFile(){
+		return new File(("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + this.name
+				+ ".rz"));
+	}
 
 	public File getExceptionDirectory() {
 		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Exceptions");
@@ -187,6 +192,10 @@ public class Region extends PermChecks implements Checks {
 
 	public File getBackupsDirectory() {
 		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name + File.separator + "Backups");
+	}
+	
+	public File getDirectory(){
+		return new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + this.name);
 	}
 
 	public String getName() {

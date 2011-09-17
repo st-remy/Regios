@@ -107,7 +107,7 @@ public class RegionScreen6 {
 		((GenericButton) sh.page6Widgets[22]).setText("Enabled");
 		((GenericButton) sh.page6Widgets[22]).setWidth(50);
 		((GenericButton) sh.page6Widgets[22]).setHeight(15);
-		((GenericButton) sh.page6Widgets[22]).setX(283);
+		((GenericButton) sh.page6Widgets[22]).setX(280);
 		((GenericButton) sh.page6Widgets[22]).setY(72);
 		((GenericButton) sh.page6Widgets[22]).setTextColor(RegionScreenManager.getColourToken(r.isSpoutLeaveEnabled()));
 		((GenericButton) sh.page6Widgets[22]).setHoverColor(RGB.YELLOW.getColour());
@@ -138,7 +138,7 @@ public class RegionScreen6 {
 		((GenericButton) sh.page6Widgets[23]).setText("Enabled");
 		((GenericButton) sh.page6Widgets[23]).setWidth(50);
 		((GenericButton) sh.page6Widgets[23]).setHeight(15);
-		((GenericButton) sh.page6Widgets[23]).setX(283);
+		((GenericButton) sh.page6Widgets[23]).setX(280);
 		((GenericButton) sh.page6Widgets[23]).setY(37);
 		((GenericButton) sh.page6Widgets[23]).setTextColor(RegionScreenManager.getColourToken(r.isSpoutWelcomeEnabled()));
 		((GenericButton) sh.page6Widgets[23]).setHoverColor(RGB.YELLOW.getColour());

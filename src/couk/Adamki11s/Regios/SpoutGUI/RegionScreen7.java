@@ -173,7 +173,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[6]).setWidth(100);
 		((GenericButton) sh.page7Widgets[6]).setHeight(20);
 		((GenericButton) sh.page7Widgets[6]).setX(15);
-		((GenericButton) sh.page7Widgets[6]).setY(70);
+		((GenericButton) sh.page7Widgets[6]).setY(73);
 		((GenericButton) sh.page7Widgets[6]).setTextColor(RGB.GREEN.getColour());
 		((GenericButton) sh.page7Widgets[6]).setHoverColor(RGB.YELLOW.getColour());
 
@@ -188,7 +188,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[7]).setWidth(100);
 		((GenericButton) sh.page7Widgets[7]).setHeight(20);
 		((GenericButton) sh.page7Widgets[7]).setX(120);
-		((GenericButton) sh.page7Widgets[7]).setY(70);
+		((GenericButton) sh.page7Widgets[7]).setY(73);
 		((GenericButton) sh.page7Widgets[7]).setTextColor(RGB.RED.getColour());
 		((GenericButton) sh.page7Widgets[7]).setHoverColor(RGB.YELLOW.getColour());
 
@@ -203,7 +203,7 @@ public class RegionScreen7 {
 		((GenericButton) sh.page7Widgets[8]).setWidth(100);
 		((GenericButton) sh.page7Widgets[8]).setHeight(20);
 		((GenericButton) sh.page7Widgets[8]).setX(225);
-		((GenericButton) sh.page7Widgets[8]).setY(70);
+		((GenericButton) sh.page7Widgets[8]).setY(73);
 		((GenericButton) sh.page7Widgets[8]).setTextColor(RGB.WHITE.getColour());
 		((GenericButton) sh.page7Widgets[8]).setHoverColor(RGB.YELLOW.getColour());
 

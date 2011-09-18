@@ -10,8 +10,14 @@ public class RegionExistanceException extends Exception {
 		this.name = name;
 	}
 
-	public void printException() {
+	@Override
+	public void printStackTrace() {
+		System.out.println("------------------------------");
 		System.out.println("[Regios][Exception] No Region with the name '" + this.name + "' exists!");
+		System.out.println("------------------------------");
+		super.printStackTrace();
+		System.out.println("------------------------------");
 	}
+
 
 }

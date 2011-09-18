@@ -11,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.getspout.spoutapi.player.SpoutPlayer;
 import couk.Adamki11s.Regios.CustomEvents.RegionCommandEvent;
+import couk.Adamki11s.Regios.CustomExceptions.FileExistanceException;
+import couk.Adamki11s.Regios.CustomExceptions.InvalidNBTFormat;
+import couk.Adamki11s.Regios.CustomExceptions.RegionExistanceException;
 import couk.Adamki11s.Regios.CustomExceptions.RegionNameExistsException;
 import couk.Adamki11s.Regios.CustomExceptions.RegionPointsNotSetException;
 import couk.Adamki11s.Regios.Data.OldRegiosPatch;
@@ -1266,7 +1269,7 @@ public class CommandCore implements CommandExecutor {
 			
 			if (args.length == 2 && (args[0].equalsIgnoreCase("save-blueprint") || args[0].equalsIgnoreCase("saveblueprint"))) {
 				if (PermissionsCore.doesHaveNode(p, "regios.data.save-blueprint")) {
-					creation.createTerrain(p, args[1]);
+					creation.createBlueprint(p, args[1]);
 				} else {
 					PermissionsCore.sendInvalidPerms(p);
 				}
@@ -1303,6 +1306,12 @@ public class CommandCore implements CommandExecutor {
 						PermissionsCore.sendInvalidPerms(p);
 					}
 				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (RegionExistanceException e) {
+					e.printStackTrace();
+				} catch (FileExistanceException e) {
+					e.printStackTrace();
+				} catch (InvalidNBTFormat e) {
 					e.printStackTrace();
 				}
 			}

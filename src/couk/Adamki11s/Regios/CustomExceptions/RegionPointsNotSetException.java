@@ -10,8 +10,13 @@ public class RegionPointsNotSetException extends Exception {
 		this.name = name;
 	}
 
-	public void printException() {
+	@Override
+	public void printStackTrace() {
+		System.out.println("------------------------------");
 		System.out.println("[Regios][Exception] Points not set for Region '" + this.name + "'!");
+		System.out.println("------------------------------");
+		super.printStackTrace();
+		System.out.println("------------------------------");
 	}
 
 }

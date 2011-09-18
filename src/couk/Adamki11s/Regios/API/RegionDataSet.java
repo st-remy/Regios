@@ -3,8 +3,6 @@ package couk.Adamki11s.Regios.API;
 import org.bukkit.Location;
 import org.bukkit.plugin.Plugin;
 
-import couk.Adamki11s.Regios.CustomExceptions.InvalidDataSetException;
-
 public class RegionDataSet {
 
 	private Plugin plugin;

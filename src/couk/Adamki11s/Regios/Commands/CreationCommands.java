@@ -178,7 +178,7 @@ public class CreationCommands {
 		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 
-	public void createTerrain(Player p, String name) {
+	public void createBlueprint(Player p, String name) {
 		if (!point1.containsKey(p) || !point2.containsKey(p)) {
 			p.sendMessage(ChatColor.RED + "[Regios] You must set 2 points!");
 			return;
@@ -209,7 +209,34 @@ public class CreationCommands {
 		clearPoints(p);
 		modding.put(p, false);
 		setting.put(p, false);
-		PingManager.created();
+	}
+	
+	public static void createBlueprint(String name, Location l1, Location l2) {
+		if (l1 == null || l2 == null) {
+			return;
+		}
+		StringBuilder invalidName = new StringBuilder();
+		boolean integrity = true;
+		for (char ch : name.toCharArray()) {
+			boolean valid = true;
+			for (char inv : invalidModifiers) {
+				if (ch == inv) {
+					valid = false;
+					integrity = false;
+				}
+			}
+			if (!valid) {
+				invalidName.append(ChatColor.RED).append(ch);
+			} else {
+				invalidName.append(ChatColor.GREEN).append(ch);
+			}
+		}
+
+		if (!integrity) {
+			return;
+		}
+
+		RBF_Core.rbf_save.startSave(null, l1, l2, name, null, true);
 	}
 
 	public boolean arePointsSet(Player p) {

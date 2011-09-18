@@ -13,6 +13,9 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.CustomEvents.RegionRestoreEvent;
+import couk.Adamki11s.Regios.CustomExceptions.FileExistanceException;
+import couk.Adamki11s.Regios.CustomExceptions.InvalidNBTFormat;
+import couk.Adamki11s.Regios.CustomExceptions.RegionExistanceException;
 import couk.Adamki11s.Regios.Permissions.PermissionsCore;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.jnbt.ByteArrayTag;
@@ -22,33 +25,42 @@ import couk.Adamki11s.jnbt.NBTInputStream;
 import couk.Adamki11s.jnbt.Tag;
 
 public class RBF_Load extends PermissionsCore {
-	
+
 	private Tag getChildTag(Map<String, Tag> items, String key, Class<? extends Tag> expected) {
 		Tag tag = items.get(key);
 		return tag;
 	}
-	
-	public void loadRegion(Region r, String backupname, Player p) throws IOException {
-		if(!super.canModifyMain(r, p)){
-			p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+
+	public void loadRegion(Region r, String backupname, Player p) throws IOException, RegionExistanceException, FileExistanceException, InvalidNBTFormat {
+		if(p != null){
+		if (!super.canModifyMain(r, p)) {
+			if (p != null) {
+				p.sendMessage(ChatColor.RED + "[Regios] You are not permitted to modify this region!");
+			}
 			return;
 		}
-		
+		}
+
 		if (r == null) {
-			p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
-			return;
+			if (p != null) {
+				p.sendMessage(ChatColor.RED + "[Regios] That Region does not exist!");
+			}
+			throw new RegionExistanceException("UNKNOWN");
 		}
 
 		File f = new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + r.getName() + File.separator + "Backups" + File.separator
 				+ backupname + ".rbf");
 
 		if (!f.exists()) {
-			p.sendMessage(ChatColor.RED + "[Regios] A backup with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " does not exist!");
-			return;
+			if (p != null) {
+				p.sendMessage(ChatColor.RED + "[Regios] A backup with the name " + ChatColor.BLUE + backupname + ChatColor.RED + " does not exist!");
+			}
+			throw new FileExistanceException("UNKNOWN", false);		
 		}
 
-		p.sendMessage(ChatColor.GREEN + "[Regios] Restoring region from .rbf file...");
-
+		if (p != null) {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Restoring region from .rbf file...");
+		}
 		World w = p.getWorld();
 
 		FileInputStream fis = new FileInputStream(f);
@@ -58,7 +70,10 @@ public class RBF_Load extends PermissionsCore {
 		Map<String, Tag> tagCollection = backuptag.getValue();
 
 		if (!backuptag.getName().equals("RBF")) {
-			p.sendMessage(ChatColor.RED + "[Regios] Backup file in unexpected format! Tag does not match 'RBF'.");
+			if (p != null) {
+				p.sendMessage(ChatColor.RED + "[Regios] Backup file in unexpected format! Tag does not match 'RBF'.");
+			}
+			throw new InvalidNBTFormat("UNKNOWN", "RBF", backuptag.getName());
 		}
 
 		int StartX = (Integer) getChildTag(tagCollection, "StartX", IntTag.class).getValue();
@@ -87,12 +102,14 @@ public class RBF_Load extends PermissionsCore {
 
 		fis.close();
 		nbt.close();
-		
+
 		RegionRestoreEvent event = new RegionRestoreEvent("RegionRestoreEvent");
 		event.setProperties(r, backupname, p);
-        Bukkit.getServer().getPluginManager().callEvent(event);
+		Bukkit.getServer().getPluginManager().callEvent(event);
 
-		p.sendMessage(ChatColor.GREEN + "[Regios] Region" + ChatColor.BLUE + backupname + ChatColor.GREEN + " restored successfully from .rbf file!");
+		if (p != null) {
+			p.sendMessage(ChatColor.GREEN + "[Regios] Region" + ChatColor.BLUE + backupname + ChatColor.GREEN + " restored successfully from .rbf file!");
+		}
 	}
 
 }

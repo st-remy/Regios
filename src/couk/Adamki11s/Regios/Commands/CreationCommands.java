@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import couk.Adamki11s.Regios.API.RegionDataSet;
 import couk.Adamki11s.Regios.CustomEvents.RegionCreateEvent;
+import couk.Adamki11s.Regios.CustomExceptions.InvalidDataSetException;
 import couk.Adamki11s.Regios.CustomExceptions.RegionNameExistsException;
 import couk.Adamki11s.Regios.CustomExceptions.RegionPointsNotSetException;
 import couk.Adamki11s.Regios.Data.ConfigurationData;
@@ -76,7 +77,29 @@ public class CreationCommands {
 		p.sendMessage(ChatColor.GREEN + "[Regios] Left and right click to select points.");
 	}
 	
-	public static void createRegion(RegionDataSet rds){
+	public static void createRegion(RegionDataSet rds) throws InvalidDataSetException{
+		String errors = "";
+		if (rds.getPlugin() == null) {
+			errors += "Plugin, ";
+		}
+		if (rds.getName() == null) {
+			errors += "Region name, ";
+		}
+		if (rds.getName() == null) {
+			errors += "Owner, ";
+		}
+		if (rds.getWorld() == null || Bukkit.getServer().getWorld(rds.getWorld()) == null) {
+			errors += "World Name, ";
+		}
+		if (rds.getL1() == null) {
+			errors += "Location 1, ";
+		}
+		if (rds.getL2() == null) {
+			errors += "Location 2, ";
+		}
+		if (errors.length() >= 5) {
+			throw new InvalidDataSetException(errors);
+		}
 		Region r = new Region(rds.getOwner(), rds.getName(), rds.getL1(), rds.getL2(), Bukkit.getServer().getWorld(rds.getWorld()), null, true);
 		PingManager.created();
 		RegionCreateEvent event = new RegionCreateEvent("RegionCreateEvent");

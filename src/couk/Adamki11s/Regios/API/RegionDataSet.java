@@ -11,35 +11,13 @@ public class RegionDataSet {
 	private String name, owner, world;
 	private Location l1, l2;
 
-	public RegionDataSet(Plugin plugin, String name, String owner, String world, Location l1, Location l2) throws InvalidDataSetException {
+	public RegionDataSet(Plugin plugin, String name, String owner, String world, Location l1, Location l2) {
 		this.plugin = plugin;
 		this.name = name;
 		this.owner = owner;
 		this.world = world;
 		this.l1 = l1;
 		this.l2 = l2;
-		String errors = "";
-		if (plugin == null) {
-			errors += "Plugin, ";
-		}
-		if (name == null) {
-			errors += "Region name, ";
-		}
-		if (owner == null) {
-			errors += "Owner, ";
-		}
-		if (world == null) {
-			errors += "World Name, ";
-		}
-		if (l1 == null) {
-			errors += "Location 1, ";
-		}
-		if (l2 == null) {
-			errors += "Location 2, ";
-		}
-		if (errors.length() >= 5) {
-			throw new InvalidDataSetException(errors);
-		}
 	}
 
 	public Plugin getPlugin() {

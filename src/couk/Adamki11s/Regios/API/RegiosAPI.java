@@ -3,6 +3,9 @@ package couk.Adamki11s.Regios.API;
 import org.bukkit.entity.Player;
 
 import couk.Adamki11s.Regios.Commands.CreationCommands;
+import couk.Adamki11s.Regios.CustomExceptions.InvalidDataSetException;
+import couk.Adamki11s.Regios.CustomExceptions.RegionExistanceException;
+import couk.Adamki11s.Regios.Mutable.MutableModification;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
@@ -48,11 +51,29 @@ public class RegiosAPI {
 	}
 	
 	/**
+	 * Check if Spout is installed on the server.
+	 * @return Whether Regios is running with Spout support.
+	 */
+	public static boolean isSpoutEnabled(){
+		return SpoutInterface.global_spoutEnabled;
+	}
+	
+	/**
 	 * Create a Region
 	 * @param rds Region Data Set.
+	 * @throws InvalidDataSetException 
 	 */
-	public static void createRegion(RegionDataSet rds){
+	public static void createRegion(RegionDataSet rds) throws InvalidDataSetException{
 		CreationCommands.createRegion(rds);
+	}
+	
+	/**
+	 * Delete a Region.
+	 * @param name Name of the Region.
+	 * @throws RegionExistanceException
+	 */
+	public static void deleteRegion(String name) throws RegionExistanceException{
+		MutableModification.deleteRegion(name);
 	}
 
 }

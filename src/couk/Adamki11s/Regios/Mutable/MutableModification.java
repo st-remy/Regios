@@ -14,6 +14,7 @@ import org.bukkit.util.config.Configuration;
 
 import couk.Adamki11s.Regios.Commands.AdministrationCommands;
 import couk.Adamki11s.Regios.CustomEvents.RegionDeleteEvent;
+import couk.Adamki11s.Regios.CustomExceptions.RegionExistanceException;
 import couk.Adamki11s.Regios.Data.LoaderCore;
 import couk.Adamki11s.Regios.Regions.GlobalRegionManager;
 import couk.Adamki11s.Regios.Regions.Region;
@@ -236,6 +237,19 @@ public class MutableModification {
 		GlobalRegionManager.deleteRegionFromCache(r);
 		RegionDeleteEvent event = new RegionDeleteEvent("RegionDeleteEvent");
 		event.setProperties(p, r);
+		Bukkit.getServer().getPluginManager().callEvent(event);
+	}
+	
+	public static void deleteRegion(String name) throws RegionExistanceException{
+		Region r = GlobalRegionManager.getRegion(name);
+		if(r == null){
+			throw new RegionExistanceException(name);
+		}
+		File f = r.getLogFile().getParentFile().getParentFile();
+		deleteDir(f);
+		GlobalRegionManager.deleteRegionFromCache(r);
+		RegionDeleteEvent event = new RegionDeleteEvent("RegionDeleteEvent");
+		event.setProperties(null, r);
 		Bukkit.getServer().getPluginManager().callEvent(event);
 	}
 

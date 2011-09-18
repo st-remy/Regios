@@ -6,9 +6,9 @@
 	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/Permissions.jar"/>
 	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/Spout.jar"/>
 	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/SpoutAPI.jar"/>
-	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/#1060/bukkit-0.0.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/#1060/craftbukkit-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/PermissionsEx.jar"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/#1149/bukkit-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="C:/Java/Projects/Bukkit/#1149/craftbukkit-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

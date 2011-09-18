@@ -6,4 +6,4 @@ commands:
   regios:
     aliases: [reg, r]
     description: Use /regios help <Page Number>
-    usage: Regios requires the Spout server plugin!
+    usage: Use /regios help for help.

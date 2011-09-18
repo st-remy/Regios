@@ -17,7 +17,6 @@ import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
 
-import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
 import couk.Adamki11s.Regios.Economy.Economy;

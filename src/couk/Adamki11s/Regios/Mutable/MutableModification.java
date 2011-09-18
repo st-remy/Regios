@@ -228,6 +228,48 @@ public class MutableModification {
 		
 		new AdministrationCommands().reloadRegions(p);
 	}
+	
+	public static void renameRegion(Region r, String new_name) throws RegionExistanceException {
+
+		if (GlobalRegionManager.getRegion(new_name) != null) {
+			throw new RegionExistanceException(new_name);
+		}
+
+		Configuration c = r.getConfigFile();
+		c.load();
+		Map<String, Object> all = c.getAll();
+		all.remove("Region.Essentials.Name");
+		for (Entry<String, Object> entry : all.entrySet()) {
+			c.setProperty(entry.getKey(), entry.getValue());
+		}
+		c.setProperty("Region.Essentials.Name", new_name);
+		c.save();
+		
+		
+		
+		c = r.getConfigFile();
+		c.load();
+		Map<String, Object> construct = c.getAll();
+		
+		File conf = r.getRawConfigFile();
+		conf.delete();
+		File newConf = new File(r.getDirectory() + File.separator + new_name + ".rz");
+		
+		try {
+			newConf.createNewFile();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		c = new Configuration(newConf);
+		for (Entry<String, Object> cont : construct.entrySet()) {
+			c.setProperty(cont.getKey(), cont.getValue());
+		}
+		c.save();
+		
+		r.getDirectory().renameTo(new File("plugins" + File.separator + "Regios" + File.separator + "Database" + File.separator + new_name));
+		
+		new AdministrationCommands().reloadRegions(null);
+	}
 
 	final static LoaderCore lc = new LoaderCore();
 

@@ -68,6 +68,16 @@ public class RegiosAPI {
 	}
 	
 	/**
+	 * Rename a Region
+	 * @param toRename The Region to rename.
+	 * @param new_name New Name.
+	 * @throws RegionExistanceException
+	 */
+	public static void renameRegion(Region toRename, String new_name) throws RegionExistanceException{
+		MutableModification.renameRegion(toRename, new_name);
+	}
+	
+	/**
 	 * Delete a Region.
 	 * @param name Name of the Region.
 	 * @throws RegionExistanceException

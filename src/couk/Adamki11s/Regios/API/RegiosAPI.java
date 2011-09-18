@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -22,6 +21,8 @@ import couk.Adamki11s.Regios.Regions.Region;
 import couk.Adamki11s.Regios.SpoutInterface.SpoutInterface;
 
 public class RegiosAPI {
+	
+	private final SaveData sd = new SaveData();
 
 	/**
 	 * Get a region by it's name.
@@ -31,19 +32,18 @@ public class RegiosAPI {
 	 * @return Returns the Region object with the corresponding name. Will
 	 *         return null if no region with that name exists.
 	 */
-	public static Region getRegion(String region) {
+	public Region getRegion(String region) {
 		return GlobalRegionManager.getRegion(region);
 	}
 
 	/**
 	 * Get the region a player is in.
 	 * 
-	 * @param p
-	 *            Player.
+	 * @param p Player.
 	 * @return Returns the region that the specified player is in. Will return
 	 *         null if the player is not in a region.
 	 */
-	public static Region getRegion(Player p) {
+	public Region getRegion(Player p) {
 		return GlobalRegionManager.getRegion(p);
 	}
 
@@ -52,7 +52,7 @@ public class RegiosAPI {
 	 * 
 	 * @return List of Regions.
 	 */
-	public static ArrayList<Region> getRegions() {
+	public ArrayList<Region> getRegions() {
 		return GlobalRegionManager.getRegions();
 	}
 
@@ -63,7 +63,7 @@ public class RegiosAPI {
 	 *            World
 	 * @return World Setting.
 	 */
-	public static GlobalWorldSetting getWorldSetting(World w) {
+	public GlobalWorldSetting getWorldSetting(World w) {
 		return GlobalRegionManager.getGlobalWorldSetting(w);
 	}
 
@@ -72,7 +72,7 @@ public class RegiosAPI {
 	 * 
 	 * @return World Settings
 	 */
-	public static ArrayList<GlobalWorldSetting> getWorldSettings() {
+	public ArrayList<GlobalWorldSetting> getWorldSettings() {
 		return GlobalRegionManager.getWorldSettings();
 	}
 
@@ -83,7 +83,7 @@ public class RegiosAPI {
 	 *            Player.
 	 * @return Whether the player is in a region or not.
 	 */
-	public static boolean isInRegion(Player p) {
+	public boolean isInRegion(Player p) {
 		return (GlobalRegionManager.getRegion(p) == null ? false : true);
 	}
 
@@ -94,7 +94,7 @@ public class RegiosAPI {
 	 *            Player
 	 * @return Whether the player is running the Spoutcraft launcher.
 	 */
-	public static boolean isSpoutEnabled(Player p) {
+	public boolean isSpoutEnabled(Player p) {
 		return SpoutInterface.doesPlayerHaveSpout(p);
 	}
 
@@ -103,7 +103,7 @@ public class RegiosAPI {
 	 * 
 	 * @return Whether Regios is running with Spout support.
 	 */
-	public static boolean isSpoutEnabled() {
+	public boolean isSpoutEnabled() {
 		return SpoutInterface.global_spoutEnabled;
 	}
 
@@ -114,7 +114,7 @@ public class RegiosAPI {
 	 *            Region Data Set.
 	 * @throws InvalidDataSetException
 	 */
-	public static void createRegion(RegionDataSet rds) throws InvalidDataSetException {
+	public void createRegion(RegionDataSet rds) throws InvalidDataSetException {
 		CreationCommands.createRegion(rds);
 	}
 
@@ -127,7 +127,7 @@ public class RegiosAPI {
 	 *            New Name.
 	 * @throws RegionExistanceException
 	 */
-	public static void renameRegion(Region toRename, String new_name) throws RegionExistanceException {
+	public void renameRegion(Region toRename, String new_name) throws RegionExistanceException {
 		MutableModification.renameRegion(toRename, new_name);
 	}
 
@@ -138,7 +138,7 @@ public class RegiosAPI {
 	 *            Name of the Region.
 	 * @throws RegionExistanceException
 	 */
-	public static void deleteRegion(String name) throws RegionExistanceException {
+	public void deleteRegion(String name) throws RegionExistanceException {
 		MutableModification.deleteRegion(name);
 	}
 
@@ -150,7 +150,7 @@ public class RegiosAPI {
 	 * @param backupName
 	 *            Backup name.
 	 */
-	public static void backupRegion(Region r, String backupName) {
+	public void backupRegion(Region r, String backupName) {
 		RBF_Core.rbf_save.startSave(r, null, null, backupName, null, false);
 	}
 
@@ -165,7 +165,7 @@ public class RegiosAPI {
 	 * @throws FileExistanceException
 	 * @throws InvalidNBTFormatException
 	 */
-	public static boolean loadBackup(Region r, String backupName) throws RegionExistanceException, FileExistanceException, InvalidNBTFormat {
+	public boolean loadBackup(Region r, String backupName) throws RegionExistanceException, FileExistanceException, InvalidNBTFormat {
 		try {
 			RBF_Core.rbf_load.loadRegion(r, backupName, null);
 		} catch (IOException e) {
@@ -185,7 +185,7 @@ public class RegiosAPI {
 	 * @param l2
 	 *            Point 2.
 	 */
-	public static void saveBlueprint(String name, Location l1, Location l2) {
+	public void saveBlueprint(String name, Location l1, Location l2) {
 		CreationCommands.createBlueprint(name, l1, l2);
 	}
 
@@ -197,7 +197,7 @@ public class RegiosAPI {
 	 * @param pasteLocation
 	 *            The location to begin the paste.
 	 */
-	public static boolean loadBlueprint(String name, Location pasteLocation) {
+	public boolean loadBlueprint(String name, Location pasteLocation) {
 		File f = new File("plugins" + File.separator + "Regios" + File.separator + "Blueprints" + File.separator + name + ".blp");
 		if (!f.exists()) {
 			System.out.println("[Regios] A Blueprint file with the name " + name + " does not exist!");
@@ -211,4 +211,10 @@ public class RegiosAPI {
 		}
 		return true;
 	}
+	
+	public SaveData getSaveData(){
+		return this.sd;
+	}
+	
+	
 }

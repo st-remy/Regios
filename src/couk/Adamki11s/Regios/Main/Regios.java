@@ -16,6 +16,8 @@ import org.getspout.spoutapi.player.SpoutPlayer;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
 import com.nijikokun.bukkit.Permissions.Permissions;
+
+import couk.Adamki11s.Regios.API.RegiosAPI;
 import couk.Adamki11s.Regios.Commands.CommandCore;
 import couk.Adamki11s.Regios.Data.CreationCore;
 import couk.Adamki11s.Regios.Economy.Economy;
@@ -112,9 +114,6 @@ public class Regios extends JavaPlugin {
 		} else if(EconomyCore.economy == Economy.BOSECONOMY){
 			EconomyCore.boseConomySetup();
 		}
-		
-		
-
 
 		setupPermissions();
 
@@ -143,6 +142,17 @@ public class Regios extends JavaPlugin {
 		
 		log.info(prefix + " Regios version " + version + " enabled successfully!");
 		log.info(prefix + " Regios Developed by [Adamki11s].");
+		
+		
+		//Hook
+		Plugin plugin = this.getServer().getPluginManager().getPlugin("Regios");
+		if(plugin == null){
+			//Regios has not been detected.
+		} else {
+			//Regios has been detected so we can use it!
+			RegiosAPI api = new RegiosAPI();
+		}
+		//Hook
 		
 	}
 

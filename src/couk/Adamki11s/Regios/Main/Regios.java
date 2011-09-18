@@ -143,17 +143,6 @@ public class Regios extends JavaPlugin {
 		log.info(prefix + " Regios version " + version + " enabled successfully!");
 		log.info(prefix + " Regios Developed by [Adamki11s].");
 		
-		
-		//Hook
-		Plugin plugin = this.getServer().getPluginManager().getPlugin("Regios");
-		if(plugin == null){
-			//Regios has not been detected.
-		} else {
-			//Regios has been detected so we can use it!
-			RegiosAPI api = new RegiosAPI();
-		}
-		//Hook
-		
 	}
 
 	private void setupPermissions() {

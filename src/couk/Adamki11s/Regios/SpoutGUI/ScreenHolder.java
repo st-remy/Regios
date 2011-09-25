@@ -85,7 +85,7 @@ public class ScreenHolder {
 			new GenericButton("Protection Mode"), new GenericButton("Prevent Entry Mode"), new GenericButton("Prevent Exit Mode"), new GenericButton("Item Mode"),
 			new GenericButton("Force Commands"), new GenericButton("General Protection") };
 
-	public GenericButton escButton, pageForward, pageBackwards;
+	public GenericButton escButton = new GenericButton(), pageForward = new GenericButton(), pageBackwards = new GenericButton();
 
 	public GenericButton generalData, modes, protection, messages, fun, other, inventory, perms, exceptions, modify, spout, data;
 

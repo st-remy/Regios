@@ -276,17 +276,25 @@ public class RegionScreen5 {
 		ArrayList<String> sortedRemNodes = new ArrayList<String>();
 		ArrayList<String> sortedCmdSet = new ArrayList<String>();
 		
+		if(r.getTemporaryNodesCacheAdd() != null){
 		for(String s : r.getTemporaryNodesCacheAdd()){
 			sortedTempNodes.add(s);
 		}
+		}
+		if(r.getPermAddNodes() != null){
 		for(String s : r.getPermAddNodes()){
 			sortedAddNodes.add(s);
 		}
+		}
+		if(r.getPermanentNodesCacheRemove() != null){
 		for(String s : r.getPermanentNodesCacheRemove()){
 			sortedRemNodes.add(s);
 		}
+		}
+		if(r.getCommandSet() != null){
 		for(String s : r.getCommandSet()){
 			sortedCmdSet.add(s);
+		}
 		}
 		
 		Collections.sort(sortedTempNodes);

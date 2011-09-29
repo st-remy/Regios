@@ -6,7 +6,11 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
+/**
+ * 
+ * @author alta189
+ *
+ */
 public class DatabaseHandler {
 	private mysqlCore core;  
 	private Connection connection;

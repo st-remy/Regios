@@ -155,12 +155,8 @@ public class ExtrasInventory extends InventoryMethods {
 
 	@Override
 	public void wipeInventory(Player p) {
-		// TODO Auto-generated method stub
-		for(ItemStack i : p.getInventory().getContents()){
-			if(i != null){
-				p.getInventory().remove(i.getTypeId());
-			}
-		}
+		p.getInventory().clear();
+		p.getInventory().setArmorContents(null);
 	}
 
 	@Override

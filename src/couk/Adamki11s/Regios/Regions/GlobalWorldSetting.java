@@ -67,8 +67,17 @@ public class GlobalWorldSetting {
 				c.setProperty(world + ".Mobs.Spawning.Slime", true);
 				c.setProperty(world + ".Mobs.Spawning.Spider", true);
 				c.setProperty(world + ".Mobs.Spawning.Squid", true);
-				c.setProperty(world + ".Mobs.Spawning.Wolf", true);
 				c.setProperty(world + ".Mobs.Spawning.Zombie", true);
+				c.setProperty(world + ".Mobs.Spawning.Wolf", true);
+				c.setProperty(world + ".Mobs.Spawning.CaveSpider", true);
+				c.setProperty(world + ".Mobs.Spawning.Enderman", true);
+				c.setProperty(world + ".Mobs.Spawning.Silverfish", true);
+				c.setProperty(world + ".Mobs.Spawning.EnderDragon", true);
+				c.setProperty(world + ".Mobs.Spawning.Villager", true);
+				c.setProperty(world + ".Mobs.Spawning.Blaze", true);
+				c.setProperty(world + ".Mobs.Spawning.MushroomCow", true);
+				c.setProperty(world + ".Mobs.Spawning.MagmaCube", true);
+				c.setProperty(world + ".Mobs.Spawning.Snowman", true);
 				c.setProperty(world + ".Mobs.Creeper.DoesExplode", true);
 				c.setProperty(world + ".Block.BlockForm.Enabled", true);
 				c.save();
@@ -105,8 +114,17 @@ public class GlobalWorldSetting {
 			if(c.getBoolean(world + ".Mobs.Spawning.Slime", true)){ gws.addCreatureSpawn(CreatureType.SLIME); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Spider", true)){ gws.addCreatureSpawn(CreatureType.SPIDER); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Squid", true)){ gws.addCreatureSpawn(CreatureType.SQUID); }
-			if(c.getBoolean(world + ".Mobs.Spawning.Wolf", true)){ gws.addCreatureSpawn(CreatureType.WOLF); }
 			if(c.getBoolean(world + ".Mobs.Spawning.Zombie", true)){ gws.addCreatureSpawn(CreatureType.ZOMBIE); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Wolf", true)){ gws.addCreatureSpawn(CreatureType.WOLF); }
+			if(c.getBoolean(world + ".Mobs.Spawning.CaveSpider", true)){ gws.addCreatureSpawn(CreatureType.CAVE_SPIDER); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Enderman", true)){ gws.addCreatureSpawn(CreatureType.ENDERMAN); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Silverfish", true)){ gws.addCreatureSpawn(CreatureType.SILVERFISH); }
+			if(c.getBoolean(world + ".Mobs.Spawning.EnderDragon", true)){ gws.addCreatureSpawn(CreatureType.ENDER_DRAGON); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Villager", true)){ gws.addCreatureSpawn(CreatureType.VILLAGER); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Blaze", true)){ gws.addCreatureSpawn(CreatureType.BLAZE); }
+			if(c.getBoolean(world + ".Mobs.Spawning.MushroomCow", true)){ gws.addCreatureSpawn(CreatureType.MUSHROOM_COW); }
+			if(c.getBoolean(world + ".Mobs.Spawning.MagmaCube", true)){ gws.addCreatureSpawn(CreatureType.MAGMA_CUBE); }
+			if(c.getBoolean(world + ".Mobs.Spawning.Snowman", true)){ gws.addCreatureSpawn(CreatureType.SNOWMAN); }
 			GlobalRegionManager.addWorldSetting(gws);
 		}
 	}

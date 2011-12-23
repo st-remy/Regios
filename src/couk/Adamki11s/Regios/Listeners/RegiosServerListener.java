@@ -6,7 +6,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.event.server.ServerListener;
 import org.bukkit.plugin.Plugin;
 
-import com.iConomy.iConomy;
+import com.iCo6.iConomy;
 
 import couk.Adamki11s.Regios.Economy.EconomyCore;
 

@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import com.iConomy.iConomy;
+import com.iCo6.iConomy;
 
 import cosine.boseconomy.BOSEconomy;
 

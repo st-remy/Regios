@@ -184,7 +184,7 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 
 		if (EconomyCore.isEconomySupportEnabled() && evt.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getTypeId() == 68)) {
+			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getType() == Material.WALL_SIGN)) {
 				Sign sign = (Sign) b.getState();
 				if (sign.getLine(0).contains("[Regios]")) {
 					Region region = GlobalRegionManager.getRegion(sign.getLine(1).substring(2, sign.getLine(1).length()));
@@ -261,7 +261,7 @@ public class RegiosPlayerListener extends PlayerListener {
 				}
 			}
 		} else {
-			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getTypeId() == 68)) {
+			if ((b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getType() == Material.WALL_SIGN)) {
 				Sign sign = (Sign) b.getState();
 				if (sign.getLine(0).contains("[Regios]")) {
 					if (evt.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -326,7 +326,8 @@ public class RegiosPlayerListener extends PlayerListener {
 			}
 		}
 
-		if (b.getTypeId() == 71 || b.getTypeId() == 64) {
+		// Confusion alarm! WOOD_DOOR is the invertory item. WOODEN_DOOR is the in-world door.
+		if (b.getType() == Material.WOODEN_DOOR || b.getType() == Material.IRON_DOOR_BLOCK) {
 			if (r.areDoorsLocked()) {
 				if (!r.canBuild(p)) {
 					if (isSendable(p, MSG.PROTECTION)) {

@@ -341,6 +341,18 @@ public class RegiosPlayerListener extends PlayerListener {
 			}
 		}
 
+		if (b.getType() == Material.CHEST) {
+			if (r.areChestsLocked()) {
+				if (!r.canBuild(p)) {
+					if (isSendable(p, MSG.PROTECTION)) {
+						p.sendMessage(ChatColor.RED + "[Regios] Chests are locked for this region!");
+					}
+					LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to open a locked chest but did not have permissions."));
+					evt.setCancelled(true);
+				}
+			}
+		}
+
 	}
 
 	public boolean areChunksEqual(Chunk c1, Chunk c2) {

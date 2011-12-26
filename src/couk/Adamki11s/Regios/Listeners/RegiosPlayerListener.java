@@ -328,7 +328,7 @@ public class RegiosPlayerListener extends PlayerListener {
 
 		// Confusion alarm! WOOD_DOOR is the invertory item. WOODEN_DOOR is the in-world door.
 		if (b.getType() == Material.WOODEN_DOOR || b.getType() == Material.IRON_DOOR_BLOCK) {
-			if (r.areDoorsLocked()) {
+			if (r.isDoorsLocked()) {
 				if (!r.canBuild(p)) {
 					if (isSendable(p, MSG.PROTECTION)) {
 						p.sendMessage(ChatColor.RED + "[Regios] Doors are locked for this region!");
@@ -340,7 +340,7 @@ public class RegiosPlayerListener extends PlayerListener {
 		}
 
 		if (b.getType() == Material.CHEST) {
-			if (r.areChestsLocked()) {
+			if (r.isChestsLocked()) {
 				if (!r.canBuild(p)) {
 					if (isSendable(p, MSG.PROTECTION)) {
 						p.sendMessage(ChatColor.RED + "[Regios] Chests are locked for this region!");

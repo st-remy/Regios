@@ -385,15 +385,15 @@ public class Screen_Listener extends ScreenListener {
 			if (!PermissionsCore.canModifyBasic(r, (Player) sp)) {
 				PermissionsCore.sendInvalidPermsPopup(sp);
 			}
-			if (r.areDoorsLocked()) {
+			if (r.isDoorsLocked()) {
 				miscProtection.editDoorsLocked(r, false);
 				sp.sendNotification("Doors Locked", ChatColor.RED + "Door Locking Disabled", Material.IRON_DOOR);
 			} else {
 				miscProtection.editDoorsLocked(r, true);
 				sp.sendNotification("Doors Locked", ChatColor.GREEN + "Door Locking Enabled", Material.IRON_DOOR);
 			}
-			((GenericButton) (sh.page1Widgets[5])).setTooltip(RegionScreenManager.getStatus(r.areDoorsLocked()));
-			((GenericButton) (sh.page1Widgets[5])).setTextColor(RegionScreenManager.getColourToken(r.areDoorsLocked()));
+			((GenericButton) (sh.page1Widgets[5])).setTooltip(RegionScreenManager.getStatus(r.isDoorsLocked()));
+			((GenericButton) (sh.page1Widgets[5])).setTextColor(RegionScreenManager.getColourToken(r.isDoorsLocked()));
 			((GenericButton) (sh.page1Widgets[5])).setDirty(true);
 			return;
 		}

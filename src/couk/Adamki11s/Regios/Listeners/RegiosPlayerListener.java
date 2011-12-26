@@ -334,8 +334,6 @@ public class RegiosPlayerListener extends PlayerListener {
 						p.sendMessage(ChatColor.RED + "[Regios] Doors are locked for this region!");
 					}
 					LogRunner.addLogMessage(r, LogRunner.getPrefix(r) + (" Player '" + p.getName() + "' tried to open a locked door but did not have permissions."));
-					Door d = new Door(b.getType());
-					d.setOpen(false);
 					evt.setCancelled(true);
 				}
 			}

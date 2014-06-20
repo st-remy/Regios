@@ -620,14 +620,6 @@ public class Region extends PermChecks implements Checks {
 		return this.passwordEnabled;
 	}
 
-	public boolean areChestsLocked() {
-		return this.chestsLocked;
-	}
-
-	public boolean areDoorsLocked() {
-		return this.doorsLocked;
-	}
-
 	public boolean isHealthEnabled() {
 		return this.healthEnabled;
 	}

@@ -12,32 +12,28 @@ import org.bukkit.entity.Player;
 
 public class ExtrasRandom extends RandomMethods {
 
-	private CreatureType[] creatures = {CreatureType.CHICKEN, CreatureType.COW, CreatureType.CREEPER, CreatureType.GHAST, CreatureType.GIANT,
-			CreatureType.MONSTER, CreatureType.PIG, CreatureType.PIG_ZOMBIE, CreatureType.SHEEP, CreatureType.SKELETON,
-			CreatureType.SLIME, CreatureType.SPIDER, CreatureType.SQUID, CreatureType.WOLF, CreatureType.ZOMBIE};
+	private static final CreatureType[] creatures = CreatureType.values();
+	private static final int creaturecount = creatures.length;
+	private static final Random r = new Random();
 
 	@Override
 	public int getRandomInt(int upperBound, int lowerBound) {
-		Random r = new Random();
-		return r.nextInt(upperBound) + lowerBound;
+		return lowerBound + r.nextInt(upperBound - lowerBound + 1);
 	}
 
 	@Override
 	public double getRandomDouble(double upperBound, double lowerBound) {
-		Random r = new Random();
-		return (double)((r.nextInt((int) upperBound) + (int)lowerBound) + r.nextDouble()); 
+		return lowerBound + ((upperBound - lowerBound) * r.nextDouble());
 	}
 
 	@Override
 	public float getRandomFloat(float upperBound, float lowerBound) {
-		Random r = new Random();
-		return (float)((r.nextInt((int) upperBound) + (int)lowerBound) + r.nextFloat());
+		return lowerBound + ((upperBound - lowerBound) * r.nextFloat());
 	}
 
 	@Override
 	public CreatureType getRandomCreature() {
-		int random = getRandomInt(15, 1);
-		return creatures[random];
+		return creatures[r.nextInt(creaturecount)];
 	}
 
 	@Override

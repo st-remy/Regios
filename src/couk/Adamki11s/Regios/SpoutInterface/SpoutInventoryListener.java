@@ -73,15 +73,6 @@ public class SpoutInventoryListener extends org.getspout.spoutapi.event.inventor
 				r = currentRegionSet.get(0);
 			}
 			
-			if(r.areChestsLocked()){
-				if(!r.canBuild(p)){
-					p.sendMessage(ChatColor.RED + "[Regios] Chests are locked for this region!");
-					evt.setCancelled(true);
-				} else {
-					return;
-				}
-			}
-			
 		}
 	}
 
